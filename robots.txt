@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ccviewer.top/sitemap.xml
