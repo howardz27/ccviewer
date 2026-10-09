@@ -1,82 +1,47 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Claude Code 对话历史查看器 - JSONL 会话记录在线可视化 | CCViewer</title>
-<meta name="description" content="CCViewer 是一款开源的 Claude Code 对话历史查看器，在浏览器中本地渲染 .jsonl 会话记录，支持 Markdown、思考过程、工具调用、用量统计与成本分析。文件不上传服务器，隐私安全。">
-<meta name="keywords" content="Claude Code, JSONL, 对话历史, 会话查看器, session viewer, claude code session viewer, claude code jsonl viewer, view claude code transcript, claude code history, claude code token usage, AI 对话记录, 可视化">
+<title>Claude Code Session Viewer - Visualize JSONL Chat History Online | CCViewer</title>
+<meta name="description" content="CCViewer is an open-source Claude Code session viewer that renders .jsonl session files locally in your browser. Markdown, thinking blocks, tool calls, token usage and cost analysis. Files never leave your computer.">
+<meta name="keywords" content="Claude Code, JSONL, session viewer, claude code session viewer, claude code jsonl viewer, view claude code transcript, claude code history, claude code token usage, chat history, visualize">
 <meta name="author" content="CCViewer">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/">
+<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/">
+<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/">
+<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/">
+<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/">
+<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/">
+<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/">
+<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/">
+<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/">
+<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/">
+<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/">
+<link rel="icon" type="image/svg+xml" href="/claude-code-session-viewer/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CCViewer">
-<meta property="og:title" content="Claude Code 对话历史查看器 - CCViewer">
-<meta property="og:description" content="在浏览器中本地渲染 Claude Code 的 .jsonl 会话记录：Markdown、思考过程、工具调用、成本统计，文件不上传服务器。">
+<meta property="og:title" content="Claude Code Session Viewer - CCViewer">
+<meta property="og:description" content="Render Claude Code .jsonl session files locally in your browser: Markdown, thinking blocks, tool calls and cost stats. No upload, fully private.">
 <meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://ccviewer.top/claude-code-session-viewer/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Claude Code 对话历史查看器 - CCViewer">
-<meta name="twitter:description" content="在浏览器中本地渲染 Claude Code 的 .jsonl 会话记录，文件不上传服务器。">
+<meta name="twitter:title" content="Claude Code Session Viewer - CCViewer">
+<meta name="twitter:description" content="Render Claude Code .jsonl session files locally in your browser: Markdown, thinking blocks, tool calls and cost stats. No upload, fully private.">
 <meta name="twitter:image" content="https://ccviewer.top/claude-code-session-viewer/og-image.png">
 <!-- 结构化数据 -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "CCViewer - Claude Code 对话历史查看器",
-  "url": "https://ccviewer.top/claude-code-session-viewer/",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Any",
-  "browserRequirements": "Requires JavaScript",
-  "description": "在浏览器中本地渲染 Claude Code 的 .jsonl 会话记录，支持 Markdown、思考过程、工具调用与成本统计，文件不上传服务器。",
-  "inLanguage": ["zh-CN", "en"],
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "如何查看 Claude Code 的历史会话？",
-      "acceptedAnswer": { "@type": "Answer", "text": "Claude Code 会把每个会话保存为 JSONL 文件，位于 ~/.claude/projects/<项目路径>/<sessionId>.jsonl。把这个文件拖进本页即可浏览完整对话。" }
-    },
-    {
-      "@type": "Question",
-      "name": "我的会话文件会被上传吗？",
-      "acceptedAnswer": { "@type": "Answer", "text": "不会。解析与渲染完全在你的浏览器中完成，没有任何网络请求，文件内容不会离开你的电脑。" }
-    },
-    {
-      "@type": "Question",
-      "name": "查看器支持哪些内容？",
-      "acceptedAnswer": { "@type": "Answer", "text": "支持用户消息与 AI 回复的 Markdown 渲染、extended thinking 思考过程、工具调用参数与结果、图片、token 用量与成本统计，中英文界面可切换。" }
-    },
-    {
-      "@type": "Question",
-      "name": ".jsonl 是什么格式？",
-      "acceptedAnswer": { "@type": "Answer", "text": "JSON Lines——每行一个独立的 JSON 对象。Claude Code 用它逐条记录会话中的消息、工具调用与元数据。" }
-    },
-    {
-      "@type": "Question",
-      "name": "CCViewer 是免费的吗？",
-      "acceptedAnswer": { "@type": "Answer", "text": "免费且开源，直接在浏览器使用，无需注册或登录。" }
-    }
-  ]
-}
-</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "description": "An open-source viewer that renders Claude Code .jsonl session files entirely in your browser, with Markdown support, thinking blocks, tool calls and cost statistics. Files never leave your computer.", "inLanguage": "en", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I view previous Claude Code sessions?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code saves every session as a JSONL file under ~/.claude/projects/<project>/<session-id>.jsonl. Drop the file here to browse the full conversation."}}, {"@type": "Question", "name": "Is my session file uploaded anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "No. Parsing happens entirely in your browser with no API calls and no server upload. Session files contain your code, file paths and sometimes secrets — which is exactly why this tool is 100% client-side."}}, {"@type": "Question", "name": "What does the viewer support?", "acceptedAnswer": {"@type": "Answer", "text": "Markdown rendering for user and assistant messages, extended thinking blocks, tool call parameters and results, images, token usage and cost stats — with an interface in 10 languages."}}, {"@type": "Question", "name": "What is the .jsonl format?", "acceptedAnswer": {"@type": "Answer", "text": "JSON Lines — one independent JSON object per line. Claude Code logs every message, tool call and metadata entry as a line."}}, {"@type": "Question", "name": "Is CCViewer free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, it is free and open-source. No sign-up required."}}]}</script>
 <style>
 :root{
   --bg:#0d1117; --panel:#161b22; --panel2:#1c2128; --border:#30363d;
@@ -99,6 +64,7 @@ code,pre,.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,mon
 #topbar .spacer{flex:1}
 .btn{background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:13px}
 .btn:hover{border-color:var(--accent);color:var(--accent)}
+select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 14px) 55%,calc(100% - 9px) 55%;background-size:5px 5px;background-repeat:no-repeat;cursor:pointer}
 .toggle{display:inline-flex;align-items:center;gap:5px;color:var(--dim);font-size:12px;cursor:pointer;user-select:none}
 .toggle input{accent-color:var(--accent)}
 #main{display:flex;flex:1;min-height:0}
@@ -269,23 +235,24 @@ code,pre,.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,mon
 .btn.primary{background:var(--accent);color:#1a1109;border-color:var(--accent);font-weight:600}
 .btn.primary:hover{opacity:.9;color:#1a1109}
 </style>
+<script>(function(){try{var LS=['zh','ja','ko','es','fr','de','pt','ru','hi'];var p=null;try{p=localStorage.getItem('ccviewer_pref');}catch(e){}if(p){if(p!=='en'&&LS.indexOf(p)>=0)location.replace('/claude-code-session-viewer/'+p+'/');return;}var nl=navigator.languages||(navigator.language?[navigator.language]:[]);for(var i=0;i<nl.length;i++){var l=String(nl[i]).toLowerCase().split('-')[0];if(l==='en')return;if(LS.indexOf(l)>=0){try{localStorage.setItem('ccviewer_pref',l);}catch(e){}location.replace('/claude-code-session-viewer/'+l+'/');return;}}}catch(e){}})();</script>
 </head>
 <body>
 <div id="app">
   <div id="topbar">
     <span class="brand"><span class="logo"></span> <span data-i18n="brand">CCViewer</span><small id="fname"></small></span>
     <span class="spacer"></span>
-    <label class="toggle"><input type="checkbox" id="tgThink" checked><span data-i18n="thinking">思考</span></label>
-    <label class="toggle"><input type="checkbox" id="tgTool" checked><span data-i18n="tools">工具</span></label>
-    <label class="toggle"><input type="checkbox" id="tgMeta"><span data-i18n="sysInj">系统/注入</span></label>
-    <label class="toggle"><input type="checkbox" id="tgExpand"><span data-i18n="expandAll">展开全部</span></label>
-    <button class="btn" id="btnHome" data-i18n="home">首页</button>
-    <button class="btn" id="btnLang">EN</button>
-    <button class="btn" id="btnPasteTop" data-i18n="pasteText">粘贴文本</button>
-    <button class="btn" id="btnOpen" data-i18n="openFile">打开文件</button>
+    <label class="toggle"><input type="checkbox" id="tgThink" checked><span data-i18n="thinking">Thinking</span></label>
+    <label class="toggle"><input type="checkbox" id="tgTool" checked><span data-i18n="tools">Tools</span></label>
+    <label class="toggle"><input type="checkbox" id="tgMeta"><span data-i18n="sysInj">System/Injected</span></label>
+    <label class="toggle"><input type="checkbox" id="tgExpand"><span data-i18n="expandAll">Expand all</span></label>
+    <button class="btn" id="btnHome" data-i18n="home">Home</button>
+    <select class="btn langsel" aria-label="Language"></select>
+    <button class="btn" id="btnPasteTop" data-i18n="pasteText">Paste text</button>
+    <button class="btn" id="btnOpen" data-i18n="openFile">Open file</button>
   </div>
   <div id="main">
-    <div id="sidebar"><div class="phd" style="color:var(--faint);font-size:12px" data-i18n="noFile">未加载文件</div></div>
+    <div id="sidebar"><div class="phd" style="color:var(--faint);font-size:12px" data-i18n="noFile">No file loaded</div></div>
     <div id="content"><div id="stream"></div></div>
   </div>
 </div>
@@ -294,19 +261,19 @@ code,pre,.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,mon
   <header class="lheader">
     <span class="lbrand"><span class="logo lg"></span>CCViewer</span>
     <span class="lspacer"></span>
-    <button class="btn" id="btnLangDrop">EN</button>
+    <select class="btn langsel" aria-label="Language"></select>
   </header>
   <main class="hero">
     <div class="hero-l">
       <p class="kicker">$ cat ~/.claude/projects/**/*.jsonl<span class="cursor"></span></p>
-      <h1 data-i18n-html="heroTitle"></h1>
-      <p class="tagline" data-i18n="tagline"></p>
+      <h1 data-i18n-html="heroTitle">Read your <em>Claude Code</em> session history</h1>
+      <p class="tagline" data-i18n="tagline">Render .jsonl session files locally in your browser. Private, free and open-source.</p>
       <div class="box">
-        <p data-i18n-html="dropHint1">把 <b>.jsonl</b> 历史文件拖到这里，或点击选择</p>
-        <p class="pathhint" data-i18n-html="dropHint2">例如 ~/.claude/projects/&lt;项目&gt;/&lt;sessionId&gt;.jsonl</p>
+        <p data-i18n-html="dropHint1">Drag a <b>.jsonl</b> history file here, or click to choose</p>
+        <p class="pathhint" data-i18n-html="dropHint2">e.g. ~/.claude/projects/&lt;project&gt;/&lt;sessionId&gt;.jsonl</p>
         <div class="cta">
-          <button class="btn primary" id="btnPick" data-i18n="chooseFile">选择文件</button>
-          <button class="btn" id="btnPasteDrop" data-i18n="pasteText">粘贴文本</button>
+          <button class="btn primary" id="btnPick" data-i18n="chooseFile">Choose file</button>
+          <button class="btn" id="btnPasteDrop" data-i18n="pasteText">Paste text</button>
         </div>
       </div>
     </div>
@@ -316,52 +283,52 @@ code,pre,.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,mon
         <div class="pv-bar"><i></i><i></i><i></i><span>https://ccviewer.top/claude-code-session-viewer</span></div>
         <div class="pv-body">
           <div class="turn user"><div class="row"><div class="gutter">&gt;</div><div class="body">
-            <div class="meta-line"><span class="who" data-i18n="you">你</span></div>
-            <div class="bubble" data-i18n="pvUserQ"></div>
+            <div class="meta-line"><span class="who" data-i18n="you">You</span></div>
+            <div class="bubble" data-i18n="pvUserQ">Fix the broken login page layout on mobile</div>
           </div></div></div>
           <div class="turn assistant"><div class="row"><div class="gutter">⏺</div><div class="body">
-            <div class="meta-line"><span class="who ai" data-i18n="reply">回复</span> <span class="badge">claude-opus-4-6</span></div>
-            <div class="think"><div class="hd"><span class="tk-label">✻</span><span class="tk-prev" data-i18n="pvThink"></span></div></div>
+            <div class="meta-line"><span class="who ai" data-i18n="reply">Reply</span> <span class="badge">claude-opus-4-6</span></div>
+            <div class="think"><div class="hd"><span class="tk-label">✻</span><span class="tk-prev" data-i18n="pvThink">Let me inspect the login page styles first…</span></div></div>
             <div class="tool"><div class="hd"><span class="tn">⏺ Read</span><span class="ta">src/pages/Login.tsx</span></div></div>
-            <div class="reply md"><p data-i18n-html="pvReply"></p></div>
+            <div class="reply md"><p data-i18n-html="pvReply">The issue was a missing <code>wrap</code> in the <code>flex</code> layout. Fixed and verified at 375px width.</p></div>
           </div></div></div>
         </div>
       </div>
     </div>
   </main>
   <div class="seo">
-    <p class="intro" data-i18n-html="intro"></p>
+    <p class="intro" data-i18n-html="intro">CCViewer is an open-source Claude Code session history viewer. It renders <b>.jsonl</b> files entirely in your browser — Markdown, thinking blocks, tool calls and cost stats. Files never leave your computer.</p>
     <div class="feats">
-      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-i18n="featMd"></span></b><span data-i18n="featMdD"></span></div>
-      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg><span data-i18n="featThink"></span></b><span data-i18n="featThinkD"></span></div>
-      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg><span data-i18n="featTool"></span></b><span data-i18n="featToolD"></span></div>
-      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15v-4"/><path d="M12 15V7"/><path d="M17 15v-7"/></svg><span data-i18n="featCost"></span></b><span data-i18n="featCostD"></span></div>
-      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></svg><span data-i18n="featI18n"></span></b><span data-i18n="featI18nD"></span></div>
-      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span data-i18n="featPrivacy"></span></b><span data-i18n="featPrivacyD"></span></div>
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-i18n="featMd">Markdown rendering</span></b><span data-i18n="featMdD">Code blocks, tables, lists and quotes</span></div>
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg><span data-i18n="featThink">Thinking blocks</span></b><span data-i18n="featThinkD">Collapsible extended thinking</span></div>
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg><span data-i18n="featTool">Tool calls</span></b><span data-i18n="featToolD">Inputs and results, expandable</span></div>
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15v-4"/><path d="M12 15V7"/><path d="M17 15v-7"/></svg><span data-i18n="featCost">Usage &amp; cost</span></b><span data-i18n="featCostD">Token usage, duration and cost</span></div>
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></svg><span data-i18n="featI18n">Multilingual interface</span></b><span data-i18n="featI18nD">Switch between 10 languages in one click</span></div>
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span data-i18n="featPrivacy">Privacy first</span></b><span data-i18n="featPrivacyD">100% client-side, zero upload</span></div>
     </div>
-    <h2 data-i18n="faqTitle"></h2>
+    <h2 data-i18n="faqTitle">Frequently Asked Questions</h2>
     <div class="faqs">
-      <details><summary data-i18n="q1"></summary><div class="a" data-i18n-html="a1"></div></details>
-      <details><summary data-i18n="q2"></summary><div class="a" data-i18n-html="a2"></div></details>
-      <details><summary data-i18n="q3"></summary><div class="a" data-i18n-html="a3"></div></details>
-      <details><summary data-i18n="q4"></summary><div class="a" data-i18n-html="a4"></div></details>
-      <details><summary data-i18n="q5"></summary><div class="a" data-i18n-html="a5"></div></details>
+      <details><summary data-i18n="q1">How do I view previous Claude Code sessions?</summary><div class="a" data-i18n-html="a1">Claude Code saves every session as a JSONL file under <code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code>. Drop the file here to browse the full conversation.</div></details>
+      <details><summary data-i18n="q2">Is my session file uploaded anywhere?</summary><div class="a" data-i18n-html="a2">No. Parsing happens entirely in your browser with no API calls and no server upload. Session files contain your code, file paths and sometimes secrets — which is exactly why this tool is 100% client-side.</div></details>
+      <details><summary data-i18n="q3">What does the viewer support?</summary><div class="a" data-i18n-html="a3">Markdown rendering for user and assistant messages, extended thinking blocks, tool call parameters and results, images, token usage and cost stats — with an interface in 10 languages.</div></details>
+      <details><summary data-i18n="q4">What is the .jsonl format?</summary><div class="a" data-i18n-html="a4">JSON Lines — one independent JSON object per line. Claude Code logs every message, tool call and metadata entry as a line.</div></details>
+      <details><summary data-i18n="q5">Is CCViewer free?</summary><div class="a" data-i18n-html="a5">Yes, it is free and open-source. No sign-up required.</div></details>
     </div>
   </div>
   <footer class="lfooter">
     <span>© 2026 CCViewer</span>
-    <span data-i18n="footerPrivacy"></span>
+    <span data-i18n="footerPrivacy">100% client-side — files never leave your browser</span>
   </footer>
 </div>
 <div id="paste">
   <div class="panel">
-    <h2 data-i18n="pasteTitle">粘贴 JSONL 文本</h2>
-    <p class="hint" data-i18n="pasteHint">把历史文件内容整段粘贴进来，每行一个 JSON 对象（也兼容单个 JSON 数组 / 对象）。</p>
+    <h2 data-i18n="pasteTitle">Paste JSONL text</h2>
+    <p class="hint" data-i18n="pasteHint">Paste the whole history file here, one JSON object per line (a single JSON array / object also works).</p>
     <textarea id="pasteText" placeholder='{"type":"user",...}&#10;{"type":"assistant",...}' spellcheck="false"></textarea>
     <div class="actions">
       <span class="err" id="pasteErr"></span>
-      <button class="btn" id="pasteCancel" data-i18n="cancel">取消</button>
-      <button class="btn primary" id="pasteLoad" data-i18n="loadBtn">加载</button>
+      <button class="btn" id="pasteCancel" data-i18n="cancel">Cancel</button>
+      <button class="btn primary" id="pasteLoad" data-i18n="loadBtn">Load</button>
     </div>
   </div>
 </div>
@@ -375,105 +342,23 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={
-  brand:{zh:'CCViewer',en:'CCViewer'},
-  thinking:{zh:'思考',en:'Thinking'},
-  tools:{zh:'工具',en:'Tools'},
-  sysInj:{zh:'系统/注入',en:'System/Injected'},
-  expandAll:{zh:'展开全部',en:'Expand all'},
-  pasteText:{zh:'粘贴文本',en:'Paste text'},
-  openFile:{zh:'打开文件',en:'Open file'},
-  noFile:{zh:'未加载文件',en:'No file loaded'},
-  dropTitle:{zh:'Claude Code 对话历史查看器',en:'Claude Code Session History Viewer'},
-  dropHint1:{zh:'把 <b>.jsonl</b> 历史文件拖到这里，或点击选择',en:'Drag a <b>.jsonl</b> history file here, or click to choose'},
-  dropHint2:{zh:'例如 ~/.claude/projects/&lt;项目&gt;/&lt;sessionId&gt;.jsonl',en:'e.g. ~/.claude/projects/&lt;project&gt;/&lt;sessionId&gt;.jsonl'},
-  chooseFile:{zh:'选择文件',en:'Choose file'},
-  pasteTitle:{zh:'粘贴 JSONL 文本',en:'Paste JSONL text'},
-  pasteHint:{zh:'把历史文件内容整段粘贴进来，每行一个 JSON 对象（也兼容单个 JSON 数组 / 对象）。',en:'Paste the whole history file here, one JSON object per line (a single JSON array / object also works).'},
-  cancel:{zh:'取消',en:'Cancel'},
-  loadBtn:{zh:'加载',en:'Load'},
-  thinkLabel:{zh:'✻ 思考',en:'✻ Thinking'},
-  you:{zh:'你',en:'You'},
-  reply:{zh:'回复',en:'Reply'},
-  result:{zh:'结果',en:'Result'},
-  error:{zh:'错误',en:'Error'},
-  lines:{zh:'行',en:'lines'},
-  images:{zh:'图片',en:'images'},
-  viewResult:{zh:'查看结果',en:'View result'},
-  sysMsg:{zh:'系统消息',en:'System message'},
-  injCtx:{zh:'注入上下文',en:'Injected context'},
-  system:{zh:'系统',en:'System'},
-  sessionInfo:{zh:'会话信息',en:'Session info'},
-  stats:{zh:'统计',en:'Stats'},
-  costUsage:{zh:'成本 / 用量',en:'Cost / Usage'},
-  titleRow:{zh:'标题',en:'Title'},
-  projectDir:{zh:'项目目录',en:'Project dir'},
-  gitBranch:{zh:'Git 分支',en:'Git branch'},
-  version:{zh:'版本',en:'Version'},
-  sessionId:{zh:'会话 ID',en:'Session ID'},
-  time:{zh:'时间',en:'Time'},
-  model:{zh:'模型',en:'Model'},
-  userMsgs:{zh:'用户消息',en:'User msgs'},
-  replies:{zh:'回复',en:'Replies'},
-  toolCalls:{zh:'工具调用',en:'Tool calls'},
-  thinkingStat:{zh:'思考',en:'Thinking'},
-  imagesStat:{zh:'图片',en:'Images'},
-  parseFailed:{zh:'解析失败',en:'Parse failed'},
-  home:{zh:'首页',en:'Home'},
-  inTokens:{zh:'输入 tokens',en:'Input tokens'},
-  outTokens:{zh:'输出 tokens',en:'Output tokens'},
-  cacheRead:{zh:'缓存读取',en:'Cache reads'},
-  cacheCreate:{zh:'缓存写入',en:'Cache writes'},
-  totalCost:{zh:'总花费',en:'Total cost'},
-  linesPM:{zh:'代码 +/-',en:'Lines +/-'},
-  apiTime:{zh:'API 时长',en:'API time'},
-  toolTime:{zh:'工具时长',en:'Tool time'},
-  viewerSuffix:{zh:'历史查看器',en:'History Viewer'},
-  pasteEmptyErr:{zh:'没有解析到任何有效记录，请检查粘贴内容',en:'No valid records parsed. Please check the pasted content.'},
-  pastedContent:{zh:'粘贴内容',en:'Pasted content'},
-  intro:{zh:'CCViewer 是一款开源的 Claude Code 对话历史查看器，完全在浏览器本地渲染 <b>.jsonl</b> 会话记录，支持 Markdown、思考过程、工具调用与成本统计，文件不上传服务器，隐私安全。',en:'CCViewer is an open-source Claude Code session history viewer. It renders <b>.jsonl</b> files entirely in your browser — Markdown, thinking blocks, tool calls and cost stats. Files never leave your computer.'},
-  featMd:{zh:'Markdown 渲染',en:'Markdown rendering'},
-  featMdD:{zh:'代码块、表格、列表、引用完整还原',en:'Code blocks, tables, lists and quotes'},
-  featThink:{zh:'思考过程',en:'Thinking blocks'},
-  featThinkD:{zh:'折叠查看 extended thinking 全文',en:'Collapsible extended thinking'},
-  featTool:{zh:'工具调用',en:'Tool calls'},
-  featToolD:{zh:'参数与结果逐条展开查看',en:'Inputs and results, expandable'},
-  featCost:{zh:'用量统计',en:'Usage & cost'},
-  featCostD:{zh:'token 用量、时长与花费分析',en:'Token usage, duration and cost'},
-  featI18n:{zh:'中英双语',en:'Bilingual UI'},
-  featI18nD:{zh:'一键切换中文 / English',en:'Switch between 中文 / English'},
-  featPrivacy:{zh:'隐私安全',en:'Privacy first'},
-  featPrivacyD:{zh:'100% 客户端处理，零上传',en:'100% client-side, zero upload'},
-  faqTitle:{zh:'常见问题',en:'Frequently Asked Questions'},
-  tagline:{zh:'在浏览器中本地渲染 .jsonl 会话记录，隐私安全、免费开源',en:'Render .jsonl session files locally in your browser. Private, free and open-source.'},
-  heroTitle:{zh:'<em>Claude Code</em> 对话历史查看器',en:'Read your <em>Claude Code</em> session history'},
-  pvUserQ:{zh:'帮我修复登录页在移动端的样式错乱',en:'Fix the broken login page layout on mobile'},
-  pvThink:{zh:'先查看登录页组件的样式代码…',en:'Let me inspect the login page styles first…'},
-  pvReply:{zh:'问题定位在 <code>flex</code> 布局缺少 <code>wrap</code>，已修复并在 375px 宽度下验证正常。',en:'The issue was a missing <code>wrap</code> in the <code>flex</code> layout. Fixed and verified at 375px width.'},
-  footerPrivacy:{zh:'100% 客户端处理，文件不上传服务器',en:'100% client-side — files never leave your browser'},
-  q1:{zh:'如何查看 Claude Code 的历史会话？',en:'How do I view previous Claude Code sessions?'},
-  a1:{zh:'Claude Code 会把每个会话保存为 JSONL 文件，位于 <code>~/.claude/projects/&lt;项目路径&gt;/&lt;sessionId&gt;.jsonl</code>。把这个文件拖进本页即可浏览完整对话。',en:'Claude Code saves every session as a JSONL file under <code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code>. Drop the file here to browse the full conversation.'},
-  q2:{zh:'我的会话文件会被上传吗？',en:'Is my session file uploaded anywhere?'},
-  a2:{zh:'不会。解析与渲染完全在你的浏览器中完成，没有任何网络请求，文件内容不会离开你的电脑。会话文件包含你的代码与文件路径，这正是本工具 100% 客户端处理的原因。',en:'No. Parsing happens entirely in your browser with no API calls and no server upload. Session files contain your code, file paths and sometimes secrets — which is exactly why this tool is 100% client-side.'},
-  q3:{zh:'查看器支持哪些内容？',en:'What does the viewer support?'},
-  a3:{zh:'支持用户消息与 AI 回复的 Markdown 渲染、extended thinking 思考过程、工具调用参数与结果、图片、token 用量与成本统计，中英文界面可一键切换。',en:'Markdown rendering for user and assistant messages, extended thinking blocks, tool call inputs and results, images, token usage and cost stats, with a bilingual UI.'},
-  q4:{zh:'.jsonl 是什么格式？',en:'What is the .jsonl format?'},
-  a4:{zh:'JSON Lines——每行一个独立的 JSON 对象。Claude Code 用它逐条记录会话中的消息、工具调用与元数据。',en:'JSON Lines — one independent JSON object per line. Claude Code logs every message, tool call and metadata entry as a line.'},
-  q5:{zh:'CCViewer 是免费的吗？',en:'Is CCViewer free?'},
-  a5:{zh:'免费且开源，直接在浏览器使用，无需注册或登录。',en:'Yes, it is free and open-source. No sign-up required.'}
-};
-let LANG=(function(){try{const s=localStorage.getItem('ccviewer_lang');if(s==='zh'||s==='en')return s;}catch(e){}return (typeof navigator!=='undefined'&&String(navigator.language||'').toLowerCase().startsWith('zh'))?'zh':'en';})();
-const t=k=>{const o=I18N[k];return o?(o[LANG]||o.zh):k;};
+const I18N={'en':{"brand": "CCViewer", "thinking": "Thinking", "tools": "Tools", "sysInj": "System/Injected", "expandAll": "Expand all", "pasteText": "Paste text", "openFile": "Open file", "noFile": "No file loaded", "dropHint1": "Drag a <b>.jsonl</b> history file here, or click to choose", "dropHint2": "e.g. ~/.claude/projects/&lt;project&gt;/&lt;sessionId&gt;.jsonl", "chooseFile": "Choose file", "pasteTitle": "Paste JSONL text", "pasteHint": "Paste the whole history file here, one JSON object per line (a single JSON array / object also works).", "cancel": "Cancel", "loadBtn": "Load", "thinkLabel": "✻ Thinking", "you": "You", "reply": "Reply", "result": "Result", "error": "Error", "lines": "lines", "images": "images", "viewResult": "View result", "sysMsg": "System message", "injCtx": "Injected context", "system": "System", "sessionInfo": "Session info", "stats": "Stats", "costUsage": "Cost / Usage", "titleRow": "Title", "projectDir": "Project dir", "gitBranch": "Git branch", "version": "Version", "sessionId": "Session ID", "time": "Time", "model": "Model", "userMsgs": "User msgs", "replies": "Replies", "toolCalls": "Tool calls", "thinkingStat": "Thinking", "imagesStat": "Images", "parseFailed": "Parse failed", "home": "Home", "inTokens": "Input tokens", "outTokens": "Output tokens", "cacheRead": "Cache reads", "cacheCreate": "Cache writes", "totalCost": "Total cost", "linesPM": "Lines +/-", "apiTime": "API time", "toolTime": "Tool time", "viewerSuffix": "History Viewer", "pasteEmptyErr": "No valid records parsed. Please check the pasted content.", "pastedContent": "Pasted content", "intro": "CCViewer is an open-source Claude Code session history viewer. It renders <b>.jsonl</b> files entirely in your browser — Markdown, thinking blocks, tool calls and cost stats. Files never leave your computer.", "featMd": "Markdown rendering", "featMdD": "Code blocks, tables, lists and quotes", "featThink": "Thinking blocks", "featThinkD": "Collapsible extended thinking", "featTool": "Tool calls", "featToolD": "Inputs and results, expandable", "featCost": "Usage & cost", "featCostD": "Token usage, duration and cost", "featI18n": "Multilingual interface", "featI18nD": "Switch between 10 languages in one click", "featPrivacy": "Privacy first", "featPrivacyD": "100% client-side, zero upload", "faqTitle": "Frequently Asked Questions", "tagline": "Render .jsonl session files locally in your browser. Private, free and open-source.", "heroTitle": "Read your <em>Claude Code</em> session history", "pvUserQ": "Fix the broken login page layout on mobile", "pvThink": "Let me inspect the login page styles first…", "pvReply": "The issue was a missing <code>wrap</code> in the <code>flex</code> layout. Fixed and verified at 375px width.", "footerPrivacy": "100% client-side — files never leave your browser", "q1": "How do I view previous Claude Code sessions?", "a1": "Claude Code saves every session as a JSONL file under <code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code>. Drop the file here to browse the full conversation.", "q2": "Is my session file uploaded anywhere?", "a2": "No. Parsing happens entirely in your browser with no API calls and no server upload. Session files contain your code, file paths and sometimes secrets — which is exactly why this tool is 100% client-side.", "q3": "What does the viewer support?", "a3": "Markdown rendering for user and assistant messages, extended thinking blocks, tool call parameters and results, images, token usage and cost stats — with an interface in 10 languages.", "q4": "What is the .jsonl format?", "a4": "JSON Lines — one independent JSON object per line. Claude Code logs every message, tool call and metadata entry as a line.", "q5": "Is CCViewer free?", "a5": "Yes, it is free and open-source. No sign-up required."}};
+const LANG='en';
+const BASE_PATH='/claude-code-session-viewer';
+const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
 function applyLang(){
   document.querySelectorAll('[data-i18n]').forEach(e=>{e.textContent=t(e.getAttribute('data-i18n'));});
   document.querySelectorAll('[data-i18n-html]').forEach(e=>{e.innerHTML=t(e.getAttribute('data-i18n-html'));});
-  const nextLabel=LANG==='zh'?'EN':'中文';
-  const lb=document.querySelector('#btnLang');if(lb)lb.textContent=nextLabel;
-  const ld=document.querySelector('#btnLangDrop');if(ld)ld.textContent=nextLabel;
   applyFname();
-  try{document.documentElement.lang=LANG==='zh'?'zh-CN':'en';}catch(e){}
 }
-function setLang(l){LANG=l;try{localStorage.setItem('ccviewer_lang',l);}catch(e){}applyLang();rerender();}
+const LANG_NAMES=[['en','English'],['zh','中文'],['ja','日本語'],['ko','한국어'],['es','Español'],['fr','Français'],['de','Deutsch'],['pt','Português'],['ru','Русский'],['hi','हिन्दी']];
+function fillLangSel(){
+  document.querySelectorAll('select.langsel').forEach(sel=>{
+    sel.innerHTML='';
+    for(const [c,n] of LANG_NAMES){const o=document.createElement('option');o.value=c;o.textContent=n;if(c===LANG)o.selected=true;sel.appendChild(o);}
+    sel.onchange=()=>{try{localStorage.setItem('ccviewer_pref',sel.value);}catch(e){}location.href=BASE_PATH+(sel.value==='en'?'/':'/'+sel.value+'/');};
+  });
+}
 
 /* ---------- 像素风 Logo（基于 Claude Code 衍生：橙色生物 + 眼镜，体现"查看器"）---------- */
 const LOGO_MAP=[
@@ -895,8 +780,6 @@ const drop=$('#drop');
 ['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('hide');drop.classList.add('drag');}));
 ['dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();if(ev==='dragleave'&&e.relatedTarget)return;drop.classList.remove('drag');if(CUR&&ev==='dragleave')drop.classList.add('hide');}));
 document.addEventListener('drop',e=>{e.preventDefault();const f=e.dataTransfer.files[0];if(!f)return;const r=new FileReader();r.onload=()=>load(r.result,f.name);r.readAsText(f);});
-$('#btnLang').onclick=()=>setLang(LANG==='zh'?'en':'zh');
-$('#btnLangDrop').onclick=()=>setLang(LANG==='zh'?'en':'zh');
 const HOME_TITLE=document.title;
 $('#btnHome').onclick=()=>{
   CUR=null;
@@ -908,6 +791,7 @@ $('#btnHome').onclick=()=>{
 };
 applyLang();
 mountLogos();
+fillLangSel();
 
 </script>
 </body>

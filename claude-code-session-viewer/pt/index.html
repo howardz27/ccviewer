@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visualizador de sessões do Claude Code - Veja o histórico JSONL no navegador | CCViewer</title>
+<meta name="description" content="CCViewer é um visualizador de sessões do Claude Code, open source, que renderiza arquivos .jsonl localmente no seu navegador. Markdown, raciocínio, chamadas de ferramentas, uso de tokens e análise de custos. Nenhum upload.">
+<meta name="keywords" content="Claude Code, JSONL, histórico de conversas, visualizador de sessões, claude code session viewer, claude code jsonl viewer, ver transcrição claude code, histórico claude code, uso de tokens, visualizar">
+<meta name="author" content="CCViewer">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/pt/">
+<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/">
+<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/">
+<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/">
+<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/">
+<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/">
+<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/">
+<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/">
+<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/">
+<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/">
+<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/">
+<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/">
+<link rel="icon" type="image/svg+xml" href="/claude-code-session-viewer/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CCViewer">
+<meta property="og:title" content="Visualizador de sessões do Claude Code - CCViewer">
+<meta property="og:description" content="Renderize arquivos .jsonl do Claude Code localmente no navegador: Markdown, raciocínio, chamadas de ferramentas e estatísticas de custo. Sem upload, totalmente privado.">
+<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/pt/">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:image" content="https://ccviewer.top/claude-code-session-viewer/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Visualizador de sessões do Claude Code - CCViewer">
+<meta name="twitter:description" content="Renderize arquivos .jsonl do Claude Code localmente no navegador: Markdown, raciocínio, chamadas de ferramentas e estatísticas de custo. Sem upload, totalmente privado.">
+<meta name="twitter:image" content="https://ccviewer.top/claude-code-session-viewer/og-image.png">
+<!-- 结构化数据 -->
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/pt/", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "description": "Um visualizador open source que renderiza arquivos .jsonl do Claude Code inteiramente no seu navegador, com Markdown, blocos de raciocínio, chamadas de ferramentas e estatísticas de custo. Os arquivos nunca saem do seu computador.", "inLanguage": "pt", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Como vejo sessões anteriores do Claude Code?", "acceptedAnswer": {"@type": "Answer", "text": "O Claude Code salva cada sessão como um arquivo JSONL em ~/.claude/projects/<projeto>/<session-id>.jsonl. Solte esse arquivo nesta página para navegar pela conversa completa."}}, {"@type": "Question", "name": "Meu arquivo de sessão é enviado para somewhere?", "acceptedAnswer": {"@type": "Answer", "text": "Não. A análise acontece inteiramente no seu navegador, sem requisições de rede e sem upload. Arquivos de sessão contêm seu código e caminhos — por isso a ferramenta é 100% no cliente."}}, {"@type": "Question", "name": "O que o visualizador suporta?", "acceptedAnswer": {"@type": "Answer", "text": "Markdown nas mensagens, blocos de extended thinking, parâmetros e resultados de ferramentas, imagens, uso de tokens e estatísticas de custo, com interface em 10 idiomas."}}, {"@type": "Question", "name": "O que é o formato .jsonl?", "acceptedAnswer": {"@type": "Answer", "text": "JSON Lines — um objeto JSON independente por linha. O Claude Code registra cada mensagem, chamada de ferramenta e metadado como uma linha."}}, {"@type": "Question", "name": "O CCViewer é gratuito?", "acceptedAnswer": {"@type": "Answer", "text": "Sim, é gratuito e open source. Não exige cadastro."}}]}</script>
+<style>
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2128; --border:#30363d;
+  --text:#e6edf3; --dim:#8b949e; --faint:#6e7681;
+  --accent:#d97757; --accent2:#cc9b7a; --user:#58a6ff; --green:#3fb950;
+  --purple:#bc8cff; --yellow:#d29922; --code-bg:#0b0f14; --red:#f85149;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.6}
+code,pre,.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace}
+#app{display:flex;flex-direction:column;height:100vh}
+/* top bar */
+#topbar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--border);flex-shrink:0}
+#topbar .brand{font-weight:600;color:var(--accent);font-size:15px;white-space:nowrap;display:flex;align-items:center;gap:9px}
+#topbar .brand .logo svg{display:block}
+.logo{display:inline-block;line-height:0}
+.logo.lg{display:inline-block;margin-bottom:6px}
+#topbar .brand small{color:var(--dim);font-weight:400;margin-left:6px}
+#topbar .spacer{flex:1}
+.btn{background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:13px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 14px) 55%,calc(100% - 9px) 55%;background-size:5px 5px;background-repeat:no-repeat;cursor:pointer}
+.toggle{display:inline-flex;align-items:center;gap:5px;color:var(--dim);font-size:12px;cursor:pointer;user-select:none}
+.toggle input{accent-color:var(--accent)}
+#main{display:flex;flex:1;min-height:0}
+/* sidebar */
+#sidebar{width:280px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);overflow-y:auto;padding:14px}
+#sidebar h3{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--faint)}
+#sidebar .kv{margin-bottom:10px}
+#sidebar .kv .k{color:var(--dim);font-size:11px}
+#sidebar .kv .v{word-break:break-all;font-size:12px}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.stat{background:var(--panel2);border:1px solid var(--border);border-radius:6px;padding:8px}
+.stat .n{font-size:16px;font-weight:600;color:var(--accent)}
+.stat .l{font-size:11px;color:var(--dim)}
+/* content */
+#content{flex:1;overflow-y:auto;padding:24px 32px;max-width:100%}
+#stream{max-width:900px;margin:0 auto}
+/* message blocks */
+.turn{margin-bottom:18px}
+.row{display:flex;gap:10px;align-items:flex-start}
+.gutter{flex-shrink:0;width:18px;text-align:center;font-size:14px;line-height:1.6;user-select:none}
+.body{flex:1;min-width:0}
+.meta-line{font-size:11px;color:var(--faint);margin-bottom:2px;display:flex;gap:10px;flex-wrap:wrap}
+.badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:4px;border:1px solid var(--border);color:var(--dim)}
+.badge.side{color:var(--purple);border-color:var(--purple)}
+/* user */
+.user .gutter{color:var(--user)}
+.user .bubble{background:rgba(88,166,255,.08);border:1px solid var(--border);border-left:3px solid var(--user);border-radius:6px;padding:10px 14px;white-space:pre-wrap;word-break:break-word}
+.meta-line .who{color:var(--user);font-weight:600}
+/* assistant text */
+.assistant .gutter{color:var(--accent)}
+.assistant .text{word-break:break-word}
+.assistant .reply{background:rgba(217,119,87,.08);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:6px;padding:10px 14px;margin:2px 0;word-break:break-word}
+.assistant .reply .md>:first-child{margin-top:0}
+.assistant .reply .md>:last-child{margin-bottom:0}
+.meta-line .who.ai{color:var(--accent)}
+/* thinking */
+.think{border-left:2px solid var(--border);padding:4px 0 4px 12px;margin:4px 0;color:var(--dim);font-style:italic}
+.think .hd{display:flex;align-items:center;gap:8px;font-style:normal;cursor:pointer;font-size:12px}
+.think .tk-label{color:var(--purple);flex-shrink:0}
+.think .tk-prev{flex:1;min-width:0;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.think .caret{color:var(--faint);font-size:11px;flex-shrink:0}
+.think .bd{white-space:pre-wrap;margin-top:4px;font-size:13px}
+/* tool use */
+.tool{background:var(--panel);border:1px solid var(--border);border-radius:6px;margin:6px 0;overflow:hidden}
+.tool .hd{display:flex;align-items:center;gap:8px;padding:7px 12px;cursor:pointer;background:var(--panel2)}
+.tool .hd .tn{color:var(--green);font-weight:600}
+.tool .hd .ta{color:var(--dim);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.tool .hd .caret{color:var(--faint);font-size:11px}
+.tool .params{padding:8px 12px;border-top:1px solid var(--border)}
+.tool .params .p{margin:2px 0;font-size:12px}
+.tool .params .pk{color:var(--yellow)}
+/* tool result */
+.result{margin:4px 0 4px 0;border-left:2px solid var(--border);padding-left:10px}
+.result .hd{color:var(--faint);font-size:11px;cursor:pointer;display:flex;gap:6px;align-items:center}
+.result.err .hd{color:var(--red)}
+.result pre{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:10px;overflow:auto;margin:4px 0;max-height:420px;font-size:12px}
+.result.err pre{border-color:var(--red)}
+/* system / meta note */
+.note{font-size:12px;color:var(--faint);border:1px dashed var(--border);border-radius:6px;padding:6px 10px;margin:4px 0;background:var(--panel)}
+.note .hd{cursor:pointer;color:var(--dim)}
+.note pre{white-space:pre-wrap;word-break:break-word;margin:6px 0 0;font-size:11px;color:var(--faint)}
+.hidden{display:none}
+/* markdown */
+.md p{margin:6px 0}
+.md h1,.md h2,.md h3,.md h4{margin:12px 0 6px;line-height:1.3}
+.md h1{font-size:20px}.md h2{font-size:17px}.md h3{font-size:15px}.md h4{font-size:14px}
+.md ul,.md ol{margin:6px 0;padding-left:22px}
+.md li{margin:2px 0}
+.md code{background:var(--code-bg);padding:1px 5px;border-radius:4px;font-size:12.5px;border:1px solid var(--border)}
+.md pre{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:12px;overflow:auto;margin:8px 0}
+.md pre code{background:none;border:none;padding:0}
+.md a{color:var(--user)}
+.md blockquote{border-left:3px solid var(--border);margin:6px 0;padding-left:12px;color:var(--dim)}
+.md table{border-collapse:collapse;margin:8px 0}
+.md th,.md td{border:1px solid var(--border);padding:4px 8px}
+.md img{max-width:100%;border-radius:6px}
+.inlimg{max-width:360px;max-height:360px;border:1px solid var(--border);border-radius:6px;margin:6px 0;cursor:zoom-in}
+/* drop zone / landing — cute-geek terminal */
+#drop{--mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Consolas,monospace;--disp:'Nunito','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-start;z-index:10;flex-direction:column;gap:44px;overflow-y:auto;padding:26px 20px 64px;background:radial-gradient(1000px 480px at 78% -8%,rgba(217,119,87,.14),transparent 62%),radial-gradient(700px 360px at 6% 12%,rgba(191,227,239,.06),transparent 60%),#0d1117}
+#drop::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(240,246,252,.05) 1px,transparent 1px);background-size:26px 26px;pointer-events:none;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+.lheader{width:100%;max-width:1160px;display:flex;align-items:center;gap:10px;margin:0 auto}
+.lbrand{display:flex;align-items:center;gap:11px;font-family:var(--disp);font-weight:800;font-size:17px;color:var(--accent);letter-spacing:.4px}
+.lbrand .logo{display:flex;animation:bob 3.4s ease-in-out infinite}
+.lspacer{flex:1}
+/* hero: wide two-column */
+.hero{width:100%;max-width:1160px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);gap:72px;align-items:center;padding-top:4vh}
+.hero-l .kicker{font-family:var(--mono);font-size:12.5px;color:var(--accent2);margin:0 0 18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cursor{display:inline-block;width:8px;height:15px;background:var(--accent);vertical-align:-2px;margin-left:3px;border-radius:1px;animation:blink 1.1s steps(1) infinite}
+#drop h1{color:var(--text);margin:0 0 16px;font-size:40px;line-height:1.22;font-weight:800;font-family:var(--disp);letter-spacing:.3px}
+#drop h1 em{font-style:normal;color:var(--accent)}
+#drop p{color:var(--dim);margin:4px 0}
+#drop .tagline{font-size:15.5px;margin:0 0 30px;max-width:520px;line-height:1.65}
+#drop .box{border:2px dashed #2e3a46;border-radius:16px;padding:30px 34px;text-align:center;transition:.15s;background:rgba(22,27,34,.55)}
+#drop.drag .box{border-color:var(--accent);background:var(--panel)}
+#drop .pathhint{font-size:12px;color:var(--faint);font-family:var(--mono)}
+#drop .cta{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+/* preview window */
+.hero-r{position:relative}
+.preview{width:100%;border:1px solid var(--border);border-radius:12px;background:var(--panel);overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.5),0 0 90px rgba(217,119,87,.10);transform:rotate(-1.4deg) translateY(4px);transition:transform .25s ease}
+.preview:hover{transform:rotate(0) translateY(0)}
+.preview .pv-bar{display:flex;align-items:center;gap:6px;background:var(--panel2);padding:9px 12px;border-bottom:1px solid var(--border)}
+.preview .pv-bar i{width:10px;height:10px;border-radius:50%;background:var(--border);flex-shrink:0}
+.preview .pv-bar i:first-child{background:#d97757}
+.preview .pv-bar span{margin-left:8px;font-size:11px;color:var(--faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--mono)}
+.preview .pv-body{padding:16px 18px;font-size:12.5px}
+.preview .turn{margin-bottom:8px}
+.preview .reply{font-size:12.5px}
+/* floating pixel decorations */
+.pxd{position:absolute;width:8px;height:8px;border-radius:2px;animation:floatPx 5s ease-in-out infinite;pointer-events:none;z-index:1}
+.pxd.p1{top:16%;left:55%;background:var(--accent)}
+.pxd.p2{top:-26px;right:-18px;left:auto;width:6px;height:6px;background:var(--accent2);animation-delay:1.2s}
+.pxd.p3{top:7%;left:86%;width:5px;height:5px;background:#7ee787;animation-delay:2.1s}
+.pxd.p4{bottom:-28px;top:auto;left:-12px;width:7px;height:7px;background:var(--accent2);animation-delay:.6s}
+/* landing footer */
+.lfooter{width:100%;max-width:1160px;margin:64px auto 0;padding-top:20px;border-top:1px solid var(--border);display:flex;gap:14px;align-items:center;color:var(--faint);font-size:12px;flex-wrap:wrap}
+.lfooter a{color:var(--dim);text-decoration:none}
+.lfooter a:hover{color:var(--accent)}
+/* landing motion */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes blink{0%,55%{opacity:1}56%,100%{opacity:0}}
+@keyframes floatPx{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(45deg)}}
+.lheader,.hero-l .kicker,#drop h1,#drop .tagline,#drop .box,.hero-r,.seo,.lfooter{animation:fadeUp .6s cubic-bezier(.2,.7,.3,1) both}
+.hero-l .kicker{animation-delay:.08s}
+#drop h1{animation-delay:.16s}
+#drop .tagline{animation-delay:.24s}
+#drop .box{animation-delay:.32s}
+.hero-r{animation-delay:.42s}
+.seo{animation-delay:.55s}
+.lfooter{animation-delay:.65s}
+@media (max-width:920px){.hero{grid-template-columns:1fr;gap:44px}.pxd{display:none}#drop h1{font-size:30px}.seo{margin-top:72px;padding-top:40px}.seo .feats{margin-bottom:44px}}
+@media (max-width:600px){#drop .box{padding:24px 18px}#drop h1{font-size:24px}.hero{gap:30px}}
+@media (prefers-reduced-motion:reduce){.lheader,.hero-l .kicker,#drop h1,#drop .tagline,#drop .box,.hero-r,.seo,.lfooter,.lbrand .logo,.cursor,.pxd{animation:none}.preview{transform:none}}
+#drop.hide{display:none}
+/* landing seo content */
+.seo{width:100%;max-width:1160px;text-align:left;margin:110px auto 0;border-top:1px solid var(--border);padding-top:56px}
+#drop .seo .intro{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:20px 28px 22px;color:var(--dim);font-size:14px;line-height:1.95;margin:0 0 60px;max-width:none;text-align:left}
+.seo .intro::before{content:'# ccviewer';display:block;font-family:var(--mono);font-size:11px;color:var(--accent2);letter-spacing:1px;margin-bottom:10px}
+.seo .intro b{white-space:nowrap;color:var(--accent2)}
+.seo .feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin:0 0 64px}
+.seo .feat{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;transition:border-color .15s}
+.seo .feat:hover{border-color:var(--accent)}
+.seo .feat b{color:var(--accent2);font-size:13.5px;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.seo .feat b svg{color:var(--accent);flex-shrink:0}
+.seo .feat span{color:var(--dim);font-size:12.5px;line-height:1.5}
+.seo h2{color:var(--accent);font-size:18px;margin:0 0 20px;text-align:center;font-family:var(--disp)}
+.seo details{border:1px solid var(--border);border-radius:10px;background:var(--panel);margin:8px 0}
+.seo summary{cursor:pointer;padding:12px 16px;color:var(--text);font-size:13.5px;font-weight:500;list-style:none}
+.seo summary::-webkit-details-marker{display:none}
+.seo summary::before{content:'▸ ';color:var(--accent)}
+.seo details[open] summary::before{content:'▾ '}
+.seo details .a{padding:2px 16px 14px;color:var(--dim);font-size:13px;line-height:1.7}
+.seo details .a code{background:var(--code-bg);padding:1px 5px;border-radius:4px;border:1px solid var(--border);font-size:12px}
+@media (min-width:920px){.seo .faqs{display:grid;grid-template-columns:1fr 1fr;gap:12px}.seo .faqs details{margin:0}}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px}
+::-webkit-scrollbar-track{background:transparent}
+/* paste modal */
+#paste{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6)}
+#paste.show{display:flex}
+#paste .panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;width:min(820px,92vw);max-height:88vh;display:flex;flex-direction:column;padding:18px;gap:12px}
+#paste h2{margin:0;font-size:16px;color:var(--accent)}
+#paste .hint{color:var(--dim);font-size:12px;margin:0}
+#paste textarea{flex:1;min-height:48vh;resize:vertical;background:var(--code-bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:12px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;font-size:12.5px;line-height:1.5}
+#paste textarea:focus{outline:none;border-color:var(--accent)}
+#paste .actions{display:flex;justify-content:flex-end;gap:10px;align-items:center}
+#paste .err{color:var(--red);font-size:12px;margin-right:auto}
+.btn.primary{background:var(--accent);color:#1a1109;border-color:var(--accent);font-weight:600}
+.btn.primary:hover{opacity:.9;color:#1a1109}
+</style>
+
+</head>
+<body>
+<div id="app">
+  <div id="topbar">
+    <span class="brand"><span class="logo"></span> <span data-i18n="brand">CCViewer</span><small id="fname"></small></span>
+    <span class="spacer"></span>
+    <label class="toggle"><input type="checkbox" id="tgThink" checked><span data-i18n="thinking">Raciocínio</span></label>
+    <label class="toggle"><input type="checkbox" id="tgTool" checked><span data-i18n="tools">Ferramentas</span></label>
+    <label class="toggle"><input type="checkbox" id="tgMeta"><span data-i18n="sysInj">Sistema/Injetado</span></label>
+    <label class="toggle"><input type="checkbox" id="tgExpand"><span data-i18n="expandAll">Expandir tudo</span></label>
+    <button class="btn" id="btnHome" data-i18n="home">Início</button>
+    <select class="btn langsel" aria-label="Language"></select>
+    <button class="btn" id="btnPasteTop" data-i18n="pasteText">Colar texto</button>
+    <button class="btn" id="btnOpen" data-i18n="openFile">Abrir arquivo</button>
+  </div>
+  <div id="main">
+    <div id="sidebar"><div class="phd" style="color:var(--faint);font-size:12px" data-i18n="noFile">Nenhum arquivo carregado</div></div>
+    <div id="content"><div id="stream"></div></div>
+  </div>
+</div>
+<div id="drop" class="">
+  <span class="pxd p1"></span><span class="pxd p3"></span>
+  <header class="lheader">
+    <span class="lbrand"><span class="logo lg"></span>CCViewer</span>
+    <span class="lspacer"></span>
+    <select class="btn langsel" aria-label="Language"></select>
+  </header>
+  <main class="hero">
+    <div class="hero-l">
+      <p class="kicker">$ cat ~/.claude/projects/**/*.jsonl<span class="cursor"></span></p>
+      <h1 data-i18n-html="heroTitle">Leia o histórico de sessões do <em>Claude Code</em></h1>
+      <p class="tagline" data-i18n="tagline">Renderize arquivos .jsonl localmente no navegador. Privado, gratuito e open source</p>
+      <div class="box">
+        <p data-i18n-html="dropHint1">Arraste um arquivo de histórico <b>.jsonl</b> para cá, ou clique para escolher</p>
+        <p class="pathhint" data-i18n-html="dropHint2">ex.: ~/.claude/projects/&lt;projeto&gt;/&lt;sessionId&gt;.jsonl</p>
+        <div class="cta">
+          <button class="btn primary" id="btnPick" data-i18n="chooseFile">Escolher arquivo</button>
+          <button class="btn" id="btnPasteDrop" data-i18n="pasteText">Colar texto</button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-r">
+      <span class="pxd p2"></span><span class="pxd p4"></span>
+      <div class="preview">
+        <div class="pv-bar"><i></i><i></i><i></i><span>https://ccviewer.top/claude-code-session-viewer</span></div>
+        <div class="pv-body">
+          <div class="turn user"><div class="row"><div class="gutter">&gt;</div><div class="body">
+            <div class="meta-line"><span class="who" data-i18n="you">Você</span></div>
+            <div class="bubble" data-i18n="pvUserQ">Corrige o layout quebrado da página de login no celular</div>
+          </div></div></div>
+          <div class="turn assistant"><div class="row"><div class="gutter">⏺</div><div class="body">
+            <div class="meta-line"><span class="who ai" data-i18n="reply">Resposta</span> <span class="badge">claude-opus-4-6</span></div>
+            <div class="think"><div class="hd"><span class="tk-label">✻</span><span class="tk-prev" data-i18n="pvThink">Primeiro vou inspecionar os estilos da página de login…</span></div></div>
+            <div class="tool"><div class="hd"><span class="tn">⏺ Read</span><span class="ta">src/pages/Login.tsx</span></div></div>
+            <div class="reply md"><p data-i18n-html="pvReply">O problema era um <code>wrap</code> ausente no layout <code>flex</code>. Corrigido e verificado em 375 px.</p></div>
+          </div></div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="seo">
+    <p class="intro" data-i18n-html="intro">CCViewer é um visualizador de sessões do Claude Code, open source. Ele renderiza arquivos <b>.jsonl</b> inteiramente no seu navegador — Markdown, blocos de raciocínio, chamadas de ferramentas e estatísticas de custo. Nada é enviado a servidores: sua privacidade está garantida.</p>
+    <div class="feats">
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-i18n="featMd">Renderização Markdown</span></b><span data-i18n="featMdD">Blocos de código, tabelas, listas e citações</span></div>
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg><span data-i18n="featThink">Processo de raciocínio</span></b><span data-i18n="featThinkD">Extended thinking recolhível</span></div>
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg><span data-i18n="featTool">Chamadas de ferramentas</span></b><span data-i18n="featToolD">Parâmetros e resultados expansíveis</span></div>
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15v-4"/><path d="M12 15V7"/><path d="M17 15v-7"/></svg><span data-i18n="featCost">Uso e custo</span></b><span data-i18n="featCostD">Tokens, duração e gastos</span></div>
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></svg><span data-i18n="featI18n">Interface multilíngue</span></b><span data-i18n="featI18nD">Alterne entre 10 idiomas num clique</span></div>
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span data-i18n="featPrivacy">Privacidade primeiro</span></b><span data-i18n="featPrivacyD">100% no cliente, zero upload</span></div>
+    </div>
+    <h2 data-i18n="faqTitle">Perguntas frequentes</h2>
+    <div class="faqs">
+      <details><summary data-i18n="q1">Como vejo sessões anteriores do Claude Code?</summary><div class="a" data-i18n-html="a1">O Claude Code salva cada sessão como um arquivo JSONL em <code>~/.claude/projects/&lt;projeto&gt;/&lt;session-id&gt;.jsonl</code>. Solte esse arquivo nesta página para navegar pela conversa completa.</div></details>
+      <details><summary data-i18n="q2">Meu arquivo de sessão é enviado para somewhere?</summary><div class="a" data-i18n-html="a2">Não. A análise acontece inteiramente no seu navegador, sem requisições de rede e sem upload. Arquivos de sessão contêm seu código e caminhos — por isso a ferramenta é 100% no cliente.</div></details>
+      <details><summary data-i18n="q3">O que o visualizador suporta?</summary><div class="a" data-i18n-html="a3">Markdown nas mensagens, blocos de extended thinking, parâmetros e resultados de ferramentas, imagens, uso de tokens e estatísticas de custo, com interface em 10 idiomas.</div></details>
+      <details><summary data-i18n="q4">O que é o formato .jsonl?</summary><div class="a" data-i18n-html="a4">JSON Lines — um objeto JSON independente por linha. O Claude Code registra cada mensagem, chamada de ferramenta e metadado como uma linha.</div></details>
+      <details><summary data-i18n="q5">O CCViewer é gratuito?</summary><div class="a" data-i18n-html="a5">Sim, é gratuito e open source. Não exige cadastro.</div></details>
+    </div>
+  </div>
+  <footer class="lfooter">
+    <span>© 2026 CCViewer</span>
+    <span data-i18n="footerPrivacy">100% no cliente — seus arquivos nunca saem do navegador</span>
+  </footer>
+</div>
+<div id="paste">
+  <div class="panel">
+    <h2 data-i18n="pasteTitle">Colar texto JSONL</h2>
+    <p class="hint" data-i18n="pasteHint">Cole aqui todo o conteúdo do arquivo de histórico, um objeto JSON por linha (um único array / objeto JSON também funciona).</p>
+    <textarea id="pasteText" placeholder='{"type":"user",...}&#10;{"type":"assistant",...}' spellcheck="false"></textarea>
+    <div class="actions">
+      <span class="err" id="pasteErr"></span>
+      <button class="btn" id="pasteCancel" data-i18n="cancel">Cancelar</button>
+      <button class="btn primary" id="pasteLoad" data-i18n="loadBtn">Carregar</button>
+    </div>
+  </div>
+</div>
+<input type="file" id="file" accept=".jsonl,.json,.txt" style="display:none">
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;};
+const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|data):/i.test(u))return'#';return u.replace(/"/g,'%22');};
+const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
+
+/* ---------- 国际化 i18n（中文 / English）---------- */
+const I18N={'pt':{"brand": "CCViewer", "thinking": "Raciocínio", "tools": "Ferramentas", "sysInj": "Sistema/Injetado", "expandAll": "Expandir tudo", "pasteText": "Colar texto", "openFile": "Abrir arquivo", "noFile": "Nenhum arquivo carregado", "dropHint1": "Arraste um arquivo de histórico <b>.jsonl</b> para cá, ou clique para escolher", "dropHint2": "ex.: ~/.claude/projects/&lt;projeto&gt;/&lt;sessionId&gt;.jsonl", "chooseFile": "Escolher arquivo", "pasteTitle": "Colar texto JSONL", "pasteHint": "Cole aqui todo o conteúdo do arquivo de histórico, um objeto JSON por linha (um único array / objeto JSON também funciona).", "cancel": "Cancelar", "loadBtn": "Carregar", "thinkLabel": "✻ Raciocínio", "you": "Você", "reply": "Resposta", "result": "Resultado", "error": "Erro", "lines": "linhas", "images": "imagens", "viewResult": "Ver resultado", "sysMsg": "Mensagem do sistema", "injCtx": "Contexto injetado", "system": "Sistema", "sessionInfo": "Informações da sessão", "stats": "Estatísticas", "costUsage": "Custo / Uso", "titleRow": "Título", "projectDir": "Diretório do projeto", "gitBranch": "Branch do Git", "version": "Versão", "sessionId": "ID da sessão", "time": "Hora", "model": "Modelo", "userMsgs": "Mensagens do usuário", "replies": "Respostas", "toolCalls": "Chamadas de ferramentas", "thinkingStat": "Raciocínio", "imagesStat": "Imagens", "parseFailed": "Falha na análise", "home": "Início", "inTokens": "Tokens de entrada", "outTokens": "Tokens de saída", "cacheRead": "Leituras de cache", "cacheCreate": "Escritas de cache", "totalCost": "Custo total", "linesPM": "Linhas +/-", "apiTime": "Tempo de API", "toolTime": "Tempo de ferramentas", "viewerSuffix": "Visualizador de histórico", "pasteEmptyErr": "Nenhum registro válido foi analisado. Verifique o conteúdo colado.", "pastedContent": "Conteúdo colado", "intro": "CCViewer é um visualizador de sessões do Claude Code, open source. Ele renderiza arquivos <b>.jsonl</b> inteiramente no seu navegador — Markdown, blocos de raciocínio, chamadas de ferramentas e estatísticas de custo. Nada é enviado a servidores: sua privacidade está garantida.", "featMd": "Renderização Markdown", "featMdD": "Blocos de código, tabelas, listas e citações", "featThink": "Processo de raciocínio", "featThinkD": "Extended thinking recolhível", "featTool": "Chamadas de ferramentas", "featToolD": "Parâmetros e resultados expansíveis", "featCost": "Uso e custo", "featCostD": "Tokens, duração e gastos", "featI18n": "Interface multilíngue", "featI18nD": "Alterne entre 10 idiomas num clique", "featPrivacy": "Privacidade primeiro", "featPrivacyD": "100% no cliente, zero upload", "faqTitle": "Perguntas frequentes", "tagline": "Renderize arquivos .jsonl localmente no navegador. Privado, gratuito e open source", "heroTitle": "Leia o histórico de sessões do <em>Claude Code</em>", "pvUserQ": "Corrige o layout quebrado da página de login no celular", "pvThink": "Primeiro vou inspecionar os estilos da página de login…", "pvReply": "O problema era um <code>wrap</code> ausente no layout <code>flex</code>. Corrigido e verificado em 375 px.", "footerPrivacy": "100% no cliente — seus arquivos nunca saem do navegador", "q1": "Como vejo sessões anteriores do Claude Code?", "a1": "O Claude Code salva cada sessão como um arquivo JSONL em <code>~/.claude/projects/&lt;projeto&gt;/&lt;session-id&gt;.jsonl</code>. Solte esse arquivo nesta página para navegar pela conversa completa.", "q2": "Meu arquivo de sessão é enviado para somewhere?", "a2": "Não. A análise acontece inteiramente no seu navegador, sem requisições de rede e sem upload. Arquivos de sessão contêm seu código e caminhos — por isso a ferramenta é 100% no cliente.", "q3": "O que o visualizador suporta?", "a3": "Markdown nas mensagens, blocos de extended thinking, parâmetros e resultados de ferramentas, imagens, uso de tokens e estatísticas de custo, com interface em 10 idiomas.", "q4": "O que é o formato .jsonl?", "a4": "JSON Lines — um objeto JSON independente por linha. O Claude Code registra cada mensagem, chamada de ferramenta e metadado como uma linha.", "q5": "O CCViewer é gratuito?", "a5": "Sim, é gratuito e open source. Não exige cadastro."}};
+const LANG='pt';
+const BASE_PATH='/claude-code-session-viewer';
+const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(e=>{e.textContent=t(e.getAttribute('data-i18n'));});
+  document.querySelectorAll('[data-i18n-html]').forEach(e=>{e.innerHTML=t(e.getAttribute('data-i18n-html'));});
+  applyFname();
+}
+const LANG_NAMES=[['en','English'],['zh','中文'],['ja','日本語'],['ko','한국어'],['es','Español'],['fr','Français'],['de','Deutsch'],['pt','Português'],['ru','Русский'],['hi','हिन्दी']];
+function fillLangSel(){
+  document.querySelectorAll('select.langsel').forEach(sel=>{
+    sel.innerHTML='';
+    for(const [c,n] of LANG_NAMES){const o=document.createElement('option');o.value=c;o.textContent=n;if(c===LANG)o.selected=true;sel.appendChild(o);}
+    sel.onchange=()=>{try{localStorage.setItem('ccviewer_pref',sel.value);}catch(e){}location.href=BASE_PATH+(sel.value==='en'?'/':'/'+sel.value+'/');};
+  });
+}
+
+/* ---------- 像素风 Logo（基于 Claude Code 衍生：橙色生物 + 眼镜，体现"查看器"）---------- */
+const LOGO_MAP=[
+"....ooooooo....",
+"...ooooooooo...",
+"..ooooooooooo..",
+".ooooooooooooo.",
+".offffoooffffo.",
+".ffggfffffggff.",
+".ofgefooofegfo.",
+".offffoooffffo.",
+".ooooooooooooo.",
+".ooooooooooooo.",
+"..ooooooooooo..",
+".odddooooodddo.",
+"..ddd.....ddd.."
+];
+const LOGO_COLORS={o:'#d97757',d:'#bd5e3b',f:'#11161c',g:'#bfe3ef',e:'#11161c'};
+function logoSVG(px){
+  px=px||4;const W=LOGO_MAP[0].length,H=LOGO_MAP.length;let r='';
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){const c=LOGO_MAP[y][x];if(!c||c==='.')continue;
+    r+='<rect x="'+(x*px)+'" y="'+(y*px)+'" width="'+px+'" height="'+px+'" fill="'+(LOGO_COLORS[c]||'#d97757')+'"/>';}
+  return '<svg width="'+(W*px)+'" height="'+(H*px)+'" viewBox="0 0 '+(W*px)+' '+(H*px)+'" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" style="display:block">'+r+'</svg>';
+}
+function mountLogos(){
+  try{
+    document.querySelectorAll('.logo').forEach(e=>{e.innerHTML=logoSVG(e.classList&&e.classList.contains('lg')?6:3);});
+    if(document.head){const fav=document.createElement('link');fav.rel='icon';fav.href='data:image/svg+xml;utf8,'+encodeURIComponent(logoSVG(8));document.head.appendChild(fav);}
+  }catch(e){}
+}
+
+/* ---------- 轻量 Markdown 渲染 ---------- */
+function md(src){
+  if(src==null) return "";
+  src=String(src);
+  const blocks=[]; // 保护代码块
+  src=src.replace(/```([\w+-]*)\n?([\s\S]*?)```/g,(m,lang,code)=>{
+    blocks.push('<pre><code>'+esc(code.replace(/\n$/,''))+'</code></pre>');
+    return " "+(blocks.length-1)+" ";
+  });
+  const lines=src.split("\n"); let out=[]; let i=0;
+  function inline(t){
+    t=esc(t);
+    t=t.replace(/`([^`]+)`/g,(m,c)=>'<code>'+c+'</code>');
+    t=t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,(m,a,u)=>'<img alt="'+a+'" src="'+safeImg(u)+'">');
+    t=t.replace(/\[([^\]]+)\]\(([^)]+)\)/g,(m,txt,u)=>'<a href="'+safeHref(u)+'" target="_blank" rel="noopener">'+txt+'</a>');
+    t=t.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/__([^_]+)__/g,'<b>$1</b>');
+    t=t.replace(/(^|[^\w*])\*([^\s*][^*\n]*?[^\s*]|[^\s*])\*(?!\w)/g,'$1<i>$2</i>');
+    return t;
+  }
+  while(i<lines.length){
+    let ln=lines[i];
+    if(/^ \d+ \s*$/.test(ln)){out.push(ln.trim());i++;continue;}
+    if(/^\s*$/.test(ln)){i++;continue;}
+    let h=ln.match(/^(#{1,6})\s+(.*)$/);
+    if(h){out.push('<h'+h[1].length+'>'+inline(h[2])+'</h'+h[1].length+'>');i++;continue;}
+    if(/^\s*>\s?/.test(ln)){let b=[];while(i<lines.length&&/^\s*>\s?/.test(lines[i])){b.push(inline(lines[i].replace(/^\s*>\s?/,'')));i++;}out.push('<blockquote>'+b.join('<br>')+'</blockquote>');continue;}
+    if(/^\s*[-*+]\s+/.test(ln)){let b=[];while(i<lines.length&&/^\s*[-*+]\s+/.test(lines[i])){b.push('<li>'+inline(lines[i].replace(/^\s*[-*+]\s+/,''))+'</li>');i++;}out.push('<ul>'+b.join('')+'</ul>');continue;}
+    if(/^\s*\d+\.\s+/.test(ln)){let b=[];while(i<lines.length&&/^\s*\d+\.\s+/.test(lines[i])){b.push('<li>'+inline(lines[i].replace(/^\s*\d+\.\s+/,''))+'</li>');i++;}out.push('<ol>'+b.join('')+'</ol>');continue;}
+    if(/^(\s*\|.*\|\s*)$/.test(ln)&&i+1<lines.length&&/^\s*\|[\s:|-]+\|\s*$/.test(lines[i+1])){
+      const row=r=>r.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim());
+      let head=row(ln);i+=2;let body=[];
+      while(i<lines.length&&/^\s*\|.*\|\s*$/.test(lines[i])){body.push(row(lines[i]));i++;}
+      let t='<table><thead><tr>'+head.map(c=>'<th>'+inline(c)+'</th>').join('')+'</tr></thead><tbody>';
+      t+=body.map(r=>'<tr>'+r.map(c=>'<td>'+inline(c)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
+      out.push(t);continue;
+    }
+    let para=[inline(ln)];i++;
+    while(i<lines.length&&!/^\s*$/.test(lines[i])&&!/^(#{1,6}\s|>\s?|\s*[-*+]\s|\s*\d+\.\s| )/.test(lines[i])){para.push(inline(lines[i]));i++;}
+    out.push('<p>'+para.join('<br>')+'</p>');
+  }
+  let html=out.join("\n");
+  html=html.replace(/ (\d+) /g,(m,n)=>blocks[+n]);
+  return html;
+}
+const PLACEHOLDER_JS=1;
+/* ---------- 时间 / 工具 ---------- */
+const fmtTime=ts=>{if(!ts)return"";try{const d=new Date(ts);if(isNaN(d))return"";return d.toLocaleString(LANG==='zh'?'zh-CN':'en-US',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});}catch(e){return"";}};
+const fmtDur=ms=>{if(ms==null)return"";const s=ms/1000;if(s<60)return s.toFixed(1)+'s';const m=Math.floor(s/60);return m+'m'+Math.round(s%60)+'s';};
+const num=n=>n==null?"0":n.toLocaleString('en-US');
+
+/* ---------- 解析 ---------- */
+function parse(text){
+  const entries=[]; let bad=0;
+  const trimmed=(text||'').trim();
+  // 兼容整段 JSON 数组 / 单个 JSON 对象（含多行美化格式）
+  if(trimmed){
+    try{
+      const whole=JSON.parse(trimmed);
+      if(Array.isArray(whole))return {entries:whole.filter(x=>x&&typeof x==='object'),bad:0};
+      if(whole&&typeof whole==='object')return {entries:[whole],bad:0};
+    }catch(e){/* 退回按行解析 */}
+  }
+  for(const raw of trimmed.split(/\r?\n/)){
+    const line=raw.trim(); if(!line) continue;
+    try{entries.push(JSON.parse(line));}catch(e){bad++;}
+  }
+  return {entries,bad};
+}
+function summarize(entries){
+  const s={title:"",sessionId:"",cwd:"",gitBranch:"",version:"",cost:null,
+    counts:{user:0,assistant:0,tool:0,thinking:0,image:0}, tokens:{in:0,out:0,cacheCreate:0,cacheRead:0},
+    firstTs:null,lastTs:null,models:new Set()};
+  for(const o of entries){
+    const t=o.type;
+    if(t==='ai-title'&&o.aiTitle)s.title=o.aiTitle;
+    if(o.sessionId&&!s.sessionId)s.sessionId=o.sessionId;
+    if(o.cwd)s.cwd=o.cwd;
+    if(o.gitBranch)s.gitBranch=o.gitBranch;
+    if(o.version)s.version=o.version;
+    if(t==='cost-state')s.cost=o;
+    if(o.timestamp){if(!s.firstTs)s.firstTs=o.timestamp;s.lastTs=o.timestamp;}
+    const msg=o.message;
+    if(t==='user'&&isHumanPrompt(o))s.counts.user++;
+    if(t==='assistant'&&msg){
+      if(msg.model)s.models.add(msg.model);
+      if(msg.usage){s.tokens.in+=msg.usage.input_tokens||0;s.tokens.out+=msg.usage.output_tokens||0;s.tokens.cacheCreate+=msg.usage.cache_creation_input_tokens||0;s.tokens.cacheRead+=msg.usage.cache_read_input_tokens||0;}
+      const c=msg.content;
+      if(Array.isArray(c))for(const b of c){
+        if(b.type==='tool_use')s.counts.tool++;
+        else if(b.type==='thinking')s.counts.thinking++;
+      }
+      if(Array.isArray(c)&&c.some(b=>b.type==='text'||b.type==='thinking'||b.type==='tool_use'))s.counts.assistant++;
+    }
+    if(msg&&Array.isArray(msg.content))for(const b of msg.content)if(b.type==='image')s.counts.image++;
+  }
+  return s;
+}
+function isInjectedText(t){
+  if(!t)return false;
+  const s=String(t).trimStart();
+  return /^<(system-reminder|command-name|command-message|command-args|local-command|task-notification|user-prompt-submit|caveat)/i.test(s)
+    || s.startsWith('Base directory for this skill:')
+    || s.startsWith('Caveat:')
+    || s.startsWith('This session is being continued from a previous conversation')
+    || /^\[Request interrupted/i.test(s);
+}
+// 把一条 user 条目分成三类：human（真实用户输入）/ toolresult / meta（系统注入等）
+function classifyUser(o){
+  if(o.type!=='user')return 'meta';
+  const c=o.message&&o.message.content;
+  if(Array.isArray(c)&&c.some(b=>b.type==='tool_result'))return 'toolresult';
+  if(o.isMeta||o.isCompactSummary)return 'meta';
+  // 字符串内容：除明确的系统消息/注入外，一律视为用户输入（fail-open）
+  if(typeof c==='string'){
+    if(o.promptSource==='system')return 'meta';
+    if(isInjectedText(c))return 'meta';
+    return c.trim()?'human':'meta';
+  }
+  if(Array.isArray(c)){
+    const texts=c.filter(b=>b.type==='text'&&b.text&&b.text.trim());
+    const hasImg=c.some(b=>b.type==='image');
+    if(!texts.length&&!hasImg)return 'meta';
+    // 明确的人类信号
+    if((o.origin&&o.origin.kind==='human')||o.promptSource==='typed')return 'human';
+    // 看起来像注入上下文的（技能/命令/提醒）归 meta，其余 fail-open 当作用户输入
+    if(texts.length&&texts.every(b=>isInjectedText(b.text)))return 'meta';
+    return 'human';
+  }
+  return 'meta';
+}
+function isHumanPrompt(o){return classifyUser(o)==='human';}
+const PLACEHOLDER_RENDER=1;
+/* ---------- 渲染单条 ---------- */
+let EXPAND_ALL=false;
+function toolArgPreview(name,input){
+  if(!input||typeof input!=='object')return "";
+  const keys=['file_path','path','command','pattern','url','prompt','query','description','skill','subagent_type','todos'];
+  for(const k of keys){if(input[k]!=null){let v=input[k];if(typeof v!=='string')v=JSON.stringify(v);return v.length>120?v.slice(0,120)+'…':v;}}
+  const ks=Object.keys(input);return ks.length?ks[0]+'='+String(input[ks[0]]).slice(0,80):"";
+}
+function collapsible(headHtml,bodyHtml,openByDefault,cls){
+  const wrap=el('div',cls||'');
+  const hd=el('div','hd',headHtml);
+  const bd=el('div','bd'+((openByDefault||EXPAND_ALL)?'':' hidden'),bodyHtml);
+  hd.onclick=()=>bd.classList.toggle('hidden');
+  wrap.appendChild(hd);wrap.appendChild(bd);return wrap;
+}
+// 思考：标题行显示一行预览，可点击展开/收起全文
+function renderThinking(text){
+  const wrap=el('div','think');
+  const full=String(text==null?'':text);
+  const first=full.split('\n').map(s=>s.trim()).find(s=>s)||'';
+  const prev=first.length>120?first.slice(0,120)+'…':first;
+  const hd=el('div','hd');
+  const label=el('span','tk-label');label.textContent=t('thinkLabel');
+  const prevSpan=el('span','tk-prev');prevSpan.textContent=prev;
+  const caret=el('span','caret');
+  hd.appendChild(label);hd.appendChild(prevSpan);hd.appendChild(caret);
+  const bd=el('div','bd'+(EXPAND_ALL?'':' hidden'));bd.style.whiteSpace='pre-wrap';bd.textContent=full;
+  const sync=()=>{const open=!bd.classList.contains('hidden');caret.textContent=open?'▾':'▸';prevSpan.classList.toggle('hidden',open);};
+  sync();
+  hd.onclick=()=>{bd.classList.toggle('hidden');sync();};
+  wrap.appendChild(hd);wrap.appendChild(bd);return wrap;
+}
+function imgEl(src){const im=el('img','inlimg');im.src=src;im.onclick=()=>window.open(src,'_blank');return im;}
+function resultContent(content){
+  const frag=document.createDocumentFragment();
+  if(typeof content==='string'){frag.appendChild(el('pre',null,esc(content)));return frag;}
+  if(Array.isArray(content)){
+    for(const b of content){
+      if(b.type==='text')frag.appendChild(el('pre',null,esc(b.text)));
+      else if(b.type==='image'&&b.source){frag.appendChild(imgEl('data:'+b.source.media_type+';base64,'+b.source.data));}
+      else frag.appendChild(el('pre',null,esc(JSON.stringify(b,null,2))));
+    }
+    return frag;
+  }
+  frag.appendChild(el('pre',null,esc(JSON.stringify(content,null,2))));return frag;
+}
+function renderToolUse(b){
+  const card=el('div','tool');
+  const open=EXPAND_ALL;
+  const hd=el('div','hd');
+  hd.innerHTML='<span class="tn">⏺ '+esc(b.name)+'</span><span class="ta">'+esc(toolArgPreview(b.name,b.input))+'</span><span class="caret">⋯</span>';
+  const params=el('div','params'+(open?'':' hidden'));
+  if(b.input&&typeof b.input==='object'){
+    for(const [k,v] of Object.entries(b.input)){
+      let vs=typeof v==='string'?v:JSON.stringify(v,null,2);
+      const p=el('div','p');p.innerHTML='<span class="pk">'+esc(k)+'</span>: ';
+      const pre=el('span','mono');pre.style.whiteSpace='pre-wrap';pre.style.wordBreak='break-word';pre.textContent=vs;
+      p.appendChild(pre);params.appendChild(p);
+    }
+  }
+  hd.onclick=()=>params.classList.toggle('hidden');
+  card.appendChild(hd);card.appendChild(params);return card;
+}
+function renderToolResult(b){
+  const isErr=b.is_error;
+  const wrap=el('div','result'+(isErr?' err':''));
+  let preview=t('viewResult');
+  if(typeof b.content==='string'){const ln=b.content.split('\n').length;preview=(isErr?'❌ '+t('error'):'⎿ '+t('result'))+' · '+ln+' '+t('lines');}
+  else if(Array.isArray(b.content)){const imgs=b.content.filter(x=>x.type==='image').length;preview=(isErr?'❌ '+t('error'):'⎿ '+t('result'))+(imgs?' · '+imgs+' '+t('images'):'');}
+  const hd=el('div','hd',esc(preview)+' <span style="opacity:.6">▸</span>');
+  const bd=el('div',EXPAND_ALL?'':'hidden');bd.appendChild(resultContent(b.content));
+  hd.onclick=()=>bd.classList.toggle('hidden');
+  wrap.appendChild(hd);wrap.appendChild(bd);return wrap;
+}
+const PLACEHOLDER_RENDER2=1;
+/* ---------- 行容器 ---------- */
+function turn(gutterChar,gutterCls,metaHtml,bodyNode,kindCls){
+  const t=el('div','turn '+(kindCls||''));
+  const row=el('div','row');
+  row.appendChild(el('div','gutter '+(gutterCls||''),gutterChar||''));
+  const body=el('div','body');
+  if(metaHtml)body.appendChild(el('div','meta-line',metaHtml));
+  body.appendChild(bodyNode);
+  row.appendChild(body);t.appendChild(row);return t;
+}
+function metaLine(o){
+  const parts=[];
+  if(o.timestamp)parts.push(esc(fmtTime(o.timestamp)));
+  if(o.message&&o.message.model)parts.push('<span class="badge">'+esc(o.message.model)+'</span>');
+  if(o.isSidechain)parts.push('<span class="badge side">sidechain</span>');
+  const u=o.message&&o.message.usage;
+  if(u)parts.push('<span class="badge">in '+num(u.input_tokens)+' / out '+num(u.output_tokens)+'</span>');
+  return parts.join(' ');
+}
+/* ---------- 把一条 entry 渲染进 stream ---------- */
+// 一个 assistant 行是否该显示：有正文(text/image)则恒显示；否则取决于它含有的思考/工具是否被打开
+function aturnVisible(solid,hasThink,hasTool){return solid||(hasThink&&SHOW_THINK)||(hasTool&&SHOW_TOOL);}
+function renderEntry(o,stream){
+  const ty=o.type, msg=o.message, content=msg&&msg.content;
+  if(ty==='user'){
+    const kind=classifyUser(o);
+    if(kind==='human'){
+      const box=el('div','bubble');
+      if(typeof content==='string')box.textContent=content;
+      else if(Array.isArray(content))for(const b of content){
+        if(b.type==='text'){const d=el('div');d.textContent=b.text;box.appendChild(d);}
+        else if(b.type==='image'&&b.source)box.appendChild(imgEl('data:'+b.source.media_type+';base64,'+b.source.data));
+      }
+      const meta='<span class="who">'+esc(t('you'))+'</span> '+metaLine(o);
+      stream.appendChild(turn('&gt;','',meta,box,'user'));
+      return;
+    }
+    // 工具结果
+    if(kind==='toolresult'){
+      for(const b of content)if(b.type==='tool_result'){const tr=turn('','',null,renderToolResult(b),'toolres');tr.dataset.tool='1';tr.classList.toggle('hidden',!SHOW_TOOL);stream.appendChild(tr);}
+      return;
+    }
+    // 系统注入 / task-notification / meta
+    let txt='';
+    if(typeof content==='string')txt=content;
+    else if(Array.isArray(content))txt=content.map(b=>b.text||JSON.stringify(b)).join('\n');
+    const label=o.promptSource==='system'?t('sysMsg'):t('injCtx');
+    const note=collapsible('▸ '+label+' <span style="opacity:.6">'+esc(fmtTime(o.timestamp))+'</span>','<pre>'+esc(txt)+'</pre>',false,'note');
+    note.dataset.meta='1';note.classList.toggle('hidden',!SHOW_META);
+    stream.appendChild(note);
+    return;
+  }
+  if(ty==='assistant'&&typeof content==='string'&&content.trim()){
+    const bub=el('div','reply');const d=el('div','md');d.innerHTML=md(content);bub.appendChild(d);
+    stream.appendChild(turn('⏺','','<span class="who ai">'+esc(t('reply'))+'</span> '+metaLine(o),bub,'assistant'));
+    return;
+  }
+  if(ty==='assistant'&&Array.isArray(content)){
+    const body=el('div');let printed=false,hasSolid=false,hasThink=false,hasTool=false;
+    for(const b of content){
+      if(b.type==='text'&&b.text.trim()){const bub=el('div','reply');const d=el('div','md');d.innerHTML=md(b.text);bub.appendChild(d);body.appendChild(bub);printed=true;hasSolid=true;}
+      else if(b.type==='thinking'){
+        const tk=renderThinking(b.thinking);
+        tk.dataset.think='1';tk.classList.toggle('hidden',!SHOW_THINK);body.appendChild(tk);printed=true;hasThink=true;
+      }
+      else if(b.type==='tool_use'){const tc=renderToolUse(b);tc.dataset.tool='1';tc.classList.toggle('hidden',!SHOW_TOOL);body.appendChild(tc);printed=true;hasTool=true;}
+      else if(b.type==='image'&&b.source){body.appendChild(imgEl('data:'+b.source.media_type+';base64,'+b.source.data));printed=true;hasSolid=true;}
+    }
+    if(printed){
+      const meta=hasSolid?('<span class="who ai">'+esc(t('reply'))+'</span> '+metaLine(o)):metaLine(o);
+      const tn=turn('⏺','',meta,body,'assistant');
+      tn.dataset.aturn='1';
+      if(hasSolid)tn.dataset.solid='1';
+      if(hasThink)tn.dataset.hasThink='1';
+      if(hasTool)tn.dataset.hasTool='1';
+      tn.classList.toggle('hidden',!aturnVisible(hasSolid,hasThink,hasTool));
+      stream.appendChild(tn);
+    }
+    return;
+  }
+  if(ty==='system'){
+    const txt=o.content||(o.subtype?('['+o.subtype+'] hooks: '+(o.hookInfos||[]).map(h=>h.command).join(', ')):JSON.stringify(o));
+    const note=collapsible('▸ '+esc(t('system'))+' '+esc(o.subtype||'')+' <span style="opacity:.6">'+esc(fmtTime(o.timestamp))+'</span>','<pre>'+esc(txt)+'</pre>',false,'note');
+    note.dataset.meta='1';note.classList.toggle('hidden',!SHOW_META);stream.appendChild(note);
+    return;
+  }
+}
+const PLACEHOLDER_MAIN=1;
+/* ---------- 全局状态 & 主流程 ---------- */
+let SHOW_THINK=true,SHOW_TOOL=true,SHOW_META=false,CUR=null;
+function renderSidebar(sum,bad){
+  const sb=$('#sidebar');sb.innerHTML='';
+  sb.appendChild(el('h3',null,t('sessionInfo')));
+  if(sum.title){const k=el('div','kv');k.innerHTML='<div class="k">'+esc(t('titleRow'))+'</div><div class="v">'+esc(sum.title)+'</div>';sb.appendChild(k);}
+  const span=(sum.firstTs&&sum.lastTs)?fmtTime(sum.firstTs)+' → '+fmtTime(sum.lastTs):'';
+  const rows=[[t('projectDir'),sum.cwd],[t('gitBranch'),sum.gitBranch],[t('version'),sum.version],[t('sessionId'),sum.sessionId],[t('time'),span],[t('model'),[...sum.models].join(', ')]];
+  for(const [k,v] of rows){if(!v)continue;const d=el('div','kv');d.innerHTML='<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>';sb.appendChild(d);}
+  sb.appendChild(el('h3',null,t('stats')));
+  const g=el('div','stat-grid');
+  const stats=[[t('userMsgs'),sum.counts.user],[t('replies'),sum.counts.assistant],[t('toolCalls'),sum.counts.tool],[t('thinkingStat'),sum.counts.thinking],[t('imagesStat'),sum.counts.image]];
+  const tk=sum.tokens;
+  if(tk.in||tk.out){
+    stats.push([t('inTokens'),num(tk.in)],[t('outTokens'),num(tk.out)]);
+    if(tk.cacheRead)stats.push([t('cacheRead'),num(tk.cacheRead)]);
+    if(tk.cacheCreate)stats.push([t('cacheCreate'),num(tk.cacheCreate)]);
+  }
+  if(sum.cost&&sum.cost.totalCostUSD!=null)stats.push([t('totalCost'),'$'+sum.cost.totalCostUSD.toFixed(4)]);
+  if(bad)stats.push([t('parseFailed'),bad]);
+  for(const [l,n] of stats){const s=el('div','stat');s.innerHTML='<div class="n">'+n+'</div><div class="l">'+esc(l)+'</div>';g.appendChild(s);}
+  sb.appendChild(g);
+  if(sum.cost){
+    sb.appendChild(el('h3',null,t('costUsage')));
+    const c=sum.cost;
+    const crows=[[t('linesPM'),(c.totalLinesAdded||0)+' / -'+(c.totalLinesRemoved||0)],[t('apiTime'),fmtDur(c.totalAPIDuration)],[t('toolTime'),fmtDur(c.totalToolDuration)]];
+    for(const [k,v] of crows){if(!v)continue;const d=el('div','kv');d.innerHTML='<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>';sb.appendChild(d);}
+    if(c.modelUsage)for(const [m,u] of Object.entries(c.modelUsage)){const d=el('div','kv');d.innerHTML='<div class="k">'+esc(m)+'</div><div class="v">in '+num(u.inputTokens)+' · out '+num(u.outputTokens)+'</div>';sb.appendChild(d);}
+  }
+}
+function renderAll(){
+  if(!CUR)return;
+  const stream=$('#stream');stream.innerHTML='';
+  for(const o of CUR.entries)renderEntry(o,stream);
+}
+function load(text,name,pasted){
+  const {entries,bad}=parse(text);
+  const sum=summarize(entries);
+  CUR={entries,bad,sum,name:name||'',pasted:!!pasted};
+  applyFname();
+  renderSidebar(sum,bad);
+  renderAll();
+  $('#drop').classList.add('hide');
+}
+// 当前内容的显示名（粘贴内容随语言切换）
+function curName(){if(!CUR)return'';return CUR.pasted?t('pastedContent'):CUR.name;}
+function applyFname(){
+  const fn=$('#fname');const n=curName();
+  if(fn)fn.textContent=n?('  ·  '+n):'';
+  document.title=((CUR&&(CUR.sum.title||n))||'Claude Code')+' · '+t('viewerSuffix');
+}
+// 切换语言 / 重新渲染已加载内容
+function rerender(){
+  if(!CUR)return;
+  renderSidebar(CUR.sum,CUR.bad);
+  renderAll();
+}
+/* ---------- 交互 ---------- */
+function applyToggles(){
+  document.querySelectorAll('[data-think]').forEach(e=>e.classList.toggle('hidden',!SHOW_THINK));
+  document.querySelectorAll('[data-tool]').forEach(e=>e.classList.toggle('hidden',!SHOW_TOOL));
+  document.querySelectorAll('[data-meta]').forEach(e=>e.classList.toggle('hidden',!SHOW_META));
+  // 若某条 assistant 行的内容（思考/工具）被整体隐藏且无正文，则连同时间/模型信息一起隐藏
+  document.querySelectorAll('[data-aturn]').forEach(e=>{
+    const vis=aturnVisible(e.dataset.solid==='1',e.dataset.hasThink==='1',e.dataset.hasTool==='1');
+    e.classList.toggle('hidden',!vis);
+  });
+}
+$('#tgThink').onchange=e=>{SHOW_THINK=e.target.checked;applyToggles();};
+$('#tgTool').onchange=e=>{SHOW_TOOL=e.target.checked;applyToggles();};
+$('#tgMeta').onchange=e=>{SHOW_META=e.target.checked;applyToggles();};
+$('#tgExpand').onchange=e=>{EXPAND_ALL=e.target.checked;renderAll();applyToggles();};
+function pick(){$('#file').click();}
+$('#btnOpen').onclick=pick;$('#btnPick').onclick=pick;
+$('#file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>load(r.result,f.name);r.readAsText(f);};
+/* 粘贴文本 */
+const pasteModal=$('#paste');
+function openPaste(){$('#pasteErr').textContent='';pasteModal.classList.add('show');const ta=$('#pasteText');ta.focus();ta.select();}
+function closePaste(){pasteModal.classList.remove('show');}
+$('#btnPasteTop').onclick=openPaste;$('#btnPasteDrop').onclick=openPaste;
+$('#pasteCancel').onclick=closePaste;
+pasteModal.onclick=e=>{if(e.target===pasteModal)closePaste();};
+$('#pasteLoad').onclick=()=>{
+  const txt=$('#pasteText').value;
+  const {entries}=parse(txt);
+  if(!entries.length){$('#pasteErr').textContent=t('pasteEmptyErr');return;}
+  closePaste();
+  load(txt,'',true);
+};
+$('#pasteText').onkeydown=e=>{if((e.metaKey||e.ctrlKey)&&e.key==='Enter')$('#pasteLoad').onclick();};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pasteModal.classList.contains('show'))closePaste();});
+const drop=$('#drop');
+['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('hide');drop.classList.add('drag');}));
+['dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();if(ev==='dragleave'&&e.relatedTarget)return;drop.classList.remove('drag');if(CUR&&ev==='dragleave')drop.classList.add('hide');}));
+document.addEventListener('drop',e=>{e.preventDefault();const f=e.dataTransfer.files[0];if(!f)return;const r=new FileReader();r.onload=()=>load(r.result,f.name);r.readAsText(f);});
+const HOME_TITLE=document.title;
+$('#btnHome').onclick=()=>{
+  CUR=null;
+  $('#stream').innerHTML='';
+  $('#sidebar').innerHTML='';
+  const fn=$('#fname');if(fn)fn.textContent='';
+  document.title=HOME_TITLE;
+  $('#drop').classList.remove('hide');
+};
+applyLang();
+mountLogos();
+fillLangSel();
+
+</script>
+</body>
+</html>
