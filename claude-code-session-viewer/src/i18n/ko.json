@@ -2,7 +2,7 @@
  "lang_tag": "ko",
  "title": "Claude Code 세션 뷰어 - JSONL 대화 기록을 브라우저에서 확인 | CCViewer",
  "description": "CCViewer는 오픈소스 Claude Code 세션 뷰어입니다. .jsonl 세션 파일을 브라우저에서 로컬로 렌더링하며 Markdown, 사고 과정, 도구 호출, 토큰 사용량 및 비용 분석을 지원합니다. 파일은 서버로 업로드되지 않습니다.",
- "keywords": "Claude Code, JSONL, 대화 기록, 세션 뷰어, claude code session viewer, claude code jsonl viewer, 대화 기록 보기, claude code 히스토리, 토큰 사용량, 시각화",
+ "keywords": "Claude Code, JSONL, 대화 기록, 세션 뷰어, claude code viewer, claude code session viewer, claude code jsonl viewer, claude code history viewer, 대화 기록 보기, claude code 히스토리, 토큰 사용량, 시각화",
  "og_title": "Claude Code 세션 뷰어 - CCViewer",
  "og_desc": "Claude Code의 .jsonl 세션 파일을 브라우저에서 로컬로 렌더링합니다: Markdown, 사고 과정, 도구 호출, 비용 통계. 업로드 없이 완전한 프라이버시.",
  "app_desc": "Claude Code의 .jsonl 세션 파일을 브라우저에서 완전히 렌더링하는 오픈소스 뷰어. Markdown, 사고 과정, 도구 호출 및 비용 통계를 지원하며 파일은 컴퓨터를 떠나지 않습니다.",

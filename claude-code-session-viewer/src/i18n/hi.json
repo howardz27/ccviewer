@@ -2,7 +2,7 @@
  "lang_tag": "hi",
  "title": "Claude Code सेशन व्यूअर - JSONL चैट इतिहास ब्राउज़र में देखें | CCViewer",
  "description": "CCViewer एक ओपन-सोर्स Claude Code सेशन व्यूअर है जो .jsonl सेशन फ़ाइलों को आपके ब्राउज़र में लोकल रूप से रेंडर करता है। Markdown, थिंकिंग प्रोसेस, टूल कॉल, टोकन उपयोग और लागत विश्लेषण। कोई अपलोड नहीं।",
- "keywords": "Claude Code, JSONL, चैट इतिहास, सेशन व्यूअर, claude code session viewer, claude code jsonl viewer, claude code ट्रांसक्रिप्ट देखें, claude code इतिहास, टोकन उपयोग, विज़ुअलाइज़",
+ "keywords": "Claude Code, JSONL, चैट इतिहास, सेशन व्यूअर, claude code viewer, claude code session viewer, claude code jsonl viewer, claude code history viewer, claude code ट्रांसक्रिप्ट देखें, claude code इतिहास, टोकन उपयोग, विज़ुअलाइज़",
  "og_title": "Claude Code सेशन व्यूअर - CCViewer",
  "og_desc": "Claude Code की .jsonl सेशन फ़ाइलें ब्राउज़र में लोकल रेंडर करें: Markdown, थिंकिंग, टूल कॉल और लागत आँकड़े। बिना अपलोड, पूरी प्राइवेसी।",
  "app_desc": "एक ओपन-सोर्स व्यूअर जो Claude Code की .jsonl सेशन फ़ाइलों को पूरी तरह ब्राउज़र में रेंडर करता है — Markdown, थिंकिंग ब्लॉक, टूल कॉल और लागत आँकड़ों के साथ। फ़ाइलें कभी आपके कंप्यूटर से बाहर नहीं जातीं।",

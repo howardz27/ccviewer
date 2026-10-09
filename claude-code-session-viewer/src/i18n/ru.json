@@ -2,7 +2,7 @@
  "lang_tag": "ru",
  "title": "Просмотрщик сессий Claude Code - история JSONL в браузере | CCViewer",
  "description": "CCViewer — открытый просмотрщик сессий Claude Code, который рендерит .jsonl-файлы локально в браузере. Markdown, ход размышлений, вызовы инструментов, использование токенов и анализ затрат. Без загрузки на сервер.",
- "keywords": "Claude Code, JSONL, история чата, просмотрщик сессий, claude code session viewer, claude code jsonl viewer, читать транскрипт claude code, история claude code, токены, визуализация",
+ "keywords": "Claude Code, JSONL, история чата, просмотрщик сессий, claude code viewer, claude code session viewer, claude code jsonl viewer, claude code history viewer, читать транскрипт claude code, история claude code, токены, визуализация",
  "og_title": "Просмотрщик сессий Claude Code - CCViewer",
  "og_desc": "Рендер .jsonl-файлов сессий Claude Code локально в браузере: Markdown, размышления, вызовы инструментов и статистика затрат. Без загрузки, полная приватность.",
  "app_desc": "Открытый просмотрщик, который рендерит .jsonl-файлы сессий Claude Code целиком в браузере: Markdown, блоки размышлений, вызовы инструментов и статистика затрат. Файлы не покидают ваш компьютер.",

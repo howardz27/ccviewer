@@ -2,7 +2,7 @@
  "lang_tag": "zh-CN",
  "title": "Claude Code 对话历史查看器 - JSONL 会话记录在线可视化 | CCViewer",
  "description": "CCViewer 是一款开源的 Claude Code 对话历史查看器，在浏览器中本地渲染 .jsonl 会话记录，支持 Markdown、思考过程、工具调用、用量统计与成本分析。文件不上传服务器，隐私安全。",
- "keywords": "Claude Code, JSONL, 对话历史, 会话查看器, claude code session viewer, claude code jsonl viewer, 查看对话记录, claude code 历史记录, token 用量, AI 对话记录, 可视化",
+ "keywords": "Claude Code, JSONL, 对话历史, 会话查看器, claude code viewer, claude code session viewer, claude code jsonl viewer, claude code history viewer, 查看对话记录, claude code 历史记录, token 用量, AI 对话记录, 可视化",
  "og_title": "Claude Code 对话历史查看器 - CCViewer",
  "og_desc": "在浏览器中本地渲染 Claude Code 的 .jsonl 会话记录：Markdown、思考过程、工具调用、成本统计，文件不上传服务器。",
  "app_desc": "在浏览器中本地渲染 Claude Code 的 .jsonl 会话记录，支持 Markdown、思考过程、工具调用与成本统计，文件不上传服务器。",

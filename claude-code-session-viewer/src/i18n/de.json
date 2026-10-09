@@ -2,7 +2,7 @@
  "lang_tag": "de",
  "title": "Claude Code Session Viewer - JSONL-Verlauf im Browser ansehen | CCViewer",
  "description": "CCViewer ist ein Open-Source-Session-Viewer für Claude Code, der .jsonl-Sitzungsdateien lokal in Ihrem Browser rendert. Markdown, Denkprozess, Tool-Aufrufe, Token-Nutzung und Kostenanalyse. Kein Upload.",
- "keywords": "Claude Code, JSONL, Chatverlauf, Session Viewer, claude code session viewer, claude code jsonl viewer, Claude Code Transkript ansehen, Claude Code Verlauf, Token-Nutzung, Visualisierung",
+ "keywords": "Claude Code, JSONL, Chatverlauf, Session Viewer, claude code viewer, claude code session viewer, claude code jsonl viewer, claude code history viewer, Claude Code Transkript ansehen, Claude Code Verlauf, Token-Nutzung, Visualisierung",
  "og_title": "Claude Code Session Viewer - CCViewer",
  "og_desc": "Rendert .jsonl-Sitzungsdateien von Claude Code lokal im Browser: Markdown, Denkprozess, Tool-Aufrufe und Kostenstatistik. Kein Upload, komplett privat.",
  "app_desc": "Ein Open-Source-Viewer, der .jsonl-Sitzungsdateien von Claude Code vollständig im Browser rendert – mit Markdown, Denkblöcken, Tool-Aufrufen und Kostenstatistik. Dateien verlassen niemals Ihren Computer.",
