@@ -90,6 +90,24 @@
   "q4": ".jsonl 是什么格式？",
   "a4": "JSON Lines——每行一个独立的 JSON 对象。Claude Code 用它逐条记录会话中的消息、工具调用与元数据。",
   "q5": "CCViewer 是免费的吗？",
-  "a5": "免费且开源，直接在浏览器使用，无需注册或登录。"
+  "a5": "免费且开源，直接在浏览器使用，无需注册或登录。",
+  "libraryBtn": "会话库",
+  "libraryTitle": "会话库",
+  "libraryEmpty": "还没有会话。打开 .jsonl 所在文件夹即可建立会话库。",
+  "openFolder": "打开文件夹",
+  "importing": "导入中… {n}/{m}",
+  "importedN": "{n} 个会话",
+  "sortRecent": "最近活动",
+  "sortOldest": "最早优先",
+  "sortMsgs": "消息数",
+  "sortTokens": "Tokens",
+  "sortCost": "费用",
+  "deleteBtn": "删除",
+  "clearAll": "清空全部",
+  "confirmDelete": "删除该会话？",
+  "confirmClear": "删除全部已存会话？不可恢复。",
+  "noTextErr": "内容未缓存（存储已满）。请重新导入文件夹后再打开。",
+  "storageWarn": "浏览器存储已满，部分会话仅保存了摘要。",
+  "closeBtn": "关闭"
  }
 }

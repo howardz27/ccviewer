@@ -90,6 +90,24 @@
   "q4": "Qu'est-ce que le format .jsonl ?",
   "a4": "JSON Lines : un objet JSON indépendant par ligne. Claude Code y consigne chaque message, appel d'outil et métadonnée.",
   "q5": "CCViewer est-il gratuit ?",
-  "a5": "Oui, gratuit et open source. Aucune inscription requise."
+  "a5": "Oui, gratuit et open source. Aucune inscription requise.",
+  "libraryBtn": "Sessions",
+  "libraryTitle": "Bibliothèque de sessions",
+  "libraryEmpty": "Aucune session pour l'instant. Ouvrez un dossier de fichiers .jsonl pour constituer votre bibliothèque.",
+  "openFolder": "Ouvrir un dossier",
+  "importing": "Importation… {n}/{m}",
+  "importedN": "{n} sessions",
+  "sortRecent": "Plus récentes",
+  "sortOldest": "Plus anciennes",
+  "sortMsgs": "Messages",
+  "sortTokens": "Tokens",
+  "sortCost": "Coût",
+  "deleteBtn": "Supprimer",
+  "clearAll": "Tout effacer",
+  "confirmDelete": "Supprimer cette session ?",
+  "confirmClear": "Supprimer TOUTES les sessions enregistrées ? Action irréversible.",
+  "noTextErr": "Contenu non mis en cache (stockage plein). Réimportez le dossier pour l'ouvrir.",
+  "storageWarn": "Le stockage du navigateur est plein ; certaines sessions n'ont été sauvegardées que sous forme de résumé.",
+  "closeBtn": "Fermer"
  }
 }

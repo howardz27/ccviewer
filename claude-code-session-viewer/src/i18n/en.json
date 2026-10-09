@@ -90,6 +90,24 @@
   "q4": "What is the .jsonl format?",
   "a4": "JSON Lines — one independent JSON object per line. Claude Code logs every message, tool call and metadata entry as a line.",
   "q5": "Is CCViewer free?",
-  "a5": "Yes, it is free and open-source. No sign-up required."
+  "a5": "Yes, it is free and open-source. No sign-up required.",
+  "libraryBtn": "Sessions",
+  "libraryTitle": "Session Library",
+  "libraryEmpty": "No sessions yet. Open a folder of .jsonl files to build your library.",
+  "openFolder": "Open folder",
+  "importing": "Importing… {n}/{m}",
+  "importedN": "{n} sessions",
+  "sortRecent": "Most recent",
+  "sortOldest": "Oldest first",
+  "sortMsgs": "Messages",
+  "sortTokens": "Tokens",
+  "sortCost": "Cost",
+  "deleteBtn": "Delete",
+  "clearAll": "Clear all",
+  "confirmDelete": "Delete this session?",
+  "confirmClear": "Delete ALL stored sessions? This cannot be undone.",
+  "noTextErr": "Content not cached (storage was full). Re-import the folder to open it.",
+  "storageWarn": "Browser storage is full; some sessions were saved as summary only.",
+  "closeBtn": "Close"
  }
 }

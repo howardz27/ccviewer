@@ -90,6 +90,24 @@
   "q4": "¿Qué es el formato .jsonl?",
   "a4": "JSON Lines: un objeto JSON independiente por línea. Claude Code registra cada mensaje, llamada a herramienta y metadato como una línea.",
   "q5": "¿Es gratis CCViewer?",
-  "a5": "Sí, es gratuito y de código abierto. No requiere registro."
+  "a5": "Sí, es gratuito y de código abierto. No requiere registro.",
+  "libraryBtn": "Sesiones",
+  "libraryTitle": "Biblioteca de sesiones",
+  "libraryEmpty": "Aún no hay sesiones. Abre una carpeta con archivos .jsonl para crear tu biblioteca.",
+  "openFolder": "Abrir carpeta",
+  "importing": "Importando… {n}/{m}",
+  "importedN": "{n} sesiones",
+  "sortRecent": "Más recientes",
+  "sortOldest": "Más antiguas",
+  "sortMsgs": "Mensajes",
+  "sortTokens": "Tokens",
+  "sortCost": "Coste",
+  "deleteBtn": "Eliminar",
+  "clearAll": "Borrar todo",
+  "confirmDelete": "¿Eliminar esta sesión?",
+  "confirmClear": "¿Eliminar TODAS las sesiones guardadas? No se puede deshacer.",
+  "noTextErr": "Contenido no guardado en caché (almacenamiento lleno). Reimporta la carpeta para abrirlo.",
+  "storageWarn": "El almacenamiento del navegador está lleno; algunas sesiones se guardaron solo como resumen.",
+  "closeBtn": "Cerrar"
  }
 }
