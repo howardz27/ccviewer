@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.svg" width="110" alt="CCViewer logo">
+</p>
+
 # CCViewer — Claude Code 会话查看器
 
 **[English](README.md)**
@@ -7,6 +11,18 @@
 > 🔒 **100% 客户端运行。** 无上传、无 API 调用、无埋点。会话文件永远不离开你的电脑——里面含有你的代码、文件路径甚至密钥，这正是做这个工具的原因。
 
 **在线体验：** <https://ccviewer.top>（线上与仓库代码完全一致）
+
+## 截图
+
+| 落地页 | 会话查看器 |
+|:---:|:---:|
+| ![落地页](assets/screenshot-landing.png) | ![会话查看器：思考块、工具调用与统计](assets/screenshot-viewer.png) |
+
+*左：落地页；右：查看器——用户消息、可折叠思考块、工具调用、Markdown 回复，侧栏展示单会话统计（Token、时长、费用）。*
+
+**文件夹模式** — 打开 `~/.claude/projects/` 这样的文件夹，所有会话一次性导入并持久化到浏览器（IndexedDB），左侧按项目聚类：
+
+![文件夹模式：按项目聚类的会话列表](assets/screenshot-library.png)
 
 ## 功能
 

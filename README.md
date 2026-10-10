@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.svg" width="110" alt="CCViewer logo">
+</p>
+
 # CCViewer — Claude Code Session Viewer
 
 **[中文文档](README.zh-CN.md)**
@@ -7,6 +11,18 @@ A free, open-source viewer for [Claude Code](https://claude.com/claude-code) ses
 > 🔒 **100% client-side.** No upload, no API calls, no telemetry. Your session files never leave your computer — they contain your code, file paths and sometimes secrets, which is exactly why this tool exists.
 
 **Try it online:** <https://ccviewer.top> (the site serves the exact same code as this repo)
+
+## Screenshots
+
+| Landing | Session viewer |
+|:---:|:---:|
+| ![Landing page](assets/screenshot-landing.png) | ![Session viewer with thinking, tool calls and stats](assets/screenshot-viewer.png) |
+
+*Landing page (left) and the viewer (right): user prompts, collapsible thinking blocks, tool calls, Markdown replies, plus per-session stats — tokens, duration, cost — in the sidebar.*
+
+**Folder mode** — open a folder such as `~/.claude/projects/` and every session is imported, persisted in your browser (IndexedDB) and grouped by project in the sidebar:
+
+![Folder mode: sessions grouped by project](assets/screenshot-library.png)
 
 ## Features
 
