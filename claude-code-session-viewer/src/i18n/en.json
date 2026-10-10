@@ -110,9 +110,9 @@
   "storageWarn": "Browser storage is full; some sessions were saved as summary only.",
   "closeBtn": "Close",
   "dirTip": "Tip (macOS): in the picker press <kbd>⌘⇧.</kbd> to reveal hidden folders, or in Finder press <kbd>⌘⇧G</kbd> and type <code>~/.claude/projects</code>. The picker remembers your last folder.",
-  "switchDir": "Change folder",
-  "savedDir": "Remembered folder <code>{name}</code> — click \"Open folder\" to read it directly, no picker needed.",
   "navProjects": "Projects",
-  "noProject": "(no project dir)"
+  "noProject": "(no project dir)",
+  "toggleNav": "Toggle projects panel",
+  "dragResize": "Drag to resize"
  }
 }

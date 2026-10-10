@@ -71,8 +71,13 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 /* sidebar */
 #sidebar{width:280px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);overflow-y:auto;padding:14px}
 /* left nav: projects → sessions */
-#nav{width:250px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);overflow-y:auto;padding:10px 8px;display:none}
+#nav{width:250px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);overflow-y:auto;padding:10px 8px;display:none;position:relative}
 #nav.show{display:block}
+#nav.collapsedui{display:none!important}
+#navResizer{position:absolute;top:0;right:0;bottom:0;width:6px;cursor:col-resize;z-index:3;user-select:none}
+#navResizer:hover,#navResizer.on{background:rgba(217,119,87,.45)}
+.btn.icon{padding:5px 7px;font-size:13px;line-height:0;min-width:30px;display:inline-flex;align-items:center;justify-content:center}
+.btn.icon svg{display:block}
 #nav h3{margin:2px 6px 8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--faint)}
 .navghead{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;cursor:pointer;color:var(--dim);font-size:12px;user-select:none}
 .navghead:hover{background:var(--panel2);color:var(--text)}
@@ -279,6 +284,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 <div id="app">
   <div id="topbar">
     <span class="brand"><span class="logo"></span> <span data-i18n="brand">CCViewer</span><small id="fname"></small></span>
+    <button class="btn icon" id="btnNavToggle" title=""></button>
     <span class="spacer"></span>
     <label class="toggle"><input type="checkbox" id="tgThink" checked><span data-i18n="thinking">思考</span></label>
     <label class="toggle"><input type="checkbox" id="tgTool" checked><span data-i18n="tools">工具</span></label>
@@ -291,7 +297,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <button class="btn" id="btnOpen" data-i18n="openFile">打开文件</button>
   </div>
   <div id="main">
-    <div id="nav"><h3 data-i18n="navProjects">项目</h3><div id="navList"></div></div>
+    <div id="nav"><h3 data-i18n="navProjects">项目</h3><div id="navList"></div><div id="navResizer" title=""></div></div>
     <div id="sidebar"><div class="phd" style="color:var(--faint);font-size:12px" data-i18n="noFile">未加载文件</div></div>
     <div id="content"><div id="stream"></div></div>
   </div>
@@ -371,7 +377,6 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     </div>
     <div class="libtools">
       <button class="btn primary" id="btnImportFolder" data-i18n="openFolder">打开文件夹</button>
-      <button class="btn" id="btnSwitchDir" data-i18n="switchDir">切换目录</button>
       <select class="btn" id="libSort" aria-label="Sort">
         <option value="recent" data-i18n="sortRecent">最近活动</option>
         <option value="oldest" data-i18n="sortOldest">最早优先</option>
@@ -415,7 +420,7 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={'zh':{"brand": "CCViewer", "thinking": "思考", "tools": "工具", "sysInj": "系统/注入", "expandAll": "展开全部", "pasteText": "粘贴文本", "openFile": "打开文件", "noFile": "未加载文件", "dropHint1": "把 <b>.jsonl</b> 历史文件拖到这里，或点击选择", "dropHint2": "例如 ~/.claude/projects/&lt;项目&gt;/&lt;sessionId&gt;.jsonl", "chooseFile": "选择文件", "pasteTitle": "粘贴 JSONL 文本", "pasteHint": "把历史文件内容整段粘贴进来，每行一个 JSON 对象（也兼容单个 JSON 数组 / 对象）。", "cancel": "取消", "loadBtn": "加载", "thinkLabel": "✻ 思考", "you": "你", "reply": "回复", "result": "结果", "error": "错误", "lines": "行", "images": "图片", "viewResult": "查看结果", "sysMsg": "系统消息", "injCtx": "注入上下文", "system": "系统", "sessionInfo": "会话信息", "stats": "统计", "costUsage": "成本 / 用量", "titleRow": "标题", "projectDir": "项目目录", "gitBranch": "Git 分支", "version": "版本", "sessionId": "会话 ID", "time": "时间", "model": "模型", "userMsgs": "用户消息", "replies": "回复", "toolCalls": "工具调用", "thinkingStat": "思考", "imagesStat": "图片", "parseFailed": "解析失败", "home": "首页", "inTokens": "输入 tokens", "outTokens": "输出 tokens", "cacheRead": "缓存读取", "cacheCreate": "缓存写入", "totalCost": "总花费", "linesPM": "代码 +/-", "apiTime": "API 时长", "toolTime": "工具时长", "viewerSuffix": "历史查看器", "pasteEmptyErr": "没有解析到任何有效记录，请检查粘贴内容", "pastedContent": "粘贴内容", "intro": "CCViewer 是一款开源的 Claude Code 对话历史查看器，完全在浏览器本地渲染 <b>.jsonl</b> 会话记录，支持 Markdown、思考过程、工具调用与成本统计，文件不上传服务器，隐私安全。", "featMd": "Markdown 渲染", "featMdD": "代码块、表格、列表、引用完整还原", "featThink": "思考过程", "featThinkD": "折叠查看 extended thinking 全文", "featTool": "工具调用", "featToolD": "参数与结果逐条展开查看", "featCost": "用量统计", "featCostD": "token 用量、时长与花费分析", "featI18n": "多语言界面", "featI18nD": "10 种语言一键切换", "featPrivacy": "隐私安全", "featPrivacyD": "100% 客户端处理，零上传", "faqTitle": "常见问题", "tagline": "在浏览器中本地渲染 .jsonl 会话记录，隐私安全、免费开源", "heroTitle": "<em>Claude Code</em> 对话历史查看器", "pvUserQ": "帮我修复登录页在移动端的样式错乱", "pvThink": "先查看登录页组件的样式代码…", "pvReply": "问题定位在 <code>flex</code> 布局缺少 <code>wrap</code>，已修复并在 375px 宽度下验证正常。", "footerPrivacy": "100% 客户端处理，文件不上传服务器", "q1": "如何查看 Claude Code 的历史会话？", "a1": "Claude Code 会把每个会话保存为 JSONL 文件，位于 <code>~/.claude/projects/&lt;项目路径&gt;/&lt;sessionId&gt;.jsonl</code>。把这个文件拖进本页即可浏览完整对话。", "q2": "我的会话文件会被上传吗？", "a2": "不会。解析与渲染完全在你的浏览器中完成，没有任何网络请求，文件内容不会离开你的电脑。会话文件包含你的代码与文件路径，这正是本工具 100% 客户端处理的原因。", "q3": "查看器支持哪些内容？", "a3": "支持用户消息与 AI 回复的 Markdown 渲染、extended thinking 思考过程、工具调用参数与结果、图片、token 用量与成本统计，界面支持 10 种语言。", "q4": ".jsonl 是什么格式？", "a4": "JSON Lines——每行一个独立的 JSON 对象。Claude Code 用它逐条记录会话中的消息、工具调用与元数据。", "q5": "CCViewer 是免费的吗？", "a5": "免费且开源，直接在浏览器使用，无需注册或登录。", "libraryBtn": "会话库", "libraryTitle": "会话库", "libraryEmpty": "还没有会话。打开 .jsonl 所在文件夹即可建立会话库。", "openFolder": "打开文件夹", "importing": "导入中… {n}/{m}", "importedN": "{n} 个会话", "sortRecent": "最近活动", "sortOldest": "最早优先", "sortMsgs": "消息数", "sortTokens": "Tokens", "sortCost": "费用", "deleteBtn": "删除", "clearAll": "清空全部", "confirmDelete": "删除该会话？", "confirmClear": "删除全部已存会话？不可恢复。", "noTextErr": "内容未缓存（存储已满）。请重新导入文件夹后再打开。", "storageWarn": "浏览器存储已满，部分会话仅保存了摘要。", "closeBtn": "关闭", "dirTip": "小技巧（macOS）：选择窗口内按 <kbd>⌘⇧.</kbd> 显示隐藏文件夹；或 Finder 按 <kbd>⌘⇧G</kbd> 输入 <code>~/.claude/projects</code> 直达。浏览器会记住上次选的目录。", "switchDir": "切换目录", "savedDir": "已记住目录 <code>{name}</code>：点「打开文件夹」直接读取，不再弹选择框。", "navProjects": "项目", "noProject": "（无项目目录）"}};
+const I18N={'zh':{"brand": "CCViewer", "thinking": "思考", "tools": "工具", "sysInj": "系统/注入", "expandAll": "展开全部", "pasteText": "粘贴文本", "openFile": "打开文件", "noFile": "未加载文件", "dropHint1": "把 <b>.jsonl</b> 历史文件拖到这里，或点击选择", "dropHint2": "例如 ~/.claude/projects/&lt;项目&gt;/&lt;sessionId&gt;.jsonl", "chooseFile": "选择文件", "pasteTitle": "粘贴 JSONL 文本", "pasteHint": "把历史文件内容整段粘贴进来，每行一个 JSON 对象（也兼容单个 JSON 数组 / 对象）。", "cancel": "取消", "loadBtn": "加载", "thinkLabel": "✻ 思考", "you": "你", "reply": "回复", "result": "结果", "error": "错误", "lines": "行", "images": "图片", "viewResult": "查看结果", "sysMsg": "系统消息", "injCtx": "注入上下文", "system": "系统", "sessionInfo": "会话信息", "stats": "统计", "costUsage": "成本 / 用量", "titleRow": "标题", "projectDir": "项目目录", "gitBranch": "Git 分支", "version": "版本", "sessionId": "会话 ID", "time": "时间", "model": "模型", "userMsgs": "用户消息", "replies": "回复", "toolCalls": "工具调用", "thinkingStat": "思考", "imagesStat": "图片", "parseFailed": "解析失败", "home": "首页", "inTokens": "输入 tokens", "outTokens": "输出 tokens", "cacheRead": "缓存读取", "cacheCreate": "缓存写入", "totalCost": "总花费", "linesPM": "代码 +/-", "apiTime": "API 时长", "toolTime": "工具时长", "viewerSuffix": "历史查看器", "pasteEmptyErr": "没有解析到任何有效记录，请检查粘贴内容", "pastedContent": "粘贴内容", "intro": "CCViewer 是一款开源的 Claude Code 对话历史查看器，完全在浏览器本地渲染 <b>.jsonl</b> 会话记录，支持 Markdown、思考过程、工具调用与成本统计，文件不上传服务器，隐私安全。", "featMd": "Markdown 渲染", "featMdD": "代码块、表格、列表、引用完整还原", "featThink": "思考过程", "featThinkD": "折叠查看 extended thinking 全文", "featTool": "工具调用", "featToolD": "参数与结果逐条展开查看", "featCost": "用量统计", "featCostD": "token 用量、时长与花费分析", "featI18n": "多语言界面", "featI18nD": "10 种语言一键切换", "featPrivacy": "隐私安全", "featPrivacyD": "100% 客户端处理，零上传", "faqTitle": "常见问题", "tagline": "在浏览器中本地渲染 .jsonl 会话记录，隐私安全、免费开源", "heroTitle": "<em>Claude Code</em> 对话历史查看器", "pvUserQ": "帮我修复登录页在移动端的样式错乱", "pvThink": "先查看登录页组件的样式代码…", "pvReply": "问题定位在 <code>flex</code> 布局缺少 <code>wrap</code>，已修复并在 375px 宽度下验证正常。", "footerPrivacy": "100% 客户端处理，文件不上传服务器", "q1": "如何查看 Claude Code 的历史会话？", "a1": "Claude Code 会把每个会话保存为 JSONL 文件，位于 <code>~/.claude/projects/&lt;项目路径&gt;/&lt;sessionId&gt;.jsonl</code>。把这个文件拖进本页即可浏览完整对话。", "q2": "我的会话文件会被上传吗？", "a2": "不会。解析与渲染完全在你的浏览器中完成，没有任何网络请求，文件内容不会离开你的电脑。会话文件包含你的代码与文件路径，这正是本工具 100% 客户端处理的原因。", "q3": "查看器支持哪些内容？", "a3": "支持用户消息与 AI 回复的 Markdown 渲染、extended thinking 思考过程、工具调用参数与结果、图片、token 用量与成本统计，界面支持 10 种语言。", "q4": ".jsonl 是什么格式？", "a4": "JSON Lines——每行一个独立的 JSON 对象。Claude Code 用它逐条记录会话中的消息、工具调用与元数据。", "q5": "CCViewer 是免费的吗？", "a5": "免费且开源，直接在浏览器使用，无需注册或登录。", "libraryBtn": "会话库", "libraryTitle": "会话库", "libraryEmpty": "还没有会话。打开 .jsonl 所在文件夹即可建立会话库。", "openFolder": "打开文件夹", "importing": "导入中… {n}/{m}", "importedN": "{n} 个会话", "sortRecent": "最近活动", "sortOldest": "最早优先", "sortMsgs": "消息数", "sortTokens": "Tokens", "sortCost": "费用", "deleteBtn": "删除", "clearAll": "清空全部", "confirmDelete": "删除该会话？", "confirmClear": "删除全部已存会话？不可恢复。", "noTextErr": "内容未缓存（存储已满）。请重新导入文件夹后再打开。", "storageWarn": "浏览器存储已满，部分会话仅保存了摘要。", "closeBtn": "关闭", "dirTip": "小技巧（macOS）：选择窗口内按 <kbd>⌘⇧.</kbd> 显示隐藏文件夹；或 Finder 按 <kbd>⌘⇧G</kbd> 输入 <code>~/.claude/projects</code> 直达。浏览器会记住上次选的目录。", "navProjects": "项目", "noProject": "（无项目目录）", "toggleNav": "折叠/展开项目栏", "dragResize": "拖动调整宽度"}};
 const LANG='zh';
 const BASE_PATH='/claude-code-session-viewer';
 const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
@@ -816,7 +821,7 @@ function rerender(){
   renderAll();
 }
 /* ---------- 会话库（IndexedDB 持久化 + 目录导入） ---------- */
-const DB_NAME='ccviewer',DB_STORE='sessions',DB_SETTINGS='settings';
+const DB_NAME='ccviewer',DB_STORE='sessions';
 let DB=null;
 function initDB(){
   return new Promise(res=>{
@@ -824,7 +829,6 @@ function initDB(){
     const rq=indexedDB.open(DB_NAME,2);
     rq.onupgradeneeded=()=>{const db=rq.result;
       if(!db.objectStoreNames.contains(DB_STORE))db.createObjectStore(DB_STORE,{keyPath:'id'});
-      if(!db.objectStoreNames.contains(DB_SETTINGS))db.createObjectStore(DB_SETTINGS);
     };
     rq.onsuccess=()=>res(rq.result);
     rq.onerror=()=>res(null);
@@ -843,9 +847,6 @@ function dbTx(mode,fn,store){
     }catch(e){rej(e);}
   });
 }
-const dbSetSetting=(k,v)=>dbTx('readwrite',st=>st.put(v,k),DB_SETTINGS).catch(()=>{});
-const dbGetSetting=k=>dbTx('readonly',st=>st.get(k),DB_SETTINGS).catch(()=>null);
-const dbDelSetting=k=>dbTx('readwrite',st=>st.delete(k),DB_SETTINGS).catch(()=>{});
 const dbPut=rec=>dbTx('readwrite',st=>st.put(rec));
 const dbDelete=id=>dbTx('readwrite',st=>st.delete(id)).catch(()=>{});
 const dbClear=()=>dbTx('readwrite',st=>st.clear()).catch(()=>{});
@@ -1019,35 +1020,15 @@ async function importDirHandle(dir){
   showLibrary();
   await importFiles(files);
 }
-// 记住上次选的目录句柄（IndexedDB 可结构化克隆存储），下次点「打开文件夹」直接读取，不再弹选择框
-let SAVED_DIR=null;
-function updateDirHint(){
-  const h=$('.dirhint');
-  if(!h)return;
-  h.innerHTML=SAVED_DIR?t('savedDir').replace('{name}',esc(SAVED_DIR.name||'')):t('dirTip');
-}
-async function saveDirHandle(h){SAVED_DIR=h;updateDirHint();await dbSetSetting('dirHandle',h);}
-async function clearDirHandle(){SAVED_DIR=null;updateDirHint();await dbDelSetting('dirHandle');}
-async function loadSavedDir(){const h=await dbGetSetting('dirHandle');if(h&&h.kind==='directory'){SAVED_DIR=h;updateDirHint();}}
+// 每次点击都弹出目录选择框（会话已持久化在 IndexedDB，无需重复导入同一目录）
 async function pickDirModern(){
   try{
     const h=await window.showDirectoryPicker({id:'ccviewer-projects',mode:'read'});
-    await saveDirHandle(h);
     await importDirHandle(h);
   }catch(e){/* 用户取消或权限拒绝 */}
 }
 const pickDir=async()=>{
   if(!(window.showDirectoryPicker&&self.isSecureContext)){$('#dirpicker').click();return;}
-  if(SAVED_DIR){
-    try{
-      let perm=SAVED_DIR.queryPermission?await SAVED_DIR.queryPermission({mode:'read'}):'granted';
-      if(perm==='prompt')perm=await SAVED_DIR.requestPermission({mode:'read'});
-      if(perm==='granted'){
-        try{await importDirHandle(SAVED_DIR);return;}
-        catch(e){await clearDirHandle();} // 目录可能已被移动/删除，退回选择框
-      }
-    }catch(e){await clearDirHandle();}
-  }
   await pickDirModern();
 };
 /* ---------- 交互 ---------- */
@@ -1106,7 +1087,6 @@ $('#btnLibClose').onclick=()=>showView(CUR?'viewer':'landing');
 $('#btnPickDir').onclick=pickDir;
 $('#btnImportFolder').onclick=pickDir;
 $('#btnImportFolder2').onclick=pickDir;
-$('#btnSwitchDir').onclick=async()=>{await clearDirHandle();if(window.showDirectoryPicker&&self.isSecureContext)pickDirModern();else $('#dirpicker').click();};
 $('#dirpicker').onchange=async e=>{
   const fs=e.target.files;
   e.target.value=''; // 允许重复选择同一目录
@@ -1144,10 +1124,42 @@ $('#navList').onclick=e=>{
   const it=e.target.closest('.navitem');
   if(it)openSession(it.dataset.id);
 };
+/* ---------- 项目栏折叠 / 拖宽（localStorage 持久化）---------- */
+let UI_NAV_COLLAPSED=false,NAV_W=250;
+try{
+  const pref=JSON.parse(localStorage.getItem('ccviewer_ui')||'{}');
+  UI_NAV_COLLAPSED=!!pref.nav;
+  if(pref.navW)NAV_W=Math.min(480,Math.max(180,+pref.navW||250));
+}catch(e){}
+function saveUIPref(){try{localStorage.setItem('ccviewer_ui',JSON.stringify({nav:UI_NAV_COLLAPSED,navW:NAV_W}));}catch(e){}}
+function applyUIPanels(){
+  const nav=$('#nav');
+  if(nav){nav.classList.toggle('collapsedui',UI_NAV_COLLAPSED);nav.style.width=NAV_W+'px';}
+  const bn=$('#btnNavToggle');
+  if(bn){
+    bn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>';
+    bn.title=t('toggleNav');
+  }
+  const rz=$('#navResizer');if(rz)rz.title=t('dragResize');
+}
+$('#btnNavToggle').onclick=()=>{UI_NAV_COLLAPSED=!UI_NAV_COLLAPSED;applyUIPanels();saveUIPref();};
+(function(){
+  const rz=$('#navResizer');if(!rz)return;
+  let drag=false;
+  rz.addEventListener('mousedown',e=>{drag=true;rz.classList.add('on');e.preventDefault();document.body.style.cursor='col-resize';});
+  document.addEventListener('mousemove',e=>{
+    if(!drag)return;
+    const nav=$('#nav');if(!nav)return;
+    NAV_W=Math.min(480,Math.max(180,Math.round(e.clientX-nav.getBoundingClientRect().left)));
+    nav.style.width=NAV_W+'px';
+  });
+  document.addEventListener('mouseup',()=>{if(drag){drag=false;rz.classList.remove('on');document.body.style.cursor='';saveUIPref();}});
+})();
+applyUIPanels();
 applyLang();
 mountLogos();
 fillLangSel();
-initDB().then(db=>{DB=db;return loadLibrary();}).then(loadSavedDir).catch(()=>{});
+initDB().then(db=>{DB=db;return loadLibrary();}).catch(()=>{});
 
 </script>
 </body>

@@ -110,9 +110,9 @@
   "storageWarn": "브라우저 저장 공간이 가득 찼습니다. 일부 세션은 요약만 저장되었습니다.",
   "closeBtn": "닫기",
   "dirTip": "팁(macOS): 선택 창에서 <kbd>⌘⇧.</kbd>를 누르면 숨김 폴더가 표시됩니다. Finder에서는 <kbd>⌘⇧G</kbd>로 <code>~/.claude/projects</code>를 입력해 바로 이동하세요. 마지막으로 선택한 폴더는 기억됩니다.",
-  "switchDir": "폴더 변경",
-  "savedDir": "폴더 <code>{name}</code> 저장됨: \"폴더 열기\"를 클릭하면 선택 창 없이 바로 읽어옵니다.",
   "navProjects": "프로젝트",
-  "noProject": "(프로젝트 디렉터리 없음)"
+  "noProject": "(프로젝트 디렉터리 없음)",
+  "toggleNav": "프로젝트 패널 토글",
+  "dragResize": "드래그하여 너비 조절"
  }
 }

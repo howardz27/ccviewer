@@ -110,9 +110,9 @@
   "storageWarn": "El almacenamiento del navegador está lleno; algunas sesiones se guardaron solo como resumen.",
   "closeBtn": "Cerrar",
   "dirTip": "Consejo (macOS): pulsa <kbd>⌘⇧.</kbd> en el selector para mostrar carpetas ocultas, o usa <kbd>⌘⇧G</kbd> en Finder y escribe <code>~/.claude/projects</code>. El selector recuerda la última carpeta.",
-  "switchDir": "Cambiar carpeta",
-  "savedDir": "Carpeta recordada: <code>{name}</code>. Pulsa \"Abrir carpeta\" para leerla directamente, sin selector.",
   "navProjects": "Proyectos",
-  "noProject": "(sin directorio de proyecto)"
+  "noProject": "(sin directorio de proyecto)",
+  "toggleNav": "Mostrar/ocultar panel de proyectos",
+  "dragResize": "Arrastra para redimensionar"
  }
 }

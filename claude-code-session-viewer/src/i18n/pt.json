@@ -110,9 +110,9 @@
   "storageWarn": "O armazenamento do navegador está cheio; algumas sessões foram salvas apenas como resumo.",
   "closeBtn": "Fechar",
   "dirTip": "Dica (macOS): pressione <kbd>⌘⇧.</kbd> no seletor para mostrar pastas ocultas, ou use <kbd>⌘⇧G</kbd> no Finder e digite <code>~/.claude/projects</code>. O seletor lembra a última pasta.",
-  "switchDir": "Alterar pasta",
-  "savedDir": "Pasta memorizada: <code>{name}</code>. Clique em \"Abrir pasta\" para lê-la diretamente, sem seletor.",
   "navProjects": "Projetos",
-  "noProject": "(sem diretório de projeto)"
+  "noProject": "(sem diretório de projeto)",
+  "toggleNav": "Alternar painel de projetos",
+  "dragResize": "Arraste para redimensionar"
  }
 }
