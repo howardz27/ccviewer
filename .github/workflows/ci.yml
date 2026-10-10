@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build
+        run: python3 claude-code-session-viewer/build.py
+
+      - name: Ensure build is up to date
+        run: |
+          git diff --exit-code --stat \
+            -- 'claude-code-session-viewer/index.html' \
+            'claude-code-session-viewer/*/index.html' \
+            || { echo "::error::Built pages are out of date. Run: python3 claude-code-session-viewer/build.py and commit the result."; exit 1; }
+
+      - name: Sanity checks
+        run: |
+          # 每个语言页面都必须存在且包含关键占位替换完成的标志（无残留 {{）
+          langs="en de es fr hi ja ko pt ru zh"
+          for l in $langs; do
+            f="claude-code-session-viewer/${l}/index.html"
+            [ "$l" = en ] && f="claude-code-session-viewer/index.html"
+            test -s "$f" || { echo "::error::missing $f"; exit 1; }
+            if grep -q '{{' "$f"; then echo "::error::unreplaced placeholder in $f"; exit 1; fi
+          done
+          echo "all pages OK"
