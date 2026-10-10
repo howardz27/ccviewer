@@ -15,8 +15,8 @@
   "pasteText": "テキストを貼り付け",
   "openFile": "ファイルを開く",
   "noFile": "ファイル未読み込み",
-  "dropHint1": "<b>.jsonl</b> 履歴ファイルをここにドラッグ、またはクリックして選択",
-  "dropHint2": "例：~/.claude/projects/&lt;プロジェクト&gt;/&lt;sessionId&gt;.jsonl",
+  "dropHint1": "<b>.jsonl</b> 履歴ファイル<b>またはプロジェクトフォルダ全体</b>をここにドロップ、またはクリックして選択",
+  "dropHint2": "例：<code>~/.claude/projects/</code> フォルダ全体、またはその中の <code>&lt;sessionId&gt;.jsonl</code>",
   "chooseFile": "ファイルを選択",
   "pasteTitle": "JSONL テキストを貼り付け",
   "pasteHint": "履歴ファイルの内容をそのまま貼り付けてください。1 行に 1 つの JSON オブジェクト（JSON 配列 / オブジェクト 1 つにも対応）。",
@@ -113,6 +113,8 @@
   "navProjects": "プロジェクト",
   "noProject": "（プロジェクトディレクトリなし）",
   "toggleNav": "プロジェクトパネルの切り替え",
-  "dragResize": "ドラッグで幅を調整"
+  "dragResize": "ドラッグで幅を調整",
+  "exportMd": "MD エクスポート",
+  "exportEmptyErr": "先にセッションを読み込んでください。"
  }
 }

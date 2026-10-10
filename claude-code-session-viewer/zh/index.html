@@ -41,7 +41,7 @@
 <meta name="twitter:image" content="https://ccviewer.top/claude-code-session-viewer/og-image.png">
 <!-- 结构化数据 -->
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/zh/", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "description": "在浏览器中本地渲染 Claude Code 的 .jsonl 会话记录，支持 Markdown、思考过程、工具调用与成本统计，文件不上传服务器。", "inLanguage": "zh-CN", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "如何查看 Claude Code 的历史会话？", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code 会把每个会话保存为 JSONL 文件，位于 ~/.claude/projects/<项目路径>/<sessionId>.jsonl。把这个文件拖进本页即可浏览完整对话。"}}, {"@type": "Question", "name": "我的会话文件会被上传吗？", "acceptedAnswer": {"@type": "Answer", "text": "不会。解析与渲染完全在你的浏览器中完成，没有任何网络请求，文件内容不会离开你的电脑。会话文件包含你的代码与文件路径，这正是本工具 100% 客户端处理的原因。"}}, {"@type": "Question", "name": "查看器支持哪些内容？", "acceptedAnswer": {"@type": "Answer", "text": "支持用户消息与 AI 回复的 Markdown 渲染、extended thinking 思考过程、工具调用参数与结果、图片、token 用量与成本统计，界面支持 10 种语言。"}}, {"@type": "Question", "name": ".jsonl 是什么格式？", "acceptedAnswer": {"@type": "Answer", "text": "JSON Lines——每行一个独立的 JSON 对象。Claude Code 用它逐条记录会话中的消息、工具调用与元数据。"}}, {"@type": "Question", "name": "CCViewer 是免费的吗？", "acceptedAnswer": {"@type": "Answer", "text": "免费且开源，直接在浏览器使用，无需注册或登录。"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "如何查看 Claude Code 的历史会话？", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code 会把每个会话保存为 ~/.claude/projects/<项目>/<会话ID>.jsonl 文件。把单个文件或整个项目文件夹拖进来，即可浏览完整对话。"}}, {"@type": "Question", "name": "我的会话文件会被上传吗？", "acceptedAnswer": {"@type": "Answer", "text": "不会。解析与渲染完全在你的浏览器中完成，没有任何网络请求，文件内容不会离开你的电脑。会话文件包含你的代码与文件路径，这正是本工具 100% 客户端处理的原因。"}}, {"@type": "Question", "name": "查看器支持哪些内容？", "acceptedAnswer": {"@type": "Answer", "text": "支持用户消息与 AI 回复的 Markdown 渲染、extended thinking 思考过程、工具调用参数与结果、图片、token 用量与成本统计，界面支持 10 种语言。"}}, {"@type": "Question", "name": ".jsonl 是什么格式？", "acceptedAnswer": {"@type": "Answer", "text": "JSON Lines——每行一个独立的 JSON 对象。Claude Code 用它逐条记录会话中的消息、工具调用与元数据。"}}, {"@type": "Question", "name": "CCViewer 是免费的吗？", "acceptedAnswer": {"@type": "Answer", "text": "免费且开源，直接在浏览器使用，无需注册或登录。"}}]}</script>
 <style>
 :root{
   --bg:#0d1117; --panel:#161b22; --panel2:#1c2128; --border:#30363d;
@@ -292,6 +292,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <label class="toggle"><input type="checkbox" id="tgExpand"><span data-i18n="expandAll">展开全部</span></label>
     <button class="btn" id="btnHome" data-i18n="home">首页</button>
     <button class="btn" id="btnLibrary" data-i18n="libraryBtn">会话库</button>
+    <button class="btn primary" id="btnExportMd" data-i18n="exportMd" style="display:none">导出 MD</button>
     <select class="btn langsel" aria-label="Language"></select>
     <button class="btn" id="btnPasteTop" data-i18n="pasteText">粘贴文本</button>
     <button class="btn" id="btnOpen" data-i18n="openFile">打开文件</button>
@@ -307,6 +308,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   <header class="lheader">
     <span class="lbrand"><span class="logo lg"></span>CCViewer</span>
     <span class="lspacer"></span>
+    <button class="btn" id="btnLibLanding" data-i18n="libraryBtn" style="display:none">会话库</button>
     <select class="btn langsel" aria-label="Language"></select>
   </header>
   <main class="hero">
@@ -315,8 +317,8 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <h1 data-i18n-html="heroTitle"><em>Claude Code</em> 对话历史查看器</h1>
       <p class="tagline" data-i18n="tagline">在浏览器中本地渲染 .jsonl 会话记录，隐私安全、免费开源</p>
       <div class="box">
-        <p data-i18n-html="dropHint1">把 <b>.jsonl</b> 历史文件拖到这里，或点击选择</p>
-        <p class="pathhint" data-i18n-html="dropHint2">例如 ~/.claude/projects/&lt;项目&gt;/&lt;sessionId&gt;.jsonl</p>
+        <p data-i18n-html="dropHint1">把 <b>.jsonl</b> 历史文件<b>或整个项目文件夹</b>拖到这里，或点击选择</p>
+        <p class="pathhint" data-i18n-html="dropHint2">例如 <code>~/.claude/projects/</code> 整个文件夹，或其中的 <code>&lt;sessionId&gt;.jsonl</code></p>
         <div class="cta">
           <button class="btn primary" id="btnPickDir" data-i18n="openFolder">打开文件夹</button>
           <button class="btn" id="btnPick" data-i18n="chooseFile">选择文件</button>
@@ -355,7 +357,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     </div>
     <h2 data-i18n="faqTitle">常见问题</h2>
     <div class="faqs">
-      <details><summary data-i18n="q1">如何查看 Claude Code 的历史会话？</summary><div class="a" data-i18n-html="a1">Claude Code 会把每个会话保存为 JSONL 文件，位于 <code>~/.claude/projects/&lt;项目路径&gt;/&lt;sessionId&gt;.jsonl</code>。把这个文件拖进本页即可浏览完整对话。</div></details>
+      <details><summary data-i18n="q1">如何查看 Claude Code 的历史会话？</summary><div class="a" data-i18n-html="a1">Claude Code 会把每个会话保存为 <code>~/.claude/projects/&lt;项目&gt;/&lt;会话ID&gt;.jsonl</code> 文件。把单个文件或整个项目文件夹拖进来，即可浏览完整对话。</div></details>
       <details><summary data-i18n="q2">我的会话文件会被上传吗？</summary><div class="a" data-i18n-html="a2">不会。解析与渲染完全在你的浏览器中完成，没有任何网络请求，文件内容不会离开你的电脑。会话文件包含你的代码与文件路径，这正是本工具 100% 客户端处理的原因。</div></details>
       <details><summary data-i18n="q3">查看器支持哪些内容？</summary><div class="a" data-i18n-html="a3">支持用户消息与 AI 回复的 Markdown 渲染、extended thinking 思考过程、工具调用参数与结果、图片、token 用量与成本统计，界面支持 10 种语言。</div></details>
       <details><summary data-i18n="q4">.jsonl 是什么格式？</summary><div class="a" data-i18n-html="a4">JSON Lines——每行一个独立的 JSON 对象。Claude Code 用它逐条记录会话中的消息、工具调用与元数据。</div></details>
@@ -420,7 +422,7 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={'zh':{"brand": "CCViewer", "thinking": "思考", "tools": "工具", "sysInj": "系统/注入", "expandAll": "展开全部", "pasteText": "粘贴文本", "openFile": "打开文件", "noFile": "未加载文件", "dropHint1": "把 <b>.jsonl</b> 历史文件拖到这里，或点击选择", "dropHint2": "例如 ~/.claude/projects/&lt;项目&gt;/&lt;sessionId&gt;.jsonl", "chooseFile": "选择文件", "pasteTitle": "粘贴 JSONL 文本", "pasteHint": "把历史文件内容整段粘贴进来，每行一个 JSON 对象（也兼容单个 JSON 数组 / 对象）。", "cancel": "取消", "loadBtn": "加载", "thinkLabel": "✻ 思考", "you": "你", "reply": "回复", "result": "结果", "error": "错误", "lines": "行", "images": "图片", "viewResult": "查看结果", "sysMsg": "系统消息", "injCtx": "注入上下文", "system": "系统", "sessionInfo": "会话信息", "stats": "统计", "costUsage": "成本 / 用量", "titleRow": "标题", "projectDir": "项目目录", "gitBranch": "Git 分支", "version": "版本", "sessionId": "会话 ID", "time": "时间", "model": "模型", "userMsgs": "用户消息", "replies": "回复", "toolCalls": "工具调用", "thinkingStat": "思考", "imagesStat": "图片", "parseFailed": "解析失败", "home": "首页", "inTokens": "输入 tokens", "outTokens": "输出 tokens", "cacheRead": "缓存读取", "cacheCreate": "缓存写入", "totalCost": "总花费", "linesPM": "代码 +/-", "apiTime": "API 时长", "toolTime": "工具时长", "viewerSuffix": "历史查看器", "pasteEmptyErr": "没有解析到任何有效记录，请检查粘贴内容", "pastedContent": "粘贴内容", "intro": "CCViewer 是一款开源的 Claude Code 对话历史查看器，完全在浏览器本地渲染 <b>.jsonl</b> 会话记录，支持 Markdown、思考过程、工具调用与成本统计，文件不上传服务器，隐私安全。", "featMd": "Markdown 渲染", "featMdD": "代码块、表格、列表、引用完整还原", "featThink": "思考过程", "featThinkD": "折叠查看 extended thinking 全文", "featTool": "工具调用", "featToolD": "参数与结果逐条展开查看", "featCost": "用量统计", "featCostD": "token 用量、时长与花费分析", "featI18n": "多语言界面", "featI18nD": "10 种语言一键切换", "featPrivacy": "隐私安全", "featPrivacyD": "100% 客户端处理，零上传", "faqTitle": "常见问题", "tagline": "在浏览器中本地渲染 .jsonl 会话记录，隐私安全、免费开源", "heroTitle": "<em>Claude Code</em> 对话历史查看器", "pvUserQ": "帮我修复登录页在移动端的样式错乱", "pvThink": "先查看登录页组件的样式代码…", "pvReply": "问题定位在 <code>flex</code> 布局缺少 <code>wrap</code>，已修复并在 375px 宽度下验证正常。", "footerPrivacy": "100% 客户端处理，文件不上传服务器", "q1": "如何查看 Claude Code 的历史会话？", "a1": "Claude Code 会把每个会话保存为 JSONL 文件，位于 <code>~/.claude/projects/&lt;项目路径&gt;/&lt;sessionId&gt;.jsonl</code>。把这个文件拖进本页即可浏览完整对话。", "q2": "我的会话文件会被上传吗？", "a2": "不会。解析与渲染完全在你的浏览器中完成，没有任何网络请求，文件内容不会离开你的电脑。会话文件包含你的代码与文件路径，这正是本工具 100% 客户端处理的原因。", "q3": "查看器支持哪些内容？", "a3": "支持用户消息与 AI 回复的 Markdown 渲染、extended thinking 思考过程、工具调用参数与结果、图片、token 用量与成本统计，界面支持 10 种语言。", "q4": ".jsonl 是什么格式？", "a4": "JSON Lines——每行一个独立的 JSON 对象。Claude Code 用它逐条记录会话中的消息、工具调用与元数据。", "q5": "CCViewer 是免费的吗？", "a5": "免费且开源，直接在浏览器使用，无需注册或登录。", "libraryBtn": "会话库", "libraryTitle": "会话库", "libraryEmpty": "还没有会话。打开 .jsonl 所在文件夹即可建立会话库。", "openFolder": "打开文件夹", "importing": "导入中… {n}/{m}", "importedN": "{n} 个会话", "sortRecent": "最近活动", "sortOldest": "最早优先", "sortMsgs": "消息数", "sortTokens": "Tokens", "sortCost": "费用", "deleteBtn": "删除", "clearAll": "清空全部", "confirmDelete": "删除该会话？", "confirmClear": "删除全部已存会话？不可恢复。", "noTextErr": "内容未缓存（存储已满）。请重新导入文件夹后再打开。", "storageWarn": "浏览器存储已满，部分会话仅保存了摘要。", "closeBtn": "关闭", "dirTip": "小技巧（macOS）：选择窗口内按 <kbd>⌘⇧.</kbd> 显示隐藏文件夹；或 Finder 按 <kbd>⌘⇧G</kbd> 输入 <code>~/.claude/projects</code> 直达。浏览器会记住上次选的目录。", "navProjects": "项目", "noProject": "（无项目目录）", "toggleNav": "折叠/展开项目栏", "dragResize": "拖动调整宽度"}};
+const I18N={'zh':{"brand": "CCViewer", "thinking": "思考", "tools": "工具", "sysInj": "系统/注入", "expandAll": "展开全部", "pasteText": "粘贴文本", "openFile": "打开文件", "noFile": "未加载文件", "dropHint1": "把 <b>.jsonl</b> 历史文件<b>或整个项目文件夹</b>拖到这里，或点击选择", "dropHint2": "例如 <code>~/.claude/projects/</code> 整个文件夹，或其中的 <code>&lt;sessionId&gt;.jsonl</code>", "chooseFile": "选择文件", "pasteTitle": "粘贴 JSONL 文本", "pasteHint": "把历史文件内容整段粘贴进来，每行一个 JSON 对象（也兼容单个 JSON 数组 / 对象）。", "cancel": "取消", "loadBtn": "加载", "thinkLabel": "✻ 思考", "you": "你", "reply": "回复", "result": "结果", "error": "错误", "lines": "行", "images": "图片", "viewResult": "查看结果", "sysMsg": "系统消息", "injCtx": "注入上下文", "system": "系统", "sessionInfo": "会话信息", "stats": "统计", "costUsage": "成本 / 用量", "titleRow": "标题", "projectDir": "项目目录", "gitBranch": "Git 分支", "version": "版本", "sessionId": "会话 ID", "time": "时间", "model": "模型", "userMsgs": "用户消息", "replies": "回复", "toolCalls": "工具调用", "thinkingStat": "思考", "imagesStat": "图片", "parseFailed": "解析失败", "home": "首页", "inTokens": "输入 tokens", "outTokens": "输出 tokens", "cacheRead": "缓存读取", "cacheCreate": "缓存写入", "totalCost": "总花费", "linesPM": "代码 +/-", "apiTime": "API 时长", "toolTime": "工具时长", "viewerSuffix": "历史查看器", "pasteEmptyErr": "没有解析到任何有效记录，请检查粘贴内容", "pastedContent": "粘贴内容", "intro": "CCViewer 是一款开源的 Claude Code 对话历史查看器，完全在浏览器本地渲染 <b>.jsonl</b> 会话记录，支持 Markdown、思考过程、工具调用与成本统计，文件不上传服务器，隐私安全。", "featMd": "Markdown 渲染", "featMdD": "代码块、表格、列表、引用完整还原", "featThink": "思考过程", "featThinkD": "折叠查看 extended thinking 全文", "featTool": "工具调用", "featToolD": "参数与结果逐条展开查看", "featCost": "用量统计", "featCostD": "token 用量、时长与花费分析", "featI18n": "多语言界面", "featI18nD": "10 种语言一键切换", "featPrivacy": "隐私安全", "featPrivacyD": "100% 客户端处理，零上传", "faqTitle": "常见问题", "tagline": "在浏览器中本地渲染 .jsonl 会话记录，隐私安全、免费开源", "heroTitle": "<em>Claude Code</em> 对话历史查看器", "pvUserQ": "帮我修复登录页在移动端的样式错乱", "pvThink": "先查看登录页组件的样式代码…", "pvReply": "问题定位在 <code>flex</code> 布局缺少 <code>wrap</code>，已修复并在 375px 宽度下验证正常。", "footerPrivacy": "100% 客户端处理，文件不上传服务器", "q1": "如何查看 Claude Code 的历史会话？", "a1": "Claude Code 会把每个会话保存为 <code>~/.claude/projects/&lt;项目&gt;/&lt;会话ID&gt;.jsonl</code> 文件。把单个文件或整个项目文件夹拖进来，即可浏览完整对话。", "q2": "我的会话文件会被上传吗？", "a2": "不会。解析与渲染完全在你的浏览器中完成，没有任何网络请求，文件内容不会离开你的电脑。会话文件包含你的代码与文件路径，这正是本工具 100% 客户端处理的原因。", "q3": "查看器支持哪些内容？", "a3": "支持用户消息与 AI 回复的 Markdown 渲染、extended thinking 思考过程、工具调用参数与结果、图片、token 用量与成本统计，界面支持 10 种语言。", "q4": ".jsonl 是什么格式？", "a4": "JSON Lines——每行一个独立的 JSON 对象。Claude Code 用它逐条记录会话中的消息、工具调用与元数据。", "q5": "CCViewer 是免费的吗？", "a5": "免费且开源，直接在浏览器使用，无需注册或登录。", "libraryBtn": "会话库", "libraryTitle": "会话库", "libraryEmpty": "还没有会话。打开 .jsonl 所在文件夹即可建立会话库。", "openFolder": "打开文件夹", "importing": "导入中… {n}/{m}", "importedN": "{n} 个会话", "sortRecent": "最近活动", "sortOldest": "最早优先", "sortMsgs": "消息数", "sortTokens": "Tokens", "sortCost": "费用", "deleteBtn": "删除", "clearAll": "清空全部", "confirmDelete": "删除该会话？", "confirmClear": "删除全部已存会话？不可恢复。", "noTextErr": "内容未缓存（存储已满）。请重新导入文件夹后再打开。", "storageWarn": "浏览器存储已满，部分会话仅保存了摘要。", "closeBtn": "关闭", "dirTip": "小技巧（macOS）：选择窗口内按 <kbd>⌘⇧.</kbd> 显示隐藏文件夹；或 Finder 按 <kbd>⌘⇧G</kbd> 输入 <code>~/.claude/projects</code> 直达。浏览器会记住上次选的目录。", "navProjects": "项目", "noProject": "（无项目目录）", "toggleNav": "折叠/展开项目栏", "dragResize": "拖动调整宽度", "exportMd": "导出 MD", "exportEmptyErr": "请先加载会话再导出。"}};
 const LANG='zh';
 const BASE_PATH='/claude-code-session-viewer';
 const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
@@ -806,7 +808,60 @@ function load(text,name,pasted){
   renderSidebar(sum,bad);
   renderAll();
   $('#drop').classList.add('hide');
+  $('#btnExportMd').style.display='';
 }
+/* ---------- 导出 Markdown ---------- */
+const resultText=b=>typeof b.content==='string'?b.content:Array.isArray(b.content)?b.content.map(x=>x.text||JSON.stringify(x)).join('\n'):JSON.stringify(b.content);
+function buildMd(){
+  if(!CUR)return null;
+  const s=CUR.sum;
+  const out=['# '+(s.title||CUR.name||s.sessionId||'Claude Code Session'),''];
+  const info=[];
+  if(s.cwd)info.push('- Project: '+s.cwd);
+  if(s.gitBranch)info.push('- Branch: '+s.gitBranch);
+  if(s.firstTs&&s.lastTs)info.push('- Time: '+fmtTime(s.firstTs)+' → '+fmtTime(s.lastTs));
+  const models=Array.from(s.models||[]).join(', ');if(models)info.push('- Model: '+models);
+  const tk=s.tokens;if(tk.in||tk.out)info.push('- Tokens: in '+num(tk.in)+' / out '+num(tk.out));
+  if(s.cost&&s.cost.totalCostUSD!=null)info.push('- Cost: $'+s.cost.totalCostUSD.toFixed(4));
+  if(info.length)out.push(info.join('\n'),'','---','');
+  for(const o of CUR.entries){
+    const ts=o.timestamp?(' · '+fmtTime(o.timestamp)):'';
+    const msg=o.message,c=msg&&msg.content;
+    if(o.type==='user'){
+      const kind=classifyUser(o);
+      if(kind==='human'){
+        let txt=typeof c==='string'?c:(Array.isArray(c)?c.filter(b=>b.type==='text').map(b=>b.text).join('\n'):'');
+        txt=(txt||'').trim();if(!txt)continue;
+        out.push('## 🧑 '+t('you')+ts,'',txt,'');
+      }else if(kind==='toolresult'&&SHOW_TOOL){
+        for(const b of (Array.isArray(c)?c:[]))if(b.type==='tool_result'&&b.is_error)
+          out.push('**❌ '+t('error')+ts+'**','','```',String(resultText(b)).slice(0,2000),'```','');
+      }
+    }else if(o.type==='assistant'){
+      if(typeof c==='string'&&c.trim()){out.push('## 🤖 '+t('reply')+ts,'',c.trim(),'');continue;}
+      if(!Array.isArray(c))continue;
+      const seg=[];
+      for(const b of c){
+        if(b.type==='text'&&b.text.trim())seg.push('## 🤖 '+t('reply')+ts,'',b.text.trim());
+        else if(b.type==='thinking'&&SHOW_THINK)seg.push('**'+t('thinkLabel')+'**','',String(b.thinking||'').split('\n').map(l=>'> '+l).join('\n'));
+        else if(b.type==='tool_use'&&SHOW_TOOL)seg.push('**⏺ '+b.name+'**','','```json',JSON.stringify(b.input,null,2),'```');
+      }
+      if(seg.length)out.push(seg.join('\n\n'),'');
+    }
+  }
+  return out.join('\n');
+}
+function exportMd(){
+  const md=buildMd();
+  if(!md){alert(t('exportEmptyErr'));return;}
+  const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
+  const a=document.createElement('a');
+  const base=((CUR.sum.title||CUR.name||CUR.sum.sessionId||'session').replace(/\.jsonl?$/i,'').replace(/[^\w\u4e00-\u9fa5.-]+/g,'_').slice(0,80))||'session';
+  a.href=URL.createObjectURL(blob);a.download=base+'.md';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+$('#btnExportMd').onclick=exportMd;
 // 当前内容的显示名（粘贴内容随语言切换）
 function curName(){if(!CUR)return'';return CUR.pasted?t('pastedContent'):CUR.name;}
 function applyFname(){
@@ -899,7 +954,12 @@ async function loadLibrary(){
   for(const rec of (all||[])){LIB.push(libMeta(rec));LIB_FULL.set(rec.id,rec);}
   updateLibBtn();
 }
-function updateLibBtn(){const b=$('#btnLibrary');if(b)b.textContent=t('libraryBtn')+(LIB.length?' ('+LIB.length+')':'');updateNav();}
+function updateLibBtn(){
+  const label=t('libraryBtn')+(LIB.length?' ('+LIB.length+')':'');
+  const b=$('#btnLibrary');if(b)b.textContent=label;
+  const bl=$('#btnLibLanding');if(bl){bl.textContent=label;bl.style.display=LIB.length?'':'none';}
+  updateNav();
+}
 /* ---------- 左侧导览：按项目目录聚类 ---------- */
 let CUR_ID=null,NAV_COLLAPSED=new Set();
 const cwdBasename=p=>{p=String(p||'').replace(/\/+$/,'');const i=p.lastIndexOf('/');return i>=0?p.slice(i+1):p;};
@@ -1069,9 +1129,42 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pasteModal.classLis
 const drop=$('#drop');
 ['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('hide');drop.classList.add('drag');}));
 ['dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();if(ev==='dragleave'&&e.relatedTarget)return;drop.classList.remove('drag');if(CUR&&ev==='dragleave')drop.classList.add('hide');}));
-document.addEventListener('drop',e=>{e.preventDefault();const fs=e.dataTransfer.files;if(!fs||!fs.length)return;
-  if(fs.length>1){showLibrary();importFiles(fs);return;}
-  const f=fs[0];const r=new FileReader();r.onload=()=>{load(r.result,f.name);saveToLibrary(r.result,f.name,'file');};r.readAsText(f);});
+// 拖入内容 → 文件列表：支持文件夹（webkitGetAsEntry 递归，深度上限 4，跳过 node_modules）
+// 注意：必须在事件处理器内同步取 entries，DataTransfer 在事件返回后失效
+async function filesFromDataTransfer(dt){
+  const files=[];
+  const entryFile=en=>new Promise((res,rej)=>en.file(res,rej));
+  async function walk(en,depth){
+    if(depth>4)return;
+    if(en.isFile){try{files.push(await entryFile(en));}catch(e){}}
+    else if(en.isDirectory){
+      if(en.name==='node_modules')return;
+      const rd=en.createReader();
+      let batch;
+      do{
+        batch=await new Promise((res,rej)=>rd.readEntries(res,rej));
+        for(const c of batch)await walk(c,depth+1);
+      }while(batch.length);
+    }
+  }
+  const entries=[...(dt.items||[])].map(it=>it.webkitGetAsEntry&&it.webkitGetAsEntry()).filter(Boolean);
+  if(!entries.length)return [...(dt.files||[])];
+  for(const en of entries)await walk(en,0);
+  return files;
+}
+document.addEventListener('drop',e=>{
+  e.preventDefault();
+  const dt=e.dataTransfer;
+  if(!dt||!dt.files||!dt.files.length)return;
+  const hadDir=[...(dt.items||[])].some(it=>{const en=it.webkitGetAsEntry&&it.webkitGetAsEntry();return en&&en.isDirectory;});
+  if(dt.files.length===1&&!hadDir){
+    const f=dt.files[0];const r=new FileReader();r.onload=()=>{load(r.result,f.name);saveToLibrary(r.result,f.name,'file');};r.readAsText(f);
+    return;
+  }
+  const p=filesFromDataTransfer(dt); // 同步启动，先取 entries
+  showLibrary();
+  p.then(fls=>importFiles(fls));
+});
 const HOME_TITLE=document.title;
 $('#btnHome').onclick=()=>{
   CUR=null;
@@ -1079,10 +1172,12 @@ $('#btnHome').onclick=()=>{
   $('#sidebar').innerHTML='';
   const fn=$('#fname');if(fn)fn.textContent='';
   document.title=HOME_TITLE;
-  showView(LIB.length?'library':'landing');
+  $('#btnExportMd').style.display='none';
+  showView('landing');
 };
 /* 会话库交互 */
 $('#btnLibrary').onclick=showLibrary;
+$('#btnLibLanding').onclick=showLibrary;
 $('#btnLibClose').onclick=()=>showView(CUR?'viewer':'landing');
 $('#btnPickDir').onclick=pickDir;
 $('#btnImportFolder').onclick=pickDir;

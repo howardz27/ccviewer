@@ -15,8 +15,8 @@
   "pasteText": "텍스트 붙여넣기",
   "openFile": "파일 열기",
   "noFile": "파일 미로딩",
-  "dropHint1": "<b>.jsonl</b> 기록 파일을 여기로 드래그하거나 클릭해서 선택하세요",
-  "dropHint2": "예: ~/.claude/projects/&lt;프로젝트&gt;/&lt;sessionId&gt;.jsonl",
+  "dropHint1": "<b>.jsonl</b> 기록 파일<b> 또는 프로젝트 폴더 전체</b>를 여기에 끌어다 놓거나 클릭해서 선택하세요",
+  "dropHint2": "예: <code>~/.claude/projects/</code> 폴더 전체 또는 그 안의 <code>&lt;sessionId&gt;.jsonl</code>",
   "chooseFile": "파일 선택",
   "pasteTitle": "JSONL 텍스트 붙여넣기",
   "pasteHint": "기록 파일 내용 전체를 붙여넣으세요. 한 줄에 하나의 JSON 객체(단일 JSON 배열 / 객체도 지원).",
@@ -113,6 +113,8 @@
   "navProjects": "프로젝트",
   "noProject": "(프로젝트 디렉터리 없음)",
   "toggleNav": "프로젝트 패널 토글",
-  "dragResize": "드래그하여 너비 조절"
+  "dragResize": "드래그하여 너비 조절",
+  "exportMd": "MD 내보내기",
+  "exportEmptyErr": "먼저 세션을 로드하세요."
  }
 }

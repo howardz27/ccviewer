@@ -15,8 +15,8 @@
   "pasteText": "टेक्स्ट पेस्ट करें",
   "openFile": "फ़ाइल खोलें",
   "noFile": "कोई फ़ाइल लोड नहीं",
-  "dropHint1": "<b>.jsonl</b> हिस्ट्री फ़ाइल यहाँ खींचें, या क्लिक करके चुनें",
-  "dropHint2": "जैसे ~/.claude/projects/&lt;प्रोजेक्ट&gt;/&lt;sessionId&gt;.jsonl",
+  "dropHint1": "कोई <b>.jsonl</b> फ़ाइल <b>या पूरा प्रोजेक्ट फ़ोल्डर</b> यहाँ खींचें, या चुनने के लिए क्लिक करें",
+  "dropHint2": "जैसे पूरा <code>~/.claude/projects/</code> फ़ोल्डर, या उसमें से कोई एक <code>&lt;sessionId&gt;.jsonl</code>",
   "chooseFile": "फ़ाइल चुनें",
   "pasteTitle": "JSONL टेक्स्ट पेस्ट करें",
   "pasteHint": "पूरी हिस्ट्री फ़ाइल की सामग्री यहाँ पेस्ट करें, हर लाइन में एक JSON ऑब्जेक्ट (एकल JSON ऐरे / ऑब्जेक्ट भी चलेगा)।",
@@ -113,6 +113,8 @@
   "navProjects": "प्रोजेक्ट",
   "noProject": "(कोई प्रोजेक्ट डायरेक्टरी नहीं)",
   "toggleNav": "प्रोजेक्ट पैनल टॉगल करें",
-  "dragResize": "चौड़ाई बदलने के लिए खींचें"
+  "dragResize": "चौड़ाई बदलने के लिए खींचें",
+  "exportMd": "MD निर्यात",
+  "exportEmptyErr": "पहले एक सत्र लोड करें।"
  }
 }

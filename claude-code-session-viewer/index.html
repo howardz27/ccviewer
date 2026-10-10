@@ -41,7 +41,7 @@
 <meta name="twitter:image" content="https://ccviewer.top/claude-code-session-viewer/og-image.png">
 <!-- 结构化数据 -->
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "description": "A free, open-source Claude Code session viewer and JSONL history viewer. It renders Claude Code .jsonl session files entirely in your browser, with Markdown support, thinking blocks, tool calls and cost statistics. Files never leave your computer.", "inLanguage": "en", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I view previous Claude Code sessions?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code saves every session as a JSONL file under ~/.claude/projects/<project>/<session-id>.jsonl. Drop the file here to browse the full conversation."}}, {"@type": "Question", "name": "Is my session file uploaded anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "No. Parsing happens entirely in your browser with no API calls and no server upload. Session files contain your code, file paths and sometimes secrets — which is exactly why this tool is 100% client-side."}}, {"@type": "Question", "name": "What does the viewer support?", "acceptedAnswer": {"@type": "Answer", "text": "This Claude Code JSONL viewer supports Markdown rendering for user and assistant messages, extended thinking blocks, tool call parameters and results, images, token usage and cost stats — with an interface in 10 languages."}}, {"@type": "Question", "name": "What is the .jsonl format?", "acceptedAnswer": {"@type": "Answer", "text": "JSON Lines — one independent JSON object per line. Claude Code logs every message, tool call and metadata entry as a line."}}, {"@type": "Question", "name": "Is CCViewer free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, it is free and open-source. No sign-up required."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I view previous Claude Code sessions?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code saves every session as a JSONL file under ~/.claude/projects/<project>/<session-id>.jsonl. Drop a single file or the whole project folder here to browse the full conversation."}}, {"@type": "Question", "name": "Is my session file uploaded anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "No. Parsing happens entirely in your browser with no API calls and no server upload. Session files contain your code, file paths and sometimes secrets — which is exactly why this tool is 100% client-side."}}, {"@type": "Question", "name": "What does the viewer support?", "acceptedAnswer": {"@type": "Answer", "text": "This Claude Code JSONL viewer supports Markdown rendering for user and assistant messages, extended thinking blocks, tool call parameters and results, images, token usage and cost stats — with an interface in 10 languages."}}, {"@type": "Question", "name": "What is the .jsonl format?", "acceptedAnswer": {"@type": "Answer", "text": "JSON Lines — one independent JSON object per line. Claude Code logs every message, tool call and metadata entry as a line."}}, {"@type": "Question", "name": "Is CCViewer free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, it is free and open-source. No sign-up required."}}]}</script>
 <style>
 :root{
   --bg:#0d1117; --panel:#161b22; --panel2:#1c2128; --border:#30363d;
@@ -292,6 +292,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <label class="toggle"><input type="checkbox" id="tgExpand"><span data-i18n="expandAll">Expand all</span></label>
     <button class="btn" id="btnHome" data-i18n="home">Home</button>
     <button class="btn" id="btnLibrary" data-i18n="libraryBtn">Sessions</button>
+    <button class="btn primary" id="btnExportMd" data-i18n="exportMd" style="display:none">Export MD</button>
     <select class="btn langsel" aria-label="Language"></select>
     <button class="btn" id="btnPasteTop" data-i18n="pasteText">Paste text</button>
     <button class="btn" id="btnOpen" data-i18n="openFile">Open file</button>
@@ -307,6 +308,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   <header class="lheader">
     <span class="lbrand"><span class="logo lg"></span>CCViewer</span>
     <span class="lspacer"></span>
+    <button class="btn" id="btnLibLanding" data-i18n="libraryBtn" style="display:none">Sessions</button>
     <select class="btn langsel" aria-label="Language"></select>
   </header>
   <main class="hero">
@@ -315,8 +317,8 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <h1 data-i18n-html="heroTitle">The <em>Claude Code</em> session history viewer</h1>
       <p class="tagline" data-i18n="tagline">A Claude Code session viewer and JSONL history viewer that runs entirely in your browser. Private, free and open-source.</p>
       <div class="box">
-        <p data-i18n-html="dropHint1">Drag a <b>.jsonl</b> history file here, or click to choose</p>
-        <p class="pathhint" data-i18n-html="dropHint2">e.g. ~/.claude/projects/&lt;project&gt;/&lt;sessionId&gt;.jsonl</p>
+        <p data-i18n-html="dropHint1">Drag a <b>.jsonl</b> history file <b>or a whole project folder</b> here, or click to choose</p>
+        <p class="pathhint" data-i18n-html="dropHint2">e.g. the entire <code>~/.claude/projects/</code> folder, or a single <code>&lt;sessionId&gt;.jsonl</code> inside it</p>
         <div class="cta">
           <button class="btn primary" id="btnPickDir" data-i18n="openFolder">Open folder</button>
           <button class="btn" id="btnPick" data-i18n="chooseFile">Choose file</button>
@@ -355,7 +357,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     </div>
     <h2 data-i18n="faqTitle">Frequently Asked Questions</h2>
     <div class="faqs">
-      <details><summary data-i18n="q1">How do I view previous Claude Code sessions?</summary><div class="a" data-i18n-html="a1">Claude Code saves every session as a JSONL file under <code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code>. Drop the file here to browse the full conversation.</div></details>
+      <details><summary data-i18n="q1">How do I view previous Claude Code sessions?</summary><div class="a" data-i18n-html="a1">Claude Code saves every session as a JSONL file under <code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code>. Drop a single file or the whole project folder here to browse the full conversation.</div></details>
       <details><summary data-i18n="q2">Is my session file uploaded anywhere?</summary><div class="a" data-i18n-html="a2">No. Parsing happens entirely in your browser with no API calls and no server upload. Session files contain your code, file paths and sometimes secrets — which is exactly why this tool is 100% client-side.</div></details>
       <details><summary data-i18n="q3">What does the viewer support?</summary><div class="a" data-i18n-html="a3">This Claude Code JSONL viewer supports Markdown rendering for user and assistant messages, extended thinking blocks, tool call parameters and results, images, token usage and cost stats — with an interface in 10 languages.</div></details>
       <details><summary data-i18n="q4">What is the .jsonl format?</summary><div class="a" data-i18n-html="a4">JSON Lines — one independent JSON object per line. Claude Code logs every message, tool call and metadata entry as a line.</div></details>
@@ -420,7 +422,7 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={'en':{"brand": "CCViewer", "thinking": "Thinking", "tools": "Tools", "sysInj": "System/Injected", "expandAll": "Expand all", "pasteText": "Paste text", "openFile": "Open file", "noFile": "No file loaded", "dropHint1": "Drag a <b>.jsonl</b> history file here, or click to choose", "dropHint2": "e.g. ~/.claude/projects/&lt;project&gt;/&lt;sessionId&gt;.jsonl", "chooseFile": "Choose file", "pasteTitle": "Paste JSONL text", "pasteHint": "Paste the whole history file here, one JSON object per line (a single JSON array / object also works).", "cancel": "Cancel", "loadBtn": "Load", "thinkLabel": "✻ Thinking", "you": "You", "reply": "Reply", "result": "Result", "error": "Error", "lines": "lines", "images": "images", "viewResult": "View result", "sysMsg": "System message", "injCtx": "Injected context", "system": "System", "sessionInfo": "Session info", "stats": "Stats", "costUsage": "Cost / Usage", "titleRow": "Title", "projectDir": "Project dir", "gitBranch": "Git branch", "version": "Version", "sessionId": "Session ID", "time": "Time", "model": "Model", "userMsgs": "User msgs", "replies": "Replies", "toolCalls": "Tool calls", "thinkingStat": "Thinking", "imagesStat": "Images", "parseFailed": "Parse failed", "home": "Home", "inTokens": "Input tokens", "outTokens": "Output tokens", "cacheRead": "Cache reads", "cacheCreate": "Cache writes", "totalCost": "Total cost", "linesPM": "Lines +/-", "apiTime": "API time", "toolTime": "Tool time", "viewerSuffix": "History Viewer", "pasteEmptyErr": "No valid records parsed. Please check the pasted content.", "pastedContent": "Pasted content", "intro": "CCViewer is a free, open-source <b>Claude Code viewer</b> for the <b>.jsonl</b> session files stored under <code>~/.claude/projects/</code>. Use it as a Claude Code session viewer to replay any conversation, or as a JSONL history viewer to audit tool calls, thinking blocks, token usage and cost — everything is rendered locally in your browser, and files never leave your computer.", "featMd": "Markdown rendering", "featMdD": "Code blocks, tables, lists and quotes", "featThink": "Thinking blocks", "featThinkD": "Collapsible extended thinking", "featTool": "Tool calls", "featToolD": "Inputs and results, expandable", "featCost": "Usage & cost", "featCostD": "Token usage, duration and cost", "featI18n": "Multilingual interface", "featI18nD": "Switch between 10 languages in one click", "featPrivacy": "Privacy first", "featPrivacyD": "100% client-side, zero upload", "faqTitle": "Frequently Asked Questions", "tagline": "A Claude Code session viewer and JSONL history viewer that runs entirely in your browser. Private, free and open-source.", "heroTitle": "The <em>Claude Code</em> session history viewer", "pvUserQ": "Fix the broken login page layout on mobile", "pvThink": "Let me inspect the login page styles first…", "pvReply": "The issue was a missing <code>wrap</code> in the <code>flex</code> layout. Fixed and verified at 375px width.", "footerPrivacy": "100% client-side — files never leave your browser", "q1": "How do I view previous Claude Code sessions?", "a1": "Claude Code saves every session as a JSONL file under <code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code>. Drop the file here to browse the full conversation.", "q2": "Is my session file uploaded anywhere?", "a2": "No. Parsing happens entirely in your browser with no API calls and no server upload. Session files contain your code, file paths and sometimes secrets — which is exactly why this tool is 100% client-side.", "q3": "What does the viewer support?", "a3": "This Claude Code JSONL viewer supports Markdown rendering for user and assistant messages, extended thinking blocks, tool call parameters and results, images, token usage and cost stats — with an interface in 10 languages.", "q4": "What is the .jsonl format?", "a4": "JSON Lines — one independent JSON object per line. Claude Code logs every message, tool call and metadata entry as a line.", "q5": "Is CCViewer free?", "a5": "Yes, it is free and open-source. No sign-up required.", "libraryBtn": "Sessions", "libraryTitle": "Session Library", "libraryEmpty": "No sessions yet. Open a folder of .jsonl files to build your library.", "openFolder": "Open folder", "importing": "Importing… {n}/{m}", "importedN": "{n} sessions", "sortRecent": "Most recent", "sortOldest": "Oldest first", "sortMsgs": "Messages", "sortTokens": "Tokens", "sortCost": "Cost", "deleteBtn": "Delete", "clearAll": "Clear all", "confirmDelete": "Delete this session?", "confirmClear": "Delete ALL stored sessions? This cannot be undone.", "noTextErr": "Content not cached (storage was full). Re-import the folder to open it.", "storageWarn": "Browser storage is full; some sessions were saved as summary only.", "closeBtn": "Close", "dirTip": "Tip (macOS): in the picker press <kbd>⌘⇧.</kbd> to reveal hidden folders, or in Finder press <kbd>⌘⇧G</kbd> and type <code>~/.claude/projects</code>. The picker remembers your last folder.", "navProjects": "Projects", "noProject": "(no project dir)", "toggleNav": "Toggle projects panel", "dragResize": "Drag to resize"}};
+const I18N={'en':{"brand": "CCViewer", "thinking": "Thinking", "tools": "Tools", "sysInj": "System/Injected", "expandAll": "Expand all", "pasteText": "Paste text", "openFile": "Open file", "noFile": "No file loaded", "dropHint1": "Drag a <b>.jsonl</b> history file <b>or a whole project folder</b> here, or click to choose", "dropHint2": "e.g. the entire <code>~/.claude/projects/</code> folder, or a single <code>&lt;sessionId&gt;.jsonl</code> inside it", "chooseFile": "Choose file", "pasteTitle": "Paste JSONL text", "pasteHint": "Paste the whole history file here, one JSON object per line (a single JSON array / object also works).", "cancel": "Cancel", "loadBtn": "Load", "thinkLabel": "✻ Thinking", "you": "You", "reply": "Reply", "result": "Result", "error": "Error", "lines": "lines", "images": "images", "viewResult": "View result", "sysMsg": "System message", "injCtx": "Injected context", "system": "System", "sessionInfo": "Session info", "stats": "Stats", "costUsage": "Cost / Usage", "titleRow": "Title", "projectDir": "Project dir", "gitBranch": "Git branch", "version": "Version", "sessionId": "Session ID", "time": "Time", "model": "Model", "userMsgs": "User msgs", "replies": "Replies", "toolCalls": "Tool calls", "thinkingStat": "Thinking", "imagesStat": "Images", "parseFailed": "Parse failed", "home": "Home", "inTokens": "Input tokens", "outTokens": "Output tokens", "cacheRead": "Cache reads", "cacheCreate": "Cache writes", "totalCost": "Total cost", "linesPM": "Lines +/-", "apiTime": "API time", "toolTime": "Tool time", "viewerSuffix": "History Viewer", "pasteEmptyErr": "No valid records parsed. Please check the pasted content.", "pastedContent": "Pasted content", "intro": "CCViewer is a free, open-source <b>Claude Code viewer</b> for the <b>.jsonl</b> session files stored under <code>~/.claude/projects/</code>. Use it as a Claude Code session viewer to replay any conversation, or as a JSONL history viewer to audit tool calls, thinking blocks, token usage and cost — everything is rendered locally in your browser, and files never leave your computer.", "featMd": "Markdown rendering", "featMdD": "Code blocks, tables, lists and quotes", "featThink": "Thinking blocks", "featThinkD": "Collapsible extended thinking", "featTool": "Tool calls", "featToolD": "Inputs and results, expandable", "featCost": "Usage & cost", "featCostD": "Token usage, duration and cost", "featI18n": "Multilingual interface", "featI18nD": "Switch between 10 languages in one click", "featPrivacy": "Privacy first", "featPrivacyD": "100% client-side, zero upload", "faqTitle": "Frequently Asked Questions", "tagline": "A Claude Code session viewer and JSONL history viewer that runs entirely in your browser. Private, free and open-source.", "heroTitle": "The <em>Claude Code</em> session history viewer", "pvUserQ": "Fix the broken login page layout on mobile", "pvThink": "Let me inspect the login page styles first…", "pvReply": "The issue was a missing <code>wrap</code> in the <code>flex</code> layout. Fixed and verified at 375px width.", "footerPrivacy": "100% client-side — files never leave your browser", "q1": "How do I view previous Claude Code sessions?", "a1": "Claude Code saves every session as a JSONL file under <code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code>. Drop a single file or the whole project folder here to browse the full conversation.", "q2": "Is my session file uploaded anywhere?", "a2": "No. Parsing happens entirely in your browser with no API calls and no server upload. Session files contain your code, file paths and sometimes secrets — which is exactly why this tool is 100% client-side.", "q3": "What does the viewer support?", "a3": "This Claude Code JSONL viewer supports Markdown rendering for user and assistant messages, extended thinking blocks, tool call parameters and results, images, token usage and cost stats — with an interface in 10 languages.", "q4": "What is the .jsonl format?", "a4": "JSON Lines — one independent JSON object per line. Claude Code logs every message, tool call and metadata entry as a line.", "q5": "Is CCViewer free?", "a5": "Yes, it is free and open-source. No sign-up required.", "libraryBtn": "Sessions", "libraryTitle": "Session Library", "libraryEmpty": "No sessions yet. Open a folder of .jsonl files to build your library.", "openFolder": "Open folder", "importing": "Importing… {n}/{m}", "importedN": "{n} sessions", "sortRecent": "Most recent", "sortOldest": "Oldest first", "sortMsgs": "Messages", "sortTokens": "Tokens", "sortCost": "Cost", "deleteBtn": "Delete", "clearAll": "Clear all", "confirmDelete": "Delete this session?", "confirmClear": "Delete ALL stored sessions? This cannot be undone.", "noTextErr": "Content not cached (storage was full). Re-import the folder to open it.", "storageWarn": "Browser storage is full; some sessions were saved as summary only.", "closeBtn": "Close", "dirTip": "Tip (macOS): in the picker press <kbd>⌘⇧.</kbd> to reveal hidden folders, or in Finder press <kbd>⌘⇧G</kbd> and type <code>~/.claude/projects</code>. The picker remembers your last folder.", "navProjects": "Projects", "noProject": "(no project dir)", "toggleNav": "Toggle projects panel", "dragResize": "Drag to resize", "exportMd": "Export MD", "exportEmptyErr": "Load a session first."}};
 const LANG='en';
 const BASE_PATH='/claude-code-session-viewer';
 const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
@@ -806,7 +808,60 @@ function load(text,name,pasted){
   renderSidebar(sum,bad);
   renderAll();
   $('#drop').classList.add('hide');
+  $('#btnExportMd').style.display='';
 }
+/* ---------- 导出 Markdown ---------- */
+const resultText=b=>typeof b.content==='string'?b.content:Array.isArray(b.content)?b.content.map(x=>x.text||JSON.stringify(x)).join('\n'):JSON.stringify(b.content);
+function buildMd(){
+  if(!CUR)return null;
+  const s=CUR.sum;
+  const out=['# '+(s.title||CUR.name||s.sessionId||'Claude Code Session'),''];
+  const info=[];
+  if(s.cwd)info.push('- Project: '+s.cwd);
+  if(s.gitBranch)info.push('- Branch: '+s.gitBranch);
+  if(s.firstTs&&s.lastTs)info.push('- Time: '+fmtTime(s.firstTs)+' → '+fmtTime(s.lastTs));
+  const models=Array.from(s.models||[]).join(', ');if(models)info.push('- Model: '+models);
+  const tk=s.tokens;if(tk.in||tk.out)info.push('- Tokens: in '+num(tk.in)+' / out '+num(tk.out));
+  if(s.cost&&s.cost.totalCostUSD!=null)info.push('- Cost: $'+s.cost.totalCostUSD.toFixed(4));
+  if(info.length)out.push(info.join('\n'),'','---','');
+  for(const o of CUR.entries){
+    const ts=o.timestamp?(' · '+fmtTime(o.timestamp)):'';
+    const msg=o.message,c=msg&&msg.content;
+    if(o.type==='user'){
+      const kind=classifyUser(o);
+      if(kind==='human'){
+        let txt=typeof c==='string'?c:(Array.isArray(c)?c.filter(b=>b.type==='text').map(b=>b.text).join('\n'):'');
+        txt=(txt||'').trim();if(!txt)continue;
+        out.push('## 🧑 '+t('you')+ts,'',txt,'');
+      }else if(kind==='toolresult'&&SHOW_TOOL){
+        for(const b of (Array.isArray(c)?c:[]))if(b.type==='tool_result'&&b.is_error)
+          out.push('**❌ '+t('error')+ts+'**','','```',String(resultText(b)).slice(0,2000),'```','');
+      }
+    }else if(o.type==='assistant'){
+      if(typeof c==='string'&&c.trim()){out.push('## 🤖 '+t('reply')+ts,'',c.trim(),'');continue;}
+      if(!Array.isArray(c))continue;
+      const seg=[];
+      for(const b of c){
+        if(b.type==='text'&&b.text.trim())seg.push('## 🤖 '+t('reply')+ts,'',b.text.trim());
+        else if(b.type==='thinking'&&SHOW_THINK)seg.push('**'+t('thinkLabel')+'**','',String(b.thinking||'').split('\n').map(l=>'> '+l).join('\n'));
+        else if(b.type==='tool_use'&&SHOW_TOOL)seg.push('**⏺ '+b.name+'**','','```json',JSON.stringify(b.input,null,2),'```');
+      }
+      if(seg.length)out.push(seg.join('\n\n'),'');
+    }
+  }
+  return out.join('\n');
+}
+function exportMd(){
+  const md=buildMd();
+  if(!md){alert(t('exportEmptyErr'));return;}
+  const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
+  const a=document.createElement('a');
+  const base=((CUR.sum.title||CUR.name||CUR.sum.sessionId||'session').replace(/\.jsonl?$/i,'').replace(/[^\w\u4e00-\u9fa5.-]+/g,'_').slice(0,80))||'session';
+  a.href=URL.createObjectURL(blob);a.download=base+'.md';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+$('#btnExportMd').onclick=exportMd;
 // 当前内容的显示名（粘贴内容随语言切换）
 function curName(){if(!CUR)return'';return CUR.pasted?t('pastedContent'):CUR.name;}
 function applyFname(){
@@ -899,7 +954,12 @@ async function loadLibrary(){
   for(const rec of (all||[])){LIB.push(libMeta(rec));LIB_FULL.set(rec.id,rec);}
   updateLibBtn();
 }
-function updateLibBtn(){const b=$('#btnLibrary');if(b)b.textContent=t('libraryBtn')+(LIB.length?' ('+LIB.length+')':'');updateNav();}
+function updateLibBtn(){
+  const label=t('libraryBtn')+(LIB.length?' ('+LIB.length+')':'');
+  const b=$('#btnLibrary');if(b)b.textContent=label;
+  const bl=$('#btnLibLanding');if(bl){bl.textContent=label;bl.style.display=LIB.length?'':'none';}
+  updateNav();
+}
 /* ---------- 左侧导览：按项目目录聚类 ---------- */
 let CUR_ID=null,NAV_COLLAPSED=new Set();
 const cwdBasename=p=>{p=String(p||'').replace(/\/+$/,'');const i=p.lastIndexOf('/');return i>=0?p.slice(i+1):p;};
@@ -1069,9 +1129,42 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pasteModal.classLis
 const drop=$('#drop');
 ['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('hide');drop.classList.add('drag');}));
 ['dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();if(ev==='dragleave'&&e.relatedTarget)return;drop.classList.remove('drag');if(CUR&&ev==='dragleave')drop.classList.add('hide');}));
-document.addEventListener('drop',e=>{e.preventDefault();const fs=e.dataTransfer.files;if(!fs||!fs.length)return;
-  if(fs.length>1){showLibrary();importFiles(fs);return;}
-  const f=fs[0];const r=new FileReader();r.onload=()=>{load(r.result,f.name);saveToLibrary(r.result,f.name,'file');};r.readAsText(f);});
+// 拖入内容 → 文件列表：支持文件夹（webkitGetAsEntry 递归，深度上限 4，跳过 node_modules）
+// 注意：必须在事件处理器内同步取 entries，DataTransfer 在事件返回后失效
+async function filesFromDataTransfer(dt){
+  const files=[];
+  const entryFile=en=>new Promise((res,rej)=>en.file(res,rej));
+  async function walk(en,depth){
+    if(depth>4)return;
+    if(en.isFile){try{files.push(await entryFile(en));}catch(e){}}
+    else if(en.isDirectory){
+      if(en.name==='node_modules')return;
+      const rd=en.createReader();
+      let batch;
+      do{
+        batch=await new Promise((res,rej)=>rd.readEntries(res,rej));
+        for(const c of batch)await walk(c,depth+1);
+      }while(batch.length);
+    }
+  }
+  const entries=[...(dt.items||[])].map(it=>it.webkitGetAsEntry&&it.webkitGetAsEntry()).filter(Boolean);
+  if(!entries.length)return [...(dt.files||[])];
+  for(const en of entries)await walk(en,0);
+  return files;
+}
+document.addEventListener('drop',e=>{
+  e.preventDefault();
+  const dt=e.dataTransfer;
+  if(!dt||!dt.files||!dt.files.length)return;
+  const hadDir=[...(dt.items||[])].some(it=>{const en=it.webkitGetAsEntry&&it.webkitGetAsEntry();return en&&en.isDirectory;});
+  if(dt.files.length===1&&!hadDir){
+    const f=dt.files[0];const r=new FileReader();r.onload=()=>{load(r.result,f.name);saveToLibrary(r.result,f.name,'file');};r.readAsText(f);
+    return;
+  }
+  const p=filesFromDataTransfer(dt); // 同步启动，先取 entries
+  showLibrary();
+  p.then(fls=>importFiles(fls));
+});
 const HOME_TITLE=document.title;
 $('#btnHome').onclick=()=>{
   CUR=null;
@@ -1079,10 +1172,12 @@ $('#btnHome').onclick=()=>{
   $('#sidebar').innerHTML='';
   const fn=$('#fname');if(fn)fn.textContent='';
   document.title=HOME_TITLE;
-  showView(LIB.length?'library':'landing');
+  $('#btnExportMd').style.display='none';
+  showView('landing');
 };
 /* 会话库交互 */
 $('#btnLibrary').onclick=showLibrary;
+$('#btnLibLanding').onclick=showLibrary;
 $('#btnLibClose').onclick=()=>showView(CUR?'viewer':'landing');
 $('#btnPickDir').onclick=pickDir;
 $('#btnImportFolder').onclick=pickDir;

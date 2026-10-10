@@ -15,8 +15,8 @@
   "pasteText": "Text einfügen",
   "openFile": "Datei öffnen",
   "noFile": "Keine Datei geladen",
-  "dropHint1": "Ziehen Sie eine <b>.jsonl</b>-Verlaufsdatei hierher oder klicken Sie zum Auswählen",
-  "dropHint2": "z. B. ~/.claude/projects/&lt;Projekt&gt;/&lt;sessionId&gt;.jsonl",
+  "dropHint1": "Ziehe eine <b>.jsonl</b>-Datei <b>oder einen ganzen Projektordner</b> hierher oder klicke zum Auswählen",
+  "dropHint2": "z. B. der komplette Ordner <code>~/.claude/projects/</code> oder eine einzelne <code>&lt;sessionId&gt;.jsonl</code> darin",
   "chooseFile": "Datei auswählen",
   "pasteTitle": "JSONL-Text einfügen",
   "pasteHint": "Fügen Sie den gesamten Inhalt der Verlaufsdatei ein, ein JSON-Objekt pro Zeile (ein einzelnes JSON-Array / -Objekt funktioniert auch).",
@@ -113,6 +113,8 @@
   "navProjects": "Projekte",
   "noProject": "(kein Projektverzeichnis)",
   "toggleNav": "Projektleiste ein-/ausblenden",
-  "dragResize": "Ziehen zum Anpassen der Breite"
+  "dragResize": "Ziehen zum Anpassen der Breite",
+  "exportMd": "MD exportieren",
+  "exportEmptyErr": "Lade zuerst eine Sitzung."
  }
 }

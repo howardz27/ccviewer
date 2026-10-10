@@ -15,8 +15,8 @@
   "pasteText": "Coller du texte",
   "openFile": "Ouvrir un fichier",
   "noFile": "Aucun fichier chargé",
-  "dropHint1": "Glissez un fichier d'historique <b>.jsonl</b> ici, ou cliquez pour choisir",
-  "dropHint2": "ex. ~/.claude/projects/&lt;projet&gt;/&lt;sessionId&gt;.jsonl",
+  "dropHint1": "Glissez un fichier <b>.jsonl</b> <b>ou un dossier de projet entier</b> ici, ou cliquez pour choisir",
+  "dropHint2": "p. ex. tout le dossier <code>~/.claude/projects/</code> ou un seul <code>&lt;sessionId&gt;.jsonl</code> à l'intérieur",
   "chooseFile": "Choisir un fichier",
   "pasteTitle": "Coller du texte JSONL",
   "pasteHint": "Collez ici tout le contenu du fichier d'historique, un objet JSON par ligne (un tableau / objet JSON unique fonctionne aussi).",
@@ -113,6 +113,8 @@
   "navProjects": "Projets",
   "noProject": "(sans répertoire de projet)",
   "toggleNav": "Afficher/masquer le panneau des projets",
-  "dragResize": "Glisser pour redimensionner"
+  "dragResize": "Glisser pour redimensionner",
+  "exportMd": "Exporter MD",
+  "exportEmptyErr": "Chargez d'abord une session."
  }
 }

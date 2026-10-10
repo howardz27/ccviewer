@@ -292,6 +292,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <label class="toggle"><input type="checkbox" id="tgExpand"><span data-i18n="expandAll">Expandir todo</span></label>
     <button class="btn" id="btnHome" data-i18n="home">Inicio</button>
     <button class="btn" id="btnLibrary" data-i18n="libraryBtn">Sesiones</button>
+    <button class="btn primary" id="btnExportMd" data-i18n="exportMd" style="display:none">Exportar MD</button>
     <select class="btn langsel" aria-label="Language"></select>
     <button class="btn" id="btnPasteTop" data-i18n="pasteText">Pegar texto</button>
     <button class="btn" id="btnOpen" data-i18n="openFile">Abrir archivo</button>
@@ -307,6 +308,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   <header class="lheader">
     <span class="lbrand"><span class="logo lg"></span>CCViewer</span>
     <span class="lspacer"></span>
+    <button class="btn" id="btnLibLanding" data-i18n="libraryBtn" style="display:none">Sesiones</button>
     <select class="btn langsel" aria-label="Language"></select>
   </header>
   <main class="hero">
@@ -315,8 +317,8 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <h1 data-i18n-html="heroTitle">Lee el historial de sesiones de <em>Claude Code</em></h1>
       <p class="tagline" data-i18n="tagline">Renderiza archivos .jsonl localmente en tu navegador. Privado, gratuito y de código abierto</p>
       <div class="box">
-        <p data-i18n-html="dropHint1">Arrastra un archivo de historial <b>.jsonl</b> aquí, o haz clic para elegirlo</p>
-        <p class="pathhint" data-i18n-html="dropHint2">p. ej. ~/.claude/projects/&lt;proyecto&gt;/&lt;sessionId&gt;.jsonl</p>
+        <p data-i18n-html="dropHint1">Arrastra un archivo <b>.jsonl</b> <b>o una carpeta de proyecto completa</b> aquí, o haz clic para elegir</p>
+        <p class="pathhint" data-i18n-html="dropHint2">p. ej. toda la carpeta <code>~/.claude/projects/</code> o un solo <code>&lt;sessionId&gt;.jsonl</code> dentro</p>
         <div class="cta">
           <button class="btn primary" id="btnPickDir" data-i18n="openFolder">Abrir carpeta</button>
           <button class="btn" id="btnPick" data-i18n="chooseFile">Elegir archivo</button>
@@ -420,7 +422,7 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={'es':{"brand": "CCViewer", "thinking": "Razonamiento", "tools": "Herramientas", "sysInj": "Sistema/Inyectado", "expandAll": "Expandir todo", "pasteText": "Pegar texto", "openFile": "Abrir archivo", "noFile": "Ningún archivo cargado", "dropHint1": "Arrastra un archivo de historial <b>.jsonl</b> aquí, o haz clic para elegirlo", "dropHint2": "p. ej. ~/.claude/projects/&lt;proyecto&gt;/&lt;sessionId&gt;.jsonl", "chooseFile": "Elegir archivo", "pasteTitle": "Pegar texto JSONL", "pasteHint": "Pega aquí el contenido completo del archivo de historial, un objeto JSON por línea (también admite un único array / objeto JSON).", "cancel": "Cancelar", "loadBtn": "Cargar", "thinkLabel": "✻ Razonamiento", "you": "Tú", "reply": "Respuesta", "result": "Resultado", "error": "Error", "lines": "líneas", "images": "imágenes", "viewResult": "Ver resultado", "sysMsg": "Mensaje del sistema", "injCtx": "Contexto inyectado", "system": "Sistema", "sessionInfo": "Información de sesión", "stats": "Estadísticas", "costUsage": "Coste / Uso", "titleRow": "Título", "projectDir": "Directorio del proyecto", "gitBranch": "Rama de Git", "version": "Versión", "sessionId": "ID de sesión", "time": "Hora", "model": "Modelo", "userMsgs": "Mensajes del usuario", "replies": "Respuestas", "toolCalls": "Llamadas a herramientas", "thinkingStat": "Razonamiento", "imagesStat": "Imágenes", "parseFailed": "Error de análisis", "home": "Inicio", "inTokens": "Tokens de entrada", "outTokens": "Tokens de salida", "cacheRead": "Lecturas de caché", "cacheCreate": "Escrituras de caché", "totalCost": "Coste total", "linesPM": "Líneas +/-", "apiTime": "Tiempo de API", "toolTime": "Tiempo de herramientas", "viewerSuffix": "Visor de historial", "pasteEmptyErr": "No se ha analizado ningún registro válido. Revisa el contenido pegado.", "pastedContent": "Contenido pegado", "intro": "CCViewer es un visor de sesiones de Claude Code de código abierto. Renderiza archivos <b>.jsonl</b> completamente en tu navegador, con Markdown, bloques de razonamiento, llamadas a herramientas y estadísticas de coste. Los archivos no se suben a ningún servidor: tu privacidad está a salvo.", "featMd": "Renderizado Markdown", "featMdD": "Bloques de código, tablas, listas y citas", "featThink": "Proceso de razonamiento", "featThinkD": "Extended thinking plegable y consultable", "featTool": "Llamadas a herramientas", "featToolD": "Parámetros y resultados desplegables", "featCost": "Uso y coste", "featCostD": "Tokens, duración y gasto analizados", "featI18n": "Interfaz multilingüe", "featI18nD": "Cambia entre 10 idiomas con un clic", "featPrivacy": "Privacidad primero", "featPrivacyD": "100% en el cliente, cero subidas", "faqTitle": "Preguntas frecuentes", "tagline": "Renderiza archivos .jsonl localmente en tu navegador. Privado, gratuito y de código abierto", "heroTitle": "Lee el historial de sesiones de <em>Claude Code</em>", "pvUserQ": "Arregla el diseño roto de la página de login en móvil", "pvThink": "Primero inspeccionaré los estilos de la página de login…", "pvReply": "El problema era un <code>wrap</code> ausente en el diseño <code>flex</code>. Corregido y verificado a 375 px.", "footerPrivacy": "100% en el cliente — tus archivos nunca salen del navegador", "q1": "¿Cómo veo sesiones anteriores de Claude Code?", "a1": "Claude Code guarda cada sesión como un archivo JSONL en <code>~/.claude/projects/&lt;proyecto&gt;/&lt;session-id&gt;.jsonl</code>. Suelta ese archivo en esta página para explorar la conversación completa.", "q2": "¿Se sube mi archivo de sesión a algún sitio?", "a2": "No. El análisis ocurre íntegramente en tu navegador, sin llamadas de red ni subidas al servidor. Los archivos de sesión contienen tu código y rutas de archivos; por eso esta herramienta es 100% de cliente.", "q3": "¿Qué admite el visor?", "a3": "Markdown para mensajes del usuario y del asistente, bloques de extended thinking, parámetros y resultados de herramientas, imágenes, uso de tokens y estadísticas de coste, con interfaz en 10 idiomas.", "q4": "¿Qué es el formato .jsonl?", "a4": "JSON Lines: un objeto JSON independiente por línea. Claude Code registra cada mensaje, llamada a herramienta y metadato como una línea.", "q5": "¿Es gratis CCViewer?", "a5": "Sí, es gratuito y de código abierto. No requiere registro.", "libraryBtn": "Sesiones", "libraryTitle": "Biblioteca de sesiones", "libraryEmpty": "Aún no hay sesiones. Abre una carpeta con archivos .jsonl para crear tu biblioteca.", "openFolder": "Abrir carpeta", "importing": "Importando… {n}/{m}", "importedN": "{n} sesiones", "sortRecent": "Más recientes", "sortOldest": "Más antiguas", "sortMsgs": "Mensajes", "sortTokens": "Tokens", "sortCost": "Coste", "deleteBtn": "Eliminar", "clearAll": "Borrar todo", "confirmDelete": "¿Eliminar esta sesión?", "confirmClear": "¿Eliminar TODAS las sesiones guardadas? No se puede deshacer.", "noTextErr": "Contenido no guardado en caché (almacenamiento lleno). Reimporta la carpeta para abrirlo.", "storageWarn": "El almacenamiento del navegador está lleno; algunas sesiones se guardaron solo como resumen.", "closeBtn": "Cerrar", "dirTip": "Consejo (macOS): pulsa <kbd>⌘⇧.</kbd> en el selector para mostrar carpetas ocultas, o usa <kbd>⌘⇧G</kbd> en Finder y escribe <code>~/.claude/projects</code>. El selector recuerda la última carpeta.", "navProjects": "Proyectos", "noProject": "(sin directorio de proyecto)", "toggleNav": "Mostrar/ocultar panel de proyectos", "dragResize": "Arrastra para redimensionar"}};
+const I18N={'es':{"brand": "CCViewer", "thinking": "Razonamiento", "tools": "Herramientas", "sysInj": "Sistema/Inyectado", "expandAll": "Expandir todo", "pasteText": "Pegar texto", "openFile": "Abrir archivo", "noFile": "Ningún archivo cargado", "dropHint1": "Arrastra un archivo <b>.jsonl</b> <b>o una carpeta de proyecto completa</b> aquí, o haz clic para elegir", "dropHint2": "p. ej. toda la carpeta <code>~/.claude/projects/</code> o un solo <code>&lt;sessionId&gt;.jsonl</code> dentro", "chooseFile": "Elegir archivo", "pasteTitle": "Pegar texto JSONL", "pasteHint": "Pega aquí el contenido completo del archivo de historial, un objeto JSON por línea (también admite un único array / objeto JSON).", "cancel": "Cancelar", "loadBtn": "Cargar", "thinkLabel": "✻ Razonamiento", "you": "Tú", "reply": "Respuesta", "result": "Resultado", "error": "Error", "lines": "líneas", "images": "imágenes", "viewResult": "Ver resultado", "sysMsg": "Mensaje del sistema", "injCtx": "Contexto inyectado", "system": "Sistema", "sessionInfo": "Información de sesión", "stats": "Estadísticas", "costUsage": "Coste / Uso", "titleRow": "Título", "projectDir": "Directorio del proyecto", "gitBranch": "Rama de Git", "version": "Versión", "sessionId": "ID de sesión", "time": "Hora", "model": "Modelo", "userMsgs": "Mensajes del usuario", "replies": "Respuestas", "toolCalls": "Llamadas a herramientas", "thinkingStat": "Razonamiento", "imagesStat": "Imágenes", "parseFailed": "Error de análisis", "home": "Inicio", "inTokens": "Tokens de entrada", "outTokens": "Tokens de salida", "cacheRead": "Lecturas de caché", "cacheCreate": "Escrituras de caché", "totalCost": "Coste total", "linesPM": "Líneas +/-", "apiTime": "Tiempo de API", "toolTime": "Tiempo de herramientas", "viewerSuffix": "Visor de historial", "pasteEmptyErr": "No se ha analizado ningún registro válido. Revisa el contenido pegado.", "pastedContent": "Contenido pegado", "intro": "CCViewer es un visor de sesiones de Claude Code de código abierto. Renderiza archivos <b>.jsonl</b> completamente en tu navegador, con Markdown, bloques de razonamiento, llamadas a herramientas y estadísticas de coste. Los archivos no se suben a ningún servidor: tu privacidad está a salvo.", "featMd": "Renderizado Markdown", "featMdD": "Bloques de código, tablas, listas y citas", "featThink": "Proceso de razonamiento", "featThinkD": "Extended thinking plegable y consultable", "featTool": "Llamadas a herramientas", "featToolD": "Parámetros y resultados desplegables", "featCost": "Uso y coste", "featCostD": "Tokens, duración y gasto analizados", "featI18n": "Interfaz multilingüe", "featI18nD": "Cambia entre 10 idiomas con un clic", "featPrivacy": "Privacidad primero", "featPrivacyD": "100% en el cliente, cero subidas", "faqTitle": "Preguntas frecuentes", "tagline": "Renderiza archivos .jsonl localmente en tu navegador. Privado, gratuito y de código abierto", "heroTitle": "Lee el historial de sesiones de <em>Claude Code</em>", "pvUserQ": "Arregla el diseño roto de la página de login en móvil", "pvThink": "Primero inspeccionaré los estilos de la página de login…", "pvReply": "El problema era un <code>wrap</code> ausente en el diseño <code>flex</code>. Corregido y verificado a 375 px.", "footerPrivacy": "100% en el cliente — tus archivos nunca salen del navegador", "q1": "¿Cómo veo sesiones anteriores de Claude Code?", "a1": "Claude Code guarda cada sesión como un archivo JSONL en <code>~/.claude/projects/&lt;proyecto&gt;/&lt;session-id&gt;.jsonl</code>. Suelta ese archivo en esta página para explorar la conversación completa.", "q2": "¿Se sube mi archivo de sesión a algún sitio?", "a2": "No. El análisis ocurre íntegramente en tu navegador, sin llamadas de red ni subidas al servidor. Los archivos de sesión contienen tu código y rutas de archivos; por eso esta herramienta es 100% de cliente.", "q3": "¿Qué admite el visor?", "a3": "Markdown para mensajes del usuario y del asistente, bloques de extended thinking, parámetros y resultados de herramientas, imágenes, uso de tokens y estadísticas de coste, con interfaz en 10 idiomas.", "q4": "¿Qué es el formato .jsonl?", "a4": "JSON Lines: un objeto JSON independiente por línea. Claude Code registra cada mensaje, llamada a herramienta y metadato como una línea.", "q5": "¿Es gratis CCViewer?", "a5": "Sí, es gratuito y de código abierto. No requiere registro.", "libraryBtn": "Sesiones", "libraryTitle": "Biblioteca de sesiones", "libraryEmpty": "Aún no hay sesiones. Abre una carpeta con archivos .jsonl para crear tu biblioteca.", "openFolder": "Abrir carpeta", "importing": "Importando… {n}/{m}", "importedN": "{n} sesiones", "sortRecent": "Más recientes", "sortOldest": "Más antiguas", "sortMsgs": "Mensajes", "sortTokens": "Tokens", "sortCost": "Coste", "deleteBtn": "Eliminar", "clearAll": "Borrar todo", "confirmDelete": "¿Eliminar esta sesión?", "confirmClear": "¿Eliminar TODAS las sesiones guardadas? No se puede deshacer.", "noTextErr": "Contenido no guardado en caché (almacenamiento lleno). Reimporta la carpeta para abrirlo.", "storageWarn": "El almacenamiento del navegador está lleno; algunas sesiones se guardaron solo como resumen.", "closeBtn": "Cerrar", "dirTip": "Consejo (macOS): pulsa <kbd>⌘⇧.</kbd> en el selector para mostrar carpetas ocultas, o usa <kbd>⌘⇧G</kbd> en Finder y escribe <code>~/.claude/projects</code>. El selector recuerda la última carpeta.", "navProjects": "Proyectos", "noProject": "(sin directorio de proyecto)", "toggleNav": "Mostrar/ocultar panel de proyectos", "dragResize": "Arrastra para redimensionar", "exportMd": "Exportar MD", "exportEmptyErr": "Carga primero una sesión."}};
 const LANG='es';
 const BASE_PATH='/claude-code-session-viewer';
 const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
@@ -806,7 +808,60 @@ function load(text,name,pasted){
   renderSidebar(sum,bad);
   renderAll();
   $('#drop').classList.add('hide');
+  $('#btnExportMd').style.display='';
 }
+/* ---------- 导出 Markdown ---------- */
+const resultText=b=>typeof b.content==='string'?b.content:Array.isArray(b.content)?b.content.map(x=>x.text||JSON.stringify(x)).join('\n'):JSON.stringify(b.content);
+function buildMd(){
+  if(!CUR)return null;
+  const s=CUR.sum;
+  const out=['# '+(s.title||CUR.name||s.sessionId||'Claude Code Session'),''];
+  const info=[];
+  if(s.cwd)info.push('- Project: '+s.cwd);
+  if(s.gitBranch)info.push('- Branch: '+s.gitBranch);
+  if(s.firstTs&&s.lastTs)info.push('- Time: '+fmtTime(s.firstTs)+' → '+fmtTime(s.lastTs));
+  const models=Array.from(s.models||[]).join(', ');if(models)info.push('- Model: '+models);
+  const tk=s.tokens;if(tk.in||tk.out)info.push('- Tokens: in '+num(tk.in)+' / out '+num(tk.out));
+  if(s.cost&&s.cost.totalCostUSD!=null)info.push('- Cost: $'+s.cost.totalCostUSD.toFixed(4));
+  if(info.length)out.push(info.join('\n'),'','---','');
+  for(const o of CUR.entries){
+    const ts=o.timestamp?(' · '+fmtTime(o.timestamp)):'';
+    const msg=o.message,c=msg&&msg.content;
+    if(o.type==='user'){
+      const kind=classifyUser(o);
+      if(kind==='human'){
+        let txt=typeof c==='string'?c:(Array.isArray(c)?c.filter(b=>b.type==='text').map(b=>b.text).join('\n'):'');
+        txt=(txt||'').trim();if(!txt)continue;
+        out.push('## 🧑 '+t('you')+ts,'',txt,'');
+      }else if(kind==='toolresult'&&SHOW_TOOL){
+        for(const b of (Array.isArray(c)?c:[]))if(b.type==='tool_result'&&b.is_error)
+          out.push('**❌ '+t('error')+ts+'**','','```',String(resultText(b)).slice(0,2000),'```','');
+      }
+    }else if(o.type==='assistant'){
+      if(typeof c==='string'&&c.trim()){out.push('## 🤖 '+t('reply')+ts,'',c.trim(),'');continue;}
+      if(!Array.isArray(c))continue;
+      const seg=[];
+      for(const b of c){
+        if(b.type==='text'&&b.text.trim())seg.push('## 🤖 '+t('reply')+ts,'',b.text.trim());
+        else if(b.type==='thinking'&&SHOW_THINK)seg.push('**'+t('thinkLabel')+'**','',String(b.thinking||'').split('\n').map(l=>'> '+l).join('\n'));
+        else if(b.type==='tool_use'&&SHOW_TOOL)seg.push('**⏺ '+b.name+'**','','```json',JSON.stringify(b.input,null,2),'```');
+      }
+      if(seg.length)out.push(seg.join('\n\n'),'');
+    }
+  }
+  return out.join('\n');
+}
+function exportMd(){
+  const md=buildMd();
+  if(!md){alert(t('exportEmptyErr'));return;}
+  const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
+  const a=document.createElement('a');
+  const base=((CUR.sum.title||CUR.name||CUR.sum.sessionId||'session').replace(/\.jsonl?$/i,'').replace(/[^\w\u4e00-\u9fa5.-]+/g,'_').slice(0,80))||'session';
+  a.href=URL.createObjectURL(blob);a.download=base+'.md';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+$('#btnExportMd').onclick=exportMd;
 // 当前内容的显示名（粘贴内容随语言切换）
 function curName(){if(!CUR)return'';return CUR.pasted?t('pastedContent'):CUR.name;}
 function applyFname(){
@@ -899,7 +954,12 @@ async function loadLibrary(){
   for(const rec of (all||[])){LIB.push(libMeta(rec));LIB_FULL.set(rec.id,rec);}
   updateLibBtn();
 }
-function updateLibBtn(){const b=$('#btnLibrary');if(b)b.textContent=t('libraryBtn')+(LIB.length?' ('+LIB.length+')':'');updateNav();}
+function updateLibBtn(){
+  const label=t('libraryBtn')+(LIB.length?' ('+LIB.length+')':'');
+  const b=$('#btnLibrary');if(b)b.textContent=label;
+  const bl=$('#btnLibLanding');if(bl){bl.textContent=label;bl.style.display=LIB.length?'':'none';}
+  updateNav();
+}
 /* ---------- 左侧导览：按项目目录聚类 ---------- */
 let CUR_ID=null,NAV_COLLAPSED=new Set();
 const cwdBasename=p=>{p=String(p||'').replace(/\/+$/,'');const i=p.lastIndexOf('/');return i>=0?p.slice(i+1):p;};
@@ -1069,9 +1129,42 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pasteModal.classLis
 const drop=$('#drop');
 ['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('hide');drop.classList.add('drag');}));
 ['dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();if(ev==='dragleave'&&e.relatedTarget)return;drop.classList.remove('drag');if(CUR&&ev==='dragleave')drop.classList.add('hide');}));
-document.addEventListener('drop',e=>{e.preventDefault();const fs=e.dataTransfer.files;if(!fs||!fs.length)return;
-  if(fs.length>1){showLibrary();importFiles(fs);return;}
-  const f=fs[0];const r=new FileReader();r.onload=()=>{load(r.result,f.name);saveToLibrary(r.result,f.name,'file');};r.readAsText(f);});
+// 拖入内容 → 文件列表：支持文件夹（webkitGetAsEntry 递归，深度上限 4，跳过 node_modules）
+// 注意：必须在事件处理器内同步取 entries，DataTransfer 在事件返回后失效
+async function filesFromDataTransfer(dt){
+  const files=[];
+  const entryFile=en=>new Promise((res,rej)=>en.file(res,rej));
+  async function walk(en,depth){
+    if(depth>4)return;
+    if(en.isFile){try{files.push(await entryFile(en));}catch(e){}}
+    else if(en.isDirectory){
+      if(en.name==='node_modules')return;
+      const rd=en.createReader();
+      let batch;
+      do{
+        batch=await new Promise((res,rej)=>rd.readEntries(res,rej));
+        for(const c of batch)await walk(c,depth+1);
+      }while(batch.length);
+    }
+  }
+  const entries=[...(dt.items||[])].map(it=>it.webkitGetAsEntry&&it.webkitGetAsEntry()).filter(Boolean);
+  if(!entries.length)return [...(dt.files||[])];
+  for(const en of entries)await walk(en,0);
+  return files;
+}
+document.addEventListener('drop',e=>{
+  e.preventDefault();
+  const dt=e.dataTransfer;
+  if(!dt||!dt.files||!dt.files.length)return;
+  const hadDir=[...(dt.items||[])].some(it=>{const en=it.webkitGetAsEntry&&it.webkitGetAsEntry();return en&&en.isDirectory;});
+  if(dt.files.length===1&&!hadDir){
+    const f=dt.files[0];const r=new FileReader();r.onload=()=>{load(r.result,f.name);saveToLibrary(r.result,f.name,'file');};r.readAsText(f);
+    return;
+  }
+  const p=filesFromDataTransfer(dt); // 同步启动，先取 entries
+  showLibrary();
+  p.then(fls=>importFiles(fls));
+});
 const HOME_TITLE=document.title;
 $('#btnHome').onclick=()=>{
   CUR=null;
@@ -1079,10 +1172,12 @@ $('#btnHome').onclick=()=>{
   $('#sidebar').innerHTML='';
   const fn=$('#fname');if(fn)fn.textContent='';
   document.title=HOME_TITLE;
-  showView(LIB.length?'library':'landing');
+  $('#btnExportMd').style.display='none';
+  showView('landing');
 };
 /* 会话库交互 */
 $('#btnLibrary').onclick=showLibrary;
+$('#btnLibLanding').onclick=showLibrary;
 $('#btnLibClose').onclick=()=>showView(CUR?'viewer':'landing');
 $('#btnPickDir').onclick=pickDir;
 $('#btnImportFolder').onclick=pickDir;

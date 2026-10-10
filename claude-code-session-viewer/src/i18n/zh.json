@@ -15,8 +15,8 @@
   "pasteText": "粘贴文本",
   "openFile": "打开文件",
   "noFile": "未加载文件",
-  "dropHint1": "把 <b>.jsonl</b> 历史文件拖到这里，或点击选择",
-  "dropHint2": "例如 ~/.claude/projects/&lt;项目&gt;/&lt;sessionId&gt;.jsonl",
+  "dropHint1": "把 <b>.jsonl</b> 历史文件<b>或整个项目文件夹</b>拖到这里，或点击选择",
+  "dropHint2": "例如 <code>~/.claude/projects/</code> 整个文件夹，或其中的 <code>&lt;sessionId&gt;.jsonl</code>",
   "chooseFile": "选择文件",
   "pasteTitle": "粘贴 JSONL 文本",
   "pasteHint": "把历史文件内容整段粘贴进来，每行一个 JSON 对象（也兼容单个 JSON 数组 / 对象）。",
@@ -82,7 +82,7 @@
   "pvReply": "问题定位在 <code>flex</code> 布局缺少 <code>wrap</code>，已修复并在 375px 宽度下验证正常。",
   "footerPrivacy": "100% 客户端处理，文件不上传服务器",
   "q1": "如何查看 Claude Code 的历史会话？",
-  "a1": "Claude Code 会把每个会话保存为 JSONL 文件，位于 <code>~/.claude/projects/&lt;项目路径&gt;/&lt;sessionId&gt;.jsonl</code>。把这个文件拖进本页即可浏览完整对话。",
+  "a1": "Claude Code 会把每个会话保存为 <code>~/.claude/projects/&lt;项目&gt;/&lt;会话ID&gt;.jsonl</code> 文件。把单个文件或整个项目文件夹拖进来，即可浏览完整对话。",
   "q2": "我的会话文件会被上传吗？",
   "a2": "不会。解析与渲染完全在你的浏览器中完成，没有任何网络请求，文件内容不会离开你的电脑。会话文件包含你的代码与文件路径，这正是本工具 100% 客户端处理的原因。",
   "q3": "查看器支持哪些内容？",
@@ -113,6 +113,8 @@
   "navProjects": "项目",
   "noProject": "（无项目目录）",
   "toggleNav": "折叠/展开项目栏",
-  "dragResize": "拖动调整宽度"
+  "dragResize": "拖动调整宽度",
+  "exportMd": "导出 MD",
+  "exportEmptyErr": "请先加载会话再导出。"
  }
 }

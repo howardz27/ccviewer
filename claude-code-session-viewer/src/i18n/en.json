@@ -15,8 +15,8 @@
   "pasteText": "Paste text",
   "openFile": "Open file",
   "noFile": "No file loaded",
-  "dropHint1": "Drag a <b>.jsonl</b> history file here, or click to choose",
-  "dropHint2": "e.g. ~/.claude/projects/&lt;project&gt;/&lt;sessionId&gt;.jsonl",
+  "dropHint1": "Drag a <b>.jsonl</b> history file <b>or a whole project folder</b> here, or click to choose",
+  "dropHint2": "e.g. the entire <code>~/.claude/projects/</code> folder, or a single <code>&lt;sessionId&gt;.jsonl</code> inside it",
   "chooseFile": "Choose file",
   "pasteTitle": "Paste JSONL text",
   "pasteHint": "Paste the whole history file here, one JSON object per line (a single JSON array / object also works).",
@@ -82,7 +82,7 @@
   "pvReply": "The issue was a missing <code>wrap</code> in the <code>flex</code> layout. Fixed and verified at 375px width.",
   "footerPrivacy": "100% client-side — files never leave your browser",
   "q1": "How do I view previous Claude Code sessions?",
-  "a1": "Claude Code saves every session as a JSONL file under <code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code>. Drop the file here to browse the full conversation.",
+  "a1": "Claude Code saves every session as a JSONL file under <code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code>. Drop a single file or the whole project folder here to browse the full conversation.",
   "q2": "Is my session file uploaded anywhere?",
   "a2": "No. Parsing happens entirely in your browser with no API calls and no server upload. Session files contain your code, file paths and sometimes secrets — which is exactly why this tool is 100% client-side.",
   "q3": "What does the viewer support?",
@@ -113,6 +113,8 @@
   "navProjects": "Projects",
   "noProject": "(no project dir)",
   "toggleNav": "Toggle projects panel",
-  "dragResize": "Drag to resize"
+  "dragResize": "Drag to resize",
+  "exportMd": "Export MD",
+  "exportEmptyErr": "Load a session first."
  }
 }
