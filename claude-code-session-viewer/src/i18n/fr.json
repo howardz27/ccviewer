@@ -108,6 +108,11 @@
   "confirmClear": "Supprimer TOUTES les sessions enregistrées ? Action irréversible.",
   "noTextErr": "Contenu non mis en cache (stockage plein). Réimportez le dossier pour l'ouvrir.",
   "storageWarn": "Le stockage du navigateur est plein ; certaines sessions n'ont été sauvegardées que sous forme de résumé.",
-  "closeBtn": "Fermer"
+  "closeBtn": "Fermer",
+  "dirTip": "Astuce (macOS) : appuyez sur <kbd>⌘⇧.</kbd> dans le sélecteur pour afficher les dossiers cachés, ou sur <kbd>⌘⇧G</kbd> dans Finder puis tapez <code>~/.claude/projects</code>. Le sélecteur mémorise le dernier dossier.",
+  "switchDir": "Changer de dossier",
+  "savedDir": "Dossier mémorisé : <code>{name}</code>. Cliquez sur « Ouvrir le dossier » pour le lire directement, sans sélecteur.",
+  "navProjects": "Projets",
+  "noProject": "(sans répertoire de projet)"
  }
 }

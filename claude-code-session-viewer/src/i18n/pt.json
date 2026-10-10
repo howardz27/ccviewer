@@ -108,6 +108,11 @@
   "confirmClear": "Excluir TODAS as sessões salvas? Isso não pode ser desfeito.",
   "noTextErr": "Conteúdo não armazenado em cache (armazenamento cheio). Reimporte a pasta para abri-lo.",
   "storageWarn": "O armazenamento do navegador está cheio; algumas sessões foram salvas apenas como resumo.",
-  "closeBtn": "Fechar"
+  "closeBtn": "Fechar",
+  "dirTip": "Dica (macOS): pressione <kbd>⌘⇧.</kbd> no seletor para mostrar pastas ocultas, ou use <kbd>⌘⇧G</kbd> no Finder e digite <code>~/.claude/projects</code>. O seletor lembra a última pasta.",
+  "switchDir": "Alterar pasta",
+  "savedDir": "Pasta memorizada: <code>{name}</code>. Clique em \"Abrir pasta\" para lê-la diretamente, sem seletor.",
+  "navProjects": "Projetos",
+  "noProject": "(sem diretório de projeto)"
  }
 }

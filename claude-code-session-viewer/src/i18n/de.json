@@ -108,6 +108,11 @@
   "confirmClear": "ALLE gespeicherten Sitzungen löschen? Dies kann nicht rückgängig gemacht werden.",
   "noTextErr": "Inhalt nicht zwischengespeichert (Speicher voll). Importiere den Ordner erneut, um ihn zu öffnen.",
   "storageWarn": "Der Browser-Speicher ist voll; einige Sitzungen wurden nur als Zusammenfassung gespeichert.",
-  "closeBtn": "Schließen"
+  "closeBtn": "Schließen",
+  "dirTip": "Tipp (macOS): Im Auswahldialog <kbd>⌘⇧.</kbd> drücken, um versteckte Ordner anzuzeigen; oder im Finder <kbd>⌘⇧G</kbd> und <code>~/.claude/projects</code> eingeben. Der Dialog merkt sich den letzten Ordner.",
+  "switchDir": "Ordner wechseln",
+  "savedDir": "Gespeicherter Ordner: <code>{name}</code>. Klicke auf „Ordner öffnen“, um ihn direkt ohne Dialog einzulesen.",
+  "navProjects": "Projekte",
+  "noProject": "(kein Projektverzeichnis)"
  }
 }

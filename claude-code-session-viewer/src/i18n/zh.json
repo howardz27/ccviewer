@@ -108,6 +108,11 @@
   "confirmClear": "删除全部已存会话？不可恢复。",
   "noTextErr": "内容未缓存（存储已满）。请重新导入文件夹后再打开。",
   "storageWarn": "浏览器存储已满，部分会话仅保存了摘要。",
-  "closeBtn": "关闭"
+  "closeBtn": "关闭",
+  "dirTip": "小技巧（macOS）：选择窗口内按 <kbd>⌘⇧.</kbd> 显示隐藏文件夹；或 Finder 按 <kbd>⌘⇧G</kbd> 输入 <code>~/.claude/projects</code> 直达。浏览器会记住上次选的目录。",
+  "switchDir": "切换目录",
+  "savedDir": "已记住目录 <code>{name}</code>：点「打开文件夹」直接读取，不再弹选择框。",
+  "navProjects": "项目",
+  "noProject": "（无项目目录）"
  }
 }

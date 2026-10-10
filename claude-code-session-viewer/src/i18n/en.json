@@ -108,6 +108,11 @@
   "confirmClear": "Delete ALL stored sessions? This cannot be undone.",
   "noTextErr": "Content not cached (storage was full). Re-import the folder to open it.",
   "storageWarn": "Browser storage is full; some sessions were saved as summary only.",
-  "closeBtn": "Close"
+  "closeBtn": "Close",
+  "dirTip": "Tip (macOS): in the picker press <kbd>⌘⇧.</kbd> to reveal hidden folders, or in Finder press <kbd>⌘⇧G</kbd> and type <code>~/.claude/projects</code>. The picker remembers your last folder.",
+  "switchDir": "Change folder",
+  "savedDir": "Remembered folder <code>{name}</code> — click \"Open folder\" to read it directly, no picker needed.",
+  "navProjects": "Projects",
+  "noProject": "(no project dir)"
  }
 }
