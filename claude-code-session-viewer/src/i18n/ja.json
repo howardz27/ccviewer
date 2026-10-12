@@ -115,6 +115,12 @@
   "toggleNav": "プロジェクトパネルの切り替え",
   "dragResize": "ドラッグで幅を調整",
   "exportMd": "MD エクスポート",
-  "exportEmptyErr": "先にセッションを読み込んでください。"
+  "exportEmptyErr": "先にセッションを読み込んでください。",
+  "guideH": "使い方ガイド",
+  "g1": "Claude Code セッションの完全な履歴を表示する方法",
+  "g2": "セッションの JSONL ファイルの場所を探す方法",
+  "g3": "Claude Code のセッション履歴はどこに保存される？",
+  "g4": "2026 年のベストな Claude Code セッションビューアは？",
+  "helpCenter": "ヘルプ"
  }
 }

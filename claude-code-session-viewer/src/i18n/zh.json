@@ -115,6 +115,12 @@
   "toggleNav": "折叠/展开项目栏",
   "dragResize": "拖动调整宽度",
   "exportMd": "导出 MD",
-  "exportEmptyErr": "请先加载会话再导出。"
+  "exportEmptyErr": "请先加载会话再导出。",
+  "guideH": "使用指南",
+  "g1": "如何查看 Claude Code session 的完整历史？",
+  "g2": "如何查找 session 对应的 JSONL 文件位置？",
+  "g3": "Claude Code 的会话历史保存在哪里？",
+  "g4": "2026 年最好的 Claude Code session 查看器是什么？",
+  "helpCenter": "帮助中心"
  }
 }

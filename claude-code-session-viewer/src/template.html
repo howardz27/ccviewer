@@ -247,6 +247,10 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .seo .feat b svg{color:var(--accent);flex-shrink:0}
 .seo .feat span{color:var(--dim);font-size:12.5px;line-height:1.5}
 .seo h2{color:var(--accent);font-size:18px;margin:0 0 20px;text-align:center;font-family:var(--disp)}
+.seo .guides{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin:0 0 64px}
+.seo .guides a{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;color:var(--text);text-decoration:none;font-size:13.5px;line-height:1.55;transition:border-color .15s}
+.seo .guides a:hover{border-color:var(--accent);color:var(--accent)}
+.seo .guides a::before{content:'▸';color:var(--accent);flex-shrink:0}
 .seo details{border:1px solid var(--border);border-radius:10px;background:var(--panel);margin:8px 0}
 .seo summary{cursor:pointer;padding:12px 16px;color:var(--text);font-size:13.5px;font-weight:500;list-style:none}
 .seo summary::-webkit-details-marker{display:none}
@@ -301,6 +305,10 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   <header class="lheader">
     <span class="lbrand"><span class="logo lg"></span>CCViewer</span>
     <span class="lspacer"></span>
+    <a class="btn gh" data-guide="how-to-view-claude-code-session-history.html" href="#" aria-label="Help">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M19.1 4.9l-2.8 2.8M7.7 16.3l-2.8 2.8"/></svg>
+      <span data-i18n="helpCenter"></span>
+    </a>
     <a class="btn gh" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener" aria-label="GitHub">
       <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
       <span>GitHub</span>
@@ -344,6 +352,13 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   </main>
   <div class="seo">
     <p class="intro" data-i18n-html="intro"></p>
+    <h2 data-i18n="guideH"></h2>
+    <div class="guides">
+      <a data-guide="how-to-view-claude-code-session-history.html" data-i18n="g1"></a>
+      <a data-guide="find-claude-code-session-jsonl-file.html" data-i18n="g2"></a>
+      <a data-guide="where-claude-code-sessions-stored.html" data-i18n="g3"></a>
+      <a data-guide="best-claude-code-session-viewer.html" data-i18n="g4"></a>
+    </div>
     <div class="feats">
       <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-i18n="featMd"></span></b><span data-i18n="featMdD"></span></div>
       <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg><span data-i18n="featThink"></span></b><span data-i18n="featThinkD"></span></div>
@@ -1247,7 +1262,13 @@ $('#btnNavToggle').onclick=()=>{UI_NAV_COLLAPSED=!UI_NAV_COLLAPSED;applyUIPanels
   });
   document.addEventListener('mouseup',()=>{if(drag){drag=false;rz.classList.remove('on');document.body.style.cursor='';saveUIPref();}});
 })();
+// 帮助中心文章链接：按当前语言指向对应语言的文章页
+function applyGuides(){
+  const pre=BASE_PATH+(LANG==='en'?'/':'/'+LANG+'/');
+  document.querySelectorAll('[data-guide]').forEach(a=>{a.href=pre+a.getAttribute('data-guide');});
+}
 applyUIPanels();
+applyGuides();
 applyLang();
 mountLogos();
 fillLangSel();

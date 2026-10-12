@@ -115,6 +115,12 @@
   "toggleNav": "Afficher/masquer le panneau des projets",
   "dragResize": "Glisser pour redimensionner",
   "exportMd": "Exporter MD",
-  "exportEmptyErr": "Chargez d'abord une session."
+  "exportEmptyErr": "Chargez d'abord une session.",
+  "guideH": "Guides",
+  "g1": "Comment voir l’historique complet d’une session Claude Code",
+  "g2": "Comment trouver le fichier JSONL d’une session",
+  "g3": "Où sont stockés les historiques de sessions Claude Code ?",
+  "g4": "Quel est le meilleur visualiseur de sessions Claude Code en 2026 ?",
+  "helpCenter": "Centre d'aide"
  }
 }

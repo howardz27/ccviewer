@@ -115,6 +115,12 @@
   "toggleNav": "Projektleiste ein-/ausblenden",
   "dragResize": "Ziehen zum Anpassen der Breite",
   "exportMd": "MD exportieren",
-  "exportEmptyErr": "Lade zuerst eine Sitzung."
+  "exportEmptyErr": "Lade zuerst eine Sitzung.",
+  "guideH": "Anleitungen",
+  "g1": "Wie man den vollständigen Verlauf einer Claude-Code-Session ansieht",
+  "g2": "Wie man die JSONL-Datei einer Session findet",
+  "g3": "Wo werden Claude-Code-Sitzungsverläufe gespeichert?",
+  "g4": "Was ist der beste Claude-Code-Session-Viewer 2026?",
+  "helpCenter": "Hilfe"
  }
 }

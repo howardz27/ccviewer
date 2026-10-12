@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Are Claude Code Session Histories Stored? Storage Structure Explained | CCViewer</title>
+<meta name="description" content="Claude Code stores session history locally as JSONL files under ~/.claude/projects/ — nothing is synced to the cloud. A detailed look at the directory layout, the fields in each JSON line (message/timestamp/usage/gitBranch), and backup advice.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CCViewer">
+<meta property="og:title" content="Where Are Claude Code Session Histories Stored? Storage Structure Explained | CCViewer">
+<meta property="og:description" content="Claude Code stores session history locally as JSONL files under ~/.claude/projects/ — nothing is synced to the cloud. A detailed look at the directory layout, the fields in each JSON line (message/timestamp/usage/gitBranch), and backup advice.">
+<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored.html">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Where are Claude Code session histories stored?", "description": "Claude Code stores session history locally as JSONL files under ~/.claude/projects/ — nothing is synced to the cloud. A detailed look at the directory layout, the fields in each JSON line (message/timestamp/usage/gitBranch), and backup advice.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "en", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored.html"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/"}, {"@type": "ListItem", "position": 2, "name": "Where are Claude Code session histories stored?", "item": "https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is Claude Code history uploaded to Anthropic servers?", "acceptedAnswer": {"@type": "Answer", "text": "The session files themselves stay in local ~/.claude/projects/ and are not stored separately in the cloud. Of course, while a conversation is happening its content is processed via the API — that’s inherent to using the model — but the history files are local files you fully control."}}, {"@type": "Question", "name": "How do I delete session history?", "acceptedAnswer": {"@type": "Answer", "text": "Just delete the corresponding .jsonl file (or the whole project subdirectory); the session then disappears from the resume list. Make sure you don’t need a backup first."}}, {"@type": "Question", "name": "Are ~/.claude/projects and ~/.claude.json the same thing?", "acceptedAnswer": {"@type": "Answer", "text": "No. ~/.claude.json (or claude.json) is the global configuration file (MCP servers, theme, etc.); session history lives in the .jsonl files under ~/.claude/projects/."}}]}</script>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--border:#30363d;--text:#e6edf3;
+--dim:#8b949e;--faint:#6e7681;--accent:#d97757;--accent2:#cc9b7a;--user:#58a6ff;--code-bg:#0b0f14}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-size:15px;line-height:1.8;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+code,kbd{font-family:"SFMono-Regular",Consolas,Menlo,monospace}
+header.nav{display:flex;align-items:center;gap:10px;padding:12px 20px;background:var(--panel);
+border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}
+header.nav .brand{display:flex;align-items:center;gap:9px;font-weight:700;color:var(--accent);
+text-decoration:none;font-size:15px}
+header.nav .sp{flex:1}
+header.nav a.gh{color:var(--text);text-decoration:none;font-size:13px;border:1px solid var(--border);
+background:var(--panel2);padding:5px 11px;border-radius:6px}
+header.nav a.gh:hover{border-color:var(--accent);color:var(--accent)}
+main{max-width:820px;margin:0 auto;padding:36px 20px 64px}
+.crumbs{font-size:12.5px;color:var(--faint);margin-bottom:14px}
+.crumbs a{color:var(--dim);text-decoration:none}
+.crumbs a:hover{color:var(--accent)}
+h1{font-size:27px;line-height:1.4;margin:0 0 10px}
+.meta{color:var(--faint);font-size:12.5px;margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+h2{font-size:19px;margin:34px 0 10px;color:var(--accent2)}
+h3{font-size:16px;margin:24px 0 8px}
+p{margin:10px 0}
+a{color:var(--user)}
+ul,ol{padding-left:24px}
+li{margin:5px 0}
+code{background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:13px;color:var(--accent2)}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;overflow:auto}
+pre code{background:none;border:none;padding:0;color:var(--text);font-size:13px}
+table{border-collapse:collapse;margin:14px 0;width:100%;font-size:13.5px}
+th,td{border:1px solid var(--border);padding:7px 11px;text-align:left}
+th{background:var(--panel2);color:var(--accent2)}
+img.shot{max-width:100%;border:1px solid var(--border);border-radius:10px;margin:12px 0;
+box-shadow:0 14px 44px rgba(0,0,0,.4)}
+.cta{background:linear-gradient(120deg,rgba(217,119,87,.13),rgba(191,227,239,.05));
+border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;
+padding:18px 22px;margin:30px 0}
+.cta b{color:var(--accent)}
+.cta .btns{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-block;background:var(--panel2);color:var(--text);border:1px solid var(--border);
+padding:8px 16px;border-radius:6px;text-decoration:none;font-size:14px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);color:#1a1109;border-color:var(--accent);font-weight:600}
+.btn.primary:hover{opacity:.9;color:#1a1109}
+details{border:1px solid var(--border);border-radius:10px;background:var(--panel);margin:9px 0}
+summary{cursor:pointer;padding:11px 16px;font-weight:500;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:'\25B8 ';color:var(--accent)}
+details[open] summary::before{content:'\25BE '}
+details .a{padding:0 16px 13px;color:var(--dim);font-size:14px}
+.related{margin-top:44px;padding-top:22px;border-top:1px solid var(--border)}
+.related h3{margin:0 0 10px;font-size:14px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px}
+.related a{display:block;padding:7px 0;color:var(--dim);text-decoration:none;font-size:14.5px}
+.related a:hover{color:var(--accent)}
+footer{border-top:1px solid var(--border);padding:20px;color:var(--faint);font-size:12.5px;text-align:center}
+footer a{color:var(--dim)}
+.kbd{background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:0 5px;font-size:12px}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="https://ccviewer.top/claude-code-session-viewer/"><img src="/assets/logo.svg" width="26" alt="CCViewer logo">CCViewer</a>
+  <span class="sp"></span>
+  <a class="gh" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">GitHub</a>
+</header>
+<main>
+<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/">Help Center</a> / Where sessions are stored</div>
+<article>
+<h1>Where are Claude Code session histories stored?</h1>
+<div class="meta">Updated 2026-10-12 · CCViewer Help Center · Applies to Claude Code 2.x</div>
+
+<p>Short answer: <b>everything is stored locally under <code>~/.claude/projects/</code></b> as JSONL files — no cloud sync, no account-based session history.</p>
+
+<h2>Directory layout</h2>
+<pre><code>~/.claude/
+├── projects/                     # ← all session history lives here
+│   ├── -Users-you-Documents-app/ #   one directory per project (path-mangled)
+│   │   ├── 9a1b2c3d-….jsonl     #     one file per session
+│   │   └── 7c2d3e4f-….jsonl
+│   └── -home-you-shop-api/
+│       └── …
+├── claude.json                   # global config (MCP, theme, project state)
+└── … (cache, logs, stats and other auxiliary files)</code></pre>
+<p>Naming rule for project directories: <b>every <code>/</code>, <code>_</code> or other non-alphanumeric character in the project path becomes a <code>-</code></b>. All sessions of one project therefore cluster in one directory — which is also how viewers "group by project".</p>
+
+<h2>What’s inside a JSONL file</h2>
+<p>JSONL = one independent JSON object per line. A session file records the full conversation in chronological order. Main entry types:</p>
+<table>
+<tr><th>type</th><th>Content</th></tr>
+<tr><td><code>user</code></td><td>Your input (text / images) and tool results sent back</td></tr>
+<tr><td><code>assistant</code></td><td>Model replies: text, thinking blocks, tool_use calls and token usage</td></tr>
+<tr><td><code>system</code></td><td>System events (hooks, etc.)</td></tr>
+<tr><td><code>summary / ai-title</code></td><td>Session summary and auto-generated title</td></tr>
+<tr><td><code>cost-state</code></td><td>Cost &amp; usage snapshot (total cost, lines +/- , API duration)</td></tr>
+</table>
+<p>Each entry also carries metadata: <code>timestamp</code>, <code>cwd</code> (project path), <code>gitBranch</code>, <code>version</code>, <code>sessionId</code>, and more. In other words, <b>the history file is more complete than what the terminal shows</b> — reasoning, raw tool parameters and results, and token consumption are all in there.</p>
+
+<h2>What this means for you</h2>
+<ul>
+<li><b>Privacy is in your hands</b>: the files never leave your machine. Conversely, <b>back up <code>~/.claude/projects/</code> before switching machines or reinstalling</b>, or the history is gone;</li>
+<li><b>Files can be sensitive</b>: sessions contain source code snippets, file paths, command output, even secrets — don’t share .jsonl files casually or post them publicly;</li>
+<li><b>Size grows</b>: after a few months of heavy use, a single session can reach several (or tens of) MB and the whole directory hundreds of MB — that’s normal.</li>
+</ul>
+
+<h2>How to read this history comfortably</h2>
+<p>Reading raw JSONL is a slog. Open the directory with <a href="https://ccviewer.top/claude-code-session-viewer/">CCViewer</a> (whole-folder drag &amp; drop supported): sessions group by project, and Markdown, thinking blocks, tool calls and cost stats are all rendered graphically — with parsing happening only in your browser, preserving the "data never leaves this machine" property.</p>
+
+<div class="cta">
+  <b>Replay your Claude Code sessions visually with CCViewer</b><br>
+  Open the page and drop in a <code>.jsonl</code> file — or the whole <code>~/.claude/projects/</code> folder. Markdown rendering, thinking blocks, tool calls, token &amp; cost stats, all processed locally in your browser. Nothing is ever uploaded.
+  <div class="btns">
+    <a class="btn primary" href="https://ccviewer.top/claude-code-session-viewer/">Open CCViewer (free, no install)</a>
+    <a class="btn" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">View source</a>
+  </div>
+</div>
+<h2 id="faq">FAQ</h2><details><summary>Is Claude Code history uploaded to Anthropic servers?</summary><div class="a">The session files themselves stay in local ~/.claude/projects/ and are not stored separately in the cloud. Of course, while a conversation is happening its content is processed via the API — that’s inherent to using the model — but the history files are local files you fully control.</div></details><details><summary>How do I delete session history?</summary><div class="a">Just delete the corresponding .jsonl file (or the whole project subdirectory); the session then disappears from the resume list. Make sure you don’t need a backup first.</div></details><details><summary>Are ~/.claude/projects and ~/.claude.json the same thing?</summary><div class="a">No. ~/.claude.json (or claude.json) is the global configuration file (MCP servers, theme, etc.); session history lives in the .jsonl files under ~/.claude/projects/.</div></details>
+<div class="related">
+<h3>Related guides</h3>
+<a href="how-to-view-claude-code-session-history.html">How to view the full history of a Claude Code session</a><a href="find-claude-code-session-jsonl-file.html">How to find the JSONL file for a session</a><a href="where-claude-code-sessions-stored.html">Where are Claude Code session histories stored?</a><a href="best-claude-code-session-viewer.html">What is the best Claude Code session viewer in 2026?</a>
+</div>
+</article>
+</main>
+<footer>© 2026 CCViewer · MIT open source · Not affiliated with Anthropic. "Claude Code" is an Anthropic trademark, used descriptively.</footer>
+</body>
+</html>

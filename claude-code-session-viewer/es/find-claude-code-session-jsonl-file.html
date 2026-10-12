@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cómo encontrar la ubicación del archivo JSONL de una sesión de Claude Code | CCViewer</title>
+<meta name="description" content="Los archivos de sesión de Claude Code están en ~/.claude/projects/&lt;dir-proyecto&gt;/&lt;sessionId&gt;.jsonl. Aprende a localizar rápidamente el JSONL de una sesión con find/grep, y a buscar por contenido o fecha cuando no conoces el sessionId.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/es/find-claude-code-session-jsonl-file.html">
+<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file.html">
+<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file.html">
+<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file.html">
+<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file.html">
+<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/find-claude-code-session-jsonl-file.html">
+<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/find-claude-code-session-jsonl-file.html">
+<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file.html">
+<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/find-claude-code-session-jsonl-file.html">
+<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/find-claude-code-session-jsonl-file.html">
+<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/find-claude-code-session-jsonl-file.html">
+<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CCViewer">
+<meta property="og:title" content="Cómo encontrar la ubicación del archivo JSONL de una sesión de Claude Code | CCViewer">
+<meta property="og:description" content="Los archivos de sesión de Claude Code están en ~/.claude/projects/&lt;dir-proyecto&gt;/&lt;sessionId&gt;.jsonl. Aprende a localizar rápidamente el JSONL de una sesión con find/grep, y a buscar por contenido o fecha cuando no conoces el sessionId.">
+<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/es/find-claude-code-session-jsonl-file.html">
+<meta property="og:locale" content="es_ES">
+<meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "¿Cómo encuentro la ubicación del archivo JSONL de una sesión de Claude Code?", "description": "Los archivos de sesión de Claude Code están en ~/.claude/projects/&lt;dir-proyecto&gt;/&lt;sessionId&gt;.jsonl. Aprende a localizar rápidamente el JSONL de una sesión con find/grep, y a buscar por contenido o fecha cuando no conoces el sessionId.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "es", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/es/find-claude-code-session-jsonl-file.html"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/es/"}, {"@type": "ListItem", "position": 2, "name": "¿Cómo encuentro la ubicación del archivo JSONL de una sesión de Claude Code?", "item": "https://ccviewer.top/claude-code-session-viewer/es/find-claude-code-session-jsonl-file.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Por qué no encuentro el directorio ~/.claude?", "acceptedAnswer": {"@type": "Answer", "text": "Porque empieza con un punto y está oculto por defecto. En Finder pulsa ⌘⇧G y escribe la ruta, o ⌘⇧. para mostrar archivos ocultos; en la terminal, ls -la ~/.claude siempre funciona."}}, {"@type": "Question", "name": "Hay muchos jsonl en un proyecto — ¿cuál es el mío?", "acceptedAnswer": {"@type": "Answer", "text": "Un archivo equivale a una sesión. Filtra por fecha de modificación (ls -t) o contenido (grep -l); o importa la carpeta completa con CCViewer, que muestra el título y estadísticas de cada sesión para distinguirlas de un vistazo."}}, {"@type": "Question", "name": "¿Cuál es la ruta en Windows?", "acceptedAnswer": {"@type": "Answer", "text": "La misma estructura bajo tu perfil de usuario: %USERPROFILE%\\\\.claude\\\\projects\\\\&lt;proyecto&gt;\\\\&lt;sessionId&gt;.jsonl."}}]}</script>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--border:#30363d;--text:#e6edf3;
+--dim:#8b949e;--faint:#6e7681;--accent:#d97757;--accent2:#cc9b7a;--user:#58a6ff;--code-bg:#0b0f14}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-size:15px;line-height:1.8;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+code,kbd{font-family:"SFMono-Regular",Consolas,Menlo,monospace}
+header.nav{display:flex;align-items:center;gap:10px;padding:12px 20px;background:var(--panel);
+border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}
+header.nav .brand{display:flex;align-items:center;gap:9px;font-weight:700;color:var(--accent);
+text-decoration:none;font-size:15px}
+header.nav .sp{flex:1}
+header.nav a.gh{color:var(--text);text-decoration:none;font-size:13px;border:1px solid var(--border);
+background:var(--panel2);padding:5px 11px;border-radius:6px}
+header.nav a.gh:hover{border-color:var(--accent);color:var(--accent)}
+main{max-width:820px;margin:0 auto;padding:36px 20px 64px}
+.crumbs{font-size:12.5px;color:var(--faint);margin-bottom:14px}
+.crumbs a{color:var(--dim);text-decoration:none}
+.crumbs a:hover{color:var(--accent)}
+h1{font-size:27px;line-height:1.4;margin:0 0 10px}
+.meta{color:var(--faint);font-size:12.5px;margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+h2{font-size:19px;margin:34px 0 10px;color:var(--accent2)}
+h3{font-size:16px;margin:24px 0 8px}
+p{margin:10px 0}
+a{color:var(--user)}
+ul,ol{padding-left:24px}
+li{margin:5px 0}
+code{background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:13px;color:var(--accent2)}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;overflow:auto}
+pre code{background:none;border:none;padding:0;color:var(--text);font-size:13px}
+table{border-collapse:collapse;margin:14px 0;width:100%;font-size:13.5px}
+th,td{border:1px solid var(--border);padding:7px 11px;text-align:left}
+th{background:var(--panel2);color:var(--accent2)}
+img.shot{max-width:100%;border:1px solid var(--border);border-radius:10px;margin:12px 0;
+box-shadow:0 14px 44px rgba(0,0,0,.4)}
+.cta{background:linear-gradient(120deg,rgba(217,119,87,.13),rgba(191,227,239,.05));
+border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;
+padding:18px 22px;margin:30px 0}
+.cta b{color:var(--accent)}
+.cta .btns{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-block;background:var(--panel2);color:var(--text);border:1px solid var(--border);
+padding:8px 16px;border-radius:6px;text-decoration:none;font-size:14px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);color:#1a1109;border-color:var(--accent);font-weight:600}
+.btn.primary:hover{opacity:.9;color:#1a1109}
+details{border:1px solid var(--border);border-radius:10px;background:var(--panel);margin:9px 0}
+summary{cursor:pointer;padding:11px 16px;font-weight:500;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:'\25B8 ';color:var(--accent)}
+details[open] summary::before{content:'\25BE '}
+details .a{padding:0 16px 13px;color:var(--dim);font-size:14px}
+.related{margin-top:44px;padding-top:22px;border-top:1px solid var(--border)}
+.related h3{margin:0 0 10px;font-size:14px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px}
+.related a{display:block;padding:7px 0;color:var(--dim);text-decoration:none;font-size:14.5px}
+.related a:hover{color:var(--accent)}
+footer{border-top:1px solid var(--border);padding:20px;color:var(--faint);font-size:12.5px;text-align:center}
+footer a{color:var(--dim)}
+.kbd{background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:0 5px;font-size:12px}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="https://ccviewer.top/claude-code-session-viewer/es/"><img src="/assets/logo.svg" width="26" alt="CCViewer logo">CCViewer</a>
+  <span class="sp"></span>
+  <a class="gh" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">GitHub</a>
+</header>
+<main>
+<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/es/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/es/">Centro de ayuda</a> / Encontrar el JSONL</div>
+<article>
+<h1>¿Cómo encuentro la ubicación del archivo JSONL de una sesión de Claude Code?</h1>
+<div class="meta">Actualizado 2026-10-12 · CCViewer Centro de ayuda · Aplica a Claude Code 2.x</div>
+
+<p>Todos los archivos de sesión viven en un directorio fijo: <code>~/.claude/projects/</code>. Si conoces el sessionId, localizarlo lleva segundos; si no, puedes buscar por contenido o por fecha.</p>
+
+<h2>Primero, entiende la nomenclatura de directorios</h2>
+<p>Cada subdirectorio de <code>~/.claude/projects/</code> corresponde a un proyecto (directorio de trabajo). El nombre se <b>deriva de la ruta del proyecto: los caracteres <code>/</code>, <code>_</code> y demás no alfanuméricos se sustituyen por guiones <code>-</code></b>. Por ejemplo:</p>
+<pre><code>Ruta del proyecto                Directorio de sesión
+/Users/you/Documents/my_app      →  -Users-you-Documents-my-app
+/home/you/projects/shop-api      →  -home-you-projects-shop-api</code></pre>
+<p>Cada sesión es un archivo: <code>&lt;sessionId&gt;.jsonl</code> (un UUID como <code>9a1b2c3d-…</code>).</p>
+
+<h2>Caso 1: conoces el sessionId — find directo</h2>
+<pre><code>find ~/.claude/projects -name "&lt;sessionId&gt;.jsonl"</code></pre>
+<p>¿De dónde sale el sessionId? Lo más fácil es <b>escribir el comando de barra <code>/status</code> en la conversación</b> — la salida incluye el Session ID actual. También lo obtienes de la lista de <code>claude --resume</code>, de mensajes de error o del campo «Session ID» de la barra lateral del visor.</p>
+
+<h2>Caso 2: sin sessionId — buscar por contenido</h2>
+<p>Si recuerdas algo de la conversación (p. ej. tu pregunta original), haz grep:</p>
+<pre><code># Buscar una palabra clave en todas las sesiones y listar los archivos
+grep -l "arreglar la página de login" ~/.claude/projects/*/*.jsonl
+
+# Buscar solo en un directorio de proyecto
+grep -l "arreglar la página de login" ~/.claude/projects/-Users-you-Documents-my-app/*.jsonl</code></pre>
+
+<h2>Caso 3: encontrar sesiones recientes por fecha</h2>
+<pre><code># Listar los 10 archivos de sesión modificados más recientemente
+ls -t ~/.claude/projects/*/*.jsonl | head -10</code></pre>
+
+<h2>La forma gráfica: deja que CCViewer lo haga</h2>
+<p>¿No quieres teclear comandos? <a href="https://ccviewer.top/claude-code-session-viewer/es/">CCViewer</a> te permite seleccionar (o arrastrar) la carpeta <code>~/.claude/projects/</code> completa: escanea recursivamente todos los <code>.jsonl</code>, los agrupa por proyecto, los ordena por fecha y muestra título, ruta, rango temporal, número de mensajes y coste de cada sesión — clic para abrir, sin saber dónde está el archivo.</p>
+<img class="shot" src="/assets/screenshot-library.png" alt="Modo carpeta de CCViewer: biblioteca de sesiones de Claude Code agrupada por proyecto" width="880">
+
+<h2>Consejos macOS: abrir carpetas ocultas</h2>
+<ul>
+<li>En Finder pulsa <span class="kbd">⌘⇧G</span>, escribe <code>~/.claude/projects</code> y Enter;</li>
+<li>En diálogos de archivo pulsa <span class="kbd">⌘⇧.</span> para mostrar carpetas ocultas (los directorios que empiezan por <code>.</code> son invisibles por defecto).</li>
+</ul>
+
+<div class="cta">
+  <b>Reproduce tus sesiones de Claude Code visualmente con CCViewer</b><br>
+  Abre la página y suelta un archivo <code>.jsonl</code> — o la carpeta <code>~/.claude/projects/</code> completa. Markdown, bloques de pensamiento, llamadas a herramientas y estadísticas de tokens y coste, todo se procesa localmente en tu navegador. Nada se sube.
+  <div class="btns">
+    <a class="btn primary" href="https://ccviewer.top/claude-code-session-viewer/es/">Abrir CCViewer (gratis, sin instalación)</a>
+    <a class="btn" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">Ver código</a>
+  </div>
+</div>
+<h2 id="faq">Preguntas frecuentes</h2><details><summary>¿Por qué no encuentro el directorio ~/.claude?</summary><div class="a">Porque empieza con un punto y está oculto por defecto. En Finder pulsa ⌘⇧G y escribe la ruta, o ⌘⇧. para mostrar archivos ocultos; en la terminal, ls -la ~/.claude siempre funciona.</div></details><details><summary>Hay muchos jsonl en un proyecto — ¿cuál es el mío?</summary><div class="a">Un archivo equivale a una sesión. Filtra por fecha de modificación (ls -t) o contenido (grep -l); o importa la carpeta completa con CCViewer, que muestra el título y estadísticas de cada sesión para distinguirlas de un vistazo.</div></details><details><summary>¿Cuál es la ruta en Windows?</summary><div class="a">La misma estructura bajo tu perfil de usuario: %USERPROFILE%\\.claude\\projects\\&lt;proyecto&gt;\\&lt;sessionId&gt;.jsonl.</div></details>
+<div class="related">
+<h3>Guías relacionadas</h3>
+<a href="how-to-view-claude-code-session-history.html">Cómo ver el historial completo de una sesión de Claude Code</a><a href="find-claude-code-session-jsonl-file.html">Cómo encontrar el archivo JSONL de una sesión</a><a href="where-claude-code-sessions-stored.html">¿Dónde se guarda el historial de sesiones de Claude Code?</a><a href="best-claude-code-session-viewer.html">¿Cuál es el mejor visor de sesiones de Claude Code en 2026?</a>
+</div>
+</article>
+</main>
+<footer>© 2026 CCViewer · código abierto MIT · Sin afiliación con Anthropic. "Claude Code" es una marca de Anthropic, usada de forma descriptiva.</footer>
+</body>
+</html>

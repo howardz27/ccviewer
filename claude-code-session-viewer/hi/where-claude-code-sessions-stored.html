@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code सत्र इतिहास कहाँ सेव होता है? संग्रहण संरचना की पूरी जानकारी | CCViewer</title>
+<meta name="description" content="Claude Code सत्र इतिहास को ~/.claude/projects/ के अंतर्गत JSONL फ़ाइलों में लोकल रूप से सेव करता है — कोई क्लाउड सिंक नहीं। डायरेक्टरी संरचना, हर JSON लाइन के फ़ील्ड (message/timestamp/usage/gitBranch) और बैकअप सलाह का विवरण।">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/hi/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/where-claude-code-sessions-stored.html">
+<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CCViewer">
+<meta property="og:title" content="Claude Code सत्र इतिहास कहाँ सेव होता है? संग्रहण संरचना की पूरी जानकारी | CCViewer">
+<meta property="og:description" content="Claude Code सत्र इतिहास को ~/.claude/projects/ के अंतर्गत JSONL फ़ाइलों में लोकल रूप से सेव करता है — कोई क्लाउड सिंक नहीं। डायरेक्टरी संरचना, हर JSON लाइन के फ़ील्ड (message/timestamp/usage/gitBranch) और बैकअप सलाह का विवरण।">
+<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/hi/where-claude-code-sessions-stored.html">
+<meta property="og:locale" content="hi_IN">
+<meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code सत्र की जानकारी कहाँ संग्रहित होती है?", "description": "Claude Code सत्र इतिहास को ~/.claude/projects/ के अंतर्गत JSONL फ़ाइलों में लोकल रूप से सेव करता है — कोई क्लाउड सिंक नहीं। डायरेक्टरी संरचना, हर JSON लाइन के फ़ील्ड (message/timestamp/usage/gitBranch) और बैकअप सलाह का विवरण।", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "hi", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/hi/where-claude-code-sessions-stored.html"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/hi/"}, {"@type": "ListItem", "position": 2, "name": "Claude Code सत्र की जानकारी कहाँ संग्रहित होती है?", "item": "https://ccviewer.top/claude-code-session-viewer/hi/where-claude-code-sessions-stored.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code का इतिहास Anthropic के सर्वर पर अपलोड होता है?", "acceptedAnswer": {"@type": "Answer", "text": "सत्र फ़ाइलें लोकल ~/.claude/projects/ में रहती हैं और अलग से क्लाउड पर संग्रहित नहीं होतीं। बेशक बातचीत के दौरान सामग्री API से प्रोसेस होती है (मॉडल उपयोग की शर्त), लेकिन “इतिहास फ़ाइलें” लोकल फ़ाइलें हैं जिन पर आपका पूरा नियंत्रण है।"}}, {"@type": "Question", "name": "सत्र इतिहास कैसे मिटाएँ?", "acceptedAnswer": {"@type": "Answer", "text": "संबंधित .jsonl फ़ाइल (या प्रोजेक्ट की पूरी सब-डायरेक्टरी) हटा दें; सत्र resume सूची से भी गायब हो जाएगा। हटाने से पहले बैकअप की ज़रूरत न हो, यह पक्का करें।"}}, {"@type": "Question", "name": "क्या ~/.claude/projects और ~/.claude.json एक ही चीज़ हैं?", "acceptedAnswer": {"@type": "Answer", "text": "नहीं। ~/.claude.json (या claude.json) ग्लोबल कॉन्फ़िग फ़ाइल है (MCP सर्वर, थीम आदि); सत्र इतिहास ~/.claude/projects/ के .jsonl फ़ाइलों में रहता है।"}}]}</script>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--border:#30363d;--text:#e6edf3;
+--dim:#8b949e;--faint:#6e7681;--accent:#d97757;--accent2:#cc9b7a;--user:#58a6ff;--code-bg:#0b0f14}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-size:15px;line-height:1.8;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+code,kbd{font-family:"SFMono-Regular",Consolas,Menlo,monospace}
+header.nav{display:flex;align-items:center;gap:10px;padding:12px 20px;background:var(--panel);
+border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}
+header.nav .brand{display:flex;align-items:center;gap:9px;font-weight:700;color:var(--accent);
+text-decoration:none;font-size:15px}
+header.nav .sp{flex:1}
+header.nav a.gh{color:var(--text);text-decoration:none;font-size:13px;border:1px solid var(--border);
+background:var(--panel2);padding:5px 11px;border-radius:6px}
+header.nav a.gh:hover{border-color:var(--accent);color:var(--accent)}
+main{max-width:820px;margin:0 auto;padding:36px 20px 64px}
+.crumbs{font-size:12.5px;color:var(--faint);margin-bottom:14px}
+.crumbs a{color:var(--dim);text-decoration:none}
+.crumbs a:hover{color:var(--accent)}
+h1{font-size:27px;line-height:1.4;margin:0 0 10px}
+.meta{color:var(--faint);font-size:12.5px;margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+h2{font-size:19px;margin:34px 0 10px;color:var(--accent2)}
+h3{font-size:16px;margin:24px 0 8px}
+p{margin:10px 0}
+a{color:var(--user)}
+ul,ol{padding-left:24px}
+li{margin:5px 0}
+code{background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:13px;color:var(--accent2)}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;overflow:auto}
+pre code{background:none;border:none;padding:0;color:var(--text);font-size:13px}
+table{border-collapse:collapse;margin:14px 0;width:100%;font-size:13.5px}
+th,td{border:1px solid var(--border);padding:7px 11px;text-align:left}
+th{background:var(--panel2);color:var(--accent2)}
+img.shot{max-width:100%;border:1px solid var(--border);border-radius:10px;margin:12px 0;
+box-shadow:0 14px 44px rgba(0,0,0,.4)}
+.cta{background:linear-gradient(120deg,rgba(217,119,87,.13),rgba(191,227,239,.05));
+border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;
+padding:18px 22px;margin:30px 0}
+.cta b{color:var(--accent)}
+.cta .btns{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-block;background:var(--panel2);color:var(--text);border:1px solid var(--border);
+padding:8px 16px;border-radius:6px;text-decoration:none;font-size:14px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);color:#1a1109;border-color:var(--accent);font-weight:600}
+.btn.primary:hover{opacity:.9;color:#1a1109}
+details{border:1px solid var(--border);border-radius:10px;background:var(--panel);margin:9px 0}
+summary{cursor:pointer;padding:11px 16px;font-weight:500;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:'\25B8 ';color:var(--accent)}
+details[open] summary::before{content:'\25BE '}
+details .a{padding:0 16px 13px;color:var(--dim);font-size:14px}
+.related{margin-top:44px;padding-top:22px;border-top:1px solid var(--border)}
+.related h3{margin:0 0 10px;font-size:14px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px}
+.related a{display:block;padding:7px 0;color:var(--dim);text-decoration:none;font-size:14.5px}
+.related a:hover{color:var(--accent)}
+footer{border-top:1px solid var(--border);padding:20px;color:var(--faint);font-size:12.5px;text-align:center}
+footer a{color:var(--dim)}
+.kbd{background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:0 5px;font-size:12px}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="https://ccviewer.top/claude-code-session-viewer/hi/"><img src="/assets/logo.svg" width="26" alt="CCViewer logo">CCViewer</a>
+  <span class="sp"></span>
+  <a class="gh" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">GitHub</a>
+</header>
+<main>
+<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/hi/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/hi/">सहायता केंद्र</a> / संग्रहण स्थान</div>
+<article>
+<h1>Claude Code सत्र की जानकारी कहाँ संग्रहित होती है?</h1>
+<div class="meta">अपडेट 2026-10-12 · CCViewer सहायता केंद्र · Claude Code 2.x के लिए</div>
+
+<p>संक्षिप्त उत्तर: <b>सब कुछ लोकल रूप से <code>~/.claude/projects/</code> के अंतर्गत</b> JSONL फ़ाइलों में सेव होता है — न क्लाउड सिंक, न खाते से जुड़ा सत्र इतिहास।</p>
+
+<h2>डायरेक्टरी संरचना</h2>
+<pre><code>~/.claude/
+├── projects/                     # ← पूरा सत्र इतिहास यहीं है
+│   ├── -Users-you-Documents-app/ #   हर प्रोजेक्ट की एक डायरेक्टरी (पाथ बदला हुआ)
+│   │   ├── 9a1b2c3d-….jsonl     #     हर सत्र की एक फ़ाइल
+│   │   └── 7c2d3e4f-….jsonl
+│   └── -home-you-shop-api/
+│       └── …
+├── claude.json                   # ग्लोबल कॉन्फ़िग (MCP, थीम, प्रोजेक्ट स्थिति)
+└── … (कैश, लॉग, आँकड़े व अन्य सहायक फ़ाइलें)</code></pre>
+<p>प्रोजेक्ट डायरेक्टरी के नाम का नियम: <b>पाथ का हर ग़ैर-अल्फ़ान्यूमेरिक अक्षर (<code>/</code>, <code>_</code>, …) <code>-</code> बन जाता है</b>। इसलिए एक प्रोजेक्ट के सारे सत्र एक ही डायरेक्टरी में रहते हैं — व्यूअरों का “प्रोजेक्ट-वार समूह” भी इसी पर आधारित है।</p>
+
+<h2>JSONL फ़ाइल में क्या होता है</h2>
+<p>JSONL = हर लाइन में एक स्वतंत्र JSON ऑब्जेक्ट। सत्र फ़ाइल पूरी बातचीत को कालक्रम में रिकॉर्ड करती है। मुख्य प्रविष्टि प्रकार:</p>
+<table>
+<tr><th>type</th><th>सामग्री</th></tr>
+<tr><td><code>user</code></td><td>आपका इनपुट (टेक्स्ट / चित्र) और वापस भेजे गए टूल परिणाम</td></tr>
+<tr><td><code>assistant</code></td><td>मॉडल उत्तर: टेक्स्ट, थिंकिंग ब्लॉक, tool_use कॉल और टोकन उपयोग</td></tr>
+<tr><td><code>system</code></td><td>सिस्टम घटनाएँ (hooks आदि)</td></tr>
+<tr><td><code>summary / ai-title</code></td><td>सत्र सारांश और स्वतः बना शीर्षक</td></tr>
+<tr><td><code>cost-state</code></td><td>लागत व उपयोग स्नैपशॉट (कुल लागत, ±लाइनें, API अवधि)</td></tr>
+</table>
+<p>हर प्रविष्टि में मेटाडेटा भी होता है: <code>timestamp</code>, <code>cwd</code> (प्रोजेक्ट पाथ), <code>gitBranch</code>, <code>version</code>, <code>sessionId</code> आदि। यानी <b>इतिहास फ़ाइल टर्मिनल की तुलना में अधिक पूर्ण है</b> — रीज़निंग, टूल कॉल के रॉ पैरामीटर व परिणाम और टोकन खपत सब अंदर है।</p>
+
+<h2>इसका मतलब</h2>
+<ul>
+<li><b>प्राइवेसी आपके हाथ में</b>: फ़ाइलें कभी आपकी मशीन से बाहर नहीं जातीं। इसके बदले, <b>मशीन बदलने/री-इंस्टॉल से पहले <code>~/.claude/projects/</code> का बैकअप लें</b>, वरना इतिहास चला जाएगा;</li>
+<li><b>फ़ाइलें संवेदनशील हो सकती हैं</b>: सत्रों में सोर्स कोड अंश, फ़ाइल पाथ, कमांड आउटपुट, कभी-कभी सीक्रेट्स — .jsonl फ़ाइलें बेतरतीब शेयर या पब्लिकली अपलोड न करें;</li>
+<li><b>साइज़ बढ़ता है</b>: महीनों के भारी उपयोग के बाद एक सत्र कई (या दर्जनों) MB और पूरी डायरेक्टरी सैकड़ों MB — यह सामान्य है।</li>
+</ul>
+
+<h2>यह इतिहास आराम से कैसे पढ़ें</h2>
+<p>रॉ JSONL पढ़ना थकाऊ है। <a href="https://ccviewer.top/claude-code-session-viewer/hi/">CCViewer</a> से डायरेक्टरी खोलें (पूरा फ़ोल्डर ड्रैप करना भी चलता है): सत्र प्रोजेक्ट-वार समूहबद्ध होंगे और Markdown, थिंकिंग ब्लॉक, टूल कॉल, लागत आँकड़े सब ग्राफिकली रेंडर होंगे — पार्सिंग केवल आपके ब्राउज़र में होती है, “डेटा इस मशीन से बाहर नहीं जाता” बना रहता है।</p>
+
+<div class="cta">
+  <b>CCViewer से अपने Claude Code सत्र विज़ुअली रीप्ले करें</b><br>
+  पेज खोलें और कोई <code>.jsonl</code> फ़ाइल — या पूरा <code>~/.claude/projects/</code> फ़ोल्डर — ड्रैप कर दें। Markdown रेंडरिंग, थिंकिंग ब्लॉक, टूल कॉल, टोकन व लागत आँकड़े सब आपके ब्राउज़र में लोकल चलते हैं, कुछ भी अपलोड नहीं होता।
+  <div class="btns">
+    <a class="btn primary" href="https://ccviewer.top/claude-code-session-viewer/hi/">CCViewer खोलें (नि:शुल्क, इंस्टॉल ज़रूरी नहीं)</a>
+    <a class="btn" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">सोर्स देखें</a>
+  </div>
+</div>
+<h2 id="faq">सामान्य प्रश्न</h2><details><summary>Claude Code का इतिहास Anthropic के सर्वर पर अपलोड होता है?</summary><div class="a">सत्र फ़ाइलें लोकल ~/.claude/projects/ में रहती हैं और अलग से क्लाउड पर संग्रहित नहीं होतीं। बेशक बातचीत के दौरान सामग्री API से प्रोसेस होती है (मॉडल उपयोग की शर्त), लेकिन “इतिहास फ़ाइलें” लोकल फ़ाइलें हैं जिन पर आपका पूरा नियंत्रण है।</div></details><details><summary>सत्र इतिहास कैसे मिटाएँ?</summary><div class="a">संबंधित .jsonl फ़ाइल (या प्रोजेक्ट की पूरी सब-डायरेक्टरी) हटा दें; सत्र resume सूची से भी गायब हो जाएगा। हटाने से पहले बैकअप की ज़रूरत न हो, यह पक्का करें।</div></details><details><summary>क्या ~/.claude/projects और ~/.claude.json एक ही चीज़ हैं?</summary><div class="a">नहीं। ~/.claude.json (या claude.json) ग्लोबल कॉन्फ़िग फ़ाइल है (MCP सर्वर, थीम आदि); सत्र इतिहास ~/.claude/projects/ के .jsonl फ़ाइलों में रहता है।</div></details>
+<div class="related">
+<h3>संबंधित लेख</h3>
+<a href="how-to-view-claude-code-session-history.html">Claude Code सत्र का पूरा इतिहास कैसे देखें</a><a href="find-claude-code-session-jsonl-file.html">सत्र की JSONL फ़ाइल कैसे खोजें</a><a href="where-claude-code-sessions-stored.html">Claude Code सत्र इतिहास कहाँ सेव होता है?</a><a href="best-claude-code-session-viewer.html">2026 में Claude Code सत्र का सबसे अच्छा व्यूअर कौन?</a>
+</div>
+</article>
+</main>
+<footer>© 2026 CCViewer · MIT ओपन सोर्स · Anthropic से कोई संबंध नहीं। "Claude Code" Anthropic का ट्रेडमार्क है, वर्णनात्मक उपयोग।</footer>
+</body>
+</html>
