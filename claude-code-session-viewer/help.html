@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help Center | CCViewer</title>
+<meta name="description" content="CCViewer Help Center: how to view Claude Code session history, find session JSONL files, where sessions are stored, and the best session viewer compared — all guides sorted by update date.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/help.html">
+<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/help.html">
+<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/help.html">
+<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/help.html">
+<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/help.html">
+<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/help.html">
+<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/help.html">
+<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/help.html">
+<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/help.html">
+<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/help.html">
+<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/help.html">
+<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/help.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CCViewer">
+<meta property="og:title" content="Help Center | CCViewer">
+<meta property="og:description" content="CCViewer Help Center: how to view Claude Code session history, find session JSONL files, where sessions are stored, and the best session viewer compared — all guides sorted by update date.">
+<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/help.html">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "How to view the full history of a Claude Code session", "url": "https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history.html"}, {"@type": "ListItem", "position": 2, "name": "How to find the JSONL file for a session", "url": "https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file.html"}, {"@type": "ListItem", "position": 3, "name": "Where are Claude Code session histories stored?", "url": "https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored.html"}, {"@type": "ListItem", "position": 4, "name": "What is the best Claude Code session viewer in 2026?", "url": "https://ccviewer.top/claude-code-session-viewer/best-claude-code-session-viewer.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/"}, {"@type": "ListItem", "position": 2, "name": "Help Center", "item": "https://ccviewer.top/claude-code-session-viewer/help.html"}]}</script>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--border:#30363d;--text:#e6edf3;
+--dim:#8b949e;--faint:#6e7681;--accent:#d97757;--accent2:#cc9b7a;--user:#58a6ff;--code-bg:#0b0f14}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-size:15px;line-height:1.8;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+code,kbd{font-family:"SFMono-Regular",Consolas,Menlo,monospace}
+header.nav{display:flex;align-items:center;gap:10px;padding:12px 20px;background:var(--panel);
+border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}
+header.nav .brand{display:flex;align-items:center;gap:9px;font-weight:700;color:var(--accent);
+text-decoration:none;font-size:15px}
+header.nav .sp{flex:1}
+header.nav a.gh{color:var(--text);text-decoration:none;font-size:13px;border:1px solid var(--border);
+background:var(--panel2);padding:5px 11px;border-radius:6px}
+header.nav a.gh:hover{border-color:var(--accent);color:var(--accent)}
+main{max-width:820px;margin:0 auto;padding:36px 20px 64px}
+.crumbs{font-size:12.5px;color:var(--faint);margin-bottom:14px}
+.crumbs a{color:var(--dim);text-decoration:none}
+.crumbs a:hover{color:var(--accent)}
+h1{font-size:27px;line-height:1.4;margin:0 0 10px}
+.meta{color:var(--faint);font-size:12.5px;margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+h2{font-size:19px;margin:34px 0 10px;color:var(--accent2)}
+h3{font-size:16px;margin:24px 0 8px}
+p{margin:10px 0}
+a{color:var(--user)}
+ul,ol{padding-left:24px}
+li{margin:5px 0}
+code{background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:13px;color:var(--accent2)}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;overflow:auto}
+pre code{background:none;border:none;padding:0;color:var(--text);font-size:13px}
+table{border-collapse:collapse;margin:14px 0;width:100%;font-size:13.5px}
+th,td{border:1px solid var(--border);padding:7px 11px;text-align:left}
+th{background:var(--panel2);color:var(--accent2)}
+img.shot{max-width:100%;border:1px solid var(--border);border-radius:10px;margin:12px 0;
+box-shadow:0 14px 44px rgba(0,0,0,.4)}
+.cta{background:linear-gradient(120deg,rgba(217,119,87,.13),rgba(191,227,239,.05));
+border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;
+padding:18px 22px;margin:30px 0}
+.cta b{color:var(--accent)}
+.cta .btns{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-block;background:var(--panel2);color:var(--text);border:1px solid var(--border);
+padding:8px 16px;border-radius:6px;text-decoration:none;font-size:14px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);color:#1a1109;border-color:var(--accent);font-weight:600}
+.btn.primary:hover{opacity:.9;color:#1a1109}
+details{border:1px solid var(--border);border-radius:10px;background:var(--panel);margin:9px 0}
+summary{cursor:pointer;padding:11px 16px;font-weight:500;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:'\25B8 ';color:var(--accent)}
+details[open] summary::before{content:'\25BE '}
+details .a{padding:0 16px 13px;color:var(--dim);font-size:14px}
+.related{margin-top:44px;padding-top:22px;border-top:1px solid var(--border)}
+.related h3{margin:0 0 10px;font-size:14px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px}
+.related a{display:block;padding:7px 0;color:var(--dim);text-decoration:none;font-size:14.5px}
+.related a:hover{color:var(--accent)}
+footer{border-top:1px solid var(--border);padding:20px;color:var(--faint);font-size:12.5px;text-align:center}
+footer a{color:var(--dim)}
+.kbd{background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:0 5px;font-size:12px}
+.hlead{color:var(--dim);font-size:14.5px}
+.hlist{display:flex;flex-direction:column;gap:12px;margin:8px 0 10px}
+a.hcard{display:block;background:var(--panel);border:1px solid var(--border);border-radius:12px;
+padding:16px 20px;text-decoration:none;transition:border-color .15s}
+a.hcard:hover{border-color:var(--accent)}
+a.hcard .ht{color:var(--text);font-weight:600;font-size:16px;margin-bottom:4px}
+a.hcard:hover .ht{color:var(--accent)}
+a.hcard .hd{color:var(--dim);font-size:13.5px;line-height:1.65}
+a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="https://ccviewer.top/claude-code-session-viewer/"><img src="/assets/logo.svg" width="26" alt="CCViewer logo">CCViewer</a>
+  <span class="sp"></span>
+  <a class="gh" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">GitHub</a>
+</header>
+<main>
+<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/">CCViewer</a> / Help Center</div>
+<article>
+<h1>Help Center</h1>
+<div class="meta">Updated 2026-10-12 · CCViewer Help Center · Applies to Claude Code 2.x</div>
+<p class="hlead">CCViewer guides and FAQs, sorted from newest to oldest.</p>
+<div class="hlist">
+<a class="hcard" href="how-to-view-claude-code-session-history.html"><div class="ht">How to view the full history of a Claude Code session</div><div class="hd">Three ways to view your complete Claude Code session history: claude --resume in the terminal, opening the .jsonl files under ~/.claude/projects, or r…</div><div class="hm">Updated: 2026-10-12</div></a>
+<a class="hcard" href="find-claude-code-session-jsonl-file.html"><div class="ht">How to find the JSONL file for a session</div><div class="hd">Claude Code session files live at ~/.claude/projects//.jsonl. Learn how to locate a session’s JSONL file quickly with find/grep, and how to search by…</div><div class="hm">Updated: 2026-10-12</div></a>
+<a class="hcard" href="where-claude-code-sessions-stored.html"><div class="ht">Where are Claude Code session histories stored?</div><div class="hd">Claude Code stores session history locally as JSONL files under ~/.claude/projects/ — nothing is synced to the cloud. A detailed look at the directory…</div><div class="hm">Updated: 2026-10-12</div></a>
+<a class="hcard" href="best-claude-code-session-viewer.html"><div class="ht">What is the best Claude Code session viewer in 2026?</div><div class="hd">A comparison of common ways to review Claude Code session history in 2026: the built-in claude --resume, jq/grep on the command line, generic JSONL to…</div><div class="hm">Updated: 2026-10-12</div></a>
+</div>
+<div class="cta">
+  <b>Replay your Claude Code sessions visually with CCViewer</b><br>
+  Open the page and drop in a <code>.jsonl</code> file — or the whole <code>~/.claude/projects/</code> folder. Markdown rendering, thinking blocks, tool calls, token &amp; cost stats, all processed locally in your browser. Nothing is ever uploaded.
+  <div class="btns">
+    <a class="btn primary" href="https://ccviewer.top/claude-code-session-viewer/">Open CCViewer (free, no install)</a>
+    <a class="btn" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">View source</a>
+  </div>
+</div>
+</article>
+</main>
+<footer>© 2026 CCViewer · MIT open source · Not affiliated with Anthropic. "Claude Code" is an Anthropic trademark, used descriptively.</footer>
+</body>
+</html>

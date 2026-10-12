@@ -19,6 +19,10 @@ P3 = 'where-claude-code-sessions-stored.html'
 P4 = 'best-claude-code-session-viewer.html'
 SLUGS = [P1, P2, P3, P4]
 
+HELP_SLUG = 'help.html'
+# 各文章的更新时间（帮助中心按此倒序展示）
+ARTICLE_DATES = {P1: '2026-10-12', P2: '2026-10-12', P3: '2026-10-12', P4: '2026-10-12'}
+
 OG_LOCALE = {'en':'en_US','zh':'zh_CN','ja':'ja_JA','ko':'ko_KR','es':'es_ES',
              'fr':'fr_FR','de':'de_DE','pt':'pt_BR','ru':'ru_RU','hi':'hi_IN'}
 HTML_LANG = {'en':'en','zh':'zh-CN','ja':'ja','ko':'ko','es':'es','fr':'fr',
@@ -75,6 +79,32 @@ UI = {
    cta_b='पेज खोलें और कोई <code>.jsonl</code> फ़ाइल — या पूरा <code>~/.claude/projects/</code> फ़ोल्डर — ड्रैप कर दें। Markdown रेंडरिंग, थिंकिंग ब्लॉक, टूल कॉल, टोकन व लागत आँकड़े सब आपके ब्राउज़र में लोकल चलते हैं, कुछ भी अपलोड नहीं होता।',
    open='CCViewer खोलें (नि:शुल्क, इंस्टॉल ज़रूरी नहीं)', src='सोर्स देखें', faq='सामान्य प्रश्न', rel='संबंधित लेख',
    foot='© 2026 CCViewer · MIT ओपन सोर्स · Anthropic से कोई संबंध नहीं। "Claude Code" Anthropic का ट्रेडमार्क है, वर्णनात्मक उपयोग।'),
+}
+
+# 帮助中心独立页文案
+HELP_LEAD = {
+ 'zh': 'CCViewer 使用指南与常见问题，按更新时间从新到旧排列。',
+ 'en': 'CCViewer guides and FAQs, sorted from newest to oldest.',
+ 'ja': 'CCViewer のガイドとよくある質問（更新日の新しい順）。',
+ 'ko': 'CCViewer 사용 가이드와 자주 묻는 질문(최신 업데이트순).',
+ 'es': 'Guías y preguntas frecuentes de CCViewer, ordenadas de más reciente a más antigua.',
+ 'fr': 'Guides et FAQ de CCViewer, du plus récent au plus ancien.',
+ 'de': 'CCViewer-Anleitungen und FAQ, vom neuesten zum ältesten Eintrag.',
+ 'pt': 'Guias e perguntas frequentes do CCViewer, do mais recente ao mais antigo.',
+ 'ru': 'Руководства и частые вопросы о CCViewer — от новых к старым.',
+ 'hi': 'CCViewer गाइड व सामान्य प्रश्न, नए से पुराने क्रम में।',
+}
+HELP_DESC = {
+ 'zh': 'CCViewer 帮助中心：如何查看 Claude Code 会话历史、找到会话 JSONL 文件、会话存储位置解析与最佳会话查看器对比——按更新时间倒序浏览全部指南。',
+ 'en': 'CCViewer Help Center: how to view Claude Code session history, find session JSONL files, where sessions are stored, and the best session viewer compared — all guides sorted by update date.',
+ 'ja': 'CCViewer ヘルプセンター：Claude Code セッション履歴の見方、JSONL ファイルの探し方、保存先の解説、最良のビューア比較まで、更新日順にすべてのガイドを閲覧できます。',
+ 'ko': 'CCViewer 도움말 센터: Claude Code 세션 기록 보기, JSONL 파일 찾기, 세션 저장 위치, 최고의 뷰어 비교까지 — 업데이트순으로 모든 가이드를 확인하세요.',
+ 'es': 'Centro de ayuda de CCViewer: cómo ver el historial de sesiones de Claude Code, encontrar archivos JSONL, dónde se guardan las sesiones y comparativa del mejor visor — todas las guías ordenadas por fecha.',
+ 'fr': "Centre d'aide CCViewer : voir l'historique des sessions Claude Code, trouver les fichiers JSONL, où sont stockées les sessions et comparatif des meilleurs visualiseurs — tous les guides triés par date.",
+ 'de': 'CCViewer-Hilfe-Center: Claude-Code-Sitzungsverlauf ansehen, JSONL-Dateien finden, Speicherort der Sitzungen und Vergleich der besten Viewer — alle Anleitungen nach Datum sortiert.',
+ 'pt': 'Central de Ajuda do CCViewer: como ver o histórico de sessões do Claude Code, encontrar arquivos JSONL, onde as sessões ficam salvas e comparação do melhor visualizador — todos os guias por data.',
+ 'ru': 'Центр справки CCViewer: как посмотреть историю сессий Claude Code, найти JSONL-файлы, где хранятся сессии и сравнение лучших просмотрщиков — все руководства по дате обновления.',
+ 'hi': 'CCViewer सहायता केंद्र: Claude Code सत्र इतिहास देखना, JSONL फ़ाइलें खोजना, सत्र कहाँ सेव होते हैं और सर्वश्रेष्ठ व्यूअर तुलना — सभी गाइड अपडेट तिथि के क्रम में।',
 }
 
 CSS = """
@@ -135,6 +165,15 @@ details .a{padding:0 16px 13px;color:var(--dim);font-size:14px}
 footer{border-top:1px solid var(--border);padding:20px;color:var(--faint);font-size:12.5px;text-align:center}
 footer a{color:var(--dim)}
 .kbd{background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:0 5px;font-size:12px}
+.hlead{color:var(--dim);font-size:14.5px}
+.hlist{display:flex;flex-direction:column;gap:12px;margin:8px 0 10px}
+a.hcard{display:block;background:var(--panel);border:1px solid var(--border);border-radius:12px;
+padding:16px 20px;text-decoration:none;transition:border-color .15s}
+a.hcard:hover{border-color:var(--accent)}
+a.hcard .ht{color:var(--text);font-weight:600;font-size:16px;margin-bottom:4px}
+a.hcard:hover .ht{color:var(--accent)}
+a.hcard .hd{color:var(--dim);font-size:13.5px;line-height:1.65}
+a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
 """
 
 SHELL = """<!DOCTYPE html>
@@ -167,7 +206,7 @@ SHELL = """<!DOCTYPE html>
   <a class="gh" href="{{gh}}" target="_blank" rel="noopener">GitHub</a>
 </header>
 <main>
-<div class="crumbs"><a href="{{app}}">CCViewer</a> / <a href="{{app}}">{{help}}</a> / {{crumb}}</div>
+<div class="crumbs"><a href="{{app}}">CCViewer</a> / <a href="{{help_url}}">{{help}}</a> / {{crumb}}</div>
 <article>
 <h1>{{h1}}</h1>
 <div class="meta">{{updated}} {{date}} · CCViewer {{help}} · {{applies}}</div>
@@ -184,6 +223,58 @@ SHELL = """<!DOCTYPE html>
 <div class="related">
 <h3>{{rel}}</h3>
 {{related}}
+</div>
+</article>
+</main>
+<footer>{{foot}}</footer>
+</body>
+</html>
+"""
+
+HELP_SHELL = """<!DOCTYPE html>
+<html lang="{{html_lang}}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{title}}</title>
+<meta name="description" content="{{desc}}">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="{{url}}">
+{{hreflang}}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CCViewer">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{desc}}">
+<meta property="og:url" content="{{url}}">
+<meta property="og:locale" content="{{og_locale}}">
+<meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<script type="application/ld+json">{{ld_itemlist}}</script>
+<script type="application/ld+json">{{ld_breadcrumb}}</script>
+<style>__CSS__</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="{{app}}"><img src="/assets/logo.svg" width="26" alt="CCViewer logo">CCViewer</a>
+  <span class="sp"></span>
+  <a class="gh" href="{{gh}}" target="_blank" rel="noopener">GitHub</a>
+</header>
+<main>
+<div class="crumbs"><a href="{{app}}">CCViewer</a> / {{help}}</div>
+<article>
+<h1>{{h1}}</h1>
+<div class="meta">{{updated}} {{date}} · CCViewer {{help}} · {{applies}}</div>
+<p class="hlead">{{hlead}}</p>
+<div class="hlist">
+{{cards}}
+</div>
+<div class="cta">
+  <b>{{cta_t}}</b><br>
+  {{cta_b}}
+  <div class="btns">
+    <a class="btn primary" href="{{app}}">{{open}}</a>
+    <a class="btn" href="{{gh}}" target="_blank" rel="noopener">{{src}}</a>
+  </div>
 </div>
 </article>
 </main>
@@ -264,6 +355,7 @@ def render(lang):
                 .replace('{{h1}}', pg['h1'])
                 .replace('{{crumb}}', pg['crumb'])
                 .replace('{{help}}', ui['help'])
+                .replace('{{help_url}}', page_url(lang, HELP_SLUG))
                 .replace('{{updated}}', ui['updated'])
                 .replace('{{applies}}', ui['applies'])
                 .replace('{{date}}', DATE)
@@ -286,9 +378,81 @@ def render(lang):
         print('built', os.path.normpath(out))
 
 
+def render_help(lang):
+    import re
+    ui = UI[lang]
+    pages = load_content(lang)
+    url = page_url(lang, HELP_SLUG)
+    hreflang = '\n'.join(
+        f'<link rel="alternate" hreflang="{l}" href="{page_url(l, HELP_SLUG)}">' for l in LANGS
+    ) + f'\n<link rel="alternate" hreflang="x-default" href="{page_url("en", HELP_SLUG)}">'
+
+    def plain(s):
+        return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', s)).strip()
+
+    # 按更新时间倒序（时间相同时保持内容文件中的定义顺序）
+    ordered = sorted(pages, key=lambda p: ARTICLE_DATES.get(p['slug'], DATE), reverse=True)
+    cards = []
+    for pg in ordered:
+        d = ARTICLE_DATES.get(pg['slug'], DATE)
+        excerpt = plain(pg['desc'])
+        if len(excerpt) > 150:
+            excerpt = excerpt[:150].rstrip() + '…'
+        cards.append(
+            f'<a class="hcard" href="{pg["slug"]}">'
+            f'<div class="ht">{pg["short"]}</div>'
+            f'<div class="hd">{excerpt}</div>'
+            f'<div class="hm">{ui["updated"]}: {d}</div></a>'
+        )
+    itemlist_ld = json.dumps({
+        '@context': 'https://schema.org', '@type': 'ItemList',
+        'itemListElement': [
+            {'@type': 'ListItem', 'position': i + 1, 'name': pg['short'],
+             'url': page_url(lang, pg['slug'])}
+            for i, pg in enumerate(ordered)
+        ],
+    }, ensure_ascii=False)
+    crumb_ld = json.dumps({
+        '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+        'itemListElement': [
+            {'@type': 'ListItem', 'position': 1, 'name': 'CCViewer', 'item': app_url(lang)},
+            {'@type': 'ListItem', 'position': 2, 'name': ui['help'], 'item': url},
+        ],
+    }, ensure_ascii=False)
+    page = (HELP_SHELL.replace('__CSS__', CSS)
+            .replace('{{html_lang}}', HTML_LANG[lang])
+            .replace('{{title}}', f'{ui["help"]} | CCViewer')
+            .replace('{{desc}}', HELP_DESC[lang])
+            .replace('{{url}}', url)
+            .replace('{{hreflang}}', hreflang)
+            .replace('{{og_locale}}', OG_LOCALE[lang])
+            .replace('{{h1}}', ui['help'])
+            .replace('{{help}}', ui['help'])
+            .replace('{{hlead}}', HELP_LEAD[lang])
+            .replace('{{updated}}', ui['updated'])
+            .replace('{{applies}}', ui['applies'])
+            .replace('{{date}}', DATE)
+            .replace('{{cards}}', '\n'.join(cards))
+            .replace('{{cta_t}}', ui['cta_t'])
+            .replace('{{cta_b}}', ui['cta_b'])
+            .replace('{{open}}', ui['open'])
+            .replace('{{src}}', ui['src'])
+            .replace('{{app}}', app_url(lang))
+            .replace('{{gh}}', GH)
+            .replace('{{ld_itemlist}}', itemlist_ld)
+            .replace('{{ld_breadcrumb}}', crumb_ld)
+            .replace('{{foot}}', ui['foot']))
+    out_dir = ROOT if lang == 'en' else os.path.join(ROOT, lang)
+    os.makedirs(out_dir, exist_ok=True)
+    out = os.path.join(out_dir, HELP_SLUG)
+    open(out, 'w', encoding='utf-8').write(page)
+    print('built', os.path.normpath(out))
+
+
 def build():
     for lang in LANGS:
         render(lang)
+        render_help(lang)
     print('done.')
 
 
