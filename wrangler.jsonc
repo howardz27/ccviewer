@@ -2,6 +2,8 @@
   "name": "ccpeek",
   "compatibility_date": "2026-10-09",
   "assets": {
-    "directory": "./"
+    "directory": "./",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
   }
 }

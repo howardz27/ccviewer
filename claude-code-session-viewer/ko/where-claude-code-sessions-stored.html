@@ -6,29 +6,163 @@
 <title>Claude Code 세션 기록은 어디에 저장되나? 저장 구조 상세 해설 | CCViewer</title>
 <meta name="description" content="Claude Code는 세션 기록을 ~/.claude/projects/ 아래에 JSONL 파일로 로컬 저장합니다 — 클라우드 동기화 없음. 디렉터리 구조, 각 JSON 줄의 필드(message/timestamp/usage/gitBranch), 백업 조언까지 자세히 설명.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored.html">
-<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored.html">
-<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/where-claude-code-sessions-stored.html">
-<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/where-claude-code-sessions-stored.html">
-<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored.html">
-<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/where-claude-code-sessions-stored.html">
-<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored.html">
-<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/where-claude-code-sessions-stored.html">
-<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/where-claude-code-sessions-stored.html">
-<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/where-claude-code-sessions-stored.html">
-<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/where-claude-code-sessions-stored.html">
-<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored.html">
+<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored">
+<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored">
+<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/where-claude-code-sessions-stored">
+<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/where-claude-code-sessions-stored">
+<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored">
+<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/where-claude-code-sessions-stored">
+<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored">
+<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/where-claude-code-sessions-stored">
+<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/where-claude-code-sessions-stored">
+<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/where-claude-code-sessions-stored">
+<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/where-claude-code-sessions-stored">
+<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="CCViewer">
 <meta property="og:title" content="Claude Code 세션 기록은 어디에 저장되나? 저장 구조 상세 해설 | CCViewer">
 <meta property="og:description" content="Claude Code는 세션 기록을 ~/.claude/projects/ 아래에 JSONL 파일로 로컬 저장합니다 — 클라우드 동기화 없음. 디렉터리 구조, 각 JSON 줄의 필드(message/timestamp/usage/gitBranch), 백업 조언까지 자세히 설명.">
-<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored.html">
+<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 세션의 기록은 어디에 저장되나요?", "description": "Claude Code는 세션 기록을 ~/.claude/projects/ 아래에 JSONL 파일로 로컬 저장합니다 — 클라우드 동기화 없음. 디렉터리 구조, 각 JSON 줄의 필드(message/timestamp/usage/gitBranch), 백업 조언까지 자세히 설명.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "ko", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored.html"}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/ko/"}, {"@type": "ListItem", "position": 2, "name": "Claude Code 세션의 기록은 어디에 저장되나요?", "item": "https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 세션의 기록은 어디에 저장되나요?", "description": "Claude Code는 세션 기록을 ~/.claude/projects/ 아래에 JSONL 파일로 로컬 저장합니다 — 클라우드 동기화 없음. 디렉터리 구조, 각 JSON 줄의 필드(message/timestamp/usage/gitBranch), 백업 조언까지 자세히 설명.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "ko", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/ko/"}, {"@type": "ListItem", "position": 2, "name": "도움말 센터", "item": "https://ccviewer.top/claude-code-session-viewer/ko/help"}, {"@type": "ListItem", "position": 3, "name": "Claude Code 세션의 기록은 어디에 저장되나요?", "item": "https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code 기록이 Anthropic 서버로 업로드되나요?", "acceptedAnswer": {"@type": "Answer", "text": "세션 파일 자체는 로컬 ~/.claude/projects/에 저장되며 별도로 클라우드에 저장되지 않습니다. 물론 대화가 진행되는 동안 내용은 API를 거쳐 처리됩니다(모델 사용의 전제). 하지만 「기록 파일」은 당신이 완전히 통제하는 로컬 파일입니다."}}, {"@type": "Question", "name": "세션 기록을 삭제하려면?", "acceptedAnswer": {"@type": "Answer", "text": "해당 .jsonl 파일(또는 프로젝트 하위 디렉터리 전체)을 삭제하면 됩니다. resume 목록에서도 사라집니다. 삭제 전 백업이 필요 없는지 확인하세요."}}, {"@type": "Question", "name": "~/.claude/projects와 ~/.claude.json은 같은 건가요?", "acceptedAnswer": {"@type": "Answer", "text": "아닙니다. ~/.claude.json(또는 claude.json)은 전역 설정 파일(MCP 서버, 테마 등)이고, 세션 기록은 ~/.claude/projects/ 아래의 .jsonl 파일에 있습니다."}}]}</script>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude Code 세션 기록은 어디에 저장되나? 저장 구조 상세 해설 | CCViewer">
+<meta name="twitter:description" content="Claude Code는 세션 기록을 ~/.claude/projects/ 아래에 JSONL 파일로 로컬 저장합니다 — 클라우드 동기화 없음. 디렉터리 구조, 각 JSON 줄의 필드(message/timestamp/usage/gitBranch), 백업 조언까지 자세히 설명.">
+<meta name="twitter:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
+<script>
+/* Only public pages are recorded. Never pass session data to this module. */
+(function () {
+  'use strict';
+  const config = {"projectId": "", "allowedHosts": ["ccviewer.top", "www.ccviewer.top"]};
+  const strings = {"analyticsSettings": "분석 설정", "analyticsAccept": "분석 허용", "analyticsReject": "거부 / 철회", "analyticsPrivacy": "Microsoft 개인정보처리방침", "analyticsNotice": "동의하면 Microsoft Clarity가 공개 페이지의 상호작용을 기록하여 CCViewer 개선에 활용합니다. 로컬 세션 표시 전에 기록을 중지합니다. 광고 저장소는 비활성화됩니다."};
+  const key = 'ccviewer_analytics_v1';
+  const maxAge = 180 * 24 * 60 * 60 * 1000;
+  let active = false;
+  let loaded = false;
+  let privateMode = false;
+  let banner;
+  let preferences;
+  const eligible = /^[a-zA-Z0-9]+$/.test(config.projectId) &&
+    location.protocol === 'https:' && config.allowedHosts.includes(location.hostname) &&
+    !location.search && !location.hash && navigator.doNotTrack !== '1' &&
+    navigator.globalPrivacyControl !== true;
+  const events = new Set(['file_picker_open', 'folder_picker_open', 'paste_open', 'help_open', 'github_open']);
+
+  function savedChoice() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(key));
+      return saved && Date.now() - saved.at < maxAge && saved.at <= Date.now() ? saved.choice : null;
+    } catch (_) { return null; }
+  }
+  function save(choice) {
+    try { localStorage.setItem(key, JSON.stringify({ choice, at: Date.now() })); } catch (_) {}
+  }
+  function start() {
+    if (!eligible || active || privateMode) return;
+    active = true;
+    loaded = true;
+    window.clarity = window.clarity || function () {
+      (window.clarity.q = window.clarity.q || []).push(arguments);
+    };
+    window.clarity('consentv2', { analytics_Storage: 'granted', ad_Storage: 'denied' });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.clarity.ms/tag/' + config.projectId;
+    document.head.appendChild(script);
+  }
+  function stop() {
+    if (!active) return;
+    window.clarity('stop');
+    active = false;
+  }
+  function withdraw() {
+    window.clarity('consentv2', { analytics_Storage: 'denied', ad_Storage: 'denied' });
+    stop();
+    // Also clear first-party cookies if stop() has already reset the SDK queue.
+    for (const name of ['_clck', '_clsk']) {
+      document.cookie = name + '=; Max-Age=0; Path=/; SameSite=Lax';
+      document.cookie = name + '=; Max-Age=0; Path=/; Domain=' + location.hostname + '; SameSite=Lax';
+      if (location.hostname.endsWith('.ccviewer.top')) {
+        document.cookie = name + '=; Max-Age=0; Path=/; Domain=ccviewer.top; SameSite=Lax';
+      }
+    }
+    location.reload();
+  }
+  function privateView() {
+    privateMode = true;
+    stop();
+    if (banner) banner.hidden = true;
+  }
+  function event(name) {
+    if (active && !privateMode && events.has(name)) window.clarity('event', name);
+  }
+  window.ccviewerAnalytics = { privateView, event };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!eligible) return;
+    const style = document.createElement('style');
+    style.textContent = '.analytics-banner{position:fixed;bottom:16px;left:16px;right:16px;max-width:640px;z-index:1000;padding:18px;background:#161b22;color:#e6edf3;border:1px solid #6e7681;border-radius:10px;box-shadow:0 8px 30px #0006;font:14px/1.6 system-ui}.analytics-banner[hidden],.analytics-preferences[hidden]{display:none}.analytics-banner p{margin:0 0 12px}.analytics-banner a{color:#58a6ff}.analytics-banner button,.analytics-preferences{font:inherit;background:#1c2128;color:#e6edf3;border:1px solid #6e7681;border-radius:6px;padding:6px 12px;cursor:pointer}.analytics-banner button{margin:4px 8px 0 0}.analytics-preferences{position:fixed;bottom:12px;right:12px;z-index:999;font-size:12px}.analytics-banner button:focus-visible,.analytics-preferences:focus-visible{outline:2px solid #58a6ff;outline-offset:3px}';
+    document.head.appendChild(style);
+    banner = document.createElement('section');
+    banner.className = 'analytics-banner';
+    banner.setAttribute('aria-label', strings.analyticsSettings);
+    const text = document.createElement('p');
+    text.textContent = strings.analyticsNotice + ' ';
+    const privacy = document.createElement('a');
+    privacy.href = 'https://www.microsoft.com/privacy/privacystatement';
+    privacy.target = '_blank';
+    privacy.rel = 'noopener noreferrer';
+    privacy.textContent = strings.analyticsPrivacy;
+    text.appendChild(privacy);
+    banner.appendChild(text);
+    function button(label, action) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = label;
+      btn.onclick = action;
+      banner.appendChild(btn);
+      return btn;
+    }
+    button(strings.analyticsAccept, function () {
+      save('granted'); start(); banner.hidden = true; preferences.focus();
+    });
+    const reject = button(strings.analyticsReject, function () {
+      save('denied');
+      if (loaded) {
+        // A fresh document removes the downloaded third-party code as well.
+        withdraw();
+      }
+      banner.hidden = true; preferences.focus();
+    });
+    document.body.appendChild(banner);
+    preferences = document.createElement('button');
+    preferences.type = 'button';
+    preferences.className = 'analytics-preferences';
+    preferences.textContent = strings.analyticsSettings;
+    preferences.onclick = function () { banner.hidden = false; reject.focus(); };
+    document.body.appendChild(preferences);
+    const choice = savedChoice();
+    banner.hidden = privateMode || choice === 'granted' || choice === 'denied';
+    if (choice === 'granted') start();
+    window.addEventListener('storage', function (e) {
+      if (e.key === key && loaded && savedChoice() !== 'granted') {
+        withdraw();
+      }
+    });
+    document.addEventListener('click', function (e) {
+      const link = e.target.closest('a[href]');
+      if (!link) return;
+      if (link.hasAttribute('data-guide')) event('help_open');
+      if (link.hostname === 'github.com') event('github_open');
+    });
+  });
+})();
+
+</script>
 <style>
 :root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--border:#30363d;--text:#e6edf3;
 --dim:#8b949e;--faint:#6e7681;--accent:#d97757;--accent2:#cc9b7a;--user:#58a6ff;--code-bg:#0b0f14}
@@ -105,7 +239,7 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
   <a class="gh" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">GitHub</a>
 </header>
 <main>
-<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/ko/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/ko/help.html">도움말 센터</a> / 저장 위치</div>
+<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/ko/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/ko/help">도움말 센터</a> / 저장 위치</div>
 <article>
 <h1>Claude Code 세션의 기록은 어디에 저장되나요?</h1>
 <div class="meta">업데이트 2026-10-12 · CCViewer 도움말 센터 · Claude Code 2.x 대응</div>
@@ -157,10 +291,16 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
 <h2 id="faq">자주 묻는 질문</h2><details><summary>Claude Code 기록이 Anthropic 서버로 업로드되나요?</summary><div class="a">세션 파일 자체는 로컬 ~/.claude/projects/에 저장되며 별도로 클라우드에 저장되지 않습니다. 물론 대화가 진행되는 동안 내용은 API를 거쳐 처리됩니다(모델 사용의 전제). 하지만 「기록 파일」은 당신이 완전히 통제하는 로컬 파일입니다.</div></details><details><summary>세션 기록을 삭제하려면?</summary><div class="a">해당 .jsonl 파일(또는 프로젝트 하위 디렉터리 전체)을 삭제하면 됩니다. resume 목록에서도 사라집니다. 삭제 전 백업이 필요 없는지 확인하세요.</div></details><details><summary>~/.claude/projects와 ~/.claude.json은 같은 건가요?</summary><div class="a">아닙니다. ~/.claude.json(또는 claude.json)은 전역 설정 파일(MCP 서버, 테마 등)이고, 세션 기록은 ~/.claude/projects/ 아래의 .jsonl 파일에 있습니다.</div></details>
 <div class="related">
 <h3>관련 글</h3>
-<a href="how-to-view-claude-code-session-history.html">Claude Code 세션의 전체 기록을 보는 방법</a><a href="find-claude-code-session-jsonl-file.html">세션의 JSONL 파일 위치를 찾는 방법</a><a href="where-claude-code-sessions-stored.html">Claude Code 세션 기록은 어디에 저장되나?</a><a href="best-claude-code-session-viewer.html">2026년 최고의 Claude Code 세션 뷰어는?</a>
+<a href="how-to-view-claude-code-session-history">Claude Code 세션의 전체 기록을 보는 방법</a><a href="find-claude-code-session-jsonl-file">세션의 JSONL 파일 위치를 찾는 방법</a><a href="where-claude-code-sessions-stored">Claude Code 세션 기록은 어디에 저장되나?</a><a href="best-claude-code-session-viewer">2026년 최고의 Claude Code 세션 뷰어는?</a>
 </div>
 </article>
 </main>
-<footer>© 2026 CCViewer · MIT 오픈소스 · Anthropic와는 무관합니다. "Claude Code"는 Anthropic의 상표입니다.</footer>
+<footer><aside class="site-resources"><h2>공식 자료</h2>
+<ul>
+<li><a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener noreferrer">Claude Code — 문서</a></li>
+<li><a href="https://code.claude.com/docs/en/cli-reference" target="_blank" rel="noopener noreferrer">Claude Code — CLI</a></li>
+<li><a href="https://jsonlines.org/" target="_blank" rel="noopener noreferrer">JSON Lines (.jsonl)</a></li>
+<li><a href="https://github.com/howardz27/ccviewer/issues" target="_blank" rel="noopener noreferrer">GitHub — 문제 신고</a></li>
+</ul></aside><nav aria-label="Language" class="site-languages"><a href="/claude-code-session-viewer/where-claude-code-sessions-stored" hreflang="en" lang="en">English</a> · <a href="/claude-code-session-viewer/zh/where-claude-code-sessions-stored" hreflang="zh" lang="zh">中文</a> · <a href="/claude-code-session-viewer/ja/where-claude-code-sessions-stored" hreflang="ja" lang="ja">日本語</a> · <a href="/claude-code-session-viewer/ko/where-claude-code-sessions-stored" hreflang="ko" lang="ko" aria-current="page">한국어</a> · <a href="/claude-code-session-viewer/es/where-claude-code-sessions-stored" hreflang="es" lang="es">Español</a> · <a href="/claude-code-session-viewer/fr/where-claude-code-sessions-stored" hreflang="fr" lang="fr">Français</a> · <a href="/claude-code-session-viewer/de/where-claude-code-sessions-stored" hreflang="de" lang="de">Deutsch</a> · <a href="/claude-code-session-viewer/pt/where-claude-code-sessions-stored" hreflang="pt" lang="pt">Português</a> · <a href="/claude-code-session-viewer/ru/where-claude-code-sessions-stored" hreflang="ru" lang="ru">Русский</a> · <a href="/claude-code-session-viewer/hi/where-claude-code-sessions-stored" hreflang="hi" lang="hi">हिन्दी</a></nav>© 2026 CCViewer · MIT 오픈소스 · Anthropic와는 무관합니다. "Claude Code"는 Anthropic의 상표입니다.</footer>
 </body>
 </html>

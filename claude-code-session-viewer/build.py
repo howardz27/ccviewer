@@ -4,6 +4,7 @@
 输出: index.html (en, 默认) + <lang>/index.html ×9
 """
 import json, html, re, os, html as H
+from site_support import analytics, language_links, resources, public_slug, build_routes
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 LANGS = ['en','zh','ja','ko','es','fr','de','pt','ru','hi']
@@ -11,14 +12,6 @@ OG_LOCALE = {'en':'en_US','zh':'zh_CN','ja':'ja_JP','ko':'ko_KR','es':'es_ES',
              'fr':'fr_FR','de':'de_DE','pt':'pt_BR','ru':'ru_RU','hi':'hi_IN'}
 SITE = 'https://ccviewer.top/claude-code-session-viewer'
 
-REDIRECT_JS = ("<script>(function(){try{var LS=['zh','ja','ko','es','fr','de','pt','ru','hi'];"
- "var p=null;try{p=localStorage.getItem('ccviewer_pref');}catch(e){}"
- "if(p){if(p!=='en'&&LS.indexOf(p)>=0)location.replace('/claude-code-session-viewer/'+p+'/');return;}"
- "var nl=navigator.languages||(navigator.language?[navigator.language]:[]);"
- "for(var i=0;i<nl.length;i++){var l=String(nl[i]).toLowerCase().split('-')[0];"
- "if(l==='en')return;"
- "if(LS.indexOf(l)>=0){try{localStorage.setItem('ccviewer_pref',l);}catch(e){}"
- "location.replace('/claude-code-session-viewer/'+l+'/');return;}}}catch(e){}})();</script>")
 
 def url_for(lang):
     return SITE + '/' if lang == 'en' else f'{SITE}/{lang}/'
@@ -73,17 +66,24 @@ def build():
             '{{og_desc}}':H.escape(loc['og_desc'],quote=True),
             '{{og_locale}}':OG_LOCALE[lang],
             '{{webapp_ld}}':webapp_ld,'{{faq_ld}}':faq_ld,
-            '{{redirect}}':REDIRECT_JS if lang=='en' else '',
+            '{{analytics}}':analytics(lang),
+            '{{language_links}}':language_links(lang),
+            '{{resources}}':resources(lang),
             "'{{lang}}':{{ui}}":f"'{lang}':"+json.dumps(ui,ensure_ascii=False),
             "const LANG='{{lang}}'":f"const LANG='{lang}'",
         }.items():
             page = page.replace(k,v)
         page = bake(page, ui)
+        page = re.sub(r'data-guide="([^"]+)"(?: href="#")?',
+                      lambda m: f'data-guide="{m[1]}" href="{url}{public_slug(m[1])}"', page)
 
         out = os.path.join(HERE,'index.html') if lang=='en' else os.path.join(HERE,lang,'index.html')
         os.makedirs(os.path.dirname(out),exist_ok=True)
         open(out,'w',encoding='utf-8').write(page)
         print('built',out)
+    from src.pages.build_pages import build as build_guides, SLUGS, HELP_SLUG, ARTICLE_DATES, DATE
+    build_guides()
+    build_routes(SLUGS + [HELP_SLUG], ARTICLE_DATES, DATE)
     print('done.')
 
 if __name__=='__main__':

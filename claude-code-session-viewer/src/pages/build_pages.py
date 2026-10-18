@@ -4,7 +4,10 @@
 内容源: src/pages/content/<lang>.py（每语言定义 PAGES 列表）
 输出: en -> <root>/<slug>.html，其余 -> <lang>/<slug>.html
 """
-import json, os, importlib.util
+import json, os, importlib.util, sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from site_support import analytics, language_links, resources, public_slug
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(HERE, '..', '..')
@@ -23,7 +26,7 @@ HELP_SLUG = 'help.html'
 # 各文章的更新时间（帮助中心按此倒序展示）
 ARTICLE_DATES = {P1: '2026-10-12', P2: '2026-10-12', P3: '2026-10-12', P4: '2026-10-12'}
 
-OG_LOCALE = {'en':'en_US','zh':'zh_CN','ja':'ja_JA','ko':'ko_KR','es':'es_ES',
+OG_LOCALE = {'en':'en_US','zh':'zh_CN','ja':'ja_JP','ko':'ko_KR','es':'es_ES',
              'fr':'fr_FR','de':'de_DE','pt':'pt_BR','ru':'ru_RU','hi':'hi_IN'}
 HTML_LANG = {'en':'en','zh':'zh-CN','ja':'ja','ko':'ko','es':'es','fr':'fr',
              'de':'de','pt':'pt-BR','ru':'ru','hi':'hi'}
@@ -197,6 +200,11 @@ SHELL = """<!DOCTYPE html>
 <script type="application/ld+json">{{ld_article}}</script>
 <script type="application/ld+json">{{ld_breadcrumb}}</script>
 <script type="application/ld+json">{{ld_faq}}</script>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{title}}">
+<meta name="twitter:description" content="{{desc}}">
+<meta name="twitter:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
+{{analytics}}
 <style>__CSS__</style>
 </head>
 <body>
@@ -226,7 +234,7 @@ SHELL = """<!DOCTYPE html>
 </div>
 </article>
 </main>
-<footer>{{foot}}</footer>
+<footer>{{resources}}{{language_links}}{{foot}}</footer>
 </body>
 </html>
 """
@@ -251,6 +259,11 @@ HELP_SHELL = """<!DOCTYPE html>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <script type="application/ld+json">{{ld_itemlist}}</script>
 <script type="application/ld+json">{{ld_breadcrumb}}</script>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{title}}">
+<meta name="twitter:description" content="{{desc}}">
+<meta name="twitter:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
+{{analytics}}
 <style>__CSS__</style>
 </head>
 <body>
@@ -278,7 +291,7 @@ HELP_SHELL = """<!DOCTYPE html>
 </div>
 </article>
 </main>
-<footer>{{foot}}</footer>
+<footer>{{resources}}{{language_links}}{{foot}}</footer>
 </body>
 </html>
 """
@@ -293,6 +306,7 @@ def load_content(lang):
 
 
 def page_url(lang, slug):
+    slug = public_slug(slug)
     return f'{SITE}/{slug}' if lang == 'en' else f'{SITE}/{lang}/{slug}'
 
 
@@ -326,7 +340,8 @@ def render(lang):
             '@context': 'https://schema.org', '@type': 'BreadcrumbList',
             'itemListElement': [
                 {'@type': 'ListItem', 'position': 1, 'name': 'CCViewer', 'item': app_url(lang)},
-                {'@type': 'ListItem', 'position': 2, 'name': pg['h1'], 'item': url},
+                {'@type': 'ListItem', 'position': 2, 'name': ui['help'], 'item': page_url(lang, HELP_SLUG)},
+                {'@type': 'ListItem', 'position': 3, 'name': pg['h1'], 'item': url},
             ],
         }, ensure_ascii=False)
         faq_ld = json.dumps({
@@ -342,7 +357,7 @@ def render(lang):
             for q, a in pg['faqs']
         )
         related = ''.join(
-            f'<a href="{s}">{by_slug[s]["short"]}</a>' for s in SLUGS if s in by_slug
+            f'<a href="{public_slug(s)}">{by_slug[s]["short"]}</a>' for s in SLUGS if s in by_slug
         )
         body = pg['body'].replace('{{app}}', app_url(lang))
         page = (SHELL.replace('__CSS__', CSS)
@@ -372,7 +387,10 @@ def render(lang):
                 .replace('{{ld_article}}', article_ld)
                 .replace('{{ld_breadcrumb}}', crumb_ld)
                 .replace('{{ld_faq}}', faq_ld)
-                .replace('{{foot}}', ui['foot']))
+                .replace('{{foot}}', ui['foot'])
+            .replace('{{analytics}}', analytics(lang))
+            .replace('{{resources}}', resources(lang))
+            .replace('{{language_links}}', language_links(lang, slug)))
         out = os.path.join(out_dir, slug)
         open(out, 'w', encoding='utf-8').write(page)
         print('built', os.path.normpath(out))
@@ -399,7 +417,7 @@ def render_help(lang):
         if len(excerpt) > 150:
             excerpt = excerpt[:150].rstrip() + '…'
         cards.append(
-            f'<a class="hcard" href="{pg["slug"]}">'
+            f'<a class="hcard" href="{public_slug(pg["slug"])}">'
             f'<div class="ht">{pg["short"]}</div>'
             f'<div class="hd">{excerpt}</div>'
             f'<div class="hm">{ui["updated"]}: {d}</div></a>'
@@ -441,7 +459,10 @@ def render_help(lang):
             .replace('{{gh}}', GH)
             .replace('{{ld_itemlist}}', itemlist_ld)
             .replace('{{ld_breadcrumb}}', crumb_ld)
-            .replace('{{foot}}', ui['foot']))
+            .replace('{{foot}}', ui['foot'])
+            .replace('{{analytics}}', analytics(lang))
+            .replace('{{resources}}', resources(lang))
+            .replace('{{language_links}}', language_links(lang, HELP_SLUG)))
     out_dir = ROOT if lang == 'en' else os.path.join(ROOT, lang)
     os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, HELP_SLUG)

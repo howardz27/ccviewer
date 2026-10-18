@@ -84,7 +84,7 @@
   "q1": "How do I view previous Claude Code sessions?",
   "a1": "Claude Code saves every session as a JSONL file under <code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code>. Drop a single file or the whole project folder here to browse the full conversation.",
   "q2": "Is my session file uploaded anywhere?",
-  "a2": "No. Parsing happens entirely in your browser with no API calls and no server upload. Session files contain your code, file paths and sometimes secrets — which is exactly why this tool is 100% client-side.",
+  "a2": "No. Session files are parsed and rendered locally without upload. On the hosted site, optional Microsoft Clarity analytics records public pages only after consent; recording stops before local sessions are displayed. Offline copies do not load analytics.",
   "q3": "What does the viewer support?",
   "a3": "This Claude Code JSONL viewer supports Markdown rendering for user and assistant messages, extended thinking blocks, tool call parameters and results, images, token usage and cost stats — with an interface in 10 languages.",
   "q4": "What is the .jsonl format?",
@@ -121,6 +121,14 @@
   "g2": "How to find the JSONL file for a session",
   "g3": "Where are Claude Code session histories stored?",
   "g4": "What is the best Claude Code session viewer in 2026?",
-  "helpCenter": "Help Center"
+  "helpCenter": "Help Center",
+  "analyticsSettings": "Analytics settings",
+  "analyticsAccept": "Allow analytics",
+  "analyticsReject": "Reject / withdraw",
+  "analyticsPrivacy": "Microsoft privacy statement",
+  "analyticsNotice": "With your permission, Microsoft Clarity records interactions on public pages to help improve CCViewer. Recording stops before local sessions are displayed. Advertising storage is disabled.",
+  "resourcesTitle": "Official resources",
+  "resourcesDocs": "Documentation",
+  "resourcesIssues": "Report an issue"
  }
 }

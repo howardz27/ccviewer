@@ -21,11 +21,21 @@ jobs:
       - name: Build
         run: python3 claude-code-session-viewer/build.py
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Check analytics privacy controls and static pages
+        run: |
+          node tests/analytics.cjs
+          python3 tests/check_pages.py
+
       - name: Ensure build is up to date
         run: |
           git diff --exit-code --stat \
-            -- 'claude-code-session-viewer/index.html' \
-            'claude-code-session-viewer/*/index.html' \
+            -- 'claude-code-session-viewer/*.html' \
+            'claude-code-session-viewer/*/*.html' \
+            'sitemap.xml' '_redirects' \
             || { echo "::error::Built pages are out of date. Run: python3 claude-code-session-viewer/build.py and commit the result."; exit 1; }
 
       - name: Sanity checks

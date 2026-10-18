@@ -7,10 +7,70 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/best-claude-code-session-viewer</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/help</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ccviewer.top/claude-code-session-viewer/zh/</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/zh/how-to-view-claude-code-session-history</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/zh/where-claude-code-sessions-stored</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/zh/best-claude-code-session-viewer</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/zh/help</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ccviewer.top/claude-code-session-viewer/ja/</loc>
@@ -19,10 +79,70 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ja/how-to-view-claude-code-session-history</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ja/where-claude-code-sessions-stored</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ja/best-claude-code-session-viewer</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ja/help</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ccviewer.top/claude-code-session-viewer/ko/</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ko/best-claude-code-session-viewer</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ko/help</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ccviewer.top/claude-code-session-viewer/es/</loc>
@@ -31,10 +151,70 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/es/how-to-view-claude-code-session-history</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/es/find-claude-code-session-jsonl-file</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/es/where-claude-code-sessions-stored</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/es/best-claude-code-session-viewer</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/es/help</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ccviewer.top/claude-code-session-viewer/fr/</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/fr/how-to-view-claude-code-session-history</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/fr/find-claude-code-session-jsonl-file</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/fr/best-claude-code-session-viewer</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/fr/help</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ccviewer.top/claude-code-session-viewer/de/</loc>
@@ -43,10 +223,70 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/de/how-to-view-claude-code-session-history</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/de/where-claude-code-sessions-stored</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/de/best-claude-code-session-viewer</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/de/help</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ccviewer.top/claude-code-session-viewer/pt/</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/pt/how-to-view-claude-code-session-history</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/pt/find-claude-code-session-jsonl-file</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/pt/where-claude-code-sessions-stored</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/pt/best-claude-code-session-viewer</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/pt/help</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ccviewer.top/claude-code-session-viewer/ru/</loc>
@@ -55,307 +295,67 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ru/how-to-view-claude-code-session-history</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ru/find-claude-code-session-jsonl-file</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ru/where-claude-code-sessions-stored</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ru/best-claude-code-session-viewer</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ccviewer.top/claude-code-session-viewer/ru/help</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ccviewer.top/claude-code-session-viewer/hi/</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/help.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/zh/help.html</loc>
+    <loc>https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ja/help.html</loc>
+    <loc>https://ccviewer.top/claude-code-session-viewer/hi/find-claude-code-session-jsonl-file</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ko/help.html</loc>
+    <loc>https://ccviewer.top/claude-code-session-viewer/hi/where-claude-code-sessions-stored</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/es/help.html</loc>
+    <loc>https://ccviewer.top/claude-code-session-viewer/hi/best-claude-code-session-viewer</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/fr/help.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/de/help.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/pt/help.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ru/help.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/hi/help.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/best-claude-code-session-viewer.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/zh/how-to-view-claude-code-session-history.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/zh/where-claude-code-sessions-stored.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/zh/best-claude-code-session-viewer.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ja/how-to-view-claude-code-session-history.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ja/where-claude-code-sessions-stored.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ja/best-claude-code-session-viewer.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ko/where-claude-code-sessions-stored.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ko/best-claude-code-session-viewer.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/es/how-to-view-claude-code-session-history.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/es/find-claude-code-session-jsonl-file.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/es/where-claude-code-sessions-stored.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/es/best-claude-code-session-viewer.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/fr/how-to-view-claude-code-session-history.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/fr/find-claude-code-session-jsonl-file.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/fr/best-claude-code-session-viewer.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/de/how-to-view-claude-code-session-history.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/de/where-claude-code-sessions-stored.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/de/best-claude-code-session-viewer.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/pt/how-to-view-claude-code-session-history.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/pt/find-claude-code-session-jsonl-file.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/pt/where-claude-code-sessions-stored.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/pt/best-claude-code-session-viewer.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ru/how-to-view-claude-code-session-history.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ru/find-claude-code-session-jsonl-file.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ru/where-claude-code-sessions-stored.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/ru/best-claude-code-session-viewer.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/hi/find-claude-code-session-jsonl-file.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/hi/where-claude-code-sessions-stored.html</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ccviewer.top/claude-code-session-viewer/hi/best-claude-code-session-viewer.html</loc>
+    <loc>https://ccviewer.top/claude-code-session-viewer/hi/help</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

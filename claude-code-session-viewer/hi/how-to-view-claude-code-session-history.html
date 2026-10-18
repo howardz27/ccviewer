@@ -6,29 +6,163 @@
 <title>Claude Code सत्र का पूरा इतिहास कैसे देखें — 3 तरीके (2026) | CCViewer</title>
 <meta name="description" content="Claude Code सत्रों का पूरा इतिहास देखने के तीन तरीके: टर्मिनल में claude --resume, ~/.claude/projects के .jsonl फ़ाइलें खोलना, या CCViewer से ब्राउज़र में विज़ुअली रीप्ले करना (Markdown, थिंकिंग ब्लॉक, टूल कॉल, लागत आँकड़े) — 100% लोकल रेंडरिंग।">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history.html">
+<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="CCViewer">
 <meta property="og:title" content="Claude Code सत्र का पूरा इतिहास कैसे देखें — 3 तरीके (2026) | CCViewer">
 <meta property="og:description" content="Claude Code सत्रों का पूरा इतिहास देखने के तीन तरीके: टर्मिनल में claude --resume, ~/.claude/projects के .jsonl फ़ाइलें खोलना, या CCViewer से ब्राउज़र में विज़ुअली रीप्ले करना (Markdown, थिंकिंग ब्लॉक, टूल कॉल, लागत आँकड़े) — 100% लोकल रेंडरिंग।">
-<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history.html">
+<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history">
 <meta property="og:locale" content="hi_IN">
 <meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "मैं Claude Code सत्र का पूरा इतिहास कैसे देख सकता हूँ?", "description": "Claude Code सत्रों का पूरा इतिहास देखने के तीन तरीके: टर्मिनल में claude --resume, ~/.claude/projects के .jsonl फ़ाइलें खोलना, या CCViewer से ब्राउज़र में विज़ुअली रीप्ले करना (Markdown, थिंकिंग ब्लॉक, टूल कॉल, लागत आँकड़े) — 100% लोकल रेंडरिंग।", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "hi", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history.html"}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/hi/"}, {"@type": "ListItem", "position": 2, "name": "मैं Claude Code सत्र का पूरा इतिहास कैसे देख सकता हूँ?", "item": "https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "मैं Claude Code सत्र का पूरा इतिहास कैसे देख सकता हूँ?", "description": "Claude Code सत्रों का पूरा इतिहास देखने के तीन तरीके: टर्मिनल में claude --resume, ~/.claude/projects के .jsonl फ़ाइलें खोलना, या CCViewer से ब्राउज़र में विज़ुअली रीप्ले करना (Markdown, थिंकिंग ब्लॉक, टूल कॉल, लागत आँकड़े) — 100% लोकल रेंडरिंग।", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "hi", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/hi/"}, {"@type": "ListItem", "position": 2, "name": "सहायता केंद्र", "item": "https://ccviewer.top/claude-code-session-viewer/hi/help"}, {"@type": "ListItem", "position": 3, "name": "मैं Claude Code सत्र का पूरा इतिहास कैसे देख सकता हूँ?", "item": "https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "इतिहास देखने से मेरा कोड अपलोड होता है क्या?", "acceptedAnswer": {"@type": "Answer", "text": "नहीं। CCViewer सब कुछ आपके ब्राउज़र में पार्स और रेंडर करता है; सत्र की सामग्री ले जाने वाला कोई नेटवर्क रिक्वेस्ट नहीं होता। आप DevTools के Network पैनल में खुद जाँच सकते हैं।"}}, {"@type": "Question", "name": "सत्र के compact हुए हिस्से भी दिखते हैं?", "acceptedAnswer": {"@type": "Answer", "text": "हाँ। कम्पैक्शन सारांश और बाद के संदेश उसी JSONL फ़ाइल में रहते हैं; व्यूअर सारांश को इंजेक्टेड कॉन्टेक्स्ट के रूप में दिखाता है — “सिस्टम/इंजेक्टेड” टॉगल से देखें।"}}, {"@type": "Question", "name": "मोबाइल पर चलता है?", "acceptedAnswer": {"@type": "Answer", "text": "हाँ — CCViewer एक रेस्पॉन्सिव वेब पेज है। लेकिन सत्र फ़ाइलें आपके कंप्यूटर पर होती हैं: पहले .jsonl फ़ोन पर लाएँ (जैसे iCloud/क्लाउड से), फिर ब्राउज़र में खोलें।"}}]}</script>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude Code सत्र का पूरा इतिहास कैसे देखें — 3 तरीके (2026) | CCViewer">
+<meta name="twitter:description" content="Claude Code सत्रों का पूरा इतिहास देखने के तीन तरीके: टर्मिनल में claude --resume, ~/.claude/projects के .jsonl फ़ाइलें खोलना, या CCViewer से ब्राउज़र में विज़ुअली रीप्ले करना (Markdown, थिंकिंग ब्लॉक, टूल कॉल, लागत आँकड़े) — 100% लोकल रेंडरिंग।">
+<meta name="twitter:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
+<script>
+/* Only public pages are recorded. Never pass session data to this module. */
+(function () {
+  'use strict';
+  const config = {"projectId": "", "allowedHosts": ["ccviewer.top", "www.ccviewer.top"]};
+  const strings = {"analyticsSettings": "विश्लेषण सेटिंग", "analyticsAccept": "विश्लेषण की अनुमति दें", "analyticsReject": "अस्वीकार / वापस लें", "analyticsPrivacy": "Microsoft गोपनीयता कथन", "analyticsNotice": "आपकी अनुमति से Microsoft Clarity सार्वजनिक पेजों पर इंटरैक्शन रिकॉर्ड करता है ताकि CCViewer को बेहतर बनाया जा सके। स्थानीय सेशन दिखाने से पहले रिकॉर्डिंग बंद हो जाती है। विज्ञापन स्टोरेज बंद है।"};
+  const key = 'ccviewer_analytics_v1';
+  const maxAge = 180 * 24 * 60 * 60 * 1000;
+  let active = false;
+  let loaded = false;
+  let privateMode = false;
+  let banner;
+  let preferences;
+  const eligible = /^[a-zA-Z0-9]+$/.test(config.projectId) &&
+    location.protocol === 'https:' && config.allowedHosts.includes(location.hostname) &&
+    !location.search && !location.hash && navigator.doNotTrack !== '1' &&
+    navigator.globalPrivacyControl !== true;
+  const events = new Set(['file_picker_open', 'folder_picker_open', 'paste_open', 'help_open', 'github_open']);
+
+  function savedChoice() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(key));
+      return saved && Date.now() - saved.at < maxAge && saved.at <= Date.now() ? saved.choice : null;
+    } catch (_) { return null; }
+  }
+  function save(choice) {
+    try { localStorage.setItem(key, JSON.stringify({ choice, at: Date.now() })); } catch (_) {}
+  }
+  function start() {
+    if (!eligible || active || privateMode) return;
+    active = true;
+    loaded = true;
+    window.clarity = window.clarity || function () {
+      (window.clarity.q = window.clarity.q || []).push(arguments);
+    };
+    window.clarity('consentv2', { analytics_Storage: 'granted', ad_Storage: 'denied' });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.clarity.ms/tag/' + config.projectId;
+    document.head.appendChild(script);
+  }
+  function stop() {
+    if (!active) return;
+    window.clarity('stop');
+    active = false;
+  }
+  function withdraw() {
+    window.clarity('consentv2', { analytics_Storage: 'denied', ad_Storage: 'denied' });
+    stop();
+    // Also clear first-party cookies if stop() has already reset the SDK queue.
+    for (const name of ['_clck', '_clsk']) {
+      document.cookie = name + '=; Max-Age=0; Path=/; SameSite=Lax';
+      document.cookie = name + '=; Max-Age=0; Path=/; Domain=' + location.hostname + '; SameSite=Lax';
+      if (location.hostname.endsWith('.ccviewer.top')) {
+        document.cookie = name + '=; Max-Age=0; Path=/; Domain=ccviewer.top; SameSite=Lax';
+      }
+    }
+    location.reload();
+  }
+  function privateView() {
+    privateMode = true;
+    stop();
+    if (banner) banner.hidden = true;
+  }
+  function event(name) {
+    if (active && !privateMode && events.has(name)) window.clarity('event', name);
+  }
+  window.ccviewerAnalytics = { privateView, event };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!eligible) return;
+    const style = document.createElement('style');
+    style.textContent = '.analytics-banner{position:fixed;bottom:16px;left:16px;right:16px;max-width:640px;z-index:1000;padding:18px;background:#161b22;color:#e6edf3;border:1px solid #6e7681;border-radius:10px;box-shadow:0 8px 30px #0006;font:14px/1.6 system-ui}.analytics-banner[hidden],.analytics-preferences[hidden]{display:none}.analytics-banner p{margin:0 0 12px}.analytics-banner a{color:#58a6ff}.analytics-banner button,.analytics-preferences{font:inherit;background:#1c2128;color:#e6edf3;border:1px solid #6e7681;border-radius:6px;padding:6px 12px;cursor:pointer}.analytics-banner button{margin:4px 8px 0 0}.analytics-preferences{position:fixed;bottom:12px;right:12px;z-index:999;font-size:12px}.analytics-banner button:focus-visible,.analytics-preferences:focus-visible{outline:2px solid #58a6ff;outline-offset:3px}';
+    document.head.appendChild(style);
+    banner = document.createElement('section');
+    banner.className = 'analytics-banner';
+    banner.setAttribute('aria-label', strings.analyticsSettings);
+    const text = document.createElement('p');
+    text.textContent = strings.analyticsNotice + ' ';
+    const privacy = document.createElement('a');
+    privacy.href = 'https://www.microsoft.com/privacy/privacystatement';
+    privacy.target = '_blank';
+    privacy.rel = 'noopener noreferrer';
+    privacy.textContent = strings.analyticsPrivacy;
+    text.appendChild(privacy);
+    banner.appendChild(text);
+    function button(label, action) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = label;
+      btn.onclick = action;
+      banner.appendChild(btn);
+      return btn;
+    }
+    button(strings.analyticsAccept, function () {
+      save('granted'); start(); banner.hidden = true; preferences.focus();
+    });
+    const reject = button(strings.analyticsReject, function () {
+      save('denied');
+      if (loaded) {
+        // A fresh document removes the downloaded third-party code as well.
+        withdraw();
+      }
+      banner.hidden = true; preferences.focus();
+    });
+    document.body.appendChild(banner);
+    preferences = document.createElement('button');
+    preferences.type = 'button';
+    preferences.className = 'analytics-preferences';
+    preferences.textContent = strings.analyticsSettings;
+    preferences.onclick = function () { banner.hidden = false; reject.focus(); };
+    document.body.appendChild(preferences);
+    const choice = savedChoice();
+    banner.hidden = privateMode || choice === 'granted' || choice === 'denied';
+    if (choice === 'granted') start();
+    window.addEventListener('storage', function (e) {
+      if (e.key === key && loaded && savedChoice() !== 'granted') {
+        withdraw();
+      }
+    });
+    document.addEventListener('click', function (e) {
+      const link = e.target.closest('a[href]');
+      if (!link) return;
+      if (link.hasAttribute('data-guide')) event('help_open');
+      if (link.hostname === 'github.com') event('github_open');
+    });
+  });
+})();
+
+</script>
 <style>
 :root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--border:#30363d;--text:#e6edf3;
 --dim:#8b949e;--faint:#6e7681;--accent:#d97757;--accent2:#cc9b7a;--user:#58a6ff;--code-bg:#0b0f14}
@@ -105,7 +239,7 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
   <a class="gh" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">GitHub</a>
 </header>
 <main>
-<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/hi/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/hi/help.html">सहायता केंद्र</a> / पूरा इतिहास देखें</div>
+<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/hi/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/hi/help">सहायता केंद्र</a> / पूरा इतिहास देखें</div>
 <article>
 <h1>मैं Claude Code सत्र का पूरा इतिहास कैसे देख सकता हूँ?</h1>
 <div class="meta">अपडेट 2026-10-12 · CCViewer सहायता केंद्र · Claude Code 2.x के लिए</div>
@@ -164,10 +298,16 @@ cat ~/.claude/projects/-Users-you-myproject/&lt;sessionId&gt;.jsonl \\
 <h2 id="faq">सामान्य प्रश्न</h2><details><summary>इतिहास देखने से मेरा कोड अपलोड होता है क्या?</summary><div class="a">नहीं। CCViewer सब कुछ आपके ब्राउज़र में पार्स और रेंडर करता है; सत्र की सामग्री ले जाने वाला कोई नेटवर्क रिक्वेस्ट नहीं होता। आप DevTools के Network पैनल में खुद जाँच सकते हैं।</div></details><details><summary>सत्र के compact हुए हिस्से भी दिखते हैं?</summary><div class="a">हाँ। कम्पैक्शन सारांश और बाद के संदेश उसी JSONL फ़ाइल में रहते हैं; व्यूअर सारांश को इंजेक्टेड कॉन्टेक्स्ट के रूप में दिखाता है — “सिस्टम/इंजेक्टेड” टॉगल से देखें।</div></details><details><summary>मोबाइल पर चलता है?</summary><div class="a">हाँ — CCViewer एक रेस्पॉन्सिव वेब पेज है। लेकिन सत्र फ़ाइलें आपके कंप्यूटर पर होती हैं: पहले .jsonl फ़ोन पर लाएँ (जैसे iCloud/क्लाउड से), फिर ब्राउज़र में खोलें।</div></details>
 <div class="related">
 <h3>संबंधित लेख</h3>
-<a href="how-to-view-claude-code-session-history.html">Claude Code सत्र का पूरा इतिहास कैसे देखें</a><a href="find-claude-code-session-jsonl-file.html">सत्र की JSONL फ़ाइल कैसे खोजें</a><a href="where-claude-code-sessions-stored.html">Claude Code सत्र इतिहास कहाँ सेव होता है?</a><a href="best-claude-code-session-viewer.html">2026 में Claude Code सत्र का सबसे अच्छा व्यूअर कौन?</a>
+<a href="how-to-view-claude-code-session-history">Claude Code सत्र का पूरा इतिहास कैसे देखें</a><a href="find-claude-code-session-jsonl-file">सत्र की JSONL फ़ाइल कैसे खोजें</a><a href="where-claude-code-sessions-stored">Claude Code सत्र इतिहास कहाँ सेव होता है?</a><a href="best-claude-code-session-viewer">2026 में Claude Code सत्र का सबसे अच्छा व्यूअर कौन?</a>
 </div>
 </article>
 </main>
-<footer>© 2026 CCViewer · MIT ओपन सोर्स · Anthropic से कोई संबंध नहीं। "Claude Code" Anthropic का ट्रेडमार्क है, वर्णनात्मक उपयोग।</footer>
+<footer><aside class="site-resources"><h2>आधिकारिक संसाधन</h2>
+<ul>
+<li><a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener noreferrer">Claude Code — दस्तावेज़</a></li>
+<li><a href="https://code.claude.com/docs/en/cli-reference" target="_blank" rel="noopener noreferrer">Claude Code — CLI</a></li>
+<li><a href="https://jsonlines.org/" target="_blank" rel="noopener noreferrer">JSON Lines (.jsonl)</a></li>
+<li><a href="https://github.com/howardz27/ccviewer/issues" target="_blank" rel="noopener noreferrer">GitHub — समस्या की रिपोर्ट करें</a></li>
+</ul></aside><nav aria-label="Language" class="site-languages"><a href="/claude-code-session-viewer/how-to-view-claude-code-session-history" hreflang="en" lang="en">English</a> · <a href="/claude-code-session-viewer/zh/how-to-view-claude-code-session-history" hreflang="zh" lang="zh">中文</a> · <a href="/claude-code-session-viewer/ja/how-to-view-claude-code-session-history" hreflang="ja" lang="ja">日本語</a> · <a href="/claude-code-session-viewer/ko/how-to-view-claude-code-session-history" hreflang="ko" lang="ko">한국어</a> · <a href="/claude-code-session-viewer/es/how-to-view-claude-code-session-history" hreflang="es" lang="es">Español</a> · <a href="/claude-code-session-viewer/fr/how-to-view-claude-code-session-history" hreflang="fr" lang="fr">Français</a> · <a href="/claude-code-session-viewer/de/how-to-view-claude-code-session-history" hreflang="de" lang="de">Deutsch</a> · <a href="/claude-code-session-viewer/pt/how-to-view-claude-code-session-history" hreflang="pt" lang="pt">Português</a> · <a href="/claude-code-session-viewer/ru/how-to-view-claude-code-session-history" hreflang="ru" lang="ru">Русский</a> · <a href="/claude-code-session-viewer/hi/how-to-view-claude-code-session-history" hreflang="hi" lang="hi" aria-current="page">हिन्दी</a></nav>© 2026 CCViewer · MIT ओपन सोर्स · Anthropic से कोई संबंध नहीं। "Claude Code" Anthropic का ट्रेडमार्क है, वर्णनात्मक उपयोग।</footer>
 </body>
 </html>

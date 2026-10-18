@@ -184,7 +184,7 @@ dict(
 <p>S’il ne fallait choisir qu’un visualiseur dédié aux sessions Claude Code en 2026, nous recommandons le <a href="{{app}}">CCViewer</a> open source (ccviewer.top) — non parce qu’il est le plus spectaculaire, mais parce qu’il fait exactement ce qu’il faut pour ce cas d’usage :</p>
 <ol>
 <li><b>Né pour le format JSONL de session</b> : ce n’est pas un outil de logs générique — il comprend nativement la structure des entrées Claude Code : messages utilisateur, réponses Markdown, blocs de réflexion, paramètres et résultats d’outils, images, instantanés de coût, rendus nativement ;</li>
-<li><b>Confidentialité d’abord</b> : analyse 100 % dans le navigateur, zéro téléversement, zéro télémétrie. Les fichiers de session contiennent code et secrets — le rendu local devrait être la ligne de base de ce type d’outil ;</li>
+<li><b>Confidentialité d’abord</b> : analyse 100 % dans le navigateur, aucun envoi des fichiers de session. Les fichiers de session contiennent code et secrets — le rendu local devrait être la ligne de base de ce type d’outil ;</li>
 <li><b>Bibliothèque de sessions</b> : glissez tout <code>~/.claude/projects/</code> ; sessions groupées par projet, tri par date/messages/tokens/coût, persistance IndexedDB toujours là au retour ;</li>
 <li><b>Stats et export</b> : usage de tokens, durée API, lignes ± et coût total par session, plus export Markdown en un clic pour archiver ou partager ;</li>
 <li><b>Zéro friction</b> : gratuit, open source (MIT), sans installation ni inscription, interface en 10 langues.</li>

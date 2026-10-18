@@ -84,7 +84,7 @@
   "q1": "如何查看 Claude Code 的历史会话？",
   "a1": "Claude Code 会把每个会话保存为 <code>~/.claude/projects/&lt;项目&gt;/&lt;会话ID&gt;.jsonl</code> 文件。把单个文件或整个项目文件夹拖进来，即可浏览完整对话。",
   "q2": "我的会话文件会被上传吗？",
-  "a2": "不会。解析与渲染完全在你的浏览器中完成，没有任何网络请求，文件内容不会离开你的电脑。会话文件包含你的代码与文件路径，这正是本工具 100% 客户端处理的原因。",
+  "a2": "不会。会话文件在浏览器中本地解析和渲染，不会上传。线上网站仅在你同意后使用 Microsoft Clarity 分析公开页面的交互，显示本地会话前停止录制；离线版本不加载统计。",
   "q3": "查看器支持哪些内容？",
   "a3": "支持用户消息与 AI 回复的 Markdown 渲染、extended thinking 思考过程、工具调用参数与结果、图片、token 用量与成本统计，界面支持 10 种语言。",
   "q4": ".jsonl 是什么格式？",
@@ -121,6 +121,14 @@
   "g2": "如何查找 session 对应的 JSONL 文件位置？",
   "g3": "Claude Code 的会话历史保存在哪里？",
   "g4": "2026 年最好的 Claude Code session 查看器是什么？",
-  "helpCenter": "帮助中心"
+  "helpCenter": "帮助中心",
+  "analyticsSettings": "统计设置",
+  "analyticsAccept": "允许统计",
+  "analyticsReject": "拒绝 / 撤回",
+  "analyticsPrivacy": "微软隐私声明",
+  "analyticsNotice": "经你同意后，Microsoft Clarity 会记录公开页面的交互，以改进 CCViewer。显示本地会话前停止录制，广告存储始终关闭。",
+  "resourcesTitle": "官方资源",
+  "resourcesDocs": "使用文档",
+  "resourcesIssues": "反馈问题"
  }
 }

@@ -8,7 +8,7 @@
 
 A free, open-source viewer for [Claude Code](https://claude.com/claude-code) session files. Drop a `.jsonl` history file (or a whole project folder) into your browser and replay any conversation — Markdown, thinking blocks, tool calls, token usage and cost, all rendered locally.
 
-> 🔒 **100% client-side.** No upload, no API calls, no telemetry. Your session files never leave your computer — they contain your code, file paths and sometimes secrets, which is exactly why this tool exists.
+> 🔒 **100% client-side.** Session files are parsed and rendered locally without upload. The hosted site supports optional Microsoft Clarity analytics on public pages, loaded only after consent. Recording stops before local sessions are displayed. Offline copies do not load analytics. Your session files never leave your computer — they contain your code, file paths and sometimes secrets, which is exactly why this tool exists.
 
 **Try it online:** <https://ccviewer.top> (the site serves the exact same code as this repo)
 
@@ -62,11 +62,15 @@ The entire app lives in a single source file: `claude-code-session-viewer/src/te
 python3 claude-code-session-viewer/build.py   # bakes i18n into static HTML pages
 ```
 
+This builds all 60 localized application, help and guide pages. See [analytics setup](docs/analytics.md) for the optional Clarity configuration.
+
 CI runs this build on every PR, so a broken build shows up as a red ✗ before merge.
+
+The Cloudflare deployment uses extensionless guide URLs. `build.py` also regenerates the root `_redirects` and `sitemap.xml`; deploy these together with the HTML pages. To test the production routing locally, run `pnpm dlx wrangler@4.151.1 dev --local --port 8787`, then `python3 tests/check_routing.py --base http://127.0.0.1:8787`. Python's basic HTTP server is sufficient for the viewer but does not implement Cloudflare's extensionless guide routes. See [domain and redirect setup](docs/domain-routing.zh-CN.md) for DNS, HTTPS and GSC verification.
 
 ### Contributing
 
-PRs are welcome. If you add or change UI text, update **all 10** language files (the build bakes every key; a missing key falls back to its raw name). Keep the app dependency-free and 100% client-side — code that sends data anywhere will not be merged.
+PRs are welcome. If you add or change UI text, update **all 10** language files (the build bakes every key; a missing key falls back to its raw name). Keep the app dependency-free and 100% client-side — session content must never be sent to analytics or any external service. Optional public-page analytics must retain consent controls and stop before local sessions are displayed.
 
 ## FAQ
 

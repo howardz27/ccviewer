@@ -6,29 +6,163 @@
 <title>Claude Code 세션의 JSONL 파일 위치를 찾는 방법 | CCViewer</title>
 <meta name="description" content="Claude Code 세션 파일은 ~/.claude/projects/<project-dir>/<sessionId>.jsonl에 저장됩니다. find/grep으로 세션의 JSONL 파일을 빠르게 찾는 방법과 sessionId를 모를 때 내용이나 시간으로 역추적하는 방법을 소개.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file.html">
+<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="CCViewer">
 <meta property="og:title" content="Claude Code 세션의 JSONL 파일 위치를 찾는 방법 | CCViewer">
 <meta property="og:description" content="Claude Code 세션 파일은 ~/.claude/projects/<project-dir>/<sessionId>.jsonl에 저장됩니다. find/grep으로 세션의 JSONL 파일을 빠르게 찾는 방법과 sessionId를 모를 때 내용이나 시간으로 역추적하는 방법을 소개.">
-<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file.html">
+<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 세션의 JSONL 파일 위치를 어떻게 찾나요?", "description": "Claude Code 세션 파일은 ~/.claude/projects/<project-dir>/<sessionId>.jsonl에 저장됩니다. find/grep으로 세션의 JSONL 파일을 빠르게 찾는 방법과 sessionId를 모를 때 내용이나 시간으로 역추적하는 방법을 소개.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "ko", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file.html"}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/ko/"}, {"@type": "ListItem", "position": 2, "name": "Claude Code 세션의 JSONL 파일 위치를 어떻게 찾나요?", "item": "https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 세션의 JSONL 파일 위치를 어떻게 찾나요?", "description": "Claude Code 세션 파일은 ~/.claude/projects/<project-dir>/<sessionId>.jsonl에 저장됩니다. find/grep으로 세션의 JSONL 파일을 빠르게 찾는 방법과 sessionId를 모를 때 내용이나 시간으로 역추적하는 방법을 소개.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "ko", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/ko/"}, {"@type": "ListItem", "position": 2, "name": "도움말 센터", "item": "https://ccviewer.top/claude-code-session-viewer/ko/help"}, {"@type": "ListItem", "position": 3, "name": "Claude Code 세션의 JSONL 파일 위치를 어떻게 찾나요?", "item": "https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "~/.claude 디렉터리를 찾을 수 없는 이유는?", "acceptedAnswer": {"@type": "Answer", "text": "점으로 시작해서 기본적으로 숨겨져 있기 때문입니다. 파인더에서 ⌘⇧G로 경로를 직접 입력하거나 ⌘⇧.로 숨김 파일을 표시하세요. 터미널에서는 ls -la ~/.claude로 항상 보입니다."}}, {"@type": "Question", "name": "프로젝트 디렉터리에 jsonl 파일이 많은데 어느 것이 내 세션인가요?", "acceptedAnswer": {"@type": "Answer", "text": "파일 하나 = 세션 하나입니다. 수정 시간(ls -t)이나 내용(grep -l)으로 필터링하는 것이 가장 효과적입니다. CCViewer로 폴더 전체를 가져오면 각 세션의 제목과 통계가 표시되어 한눈에 구분됩니다."}}, {"@type": "Question", "name": "Windows에서 경로는?", "acceptedAnswer": {"@type": "Answer", "text": "사용자 프로필 아래에 동일한 구조입니다: %USERPROFILE%\\\\.claude\\\\projects\\\\&lt;project&gt;\\\\&lt;sessionId&gt;.jsonl."}}]}</script>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude Code 세션의 JSONL 파일 위치를 찾는 방법 | CCViewer">
+<meta name="twitter:description" content="Claude Code 세션 파일은 ~/.claude/projects/<project-dir>/<sessionId>.jsonl에 저장됩니다. find/grep으로 세션의 JSONL 파일을 빠르게 찾는 방법과 sessionId를 모를 때 내용이나 시간으로 역추적하는 방법을 소개.">
+<meta name="twitter:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
+<script>
+/* Only public pages are recorded. Never pass session data to this module. */
+(function () {
+  'use strict';
+  const config = {"projectId": "", "allowedHosts": ["ccviewer.top", "www.ccviewer.top"]};
+  const strings = {"analyticsSettings": "분석 설정", "analyticsAccept": "분석 허용", "analyticsReject": "거부 / 철회", "analyticsPrivacy": "Microsoft 개인정보처리방침", "analyticsNotice": "동의하면 Microsoft Clarity가 공개 페이지의 상호작용을 기록하여 CCViewer 개선에 활용합니다. 로컬 세션 표시 전에 기록을 중지합니다. 광고 저장소는 비활성화됩니다."};
+  const key = 'ccviewer_analytics_v1';
+  const maxAge = 180 * 24 * 60 * 60 * 1000;
+  let active = false;
+  let loaded = false;
+  let privateMode = false;
+  let banner;
+  let preferences;
+  const eligible = /^[a-zA-Z0-9]+$/.test(config.projectId) &&
+    location.protocol === 'https:' && config.allowedHosts.includes(location.hostname) &&
+    !location.search && !location.hash && navigator.doNotTrack !== '1' &&
+    navigator.globalPrivacyControl !== true;
+  const events = new Set(['file_picker_open', 'folder_picker_open', 'paste_open', 'help_open', 'github_open']);
+
+  function savedChoice() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(key));
+      return saved && Date.now() - saved.at < maxAge && saved.at <= Date.now() ? saved.choice : null;
+    } catch (_) { return null; }
+  }
+  function save(choice) {
+    try { localStorage.setItem(key, JSON.stringify({ choice, at: Date.now() })); } catch (_) {}
+  }
+  function start() {
+    if (!eligible || active || privateMode) return;
+    active = true;
+    loaded = true;
+    window.clarity = window.clarity || function () {
+      (window.clarity.q = window.clarity.q || []).push(arguments);
+    };
+    window.clarity('consentv2', { analytics_Storage: 'granted', ad_Storage: 'denied' });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.clarity.ms/tag/' + config.projectId;
+    document.head.appendChild(script);
+  }
+  function stop() {
+    if (!active) return;
+    window.clarity('stop');
+    active = false;
+  }
+  function withdraw() {
+    window.clarity('consentv2', { analytics_Storage: 'denied', ad_Storage: 'denied' });
+    stop();
+    // Also clear first-party cookies if stop() has already reset the SDK queue.
+    for (const name of ['_clck', '_clsk']) {
+      document.cookie = name + '=; Max-Age=0; Path=/; SameSite=Lax';
+      document.cookie = name + '=; Max-Age=0; Path=/; Domain=' + location.hostname + '; SameSite=Lax';
+      if (location.hostname.endsWith('.ccviewer.top')) {
+        document.cookie = name + '=; Max-Age=0; Path=/; Domain=ccviewer.top; SameSite=Lax';
+      }
+    }
+    location.reload();
+  }
+  function privateView() {
+    privateMode = true;
+    stop();
+    if (banner) banner.hidden = true;
+  }
+  function event(name) {
+    if (active && !privateMode && events.has(name)) window.clarity('event', name);
+  }
+  window.ccviewerAnalytics = { privateView, event };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!eligible) return;
+    const style = document.createElement('style');
+    style.textContent = '.analytics-banner{position:fixed;bottom:16px;left:16px;right:16px;max-width:640px;z-index:1000;padding:18px;background:#161b22;color:#e6edf3;border:1px solid #6e7681;border-radius:10px;box-shadow:0 8px 30px #0006;font:14px/1.6 system-ui}.analytics-banner[hidden],.analytics-preferences[hidden]{display:none}.analytics-banner p{margin:0 0 12px}.analytics-banner a{color:#58a6ff}.analytics-banner button,.analytics-preferences{font:inherit;background:#1c2128;color:#e6edf3;border:1px solid #6e7681;border-radius:6px;padding:6px 12px;cursor:pointer}.analytics-banner button{margin:4px 8px 0 0}.analytics-preferences{position:fixed;bottom:12px;right:12px;z-index:999;font-size:12px}.analytics-banner button:focus-visible,.analytics-preferences:focus-visible{outline:2px solid #58a6ff;outline-offset:3px}';
+    document.head.appendChild(style);
+    banner = document.createElement('section');
+    banner.className = 'analytics-banner';
+    banner.setAttribute('aria-label', strings.analyticsSettings);
+    const text = document.createElement('p');
+    text.textContent = strings.analyticsNotice + ' ';
+    const privacy = document.createElement('a');
+    privacy.href = 'https://www.microsoft.com/privacy/privacystatement';
+    privacy.target = '_blank';
+    privacy.rel = 'noopener noreferrer';
+    privacy.textContent = strings.analyticsPrivacy;
+    text.appendChild(privacy);
+    banner.appendChild(text);
+    function button(label, action) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = label;
+      btn.onclick = action;
+      banner.appendChild(btn);
+      return btn;
+    }
+    button(strings.analyticsAccept, function () {
+      save('granted'); start(); banner.hidden = true; preferences.focus();
+    });
+    const reject = button(strings.analyticsReject, function () {
+      save('denied');
+      if (loaded) {
+        // A fresh document removes the downloaded third-party code as well.
+        withdraw();
+      }
+      banner.hidden = true; preferences.focus();
+    });
+    document.body.appendChild(banner);
+    preferences = document.createElement('button');
+    preferences.type = 'button';
+    preferences.className = 'analytics-preferences';
+    preferences.textContent = strings.analyticsSettings;
+    preferences.onclick = function () { banner.hidden = false; reject.focus(); };
+    document.body.appendChild(preferences);
+    const choice = savedChoice();
+    banner.hidden = privateMode || choice === 'granted' || choice === 'denied';
+    if (choice === 'granted') start();
+    window.addEventListener('storage', function (e) {
+      if (e.key === key && loaded && savedChoice() !== 'granted') {
+        withdraw();
+      }
+    });
+    document.addEventListener('click', function (e) {
+      const link = e.target.closest('a[href]');
+      if (!link) return;
+      if (link.hasAttribute('data-guide')) event('help_open');
+      if (link.hostname === 'github.com') event('github_open');
+    });
+  });
+})();
+
+</script>
 <style>
 :root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--border:#30363d;--text:#e6edf3;
 --dim:#8b949e;--faint:#6e7681;--accent:#d97757;--accent2:#cc9b7a;--user:#58a6ff;--code-bg:#0b0f14}
@@ -105,7 +239,7 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
   <a class="gh" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">GitHub</a>
 </header>
 <main>
-<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/ko/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/ko/help.html">도움말 센터</a> / JSONL 찾기</div>
+<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/ko/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/ko/help">도움말 센터</a> / JSONL 찾기</div>
 <article>
 <h1>Claude Code 세션의 JSONL 파일 위치를 어떻게 찾나요?</h1>
 <div class="meta">업데이트 2026-10-12 · CCViewer 도움말 센터 · Claude Code 2.x 대응</div>
@@ -156,10 +290,16 @@ ls -t ~/.claude/projects/*/*.jsonl | head -10</code></pre>
 <h2 id="faq">자주 묻는 질문</h2><details><summary>~/.claude 디렉터리를 찾을 수 없는 이유는?</summary><div class="a">점으로 시작해서 기본적으로 숨겨져 있기 때문입니다. 파인더에서 ⌘⇧G로 경로를 직접 입력하거나 ⌘⇧.로 숨김 파일을 표시하세요. 터미널에서는 ls -la ~/.claude로 항상 보입니다.</div></details><details><summary>프로젝트 디렉터리에 jsonl 파일이 많은데 어느 것이 내 세션인가요?</summary><div class="a">파일 하나 = 세션 하나입니다. 수정 시간(ls -t)이나 내용(grep -l)으로 필터링하는 것이 가장 효과적입니다. CCViewer로 폴더 전체를 가져오면 각 세션의 제목과 통계가 표시되어 한눈에 구분됩니다.</div></details><details><summary>Windows에서 경로는?</summary><div class="a">사용자 프로필 아래에 동일한 구조입니다: %USERPROFILE%\\.claude\\projects\\&lt;project&gt;\\&lt;sessionId&gt;.jsonl.</div></details>
 <div class="related">
 <h3>관련 글</h3>
-<a href="how-to-view-claude-code-session-history.html">Claude Code 세션의 전체 기록을 보는 방법</a><a href="find-claude-code-session-jsonl-file.html">세션의 JSONL 파일 위치를 찾는 방법</a><a href="where-claude-code-sessions-stored.html">Claude Code 세션 기록은 어디에 저장되나?</a><a href="best-claude-code-session-viewer.html">2026년 최고의 Claude Code 세션 뷰어는?</a>
+<a href="how-to-view-claude-code-session-history">Claude Code 세션의 전체 기록을 보는 방법</a><a href="find-claude-code-session-jsonl-file">세션의 JSONL 파일 위치를 찾는 방법</a><a href="where-claude-code-sessions-stored">Claude Code 세션 기록은 어디에 저장되나?</a><a href="best-claude-code-session-viewer">2026년 최고의 Claude Code 세션 뷰어는?</a>
 </div>
 </article>
 </main>
-<footer>© 2026 CCViewer · MIT 오픈소스 · Anthropic와는 무관합니다. "Claude Code"는 Anthropic의 상표입니다.</footer>
+<footer><aside class="site-resources"><h2>공식 자료</h2>
+<ul>
+<li><a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener noreferrer">Claude Code — 문서</a></li>
+<li><a href="https://code.claude.com/docs/en/cli-reference" target="_blank" rel="noopener noreferrer">Claude Code — CLI</a></li>
+<li><a href="https://jsonlines.org/" target="_blank" rel="noopener noreferrer">JSON Lines (.jsonl)</a></li>
+<li><a href="https://github.com/howardz27/ccviewer/issues" target="_blank" rel="noopener noreferrer">GitHub — 문제 신고</a></li>
+</ul></aside><nav aria-label="Language" class="site-languages"><a href="/claude-code-session-viewer/find-claude-code-session-jsonl-file" hreflang="en" lang="en">English</a> · <a href="/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file" hreflang="zh" lang="zh">中文</a> · <a href="/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file" hreflang="ja" lang="ja">日本語</a> · <a href="/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file" hreflang="ko" lang="ko" aria-current="page">한국어</a> · <a href="/claude-code-session-viewer/es/find-claude-code-session-jsonl-file" hreflang="es" lang="es">Español</a> · <a href="/claude-code-session-viewer/fr/find-claude-code-session-jsonl-file" hreflang="fr" lang="fr">Français</a> · <a href="/claude-code-session-viewer/de/find-claude-code-session-jsonl-file" hreflang="de" lang="de">Deutsch</a> · <a href="/claude-code-session-viewer/pt/find-claude-code-session-jsonl-file" hreflang="pt" lang="pt">Português</a> · <a href="/claude-code-session-viewer/ru/find-claude-code-session-jsonl-file" hreflang="ru" lang="ru">Русский</a> · <a href="/claude-code-session-viewer/hi/find-claude-code-session-jsonl-file" hreflang="hi" lang="hi">हिन्दी</a></nav>© 2026 CCViewer · MIT 오픈소스 · Anthropic와는 무관합니다. "Claude Code"는 Anthropic의 상표입니다.</footer>
 </body>
 </html>

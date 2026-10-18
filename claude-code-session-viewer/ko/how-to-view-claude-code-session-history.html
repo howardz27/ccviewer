@@ -6,29 +6,163 @@
 <title>Claude Code 세션의 전체 기록을 보는 방법 — 3가지 방법(2026) | CCViewer</title>
 <meta name="description" content="Claude Code 세션의 전체 기록을 보는 3가지 방법: 터미널에서 claude --resume, ~/.claude/projects 아래의 .jsonl 파일 열기, 또는 CCViewer로 브라우저에서 시각적으로 재생(Markdown/사고 블록/도구 호출/비용 통계) — 100% 로컬 렌더링.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history.html">
-<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history.html">
+<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history">
+<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="CCViewer">
 <meta property="og:title" content="Claude Code 세션의 전체 기록을 보는 방법 — 3가지 방법(2026) | CCViewer">
 <meta property="og:description" content="Claude Code 세션의 전체 기록을 보는 3가지 방법: 터미널에서 claude --resume, ~/.claude/projects 아래의 .jsonl 파일 열기, 또는 CCViewer로 브라우저에서 시각적으로 재생(Markdown/사고 블록/도구 호출/비용 통계) — 100% 로컬 렌더링.">
-<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history.html">
+<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 세션의 전체 기록을 어떻게 확인하나요?", "description": "Claude Code 세션의 전체 기록을 보는 3가지 방법: 터미널에서 claude --resume, ~/.claude/projects 아래의 .jsonl 파일 열기, 또는 CCViewer로 브라우저에서 시각적으로 재생(Markdown/사고 블록/도구 호출/비용 통계) — 100% 로컬 렌더링.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "ko", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history.html"}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/ko/"}, {"@type": "ListItem", "position": 2, "name": "Claude Code 세션의 전체 기록을 어떻게 확인하나요?", "item": "https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 세션의 전체 기록을 어떻게 확인하나요?", "description": "Claude Code 세션의 전체 기록을 보는 3가지 방법: 터미널에서 claude --resume, ~/.claude/projects 아래의 .jsonl 파일 열기, 또는 CCViewer로 브라우저에서 시각적으로 재생(Markdown/사고 블록/도구 호출/비용 통계) — 100% 로컬 렌더링.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "ko", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/ko/"}, {"@type": "ListItem", "position": 2, "name": "도움말 센터", "item": "https://ccviewer.top/claude-code-session-viewer/ko/help"}, {"@type": "ListItem", "position": 3, "name": "Claude Code 세션의 전체 기록을 어떻게 확인하나요?", "item": "https://ccviewer.top/claude-code-session-viewer/ko/how-to-view-claude-code-session-history"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "기록을 보면 내 코드가 업로드되나요?", "acceptedAnswer": {"@type": "Answer", "text": "아니요. CCViewer의 파싱과 렌더링은 전부 브라우저에서 이루어지며, 세션 내용을 담은 네트워크 요청은 전혀 없습니다. 개발자 도구 Network 패널에서 직접 확인할 수 있습니다."}}, {"@type": "Question", "name": "세션에서 압축(compact)된 부분도 볼 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "됩니다. 압축 요약과 이후 메시지는 같은 JSONL 파일에 기록되며, 뷰어는 요약을 주입된 컨텍스트로 표시합니다.「시스템/주입」 토글로 확인할 수 있습니다."}}, {"@type": "Question", "name": "모바일에서도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "됩니다. CCViewer는 반응형 웹 페이지입니다. 다만 세션 파일은 컴퓨터에 있으므로 먼저 .jsonl을 폰으로 전송(iCloud/클라우드 등)한 뒤 브라우저로 열어야 합니다."}}]}</script>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude Code 세션의 전체 기록을 보는 방법 — 3가지 방법(2026) | CCViewer">
+<meta name="twitter:description" content="Claude Code 세션의 전체 기록을 보는 3가지 방법: 터미널에서 claude --resume, ~/.claude/projects 아래의 .jsonl 파일 열기, 또는 CCViewer로 브라우저에서 시각적으로 재생(Markdown/사고 블록/도구 호출/비용 통계) — 100% 로컬 렌더링.">
+<meta name="twitter:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
+<script>
+/* Only public pages are recorded. Never pass session data to this module. */
+(function () {
+  'use strict';
+  const config = {"projectId": "", "allowedHosts": ["ccviewer.top", "www.ccviewer.top"]};
+  const strings = {"analyticsSettings": "분석 설정", "analyticsAccept": "분석 허용", "analyticsReject": "거부 / 철회", "analyticsPrivacy": "Microsoft 개인정보처리방침", "analyticsNotice": "동의하면 Microsoft Clarity가 공개 페이지의 상호작용을 기록하여 CCViewer 개선에 활용합니다. 로컬 세션 표시 전에 기록을 중지합니다. 광고 저장소는 비활성화됩니다."};
+  const key = 'ccviewer_analytics_v1';
+  const maxAge = 180 * 24 * 60 * 60 * 1000;
+  let active = false;
+  let loaded = false;
+  let privateMode = false;
+  let banner;
+  let preferences;
+  const eligible = /^[a-zA-Z0-9]+$/.test(config.projectId) &&
+    location.protocol === 'https:' && config.allowedHosts.includes(location.hostname) &&
+    !location.search && !location.hash && navigator.doNotTrack !== '1' &&
+    navigator.globalPrivacyControl !== true;
+  const events = new Set(['file_picker_open', 'folder_picker_open', 'paste_open', 'help_open', 'github_open']);
+
+  function savedChoice() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(key));
+      return saved && Date.now() - saved.at < maxAge && saved.at <= Date.now() ? saved.choice : null;
+    } catch (_) { return null; }
+  }
+  function save(choice) {
+    try { localStorage.setItem(key, JSON.stringify({ choice, at: Date.now() })); } catch (_) {}
+  }
+  function start() {
+    if (!eligible || active || privateMode) return;
+    active = true;
+    loaded = true;
+    window.clarity = window.clarity || function () {
+      (window.clarity.q = window.clarity.q || []).push(arguments);
+    };
+    window.clarity('consentv2', { analytics_Storage: 'granted', ad_Storage: 'denied' });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.clarity.ms/tag/' + config.projectId;
+    document.head.appendChild(script);
+  }
+  function stop() {
+    if (!active) return;
+    window.clarity('stop');
+    active = false;
+  }
+  function withdraw() {
+    window.clarity('consentv2', { analytics_Storage: 'denied', ad_Storage: 'denied' });
+    stop();
+    // Also clear first-party cookies if stop() has already reset the SDK queue.
+    for (const name of ['_clck', '_clsk']) {
+      document.cookie = name + '=; Max-Age=0; Path=/; SameSite=Lax';
+      document.cookie = name + '=; Max-Age=0; Path=/; Domain=' + location.hostname + '; SameSite=Lax';
+      if (location.hostname.endsWith('.ccviewer.top')) {
+        document.cookie = name + '=; Max-Age=0; Path=/; Domain=ccviewer.top; SameSite=Lax';
+      }
+    }
+    location.reload();
+  }
+  function privateView() {
+    privateMode = true;
+    stop();
+    if (banner) banner.hidden = true;
+  }
+  function event(name) {
+    if (active && !privateMode && events.has(name)) window.clarity('event', name);
+  }
+  window.ccviewerAnalytics = { privateView, event };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!eligible) return;
+    const style = document.createElement('style');
+    style.textContent = '.analytics-banner{position:fixed;bottom:16px;left:16px;right:16px;max-width:640px;z-index:1000;padding:18px;background:#161b22;color:#e6edf3;border:1px solid #6e7681;border-radius:10px;box-shadow:0 8px 30px #0006;font:14px/1.6 system-ui}.analytics-banner[hidden],.analytics-preferences[hidden]{display:none}.analytics-banner p{margin:0 0 12px}.analytics-banner a{color:#58a6ff}.analytics-banner button,.analytics-preferences{font:inherit;background:#1c2128;color:#e6edf3;border:1px solid #6e7681;border-radius:6px;padding:6px 12px;cursor:pointer}.analytics-banner button{margin:4px 8px 0 0}.analytics-preferences{position:fixed;bottom:12px;right:12px;z-index:999;font-size:12px}.analytics-banner button:focus-visible,.analytics-preferences:focus-visible{outline:2px solid #58a6ff;outline-offset:3px}';
+    document.head.appendChild(style);
+    banner = document.createElement('section');
+    banner.className = 'analytics-banner';
+    banner.setAttribute('aria-label', strings.analyticsSettings);
+    const text = document.createElement('p');
+    text.textContent = strings.analyticsNotice + ' ';
+    const privacy = document.createElement('a');
+    privacy.href = 'https://www.microsoft.com/privacy/privacystatement';
+    privacy.target = '_blank';
+    privacy.rel = 'noopener noreferrer';
+    privacy.textContent = strings.analyticsPrivacy;
+    text.appendChild(privacy);
+    banner.appendChild(text);
+    function button(label, action) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = label;
+      btn.onclick = action;
+      banner.appendChild(btn);
+      return btn;
+    }
+    button(strings.analyticsAccept, function () {
+      save('granted'); start(); banner.hidden = true; preferences.focus();
+    });
+    const reject = button(strings.analyticsReject, function () {
+      save('denied');
+      if (loaded) {
+        // A fresh document removes the downloaded third-party code as well.
+        withdraw();
+      }
+      banner.hidden = true; preferences.focus();
+    });
+    document.body.appendChild(banner);
+    preferences = document.createElement('button');
+    preferences.type = 'button';
+    preferences.className = 'analytics-preferences';
+    preferences.textContent = strings.analyticsSettings;
+    preferences.onclick = function () { banner.hidden = false; reject.focus(); };
+    document.body.appendChild(preferences);
+    const choice = savedChoice();
+    banner.hidden = privateMode || choice === 'granted' || choice === 'denied';
+    if (choice === 'granted') start();
+    window.addEventListener('storage', function (e) {
+      if (e.key === key && loaded && savedChoice() !== 'granted') {
+        withdraw();
+      }
+    });
+    document.addEventListener('click', function (e) {
+      const link = e.target.closest('a[href]');
+      if (!link) return;
+      if (link.hasAttribute('data-guide')) event('help_open');
+      if (link.hostname === 'github.com') event('github_open');
+    });
+  });
+})();
+
+</script>
 <style>
 :root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--border:#30363d;--text:#e6edf3;
 --dim:#8b949e;--faint:#6e7681;--accent:#d97757;--accent2:#cc9b7a;--user:#58a6ff;--code-bg:#0b0f14}
@@ -105,7 +239,7 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
   <a class="gh" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">GitHub</a>
 </header>
 <main>
-<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/ko/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/ko/help.html">도움말 센터</a> / 전체 기록 보기</div>
+<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/ko/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/ko/help">도움말 센터</a> / 전체 기록 보기</div>
 <article>
 <h1>Claude Code 세션의 전체 기록을 어떻게 확인하나요?</h1>
 <div class="meta">업데이트 2026-10-12 · CCViewer 도움말 센터 · Claude Code 2.x 대응</div>
@@ -164,10 +298,16 @@ cat ~/.claude/projects/-Users-you-myproject/&lt;sessionId&gt;.jsonl \\
 <h2 id="faq">자주 묻는 질문</h2><details><summary>기록을 보면 내 코드가 업로드되나요?</summary><div class="a">아니요. CCViewer의 파싱과 렌더링은 전부 브라우저에서 이루어지며, 세션 내용을 담은 네트워크 요청은 전혀 없습니다. 개발자 도구 Network 패널에서 직접 확인할 수 있습니다.</div></details><details><summary>세션에서 압축(compact)된 부분도 볼 수 있나요?</summary><div class="a">됩니다. 압축 요약과 이후 메시지는 같은 JSONL 파일에 기록되며, 뷰어는 요약을 주입된 컨텍스트로 표시합니다.「시스템/주입」 토글로 확인할 수 있습니다.</div></details><details><summary>모바일에서도 되나요?</summary><div class="a">됩니다. CCViewer는 반응형 웹 페이지입니다. 다만 세션 파일은 컴퓨터에 있으므로 먼저 .jsonl을 폰으로 전송(iCloud/클라우드 등)한 뒤 브라우저로 열어야 합니다.</div></details>
 <div class="related">
 <h3>관련 글</h3>
-<a href="how-to-view-claude-code-session-history.html">Claude Code 세션의 전체 기록을 보는 방법</a><a href="find-claude-code-session-jsonl-file.html">세션의 JSONL 파일 위치를 찾는 방법</a><a href="where-claude-code-sessions-stored.html">Claude Code 세션 기록은 어디에 저장되나?</a><a href="best-claude-code-session-viewer.html">2026년 최고의 Claude Code 세션 뷰어는?</a>
+<a href="how-to-view-claude-code-session-history">Claude Code 세션의 전체 기록을 보는 방법</a><a href="find-claude-code-session-jsonl-file">세션의 JSONL 파일 위치를 찾는 방법</a><a href="where-claude-code-sessions-stored">Claude Code 세션 기록은 어디에 저장되나?</a><a href="best-claude-code-session-viewer">2026년 최고의 Claude Code 세션 뷰어는?</a>
 </div>
 </article>
 </main>
-<footer>© 2026 CCViewer · MIT 오픈소스 · Anthropic와는 무관합니다. "Claude Code"는 Anthropic의 상표입니다.</footer>
+<footer><aside class="site-resources"><h2>공식 자료</h2>
+<ul>
+<li><a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener noreferrer">Claude Code — 문서</a></li>
+<li><a href="https://code.claude.com/docs/en/cli-reference" target="_blank" rel="noopener noreferrer">Claude Code — CLI</a></li>
+<li><a href="https://jsonlines.org/" target="_blank" rel="noopener noreferrer">JSON Lines (.jsonl)</a></li>
+<li><a href="https://github.com/howardz27/ccviewer/issues" target="_blank" rel="noopener noreferrer">GitHub — 문제 신고</a></li>
+</ul></aside><nav aria-label="Language" class="site-languages"><a href="/claude-code-session-viewer/how-to-view-claude-code-session-history" hreflang="en" lang="en">English</a> · <a href="/claude-code-session-viewer/zh/how-to-view-claude-code-session-history" hreflang="zh" lang="zh">中文</a> · <a href="/claude-code-session-viewer/ja/how-to-view-claude-code-session-history" hreflang="ja" lang="ja">日本語</a> · <a href="/claude-code-session-viewer/ko/how-to-view-claude-code-session-history" hreflang="ko" lang="ko" aria-current="page">한국어</a> · <a href="/claude-code-session-viewer/es/how-to-view-claude-code-session-history" hreflang="es" lang="es">Español</a> · <a href="/claude-code-session-viewer/fr/how-to-view-claude-code-session-history" hreflang="fr" lang="fr">Français</a> · <a href="/claude-code-session-viewer/de/how-to-view-claude-code-session-history" hreflang="de" lang="de">Deutsch</a> · <a href="/claude-code-session-viewer/pt/how-to-view-claude-code-session-history" hreflang="pt" lang="pt">Português</a> · <a href="/claude-code-session-viewer/ru/how-to-view-claude-code-session-history" hreflang="ru" lang="ru">Русский</a> · <a href="/claude-code-session-viewer/hi/how-to-view-claude-code-session-history" hreflang="hi" lang="hi">हिन्दी</a></nav>© 2026 CCViewer · MIT 오픈소스 · Anthropic와는 무관합니다. "Claude Code"는 Anthropic의 상표입니다.</footer>
 </body>
 </html>

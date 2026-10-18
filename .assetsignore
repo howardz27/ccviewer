@@ -1,0 +1,14 @@
+.git/
+.github/
+.wrangler/
+.gitignore
+README*
+LICENSE
+wrangler.jsonc
+docs/
+tests/
+claude-code-session-viewer/src/
+claude-code-session-viewer/*.py
+claude-code-session-viewer/analytics.json
+**/__pycache__/
+**/*.pyc

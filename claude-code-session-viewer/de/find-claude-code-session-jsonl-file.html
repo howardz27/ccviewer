@@ -6,29 +6,163 @@
 <title>Wie man den Speicherort der JSONL-Datei einer Claude-Code-Session findet | CCViewer</title>
 <meta name="description" content="Claude-Code-Session-Dateien liegen unter ~/.claude/projects/&lt;projekt-verz&gt;/&lt;sessionId&gt;.jsonl. So lokalisierst du die JSONL-Datei einer Session schnell mit find/grep — und suchst per Inhalt oder Zeit, wenn du die sessionId nicht kennst.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/find-claude-code-session-jsonl-file.html">
-<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file.html">
+<link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="ja" href="https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="ko" href="https://ccviewer.top/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="es" href="https://ccviewer.top/claude-code-session-viewer/es/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="fr" href="https://ccviewer.top/claude-code-session-viewer/fr/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="de" href="https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="pt" href="https://ccviewer.top/claude-code-session-viewer/pt/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="ru" href="https://ccviewer.top/claude-code-session-viewer/ru/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="hi" href="https://ccviewer.top/claude-code-session-viewer/hi/find-claude-code-session-jsonl-file">
+<link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="CCViewer">
 <meta property="og:title" content="Wie man den Speicherort der JSONL-Datei einer Claude-Code-Session findet | CCViewer">
 <meta property="og:description" content="Claude-Code-Session-Dateien liegen unter ~/.claude/projects/&lt;projekt-verz&gt;/&lt;sessionId&gt;.jsonl. So lokalisierst du die JSONL-Datei einer Session schnell mit find/grep — und suchst per Inhalt oder Zeit, wenn du die sessionId nicht kennst.">
-<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file.html">
+<meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file">
 <meta property="og:locale" content="de_DE">
 <meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Wie finde ich den Speicherort der JSONL-Datei einer Claude-Code-Session?", "description": "Claude-Code-Session-Dateien liegen unter ~/.claude/projects/&lt;projekt-verz&gt;/&lt;sessionId&gt;.jsonl. So lokalisierst du die JSONL-Datei einer Session schnell mit find/grep — und suchst per Inhalt oder Zeit, wenn du die sessionId nicht kennst.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "de", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file.html"}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/de/"}, {"@type": "ListItem", "position": 2, "name": "Wie finde ich den Speicherort der JSONL-Datei einer Claude-Code-Session?", "item": "https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Wie finde ich den Speicherort der JSONL-Datei einer Claude-Code-Session?", "description": "Claude-Code-Session-Dateien liegen unter ~/.claude/projects/&lt;projekt-verz&gt;/&lt;sessionId&gt;.jsonl. So lokalisierst du die JSONL-Datei einer Session schnell mit find/grep — und suchst per Inhalt oder Zeit, wenn du die sessionId nicht kennst.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "de", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/de/"}, {"@type": "ListItem", "position": 2, "name": "Hilfe-Center", "item": "https://ccviewer.top/claude-code-session-viewer/de/help"}, {"@type": "ListItem", "position": 3, "name": "Wie finde ich den Speicherort der JSONL-Datei einer Claude-Code-Session?", "item": "https://ccviewer.top/claude-code-session-viewer/de/find-claude-code-session-jsonl-file"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Warum finde ich das Verzeichnis ~/.claude nicht?", "acceptedAnswer": {"@type": "Answer", "text": "Weil es mit einem Punkt beginnt und standardmäßig versteckt ist. Im Finder ⌘⇧G mit Pfad, oder ⌘⇧. für versteckte Dateien; im Terminal klappt ls -la ~/.claude immer."}}, {"@type": "Question", "name": "Unter einem Projekt liegen viele jsonl-Dateien — welche ist meine?", "acceptedAnswer": {"@type": "Answer", "text": "Eine Datei = eine Session. Nach Änderungszeit (ls -t) oder Inhalt (grep -l) filtern ist am effektivsten; mit CCViewer den ganzen Ordner importieren — Titel und Statistiken jeder Session machen sie auf einen Blick unterscheidbar."}}, {"@type": "Question", "name": "Wie lautet der Pfad unter Windows?", "acceptedAnswer": {"@type": "Answer", "text": "Gleiche Struktur im Nutzerprofil: %USERPROFILE%\\\\.claude\\\\projects\\\\&lt;projekt&gt;\\\\&lt;sessionId&gt;.jsonl."}}]}</script>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wie man den Speicherort der JSONL-Datei einer Claude-Code-Session findet | CCViewer">
+<meta name="twitter:description" content="Claude-Code-Session-Dateien liegen unter ~/.claude/projects/&lt;projekt-verz&gt;/&lt;sessionId&gt;.jsonl. So lokalisierst du die JSONL-Datei einer Session schnell mit find/grep — und suchst per Inhalt oder Zeit, wenn du die sessionId nicht kennst.">
+<meta name="twitter:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
+<script>
+/* Only public pages are recorded. Never pass session data to this module. */
+(function () {
+  'use strict';
+  const config = {"projectId": "", "allowedHosts": ["ccviewer.top", "www.ccviewer.top"]};
+  const strings = {"analyticsSettings": "Analyseeinstellungen", "analyticsAccept": "Analyse erlauben", "analyticsReject": "Ablehnen / widerrufen", "analyticsPrivacy": "Microsoft-Datenschutz", "analyticsNotice": "Mit Ihrer Zustimmung zeichnet Microsoft Clarity Interaktionen auf öffentlichen Seiten auf, um CCViewer zu verbessern. Vor der Anzeige lokaler Sitzungen endet die Aufzeichnung. Werbespeicherung ist deaktiviert."};
+  const key = 'ccviewer_analytics_v1';
+  const maxAge = 180 * 24 * 60 * 60 * 1000;
+  let active = false;
+  let loaded = false;
+  let privateMode = false;
+  let banner;
+  let preferences;
+  const eligible = /^[a-zA-Z0-9]+$/.test(config.projectId) &&
+    location.protocol === 'https:' && config.allowedHosts.includes(location.hostname) &&
+    !location.search && !location.hash && navigator.doNotTrack !== '1' &&
+    navigator.globalPrivacyControl !== true;
+  const events = new Set(['file_picker_open', 'folder_picker_open', 'paste_open', 'help_open', 'github_open']);
+
+  function savedChoice() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(key));
+      return saved && Date.now() - saved.at < maxAge && saved.at <= Date.now() ? saved.choice : null;
+    } catch (_) { return null; }
+  }
+  function save(choice) {
+    try { localStorage.setItem(key, JSON.stringify({ choice, at: Date.now() })); } catch (_) {}
+  }
+  function start() {
+    if (!eligible || active || privateMode) return;
+    active = true;
+    loaded = true;
+    window.clarity = window.clarity || function () {
+      (window.clarity.q = window.clarity.q || []).push(arguments);
+    };
+    window.clarity('consentv2', { analytics_Storage: 'granted', ad_Storage: 'denied' });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.clarity.ms/tag/' + config.projectId;
+    document.head.appendChild(script);
+  }
+  function stop() {
+    if (!active) return;
+    window.clarity('stop');
+    active = false;
+  }
+  function withdraw() {
+    window.clarity('consentv2', { analytics_Storage: 'denied', ad_Storage: 'denied' });
+    stop();
+    // Also clear first-party cookies if stop() has already reset the SDK queue.
+    for (const name of ['_clck', '_clsk']) {
+      document.cookie = name + '=; Max-Age=0; Path=/; SameSite=Lax';
+      document.cookie = name + '=; Max-Age=0; Path=/; Domain=' + location.hostname + '; SameSite=Lax';
+      if (location.hostname.endsWith('.ccviewer.top')) {
+        document.cookie = name + '=; Max-Age=0; Path=/; Domain=ccviewer.top; SameSite=Lax';
+      }
+    }
+    location.reload();
+  }
+  function privateView() {
+    privateMode = true;
+    stop();
+    if (banner) banner.hidden = true;
+  }
+  function event(name) {
+    if (active && !privateMode && events.has(name)) window.clarity('event', name);
+  }
+  window.ccviewerAnalytics = { privateView, event };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!eligible) return;
+    const style = document.createElement('style');
+    style.textContent = '.analytics-banner{position:fixed;bottom:16px;left:16px;right:16px;max-width:640px;z-index:1000;padding:18px;background:#161b22;color:#e6edf3;border:1px solid #6e7681;border-radius:10px;box-shadow:0 8px 30px #0006;font:14px/1.6 system-ui}.analytics-banner[hidden],.analytics-preferences[hidden]{display:none}.analytics-banner p{margin:0 0 12px}.analytics-banner a{color:#58a6ff}.analytics-banner button,.analytics-preferences{font:inherit;background:#1c2128;color:#e6edf3;border:1px solid #6e7681;border-radius:6px;padding:6px 12px;cursor:pointer}.analytics-banner button{margin:4px 8px 0 0}.analytics-preferences{position:fixed;bottom:12px;right:12px;z-index:999;font-size:12px}.analytics-banner button:focus-visible,.analytics-preferences:focus-visible{outline:2px solid #58a6ff;outline-offset:3px}';
+    document.head.appendChild(style);
+    banner = document.createElement('section');
+    banner.className = 'analytics-banner';
+    banner.setAttribute('aria-label', strings.analyticsSettings);
+    const text = document.createElement('p');
+    text.textContent = strings.analyticsNotice + ' ';
+    const privacy = document.createElement('a');
+    privacy.href = 'https://www.microsoft.com/privacy/privacystatement';
+    privacy.target = '_blank';
+    privacy.rel = 'noopener noreferrer';
+    privacy.textContent = strings.analyticsPrivacy;
+    text.appendChild(privacy);
+    banner.appendChild(text);
+    function button(label, action) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = label;
+      btn.onclick = action;
+      banner.appendChild(btn);
+      return btn;
+    }
+    button(strings.analyticsAccept, function () {
+      save('granted'); start(); banner.hidden = true; preferences.focus();
+    });
+    const reject = button(strings.analyticsReject, function () {
+      save('denied');
+      if (loaded) {
+        // A fresh document removes the downloaded third-party code as well.
+        withdraw();
+      }
+      banner.hidden = true; preferences.focus();
+    });
+    document.body.appendChild(banner);
+    preferences = document.createElement('button');
+    preferences.type = 'button';
+    preferences.className = 'analytics-preferences';
+    preferences.textContent = strings.analyticsSettings;
+    preferences.onclick = function () { banner.hidden = false; reject.focus(); };
+    document.body.appendChild(preferences);
+    const choice = savedChoice();
+    banner.hidden = privateMode || choice === 'granted' || choice === 'denied';
+    if (choice === 'granted') start();
+    window.addEventListener('storage', function (e) {
+      if (e.key === key && loaded && savedChoice() !== 'granted') {
+        withdraw();
+      }
+    });
+    document.addEventListener('click', function (e) {
+      const link = e.target.closest('a[href]');
+      if (!link) return;
+      if (link.hasAttribute('data-guide')) event('help_open');
+      if (link.hostname === 'github.com') event('github_open');
+    });
+  });
+})();
+
+</script>
 <style>
 :root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--border:#30363d;--text:#e6edf3;
 --dim:#8b949e;--faint:#6e7681;--accent:#d97757;--accent2:#cc9b7a;--user:#58a6ff;--code-bg:#0b0f14}
@@ -105,7 +239,7 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
   <a class="gh" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">GitHub</a>
 </header>
 <main>
-<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/de/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/de/help.html">Hilfe-Center</a> / JSONL-Datei finden</div>
+<div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/de/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/de/help">Hilfe-Center</a> / JSONL-Datei finden</div>
 <article>
 <h1>Wie finde ich den Speicherort der JSONL-Datei einer Claude-Code-Session?</h1>
 <div class="meta">Aktualisiert 2026-10-12 · CCViewer Hilfe-Center · Gilt für Claude Code 2.x</div>
@@ -156,10 +290,16 @@ ls -t ~/.claude/projects/*/*.jsonl | head -10</code></pre>
 <h2 id="faq">Häufige Fragen</h2><details><summary>Warum finde ich das Verzeichnis ~/.claude nicht?</summary><div class="a">Weil es mit einem Punkt beginnt und standardmäßig versteckt ist. Im Finder ⌘⇧G mit Pfad, oder ⌘⇧. für versteckte Dateien; im Terminal klappt ls -la ~/.claude immer.</div></details><details><summary>Unter einem Projekt liegen viele jsonl-Dateien — welche ist meine?</summary><div class="a">Eine Datei = eine Session. Nach Änderungszeit (ls -t) oder Inhalt (grep -l) filtern ist am effektivsten; mit CCViewer den ganzen Ordner importieren — Titel und Statistiken jeder Session machen sie auf einen Blick unterscheidbar.</div></details><details><summary>Wie lautet der Pfad unter Windows?</summary><div class="a">Gleiche Struktur im Nutzerprofil: %USERPROFILE%\\.claude\\projects\\&lt;projekt&gt;\\&lt;sessionId&gt;.jsonl.</div></details>
 <div class="related">
 <h3>Verwandte Artikel</h3>
-<a href="how-to-view-claude-code-session-history.html">Wie man den vollständigen Verlauf einer Claude-Code-Session ansieht</a><a href="find-claude-code-session-jsonl-file.html">Wie man die JSONL-Datei einer Session findet</a><a href="where-claude-code-sessions-stored.html">Wo werden Claude-Code-Sitzungsverläufe gespeichert?</a><a href="best-claude-code-session-viewer.html">Was ist der beste Claude-Code-Session-Viewer 2026?</a>
+<a href="how-to-view-claude-code-session-history">Wie man den vollständigen Verlauf einer Claude-Code-Session ansieht</a><a href="find-claude-code-session-jsonl-file">Wie man die JSONL-Datei einer Session findet</a><a href="where-claude-code-sessions-stored">Wo werden Claude-Code-Sitzungsverläufe gespeichert?</a><a href="best-claude-code-session-viewer">Was ist der beste Claude-Code-Session-Viewer 2026?</a>
 </div>
 </article>
 </main>
-<footer>© 2026 CCViewer · MIT Open Source · Keine Verbindung zu Anthropic. „Claude Code“ ist eine Marke von Anthropic, rein beschreibend verwendet.</footer>
+<footer><aside class="site-resources"><h2>Offizielle Ressourcen</h2>
+<ul>
+<li><a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener noreferrer">Claude Code — Dokumentation</a></li>
+<li><a href="https://code.claude.com/docs/en/cli-reference" target="_blank" rel="noopener noreferrer">Claude Code — CLI</a></li>
+<li><a href="https://jsonlines.org/" target="_blank" rel="noopener noreferrer">JSON Lines (.jsonl)</a></li>
+<li><a href="https://github.com/howardz27/ccviewer/issues" target="_blank" rel="noopener noreferrer">GitHub — Problem melden</a></li>
+</ul></aside><nav aria-label="Language" class="site-languages"><a href="/claude-code-session-viewer/find-claude-code-session-jsonl-file" hreflang="en" lang="en">English</a> · <a href="/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file" hreflang="zh" lang="zh">中文</a> · <a href="/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file" hreflang="ja" lang="ja">日本語</a> · <a href="/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file" hreflang="ko" lang="ko">한국어</a> · <a href="/claude-code-session-viewer/es/find-claude-code-session-jsonl-file" hreflang="es" lang="es">Español</a> · <a href="/claude-code-session-viewer/fr/find-claude-code-session-jsonl-file" hreflang="fr" lang="fr">Français</a> · <a href="/claude-code-session-viewer/de/find-claude-code-session-jsonl-file" hreflang="de" lang="de" aria-current="page">Deutsch</a> · <a href="/claude-code-session-viewer/pt/find-claude-code-session-jsonl-file" hreflang="pt" lang="pt">Português</a> · <a href="/claude-code-session-viewer/ru/find-claude-code-session-jsonl-file" hreflang="ru" lang="ru">Русский</a> · <a href="/claude-code-session-viewer/hi/find-claude-code-session-jsonl-file" hreflang="hi" lang="hi">हिन्दी</a></nav>© 2026 CCViewer · MIT Open Source · Keine Verbindung zu Anthropic. „Claude Code“ ist eine Marke von Anthropic, rein beschreibend verwendet.</footer>
 </body>
 </html>
