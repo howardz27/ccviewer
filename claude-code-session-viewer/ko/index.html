@@ -41,7 +41,7 @@
 <meta name="twitter:image" content="https://ccviewer.top/claude-code-session-viewer/og-image.png">
 <!-- 结构化数据 -->
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/ko/", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "description": "Claude Code의 .jsonl 세션 파일을 브라우저에서 완전히 렌더링하는 오픈소스 뷰어. Markdown, 사고 과정, 도구 호출 및 비용 통계를 지원하며 파일은 컴퓨터를 떠나지 않습니다.", "inLanguage": "ko", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code의 이전 세션을 어떻게 확인하나요?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code는 각 세션을 ~/.claude/projects/<프로젝트>/<session-id>.jsonl에 저장합니다. 이 파일을 이 페이지에 드롭하면 전체 대화를 볼 수 있습니다."}}, {"@type": "Question", "name": "세션 파일이 업로드되나요?", "acceptedAnswer": {"@type": "Answer", "text": "아니요. 세션 파일은 업로드 없이 브라우저에서 분석하고 표시합니다. 호스팅 사이트는 동의 후에만 Microsoft Clarity로 공개 페이지를 분석하며 로컬 세션 표시 전에 기록을 중지합니다. 오프라인에서는 분석을 로드하지 않습니다."}}, {"@type": "Question", "name": "뷰어는 무엇을 지원하나요?", "acceptedAnswer": {"@type": "Answer", "text": "사용자 및 어시스턴트 메시지의 Markdown 렌더링, extended thinking 블록, 도구 호출 파라미터와 결과, 이미지, 토큰 사용량과 비용 통계를 지원하며 다국어 인터페이스도 제공합니다."}}, {"@type": "Question", "name": ".jsonl은 어떤 형식인가요?", "acceptedAnswer": {"@type": "Answer", "text": "JSON Lines — 한 줄에 하나의 독립된 JSON 객체가 들어가는 형식입니다. Claude Code는 메시지, 도구 호출, 메타데이터를 한 줄씩 기록합니다."}}, {"@type": "Question", "name": "CCViewer는 무료인가요?", "acceptedAnswer": {"@type": "Answer", "text": "무료이며 오픈소스입니다. 가입이나 로그인 없이 브라우저에서 바로 사용할 수 있습니다."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code의 이전 세션을 어떻게 확인하나요?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code는 각 세션을 ~/.claude/projects/<프로젝트>/<session-id>.jsonl에 저장합니다. 이 파일을 이 페이지에 드롭하면 전체 대화를 볼 수 있습니다."}}, {"@type": "Question", "name": "세션 파일이 업로드되나요?", "acceptedAnswer": {"@type": "Answer", "text": "세션 파일은 브라우저에서 로컬로 분석하고 표시합니다. 온라인 사이트는 Microsoft Clarity를 자동으로 로드하여 페이지 상호작용을 기록합니다. 오프라인 사본은 분석을 로드하지 않습니다."}}, {"@type": "Question", "name": "뷰어는 무엇을 지원하나요?", "acceptedAnswer": {"@type": "Answer", "text": "사용자 및 어시스턴트 메시지의 Markdown 렌더링, extended thinking 블록, 도구 호출 파라미터와 결과, 이미지, 토큰 사용량과 비용 통계를 지원하며 다국어 인터페이스도 제공합니다."}}, {"@type": "Question", "name": ".jsonl은 어떤 형식인가요?", "acceptedAnswer": {"@type": "Answer", "text": "JSON Lines — 한 줄에 하나의 독립된 JSON 객체가 들어가는 형식입니다. Claude Code는 메시지, 도구 호출, 메타데이터를 한 줄씩 기록합니다."}}, {"@type": "Question", "name": "CCViewer는 무료인가요?", "acceptedAnswer": {"@type": "Answer", "text": "무료이며 오픈소스입니다. 가입이나 로그인 없이 브라우저에서 바로 사용할 수 있습니다."}}]}</script>
 <style>
 :root{
   --bg:#0d1117; --panel:#161b22; --panel2:#1c2128; --border:#30363d;
@@ -288,138 +288,39 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .site-resources h2{font-size:16px}.site-resources ul{display:flex;flex-wrap:wrap;gap:10px 28px;padding-left:18px}.site-resources a,.site-languages a{color:var(--user)}
 </style>
 <script>
-/* Only public pages are recorded. Never pass session data to this module. */
+/* Load the standard Clarity tag on the deployed site. */
 (function () {
   'use strict';
   const config = {"projectId": "yzkymu6lyt", "allowedHosts": ["ccviewer.top", "www.ccviewer.top"]};
-  const strings = {"analyticsSettings": "분석 설정", "analyticsAccept": "분석 허용", "analyticsReject": "거부 / 철회", "analyticsPrivacy": "Microsoft 개인정보처리방침", "analyticsNotice": "동의하면 Microsoft Clarity가 공개 페이지의 상호작용을 기록하여 CCViewer 개선에 활용합니다. 로컬 세션 표시 전에 기록을 중지합니다. 광고 저장소는 비활성화됩니다."};
-  const key = 'ccviewer_analytics_v1';
-  const maxAge = 180 * 24 * 60 * 60 * 1000;
-  let active = false;
-  let loaded = false;
-  let privateMode = false;
-  let banner;
-  let preferences;
   const eligible = /^[a-zA-Z0-9]+$/.test(config.projectId) &&
-    location.protocol === 'https:' && config.allowedHosts.includes(location.hostname) &&
-    !location.search && !location.hash && navigator.doNotTrack !== '1' &&
-    navigator.globalPrivacyControl !== true;
+    location.protocol === 'https:' && config.allowedHosts.includes(location.hostname);
   const events = new Set(['file_picker_open', 'folder_picker_open', 'paste_open', 'help_open', 'github_open']);
 
-  function savedChoice() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(key));
-      return saved && Date.now() - saved.at < maxAge && saved.at <= Date.now() ? saved.choice : null;
-    } catch (_) { return null; }
-  }
-  function save(choice) {
-    try { localStorage.setItem(key, JSON.stringify({ choice, at: Date.now() })); } catch (_) {}
-  }
-  function start() {
-    if (!eligible || active || privateMode) return;
-    active = true;
-    loaded = true;
-    window.clarity = window.clarity || function () {
-      (window.clarity.q = window.clarity.q || []).push(arguments);
-    };
-    window.clarity('consentv2', { analytics_Storage: 'granted', ad_Storage: 'denied' });
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = 'https://www.clarity.ms/tag/' + config.projectId;
-    document.head.appendChild(script);
-  }
-  function stop() {
-    if (!active) return;
-    window.clarity('stop');
-    active = false;
-  }
-  function withdraw() {
-    window.clarity('consentv2', { analytics_Storage: 'denied', ad_Storage: 'denied' });
-    stop();
-    // Also clear first-party cookies if stop() has already reset the SDK queue.
-    for (const name of ['_clck', '_clsk']) {
-      document.cookie = name + '=; Max-Age=0; Path=/; SameSite=Lax';
-      document.cookie = name + '=; Max-Age=0; Path=/; Domain=' + location.hostname + '; SameSite=Lax';
-      if (location.hostname.endsWith('.ccviewer.top')) {
-        document.cookie = name + '=; Max-Age=0; Path=/; Domain=ccviewer.top; SameSite=Lax';
-      }
+  window.ccviewerAnalytics = {
+    event(name) {
+      if (eligible && events.has(name)) window.clarity('event', name);
     }
-    location.reload();
-  }
-  function privateView() {
-    privateMode = true;
-    stop();
-    if (banner) banner.hidden = true;
-  }
-  function event(name) {
-    if (active && !privateMode && events.has(name)) window.clarity('event', name);
-  }
-  window.ccviewerAnalytics = { privateView, event };
+  };
+  if (!eligible) return;
 
-  document.addEventListener('DOMContentLoaded', function () {
-    if (!eligible) return;
-    const style = document.createElement('style');
-    style.textContent = '.analytics-banner{position:fixed;bottom:16px;left:16px;right:16px;max-width:640px;z-index:1000;padding:18px;background:#161b22;color:#e6edf3;border:1px solid #6e7681;border-radius:10px;box-shadow:0 8px 30px #0006;font:14px/1.6 system-ui}.analytics-banner[hidden],.analytics-preferences[hidden]{display:none}.analytics-banner p{margin:0 0 12px}.analytics-banner a{color:#58a6ff}.analytics-banner button,.analytics-preferences{font:inherit;background:#1c2128;color:#e6edf3;border:1px solid #6e7681;border-radius:6px;padding:6px 12px;cursor:pointer}.analytics-banner button{margin:4px 8px 0 0}.analytics-preferences{position:fixed;bottom:12px;right:12px;z-index:999;font-size:12px}.analytics-banner button:focus-visible,.analytics-preferences:focus-visible{outline:2px solid #58a6ff;outline-offset:3px}';
-    document.head.appendChild(style);
-    banner = document.createElement('section');
-    banner.className = 'analytics-banner';
-    banner.setAttribute('aria-label', strings.analyticsSettings);
-    const text = document.createElement('p');
-    text.textContent = strings.analyticsNotice + ' ';
-    const privacy = document.createElement('a');
-    privacy.href = 'https://www.microsoft.com/privacy/privacystatement';
-    privacy.target = '_blank';
-    privacy.rel = 'noopener noreferrer';
-    privacy.textContent = strings.analyticsPrivacy;
-    text.appendChild(privacy);
-    banner.appendChild(text);
-    function button(label, action) {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.textContent = label;
-      btn.onclick = action;
-      banner.appendChild(btn);
-      return btn;
-    }
-    button(strings.analyticsAccept, function () {
-      save('granted'); start(); banner.hidden = true; preferences.focus();
-    });
-    const reject = button(strings.analyticsReject, function () {
-      save('denied');
-      if (loaded) {
-        // A fresh document removes the downloaded third-party code as well.
-        withdraw();
-      }
-      banner.hidden = true; preferences.focus();
-    });
-    document.body.appendChild(banner);
-    preferences = document.createElement('button');
-    preferences.type = 'button';
-    preferences.className = 'analytics-preferences';
-    preferences.textContent = strings.analyticsSettings;
-    preferences.onclick = function () { banner.hidden = false; reject.focus(); };
-    document.body.appendChild(preferences);
-    const choice = savedChoice();
-    banner.hidden = privateMode || choice === 'granted' || choice === 'denied';
-    if (choice === 'granted') start();
-    window.addEventListener('storage', function (e) {
-      if (e.key === key && loaded && savedChoice() !== 'granted') {
-        withdraw();
-      }
-    });
-    document.addEventListener('click', function (e) {
-      const link = e.target.closest('a[href]');
-      if (!link) return;
-      if (link.hasAttribute('data-guide')) event('help_open');
-      if (link.hostname === 'github.com') event('github_open');
-    });
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, 'clarity', 'script', config.projectId);
+
+  document.addEventListener('click', function (e) {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    if (link.hasAttribute('data-guide')) window.ccviewerAnalytics.event('help_open');
+    if (link.hostname === 'github.com') window.ccviewerAnalytics.event('github_open');
   });
 })();
 
 </script>
 </head>
 <body>
-<div id="app" data-clarity-mask="true">
+<div id="app">
   <div id="topbar">
     <span class="brand"><span class="logo"></span> <span data-i18n="brand">CCViewer</span><small id="fname"></small></span>
     <button class="btn icon" id="btnNavToggle" title=""></button>
@@ -511,7 +412,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <h2 data-i18n="faqTitle">자주 묻는 질문</h2>
     <div class="faqs">
       <details><summary data-i18n="q1">Claude Code의 이전 세션을 어떻게 확인하나요?</summary><div class="a" data-i18n-html="a1">Claude Code는 각 세션을 <code>~/.claude/projects/&lt;프로젝트&gt;/&lt;session-id&gt;.jsonl</code>에 저장합니다. 이 파일을 이 페이지에 드롭하면 전체 대화를 볼 수 있습니다.</div></details>
-      <details><summary data-i18n="q2">세션 파일이 업로드되나요?</summary><div class="a" data-i18n-html="a2">아니요. 세션 파일은 업로드 없이 브라우저에서 분석하고 표시합니다. 호스팅 사이트는 동의 후에만 Microsoft Clarity로 공개 페이지를 분석하며 로컬 세션 표시 전에 기록을 중지합니다. 오프라인에서는 분석을 로드하지 않습니다.</div></details>
+      <details><summary data-i18n="q2">세션 파일이 업로드되나요?</summary><div class="a" data-i18n-html="a2">세션 파일은 브라우저에서 로컬로 분석하고 표시합니다. 온라인 사이트는 Microsoft Clarity를 자동으로 로드하여 페이지 상호작용을 기록합니다. 오프라인 사본은 분석을 로드하지 않습니다.</div></details>
       <details><summary data-i18n="q3">뷰어는 무엇을 지원하나요?</summary><div class="a" data-i18n-html="a3">사용자 및 어시스턴트 메시지의 Markdown 렌더링, extended thinking 블록, 도구 호출 파라미터와 결과, 이미지, 토큰 사용량과 비용 통계를 지원하며 다국어 인터페이스도 제공합니다.</div></details>
       <details><summary data-i18n="q4">.jsonl은 어떤 형식인가요?</summary><div class="a" data-i18n-html="a4">JSON Lines — 한 줄에 하나의 독립된 JSON 객체가 들어가는 형식입니다. Claude Code는 메시지, 도구 호출, 메타데이터를 한 줄씩 기록합니다.</div></details>
       <details><summary data-i18n="q5">CCViewer는 무료인가요?</summary><div class="a" data-i18n-html="a5">무료이며 오픈소스입니다. 가입이나 로그인 없이 브라우저에서 바로 사용할 수 있습니다.</div></details>
@@ -530,7 +431,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <span data-i18n="footerPrivacy">100% 클라이언트 처리 — 파일은 브라우저를 떠나지 않습니다</span>
   </footer>
 </div>
-<div id="library" class="hide" data-clarity-mask="true">
+<div id="library" class="hide">
   <div class="libwrap">
     <div class="libhead">
       <h2 data-i18n="libraryTitle">세션 라이브러리</h2>
@@ -560,7 +461,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     </div>
   </div>
 </div>
-<div id="paste" data-clarity-mask="true">
+<div id="paste">
   <div class="panel">
     <h2 data-i18n="pasteTitle">JSONL 텍스트 붙여넣기</h2>
     <p class="hint" data-i18n="pasteHint">기록 파일 내용 전체를 붙여넣으세요. 한 줄에 하나의 JSON 객체(단일 JSON 배열 / 객체도 지원).</p>
@@ -583,7 +484,7 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={'ko':{"brand": "CCViewer", "thinking": "사고", "tools": "도구", "sysInj": "시스템/주입", "expandAll": "모두 펼치기", "pasteText": "텍스트 붙여넣기", "openFile": "파일 열기", "noFile": "파일 미로딩", "dropHint1": "<b>.jsonl</b> 기록 파일<b> 또는 프로젝트 폴더 전체</b>를 여기에 끌어다 놓거나 클릭해서 선택하세요", "dropHint2": "예: <code>~/.claude/projects/</code> 폴더 전체 또는 그 안의 <code>&lt;sessionId&gt;.jsonl</code>", "chooseFile": "파일 선택", "pasteTitle": "JSONL 텍스트 붙여넣기", "pasteHint": "기록 파일 내용 전체를 붙여넣으세요. 한 줄에 하나의 JSON 객체(단일 JSON 배열 / 객체도 지원).", "cancel": "취소", "loadBtn": "불러오기", "thinkLabel": "✻ 사고", "you": "사용자", "reply": "응답", "result": "결과", "error": "오류", "lines": "줄", "images": "이미지", "viewResult": "결과 보기", "sysMsg": "시스템 메시지", "injCtx": "주입된 컨텍스트", "system": "시스템", "sessionInfo": "세션 정보", "stats": "통계", "costUsage": "비용 / 사용량", "titleRow": "제목", "projectDir": "프로젝트 디렉토리", "gitBranch": "Git 브랜치", "version": "버전", "sessionId": "세션 ID", "time": "시간", "model": "모델", "userMsgs": "사용자 메시지", "replies": "응답", "toolCalls": "도구 호출", "thinkingStat": "사고", "imagesStat": "이미지", "parseFailed": "파싱 실패", "home": "홈", "inTokens": "입력 토큰", "outTokens": "출력 토큰", "cacheRead": "캐시 읽기", "cacheCreate": "캐시 쓰기", "totalCost": "총 비용", "linesPM": "코드 줄 +/-", "apiTime": "API 시간", "toolTime": "도구 시간", "viewerSuffix": "기록 뷰어", "pasteEmptyErr": "유효한 레코드가 없습니다. 붙여넣은 내용을 확인하세요.", "pastedContent": "붙여넣은 내용", "intro": "CCViewer는 오픈소스 Claude Code 세션 뷰어입니다. <b>.jsonl</b> 세션 파일을 브라우저에서 완전히 렌더링하며 Markdown, 사고 과정, 도구 호출과 비용 통계를 지원합니다. 파일은 서버로 업로드되지 않아 안전합니다.", "featMd": "Markdown 렌더링", "featMdD": "코드 블록, 표, 목록, 인용 완전 재현", "featThink": "사고 과정", "featThinkD": "extended thinking 전문을 접거나 펼쳐 보기", "featTool": "도구 호출", "featToolD": "파라미터와 결과를 하나씩 펼쳐 보기", "featCost": "사용량과 비용", "featCostD": "토큰 사용량, 시간, 비용 분석", "featI18n": "다국어 지원", "featI18nD": "10개 언어 인터페이스를 원클릭 전환", "featPrivacy": "프라이버시 보호", "featPrivacyD": "100% 클라이언트 처리, 업로드 없음", "faqTitle": "자주 묻는 질문", "tagline": ".jsonl 세션 파일을 브라우저에서 로컬로 렌더링. 프라이빗, 무료, 오픈소스", "heroTitle": "<em>Claude Code</em> 세션 기록 읽기", "pvUserQ": "모바일에서 로그인 페이지 레이아웃이 깨지는 문제를 수정해줘", "pvThink": "먼저 로그인 페이지 컴포넌트의 스타일을 확인해야겠다…", "pvReply": "원인은 <code>flex</code> 레이아웃에 <code>wrap</code>이 없었던 것입니다. 수정했고 375px 너비에서 검증했습니다.", "footerPrivacy": "100% 클라이언트 처리 — 파일은 브라우저를 떠나지 않습니다", "q1": "Claude Code의 이전 세션을 어떻게 확인하나요?", "a1": "Claude Code는 각 세션을 <code>~/.claude/projects/&lt;프로젝트&gt;/&lt;session-id&gt;.jsonl</code>에 저장합니다. 이 파일을 이 페이지에 드롭하면 전체 대화를 볼 수 있습니다.", "q2": "세션 파일이 업로드되나요?", "a2": "아니요. 세션 파일은 업로드 없이 브라우저에서 분석하고 표시합니다. 호스팅 사이트는 동의 후에만 Microsoft Clarity로 공개 페이지를 분석하며 로컬 세션 표시 전에 기록을 중지합니다. 오프라인에서는 분석을 로드하지 않습니다.", "q3": "뷰어는 무엇을 지원하나요?", "a3": "사용자 및 어시스턴트 메시지의 Markdown 렌더링, extended thinking 블록, 도구 호출 파라미터와 결과, 이미지, 토큰 사용량과 비용 통계를 지원하며 다국어 인터페이스도 제공합니다.", "q4": ".jsonl은 어떤 형식인가요?", "a4": "JSON Lines — 한 줄에 하나의 독립된 JSON 객체가 들어가는 형식입니다. Claude Code는 메시지, 도구 호출, 메타데이터를 한 줄씩 기록합니다.", "q5": "CCViewer는 무료인가요?", "a5": "무료이며 오픈소스입니다. 가입이나 로그인 없이 브라우저에서 바로 사용할 수 있습니다.", "libraryBtn": "세션", "libraryTitle": "세션 라이브러리", "libraryEmpty": "아직 세션이 없습니다. .jsonl 파일이 있는 폴더를 열어 라이브러리를 만들어 보세요.", "openFolder": "폴더 열기", "importing": "가져오는 중… {n}/{m}", "importedN": "세션 {n}개", "sortRecent": "최근 순", "sortOldest": "오래된 순", "sortMsgs": "메시지 수", "sortTokens": "토큰", "sortCost": "비용", "deleteBtn": "삭제", "clearAll": "모두 지우기", "confirmDelete": "이 세션을 삭제할까요?", "confirmClear": "저장된 모든 세션을 삭제할까요? 되돌릴 수 없습니다.", "noTextErr": "내용이 캐시되지 않았습니다(저장 공간 부족). 폴더를 다시 가져와 주세요.", "storageWarn": "브라우저 저장 공간이 가득 찼습니다. 일부 세션은 요약만 저장되었습니다.", "closeBtn": "닫기", "dirTip": "팁(macOS): 선택 창에서 <kbd>⌘⇧.</kbd>를 누르면 숨김 폴더가 표시됩니다. Finder에서는 <kbd>⌘⇧G</kbd>로 <code>~/.claude/projects</code>를 입력해 바로 이동하세요. 마지막으로 선택한 폴더는 기억됩니다.", "navProjects": "프로젝트", "noProject": "(프로젝트 디렉터리 없음)", "toggleNav": "프로젝트 패널 토글", "dragResize": "드래그하여 너비 조절", "exportMd": "MD 내보내기", "exportEmptyErr": "먼저 세션을 로드하세요.", "guideH": "사용 가이드", "g1": "Claude Code 세션의 전체 기록을 보는 방법", "g2": "세션의 JSONL 파일 위치를 찾는 방법", "g3": "Claude Code 세션 기록은 어디에 저장되나?", "g4": "2026년 최고의 Claude Code 세션 뷰어는?", "helpCenter": "도움말", "analyticsSettings": "분석 설정", "analyticsAccept": "분석 허용", "analyticsReject": "거부 / 철회", "analyticsPrivacy": "Microsoft 개인정보처리방침", "analyticsNotice": "동의하면 Microsoft Clarity가 공개 페이지의 상호작용을 기록하여 CCViewer 개선에 활용합니다. 로컬 세션 표시 전에 기록을 중지합니다. 광고 저장소는 비활성화됩니다.", "resourcesTitle": "공식 자료", "resourcesDocs": "문서", "resourcesIssues": "문제 신고"}};
+const I18N={'ko':{"brand": "CCViewer", "thinking": "사고", "tools": "도구", "sysInj": "시스템/주입", "expandAll": "모두 펼치기", "pasteText": "텍스트 붙여넣기", "openFile": "파일 열기", "noFile": "파일 미로딩", "dropHint1": "<b>.jsonl</b> 기록 파일<b> 또는 프로젝트 폴더 전체</b>를 여기에 끌어다 놓거나 클릭해서 선택하세요", "dropHint2": "예: <code>~/.claude/projects/</code> 폴더 전체 또는 그 안의 <code>&lt;sessionId&gt;.jsonl</code>", "chooseFile": "파일 선택", "pasteTitle": "JSONL 텍스트 붙여넣기", "pasteHint": "기록 파일 내용 전체를 붙여넣으세요. 한 줄에 하나의 JSON 객체(단일 JSON 배열 / 객체도 지원).", "cancel": "취소", "loadBtn": "불러오기", "thinkLabel": "✻ 사고", "you": "사용자", "reply": "응답", "result": "결과", "error": "오류", "lines": "줄", "images": "이미지", "viewResult": "결과 보기", "sysMsg": "시스템 메시지", "injCtx": "주입된 컨텍스트", "system": "시스템", "sessionInfo": "세션 정보", "stats": "통계", "costUsage": "비용 / 사용량", "titleRow": "제목", "projectDir": "프로젝트 디렉토리", "gitBranch": "Git 브랜치", "version": "버전", "sessionId": "세션 ID", "time": "시간", "model": "모델", "userMsgs": "사용자 메시지", "replies": "응답", "toolCalls": "도구 호출", "thinkingStat": "사고", "imagesStat": "이미지", "parseFailed": "파싱 실패", "home": "홈", "inTokens": "입력 토큰", "outTokens": "출력 토큰", "cacheRead": "캐시 읽기", "cacheCreate": "캐시 쓰기", "totalCost": "총 비용", "linesPM": "코드 줄 +/-", "apiTime": "API 시간", "toolTime": "도구 시간", "viewerSuffix": "기록 뷰어", "pasteEmptyErr": "유효한 레코드가 없습니다. 붙여넣은 내용을 확인하세요.", "pastedContent": "붙여넣은 내용", "intro": "CCViewer는 오픈소스 Claude Code 세션 뷰어입니다. <b>.jsonl</b> 세션 파일을 브라우저에서 완전히 렌더링하며 Markdown, 사고 과정, 도구 호출과 비용 통계를 지원합니다. 파일은 서버로 업로드되지 않아 안전합니다.", "featMd": "Markdown 렌더링", "featMdD": "코드 블록, 표, 목록, 인용 완전 재현", "featThink": "사고 과정", "featThinkD": "extended thinking 전문을 접거나 펼쳐 보기", "featTool": "도구 호출", "featToolD": "파라미터와 결과를 하나씩 펼쳐 보기", "featCost": "사용량과 비용", "featCostD": "토큰 사용량, 시간, 비용 분석", "featI18n": "다국어 지원", "featI18nD": "10개 언어 인터페이스를 원클릭 전환", "featPrivacy": "프라이버시 보호", "featPrivacyD": "100% 클라이언트 처리, 업로드 없음", "faqTitle": "자주 묻는 질문", "tagline": ".jsonl 세션 파일을 브라우저에서 로컬로 렌더링. 프라이빗, 무료, 오픈소스", "heroTitle": "<em>Claude Code</em> 세션 기록 읽기", "pvUserQ": "모바일에서 로그인 페이지 레이아웃이 깨지는 문제를 수정해줘", "pvThink": "먼저 로그인 페이지 컴포넌트의 스타일을 확인해야겠다…", "pvReply": "원인은 <code>flex</code> 레이아웃에 <code>wrap</code>이 없었던 것입니다. 수정했고 375px 너비에서 검증했습니다.", "footerPrivacy": "100% 클라이언트 처리 — 파일은 브라우저를 떠나지 않습니다", "q1": "Claude Code의 이전 세션을 어떻게 확인하나요?", "a1": "Claude Code는 각 세션을 <code>~/.claude/projects/&lt;프로젝트&gt;/&lt;session-id&gt;.jsonl</code>에 저장합니다. 이 파일을 이 페이지에 드롭하면 전체 대화를 볼 수 있습니다.", "q2": "세션 파일이 업로드되나요?", "a2": "세션 파일은 브라우저에서 로컬로 분석하고 표시합니다. 온라인 사이트는 Microsoft Clarity를 자동으로 로드하여 페이지 상호작용을 기록합니다. 오프라인 사본은 분석을 로드하지 않습니다.", "q3": "뷰어는 무엇을 지원하나요?", "a3": "사용자 및 어시스턴트 메시지의 Markdown 렌더링, extended thinking 블록, 도구 호출 파라미터와 결과, 이미지, 토큰 사용량과 비용 통계를 지원하며 다국어 인터페이스도 제공합니다.", "q4": ".jsonl은 어떤 형식인가요?", "a4": "JSON Lines — 한 줄에 하나의 독립된 JSON 객체가 들어가는 형식입니다. Claude Code는 메시지, 도구 호출, 메타데이터를 한 줄씩 기록합니다.", "q5": "CCViewer는 무료인가요?", "a5": "무료이며 오픈소스입니다. 가입이나 로그인 없이 브라우저에서 바로 사용할 수 있습니다.", "libraryBtn": "세션", "libraryTitle": "세션 라이브러리", "libraryEmpty": "아직 세션이 없습니다. .jsonl 파일이 있는 폴더를 열어 라이브러리를 만들어 보세요.", "openFolder": "폴더 열기", "importing": "가져오는 중… {n}/{m}", "importedN": "세션 {n}개", "sortRecent": "최근 순", "sortOldest": "오래된 순", "sortMsgs": "메시지 수", "sortTokens": "토큰", "sortCost": "비용", "deleteBtn": "삭제", "clearAll": "모두 지우기", "confirmDelete": "이 세션을 삭제할까요?", "confirmClear": "저장된 모든 세션을 삭제할까요? 되돌릴 수 없습니다.", "noTextErr": "내용이 캐시되지 않았습니다(저장 공간 부족). 폴더를 다시 가져와 주세요.", "storageWarn": "브라우저 저장 공간이 가득 찼습니다. 일부 세션은 요약만 저장되었습니다.", "closeBtn": "닫기", "dirTip": "팁(macOS): 선택 창에서 <kbd>⌘⇧.</kbd>를 누르면 숨김 폴더가 표시됩니다. Finder에서는 <kbd>⌘⇧G</kbd>로 <code>~/.claude/projects</code>를 입력해 바로 이동하세요. 마지막으로 선택한 폴더는 기억됩니다.", "navProjects": "프로젝트", "noProject": "(프로젝트 디렉터리 없음)", "toggleNav": "프로젝트 패널 토글", "dragResize": "드래그하여 너비 조절", "exportMd": "MD 내보내기", "exportEmptyErr": "먼저 세션을 로드하세요.", "guideH": "사용 가이드", "g1": "Claude Code 세션의 전체 기록을 보는 방법", "g2": "세션의 JSONL 파일 위치를 찾는 방법", "g3": "Claude Code 세션 기록은 어디에 저장되나?", "g4": "2026년 최고의 Claude Code 세션 뷰어는?", "helpCenter": "도움말", "resourcesTitle": "공식 자료", "resourcesDocs": "문서", "resourcesIssues": "문제 신고"}};
 const LANG='ko';
 const BASE_PATH='/claude-code-session-viewer';
 const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
@@ -962,7 +863,6 @@ function renderAll(){
   for(const o of CUR.entries)renderEntry(o,stream);
 }
 function load(text,name,pasted){
-  window.ccviewerAnalytics.privateView();
   const {entries,bad}=parse(text);
   const sum=summarize(entries);
   CUR={entries,bad,sum,name:name||'',pasted:!!pasted};
@@ -1096,7 +996,6 @@ async function putRec(rec){
   LIB_FULL.set(rec.id,rec);upsertLib(rec);
 }
 async function saveToLibrary(text,name,source){
-  window.ccviewerAnalytics.privateView();
   const {entries,bad}=parse(text);
   if(!entries.length)return null;
   const sum=sumToJSON(summarize(entries));
@@ -1113,7 +1012,6 @@ function upsertLib(rec){
 }
 async function loadLibrary(){
   const all=await dbGetAll();
-  if(all&&all.length)window.ccviewerAnalytics.privateView();
   LIB=[];LIB_FULL=new Map();
   for(const rec of (all||[])){LIB.push(libMeta(rec));LIB_FULL.set(rec.id,rec);}
   updateLibBtn();
@@ -1207,7 +1105,6 @@ function openSession(id){
 }
 // 逐个解析目录中的 .jsonl 文件（顺序 await，保持 UI 响应）；也是未来 File System Access API 的接入点
 async function importFiles(files){
-  window.ccviewerAnalytics.privateView();
   const list=[...files].filter(f=>/\.jsonl$/i.test(f.name));
   if(!list.length)return;
   const prog=$('#libProgress');
@@ -1254,7 +1151,6 @@ async function pickDirModern(){
 }
 const pickDir=async()=>{
   window.ccviewerAnalytics.event('folder_picker_open');
-  window.ccviewerAnalytics.privateView();
   if(!(window.showDirectoryPicker&&self.isSecureContext)){$('#dirpicker').click();return;}
   await pickDirModern();
 };
@@ -1273,12 +1169,12 @@ $('#tgThink').onchange=e=>{SHOW_THINK=e.target.checked;applyToggles();};
 $('#tgTool').onchange=e=>{SHOW_TOOL=e.target.checked;applyToggles();};
 $('#tgMeta').onchange=e=>{SHOW_META=e.target.checked;applyToggles();};
 $('#tgExpand').onchange=e=>{EXPAND_ALL=e.target.checked;renderAll();applyToggles();};
-function pick(){window.ccviewerAnalytics.event('file_picker_open');window.ccviewerAnalytics.privateView();$('#file').click();}
+function pick(){window.ccviewerAnalytics.event('file_picker_open');$('#file').click();}
 $('#btnOpen').onclick=pick;$('#btnPick').onclick=pick;
 $('#file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{load(r.result,f.name);saveToLibrary(r.result,f.name,'file');};r.readAsText(f);};
 /* 粘贴文本 */
 const pasteModal=$('#paste');
-function openPaste(){window.ccviewerAnalytics.event('paste_open');window.ccviewerAnalytics.privateView();$('#pasteErr').textContent='';pasteModal.classList.add('show');const ta=$('#pasteText');ta.focus();ta.select();}
+function openPaste(){window.ccviewerAnalytics.event('paste_open');$('#pasteErr').textContent='';pasteModal.classList.add('show');const ta=$('#pasteText');ta.focus();ta.select();}
 function closePaste(){pasteModal.classList.remove('show');}
 $('#btnPasteTop').onclick=openPaste;$('#btnPasteDrop').onclick=openPaste;
 $('#pasteCancel').onclick=closePaste;
@@ -1358,7 +1254,6 @@ $('#libSort').onchange=e=>{LIB_SORT=e.target.value;renderLibrary();};
 $('#btnClearAll').onclick=async()=>{
   if(!confirm(t('confirmClear')))return;
   await dbClear();
-  if(all&&all.length)window.ccviewerAnalytics.privateView();
   LIB=[];LIB_FULL=new Map();CUR_ID=null;
   updateLibBtn();renderLibrary();
 };

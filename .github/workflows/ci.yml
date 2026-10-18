@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Check analytics privacy controls and static pages
+      - name: Check analytics integration and static pages
         run: |
           node tests/analytics.cjs
           python3 tests/check_pages.py

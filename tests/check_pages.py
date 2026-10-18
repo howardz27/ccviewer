@@ -70,7 +70,6 @@ for path in pages:
             target = target.with_suffix('.html')
         assert target.exists(), (path, href)
     if path.name == 'index.html':
-        assert 'data-clarity-mask="true"' in source
         assert 'location.replace' not in source, 'No automatic language redirect'
     if path.parent.name == 'ja':
         assert 'ja_JA' not in source

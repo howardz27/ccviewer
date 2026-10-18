@@ -21,10 +21,8 @@ def analytics(lang):
     project_id = config['projectId']
     if project_id and not re.fullmatch(r'[a-zA-Z0-9]+', project_id):
         raise ValueError('Clarity projectId must be alphanumeric')
-    ui = json.loads((ROOT / 'src/i18n' / f'{lang}.json').read_text(encoding='utf-8'))['ui']
-    strings = {key: value for key, value in ui.items() if key.startswith('analytics')}
     js = (ROOT / 'src/analytics.js').read_text(encoding='utf-8')
-    js = js.replace('__CONFIG__', json.dumps(config)).replace('__STRINGS__', json.dumps(strings, ensure_ascii=False))
+    js = js.replace('__CONFIG__', json.dumps(config))
     return '<script>\n' + js + '\n</script>'
 
 

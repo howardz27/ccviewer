@@ -8,7 +8,7 @@
 
 A free, open-source viewer for [Claude Code](https://claude.com/claude-code) session files. Drop a `.jsonl` history file (or a whole project folder) into your browser and replay any conversation — Markdown, thinking blocks, tool calls, token usage and cost, all rendered locally.
 
-> 🔒 **100% client-side.** Session files are parsed and rendered locally without upload. The hosted site supports optional Microsoft Clarity analytics on public pages, loaded only after consent. Recording stops before local sessions are displayed. Offline copies do not load analytics. Your session files never leave your computer — they contain your code, file paths and sometimes secrets, which is exactly why this tool exists.
+> **Client-side viewer.** Session files are parsed, rendered and stored locally in the browser. The hosted site automatically loads Microsoft Clarity for page analytics and recordings. Offline copies do not load analytics.
 
 **Try it online:** <https://ccviewer.top> (the site serves the exact same code as this repo)
 
@@ -70,13 +70,13 @@ The Cloudflare deployment uses extensionless guide URLs. `build.py` also regener
 
 ### Contributing
 
-PRs are welcome. If you add or change UI text, update **all 10** language files (the build bakes every key; a missing key falls back to its raw name). Keep the app dependency-free and 100% client-side — session content must never be sent to analytics or any external service. Optional public-page analytics must retain consent controls and stop before local sessions are displayed.
+PRs are welcome. If you add or change UI text, update **all 10** language files (the build bakes every key; a missing key falls back to its raw name). Keep session parsing, rendering and storage in the browser, and keep the app dependency-free. Analytics configuration is shared across all generated pages.
 
 ## FAQ
 
 **Where are my session files?** Claude Code stores them at `~/.claude/projects/<project>/<sessionId>.jsonl` (one JSON object per line).
 
-**Is anything uploaded?** No. Parsing, rendering and storage (IndexedDB) all happen in your browser. You can verify by opening DevTools → Network with the page open.
+**How is data processed?** Parsing, rendering and storage (IndexedDB) happen in your browser. The hosted site also sends page analytics and recordings to Microsoft Clarity.
 
 ## Disclaimer
 
