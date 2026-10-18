@@ -2,11 +2,11 @@
 
 配置文件：`claude-code-session-viewer/analytics.json`。
 
-当前 `projectId` 为空，**不会加载 Clarity，也不会显示同意提示**。需要站点所有者在 Clarity 的项目设置中提供 Project ID，不能使用示例 ID 代替。
+当前已配置站点所有者提供的 Project ID `yzkymu6lyt`。允许域名上的 HTTPS 公开页面会显示统计同意提示，用户允许后才加载 Clarity。将 `projectId` 清空并重新构建、发布即可关闭接入。
 
 ```json
 {
-  "projectId": "填入真实项目ID",
+  "projectId": "yzkymu6lyt",
   "allowedHosts": ["ccviewer.top", "www.ccviewer.top"]
 }
 ```
