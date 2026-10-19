@@ -46,6 +46,8 @@
 | DEV Community / Hashnode | 发“如何本地回看 Claude Code JSONL”实测文章，包含安装、示例、隐私设计及源码链接 | 下方有简介草稿；尚未发布 |
 | Product Hunt / Show HN | 准备真实演示、更新记录、产品截图及作者声明，发布时回应技术问题 | 尚未提交 |
 
+2026-10-19 目录提交进展：Future Tools 已显示提交成功、待人工审核；Product Hunt 与 Uneed 的 Google 登录需要本人通行密钥验证，尚未提交。费用核验、回执和复用文案见 [目录提交记录](directory-submissions.zh-CN.md)。
+
 Awesome Claude Code 当前要求项目至少 14 天且持续维护，或至少 100 stars，并要求推荐由人类通过网页 issue 表单提交，不能用 PR/gh 代替；[贡献规则](https://github.com/hesreallyhim/awesome-claude-code/blob/main/CONTRIBUTING.md)。本次没有绕过规则提交。
 
 英文简介草稿：

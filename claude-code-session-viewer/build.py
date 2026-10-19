@@ -44,6 +44,9 @@ def build():
         webapp_ld = json_ld({
             '@context':'https://schema.org','@type':'WebApplication',
             '@id':url+'#application', 'name':'CCViewer','url':url,'applicationCategory':'DeveloperApplication',
+            'alternateName':'Claude Code Session Viewer',
+            'image':'https://ccviewer.top/claude-code-session-viewer/og-image.png',
+            'screenshot':'https://ccviewer.top/assets/screenshot-viewer.png',
             'operatingSystem':'Any','browserRequirements':'Requires JavaScript',
             'description':loc['app_desc'],'inLanguage':loc['lang_tag'],
             'isAccessibleForFree':True, 'license':REPOSITORY+'/blob/main/LICENSE',

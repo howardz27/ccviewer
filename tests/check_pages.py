@@ -96,6 +96,7 @@ for path in pages:
     assert webpage['url'] == expected and webpage['name'] == p.title, path
     article = next((node for node in nodes if node.get('@type') == 'Article'), None)
     if article:
+        assert article['about']['@id'] == expected.rsplit('/', 1)[0] + '/#application', path
         assert p.dates == [article['dateModified']], path
         assert article['datePublished'] <= article['dateModified'], path
         for citation in article.get('citation', []):
@@ -117,6 +118,12 @@ for path in pages:
         assert target.exists(), (path, href)
     if path.name == 'index.html':
         assert 'location.replace' not in source, 'No automatic language redirect'
+        application = next(node for node in nodes if node.get('@type') == 'WebApplication')
+        assert application['@id'] == expected + '#application', path
+        assert application['sameAs'] == ['https://github.com/howardz27/ccviewer'], path
+        for key in ('image', 'screenshot'):
+            assert (ROOT / urlsplit(application[key]).path.lstrip('/')).is_file(), (path, key)
+        assert 'href="/llms.txt"' in source, path
     if path.parent.name == 'ja':
         assert 'ja_JA' not in source
 sitemap = ET.parse(ROOT / 'sitemap.xml')

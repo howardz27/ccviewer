@@ -334,6 +334,8 @@ def render(lang):
         article_ld = json_ld({
             '@context': 'https://schema.org', '@type': 'Article',
             '@id': url + '#article', 'headline': plain(pg['h1']), 'description': plain(pg['desc']),
+            'about': {'@type': 'WebApplication', '@id': app_url(lang) + '#application',
+                      'name': 'CCViewer', 'url': app_url(lang)},
             'citation': [link for _, link in SOURCES] if lang in ('en', 'zh') else [],
             'datePublished': DATE, 'dateModified': ARTICLE_DATES[slug],
             'inLanguage': HTML_LANG[lang],
