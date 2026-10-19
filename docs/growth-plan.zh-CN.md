@@ -44,9 +44,10 @@
 | GitHub 仓库 About | 官网链接直接指向工具规范地址 | 已保存并验证 |
 | Awesome Claude Code | 以真实使用和维护记录满足筛选条件后，由作者通过 issue 表单推荐 | 已核对贡献规则；尚未提交 |
 | DEV Community / Hashnode | 发“如何本地回看 Claude Code JSONL”实测文章，包含安装、示例、隐私设计及源码链接 | 下方有简介草稿；尚未发布 |
-| Product Hunt / Show HN | 准备真实演示、更新记录、产品截图及作者声明，发布时回应技术问题 | 尚未提交 |
+| Product Hunt | 真实功能介绍、开源定价、3 张截图、作者身份与首条介绍 | 已提交，预约北京时间 2026-10-20 15:01 发布 |
+| Show HN | 准备真实演示、更新记录、产品截图及作者声明，发布时回应技术问题 | 尚未提交 |
 
-2026-10-19 目录提交进展：Future Tools 已显示提交成功、待人工审核；Product Hunt 与 Uneed 的 Google 登录需要本人通行密钥验证，尚未提交。费用核验、回执和复用文案见 [目录提交记录](directory-submissions.zh-CN.md)。
+2026-10-19 目录提交进展：Future Tools 已提交、待人工审核；Product Hunt 已创建产品页，后台确认 Scheduled，预约于北京时间 2026-10-20 15:01 正式发布；Uneed 等待用户确认登录时接受服务条款。费用核验、回执和复用文案见 [目录提交记录](directory-submissions.zh-CN.md)。
 
 Awesome Claude Code 当前要求项目至少 14 天且持续维护，或至少 100 stars，并要求推荐由人类通过网页 issue 表单提交，不能用 PR/gh 代替；[贡献规则](https://github.com/hesreallyhim/awesome-claude-code/blob/main/CONTRIBUTING.md)。本次没有绕过规则提交。
 

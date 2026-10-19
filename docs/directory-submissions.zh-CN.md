@@ -7,12 +7,16 @@
 | 渠道 | 实际动作 | 状态与下一步 |
 | --- | --- | --- |
 | [Future Tools](https://futuretools.io/submit-a-tool) | 提交 CCViewer、规范产品 URL、真实功能介绍，类别 Productivity，定价 Open Source，未订阅 newsletter | **已提交，待人工审核**。页面显示“Tool Submitted!”；未获得公开产品页，新增公开外链数暂计 0。 |
-| [Product Hunt](https://www.producthunt.com/) | 点击 Google 登录并选择用户的现有 Google 账户 | **等待本人验证**。Google 要求通行密钥；尚未进入产品提交表单。保留浏览器页面。 |
-| [Uneed](https://www.uneed.best/submit-a-tool) | 输入 CCViewer 和规范 URL，生成产品预览，然后选择 Google 登录 | **预览已生成，未保存为已提交产品**。Google 同样要求通行密钥。 |
+| [Product Hunt](https://www.producthunt.com/products/ccviewer?launch=ccviewer) | Google 登录成功；填写名称、tagline、427 字符简介、首条介绍、开源属性和免费定价，添加源码及 3 张真实截图，设置 Howard Zhu 为 Maker | **已提交并预约发布**。后台 Launch status 显示 Scheduled；选定最早时段 2026-10-20 12:01am PT，即北京时间 **2026-10-20 15:01**。尚未到正式发布时间。 |
+| [Uneed](https://www.uneed.best/submit-a-tool) | 生成产品预览；本人完成 Google 验证后，Uneed 返回 OAuth state expired，已重新打开登录页 | **等待服务条款确认**。登录页明确写明登录即同意 Terms of Service；已向用户请求本次确认，尚未再次登录或提交。 |
 | [ToolDirectory.AI](https://tooldirectory.ai/submit-tool) | 查看真实提交表单 | 页面写明提交进入 Stripe checkout，但显示总额 $0，未能确认免费路径，未提交或付款。 |
 | [Toolify](https://www.toolify.ai/submit) | 核对官方提交页面 | 当前页面显示 $99 提交费用，本轮跳过。 |
 
 Future Tools [提交成功截图](evidence/future-tools-submitted.png)。其他平台的预览、Google 账户选择或登录尝试都不计作已发布外链。
+
+Product Hunt [产品页截图](evidence/product-hunt-created.png)、[预约成功回执](evidence/product-hunt-scheduled.png)。后台地址：[Pre-Launch Dashboard](https://www.producthunt.com/products/ccviewer/ccviewer/prelaunch)。只记录产品已创建和正式发布已预约，不将登录态页面可见误写成已经被搜索引擎收录。本次公开抓取工具暂时无法访问该新产品页，独立公开可访问性尚未验证。
+
+图库最初自动抓取了 2 张图片，已替换为官网首页、会话查看器和会话库 3 张截图。本地批量上传停留在 Uploading，改用产品官网的公开图片 URL 添加成功；保存后的产品页核验到 3 张图库图片。缩略图由仓库原有 SVG 标志转换为 240×240 PNG，未生成新品牌图像。
 
 ## 复用提交材料
 
@@ -33,7 +37,7 @@ Product Hunt tagline（60 字符以内）：
 
 > CCViewer is a free, MIT-licensed browser viewer for saved Claude Code JSONL sessions. Import files or folders to read Markdown, thinking blocks and tool calls, inspect recorded token usage and costs, and export Markdown. Supports 10 languages and a single-file offline version. Files are processed locally. The hosted site loads Microsoft Clarity analytics and recordings; offline copies do not. No account or API key required.
 
-首次介绍草稿（尚未发布）：
+首次介绍（已写入 Product Hunt 发布内容）：
 
 > CCViewer makes saved Claude Code session files easier to review. Drop in a JSONL file or a project folder to explore messages, thinking blocks and tool calls, organize a local session library, and export Markdown.
 >
