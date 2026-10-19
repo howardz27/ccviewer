@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ヘルプセンター | CCViewer</title>
 <meta name="description" content="CCViewer ヘルプセンター：Claude Code セッション履歴の見方、JSONL ファイルの探し方、保存先の解説、最良のビューア比較まで、更新日順にすべてのガイドを閲覧できます。">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/ja/help">
 <link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/help">
 <link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/help">
@@ -28,6 +28,7 @@
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Claude Code セッションの完全な履歴を表示する方法", "url": "https://ccviewer.top/claude-code-session-viewer/ja/how-to-view-claude-code-session-history"}, {"@type": "ListItem", "position": 2, "name": "セッションの JSONL ファイルの場所を探す方法", "url": "https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file"}, {"@type": "ListItem", "position": 3, "name": "Claude Code のセッション履歴はどこに保存される？", "url": "https://ccviewer.top/claude-code-session-viewer/ja/where-claude-code-sessions-stored"}, {"@type": "ListItem", "position": 4, "name": "2026 年のベストな Claude Code セッションビューアは？", "url": "https://ccviewer.top/claude-code-session-viewer/ja/best-claude-code-session-viewer"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/ja/"}, {"@type": "ListItem", "position": 2, "name": "ヘルプセンター", "item": "https://ccviewer.top/claude-code-session-viewer/ja/help"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://ccviewer.top/#organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/", "sameAs": ["https://github.com/howardz27/ccviewer"], "logo": "https://ccviewer.top/assets/logo.svg"}, {"@type": "WebSite", "@id": "https://ccviewer.top/#website", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/", "publisher": {"@id": "https://ccviewer.top/#organization"}}, {"@type": "CollectionPage", "@id": "https://ccviewer.top/claude-code-session-viewer/ja/help#webpage", "url": "https://ccviewer.top/claude-code-session-viewer/ja/help", "name": "ヘルプセンター | CCViewer", "description": "CCViewer ヘルプセンター：Claude Code セッション履歴の見方、JSONL ファイルの探し方、保存先の解説、最良のビューア比較まで、更新日順にすべてのガイドを閲覧できます。", "inLanguage": "ja", "isPartOf": {"@id": "https://ccviewer.top/#website"}, "publisher": {"@id": "https://ccviewer.top/#organization"}}]}</script>
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ヘルプセンター | CCViewer">
 <meta name="twitter:description" content="CCViewer ヘルプセンター：Claude Code セッション履歴の見方、JSONL ファイルの探し方、保存先の解説、最良のビューア比較まで、更新日順にすべてのガイドを閲覧できます。">
@@ -84,6 +85,8 @@ main{max-width:820px;margin:0 auto;padding:36px 20px 64px}
 .crumbs a:hover{color:var(--accent)}
 h1{font-size:27px;line-height:1.4;margin:0 0 10px}
 .meta{color:var(--faint);font-size:12.5px;margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+h2[id]{scroll-margin-top:80px}
+.toc{border:1px solid var(--border);border-radius:8px;padding:8px 18px;margin:20px 0}.toc ul{margin:8px 0}
 h2{font-size:19px;margin:34px 0 10px;color:var(--accent2)}
 h3{font-size:16px;margin:24px 0 8px}
 p{margin:10px 0}
@@ -96,7 +99,7 @@ pre code{background:none;border:none;padding:0;color:var(--text);font-size:13px}
 table{border-collapse:collapse;margin:14px 0;width:100%;font-size:13.5px}
 th,td{border:1px solid var(--border);padding:7px 11px;text-align:left}
 th{background:var(--panel2);color:var(--accent2)}
-img.shot{max-width:100%;border:1px solid var(--border);border-radius:10px;margin:12px 0;
+img.shot{max-width:100%;height:auto;border:1px solid var(--border);border-radius:10px;margin:12px 0;
 box-shadow:0 14px 44px rgba(0,0,0,.4)}
 .cta{background:linear-gradient(120deg,rgba(217,119,87,.13),rgba(191,227,239,.05));
 border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;
@@ -142,17 +145,17 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
 <div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/ja/">CCViewer</a> / ヘルプセンター</div>
 <article>
 <h1>ヘルプセンター</h1>
-<div class="meta">更新日 2026-10-12 · CCViewer ヘルプセンター · Claude Code 2.x 対応</div>
+<div class="meta">更新日 <time datetime="2026-10-19">2026-10-19</time> · CCViewer ヘルプセンター · Claude Code 2.x 対応</div>
 <p class="hlead">CCViewer のガイドとよくある質問（更新日の新しい順）。</p>
 <div class="hlist">
-<a class="hcard" href="how-to-view-claude-code-session-history"><div class="ht">Claude Code セッションの完全な履歴を表示する方法</div><div class="hd">Claude Code セッションの完全な履歴を表示する 3 つの方法：端末で claude --resume、~/.claude/projects 直下の .jsonl ファイルを開く、または CCViewer でブラウザ上にビジュアル再生（Markdown・思考ブロック・ツール呼び出し・コスト統…</div><div class="hm">更新日: 2026-10-12</div></a>
-<a class="hcard" href="find-claude-code-session-jsonl-file"><div class="ht">セッションの JSONL ファイルの場所を探す方法</div><div class="hd">Claude Code のセッションファイルは ~/.claude/projects//.jsonl にあります。find/grep でセッションの JSONL ファイルを素早く特定する方法と、sessionId が分からないときに内容や時刻から逆引きする方法を解説。</div><div class="hm">更新日: 2026-10-12</div></a>
-<a class="hcard" href="where-claude-code-sessions-stored"><div class="ht">Claude Code のセッション履歴はどこに保存される？</div><div class="hd">Claude Code はセッション履歴を ~/.claude/projects/ 配下に JSONL ファイルとしてローカル保存します — クラウド同期なし。ディレクトリ構造、各行 JSON のフィールド（message/timestamp/usage/gitBranch）、バックアップのアドバイ…</div><div class="hm">更新日: 2026-10-12</div></a>
-<a class="hcard" href="best-claude-code-session-viewer"><div class="ht">2026 年のベストな Claude Code セッションビューアは？</div><div class="hd">2026 年に Claude Code セッション履歴を振り返る主な方法を比較：内蔵の claude --resume、コマンドラインの jq/grep、汎用 JSONL ツール、そしてオープンソースのグラフィカルビューア CCViewer — 機能・プライバシー・使いやすさから推奨を提示。</div><div class="hm">更新日: 2026-10-12</div></a>
+<a class="hcard" href="how-to-view-claude-code-session-history"><div class="ht">Claude Code セッションの完全な履歴を表示する方法</div><div class="hd">Claude Code セッションの完全な履歴を表示する 3 つの方法：端末で claude --resume、~/.claude/projects 直下の .jsonl ファイルを開く、または CCViewer でブラウザ上にビジュアル再生（Markdown・思考ブロック・ツール呼び出し・コスト統…</div><div class="hm">更新日: 2026-10-19</div></a>
+<a class="hcard" href="find-claude-code-session-jsonl-file"><div class="ht">セッションの JSONL ファイルの場所を探す方法</div><div class="hd">Claude Code のセッションファイルは ~/.claude/projects//.jsonl にあります。find/grep でセッションの JSONL ファイルを素早く特定する方法と、sessionId が分からないときに内容や時刻から逆引きする方法を解説。</div><div class="hm">更新日: 2026-10-19</div></a>
+<a class="hcard" href="where-claude-code-sessions-stored"><div class="ht">Claude Code のセッション履歴はどこに保存される？</div><div class="hd">ローカルセッションの既定の保存先は ~/.claude/projects/ です。CLAUDE_CONFIG_DIR を設定すると基準ディレクトリが変わります。保存の無効化や保持期間による削除があるため、すべての履歴が永久に残るとは限りません。クラウドやリモート環境では実行場所を確認してください。</div><div class="hm">更新日: 2026-10-19</div></a>
+<a class="hcard" href="best-claude-code-session-viewer"><div class="ht">2026 年のベストな Claude Code セッションビューアは？</div><div class="hd">2026 年に Claude Code セッション履歴を振り返る主な方法を比較：内蔵の claude --resume、コマンドラインの jq/grep、汎用 JSONL ツール、そしてオープンソースのグラフィカルビューア CCViewer — 機能・プライバシー・使いやすさから推奨を提示。</div><div class="hm">更新日: 2026-10-19</div></a>
 </div>
 <div class="cta">
   <b>CCViewer で Claude Code セッションをビジュアルに再生</b><br>
-  ページを開いて <code>.jsonl</code> ファイル（または <code>~/.claude/projects/</code> フォルダ全体）をドロップするだけ。Markdown レンダリング、思考ブロック、ツール呼び出し、トークン・コスト統計まで、すべてブラウザ内のローカル処理で、データは送信されません。
+  セッションファイルはブラウザ内で解析・表示されます。公開サイトでは Microsoft Clarity を自動で読み込み、ページ操作を記録します。オフライン版では解析を読み込みません。
   <div class="btns">
     <a class="btn primary" href="https://ccviewer.top/claude-code-session-viewer/ja/">CCViewer を開く（無料・インストール不要）</a>
     <a class="btn" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">ソースを見る</a>
@@ -164,6 +167,7 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
 <ul>
 <li><a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener noreferrer">Claude Code — ドキュメント</a></li>
 <li><a href="https://code.claude.com/docs/en/cli-reference" target="_blank" rel="noopener noreferrer">Claude Code — CLI</a></li>
+<li><a href="https://code.claude.com/docs/en/claude-directory" target="_blank" rel="noopener noreferrer">Claude Code — ~/.claude</a></li>
 <li><a href="https://jsonlines.org/" target="_blank" rel="noopener noreferrer">JSON Lines (.jsonl)</a></li>
 <li><a href="https://github.com/howardz27/ccviewer/issues" target="_blank" rel="noopener noreferrer">GitHub — 問題を報告</a></li>
 </ul></aside><nav aria-label="Language" class="site-languages"><a href="/claude-code-session-viewer/help" hreflang="en" lang="en">English</a> · <a href="/claude-code-session-viewer/zh/help" hreflang="zh" lang="zh">中文</a> · <a href="/claude-code-session-viewer/ja/help" hreflang="ja" lang="ja" aria-current="page">日本語</a> · <a href="/claude-code-session-viewer/ko/help" hreflang="ko" lang="ko">한국어</a> · <a href="/claude-code-session-viewer/es/help" hreflang="es" lang="es">Español</a> · <a href="/claude-code-session-viewer/fr/help" hreflang="fr" lang="fr">Français</a> · <a href="/claude-code-session-viewer/de/help" hreflang="de" lang="de">Deutsch</a> · <a href="/claude-code-session-viewer/pt/help" hreflang="pt" lang="pt">Português</a> · <a href="/claude-code-session-viewer/ru/help" hreflang="ru" lang="ru">Русский</a> · <a href="/claude-code-session-viewer/hi/help" hreflang="hi" lang="hi">हिन्दी</a></nav>© 2026 CCViewer · MIT オープンソース · Anthropic とは提携関係にありません。「Claude Code」は Anthropic の商標です。</footer>

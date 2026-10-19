@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 PAGES = [
 dict(
-    slug='how-to-view-claude-code-session-history.html', crumb='履歴を表示',
+    slug='how-to-view-claude-code-session-history.html',
+    crumb='履歴を表示',
     short='Claude Code セッションの完全な履歴を表示する方法',
     title='Claude Code セッションの完全な履歴を表示する方法 — 3 つの方法（2026年）| CCViewer',
     desc='Claude Code セッションの完全な履歴を表示する 3 つの方法：端末で claude --resume、~/.claude/projects 直下の .jsonl ファイルを開く、または CCViewer でブラウザ上にビジュアル再生（Markdown・思考ブロック・ツール呼び出し・コスト統計）— 100% ローカル描画。',
     h1='Claude Code セッションの完全な履歴を表示するには？',
-    body='''
-<p>Claude Code はすべてのセッションをローカルディスクに完全に記録します。履歴を表示する主な方法は 3 つあり、使いやすさ順に紹介します。</p>
+    body=r'''
+<p>ローカルセッションの既定の保存先は ~/.claude/projects/ です。CLAUDE_CONFIG_DIR を設定すると基準ディレクトリが変わります。保存の無効化や保持期間による削除があるため、すべての履歴が永久に残るとは限りません。クラウドやリモート環境では実行場所を確認してください。</p>
 
 <h2>方法 1：CCViewer でブラウザにビジュアル再生（推奨）</h2>
 <p><a href="{{app}}">CCViewer</a> は無料・オープンソースの Claude Code セッションビューアです。ページを開き、セッションファイルをドロップする（<code>~/.claude/projects/</code> フォルダ全体を取り込むことも可能）だけで、チャット履歴のようにセッションを再生できます：</p>
@@ -18,7 +19,7 @@ dict(
 <li><b>使用量・コスト統計</b> — 入力/出力/キャッシュトークン、セッション時間、増減行数、合計コストを一覧；</li>
 <li><b>Markdown エクスポート</b> — 任意のセッションをワンクリックで共有可能な <code>.md</code> ドキュメントに。</li>
 </ul>
-<p>何より、<b>解析と描画が 100% ブラウザ内で完結し、何もアップロードされません</b>。セッションファイルにはソースコード・ファイルパス・場合によってはシークレットが含まれるため、これは重要です。</p>
+<p>セッションファイルはブラウザ内で解析・表示されます。公開サイトでは Microsoft Clarity を自動で読み込み、ページ操作を記録します。オフライン版では解析を読み込みません。</p>
 <img class="shot" src="/assets/screenshot-viewer.png" alt="CCViewer で Claude Code セッション履歴を表示：Markdown、思考ブロック、ツール呼び出しと統計" width="880">
 
 <h2>方法 2：端末でセッションを再開</h2>
@@ -36,7 +37,7 @@ claude --resume &lt;sessionId&gt;</code></pre>
 <h2>方法 3：生の JSONL ファイルを読む</h2>
 <p>セッションは <code>~/.claude/projects/&lt;project&gt;/&lt;sessionId&gt;.jsonl</code> に JSONL 形式（1 行 1 JSON オブジェクト）で保存されます。任意のエディタやコマンドで確認できます：</p>
 <pre><code># jq で全ユーザープロンプトを抽出
-cat ~/.claude/projects/-Users-you-myproject/&lt;sessionId&gt;.jsonl \\\\
+cat ~/.claude/projects/-Users-you-myproject/&lt;sessionId&gt;.jsonl \\
   | jq -r 'select(.type=="user") | .message.content'</code></pre>
 <p>生ファイルは最も完全な情報源（トークン使用量・git ブランチ・タイムスタンプ等のメタデータ含む）ですが、可読性は低い — まさにグラフィカルビューアが存在する理由です。</p>
 
@@ -49,24 +50,18 @@ cat ~/.claude/projects/-Users-you-myproject/&lt;sessionId&gt;.jsonl \\\\
 <tr><td>トークン / コスト統計</td><td>✅</td><td>❌</td><td>手動 jq</td></tr>
 <tr><td>複数セッション管理</td><td>✅ フォルダ取り込み</td><td>現在のプロジェクトのみ</td><td>❌</td></tr>
 </table>
-''',
-    faqs=[
-        ('履歴を表示するとコードはアップロードされますか？',
-         'されません。CCViewer の解析と描画はすべてブラウザ内で行われ、セッション内容を送信するネットワーク通信は一切ありません。開発者ツールの Network パネルで自分で検証できます。'),
-        ('セッション内の圧縮（compact）された部分も見られますか？',
-         '見られます。圧縮サマリーとそれ以降のメッセージは同じ JSONL ファイルに記録されており、ビューアはサマリーを注入コンテキストとして表示します。「システム/注入」トグルで確認できます。'),
-        ('スマートフォンでも使えますか？',
-         '使えます。CCViewer はレスポンシブなウェブページです。ただしセッションファイルは PC 上にあるため、まず .jsonl をスマホに転送（iCloud など）してからブラウザで開く必要があります。'),
-    ],
+<p>セッションファイルはブラウザ内で解析・表示されます。公開サイトでは Microsoft Clarity を自動で読み込み、ページ操作を記録します。オフライン版では解析を読み込みません。</p>''',
+    faqs=[('履歴を表示するとコードはアップロードされますか？', 'セッションファイルはブラウザ内で解析・表示されます。公開サイトでは Microsoft Clarity を自動で読み込み、ページ操作を記録します。オフライン版では解析を読み込みません。'), ('セッション内の圧縮（compact）された部分も見られますか？', 'JSONL は 1 行ごとの JSON データです。CCViewer はファイルに残っている対応メッセージやツール記録を表示します。欠落・削除された記録は復元できず、利用量は存在するフィールドに依存します。元ファイルを保管してください。'), ('スマートフォンでも使えますか？', '使えます。CCViewer はレスポンシブなウェブページです。ただしセッションファイルは PC 上にあるため、まず .jsonl をスマホに転送（iCloud など）してからブラウザで開く必要があります。')],
 ),
 dict(
-    slug='find-claude-code-session-jsonl-file.html', crumb='JSONL を探す',
+    slug='find-claude-code-session-jsonl-file.html',
+    crumb='JSONL を探す',
     short='セッションの JSONL ファイルの場所を探す方法',
     title='Claude Code セッションの JSONL ファイルの場所を探す方法 | CCViewer',
     desc='Claude Code のセッションファイルは ~/.claude/projects/<project-dir>/<sessionId>.jsonl にあります。find/grep でセッションの JSONL ファイルを素早く特定する方法と、sessionId が分からないときに内容や時刻から逆引きする方法を解説。',
     h1='Claude Code セッションの JSONL ファイルの場所を探すには？',
-    body='''
-<p>すべてのセッションファイルは <code>~/.claude/projects/</code> という固定ディレクトリにあります。sessionId が分かれば数秒で特定できますし、分からなくても内容や時刻から逆引きできます。</p>
+    body=r'''
+<p>ローカルセッションの既定の保存先は ~/.claude/projects/ です。CLAUDE_CONFIG_DIR を設定すると基準ディレクトリが変わります。保存の無効化や保持期間による削除があるため、すべての履歴が永久に残るとは限りません。クラウドやリモート環境では実行場所を確認してください。</p>
 
 <h2>まずディレクトリ命名規則を理解する</h2>
 <p><code>~/.claude/projects/</code> の各サブディレクトリは 1 つのプロジェクト（作業ディレクトリ）に対応します。ディレクトリ名は<b>プロジェクトパスから変換されます：<code>/</code>、<code>_</code> などの英数字以外の文字がすべてハイフン <code>-</code> に置き換えられる</b>のです。例：</p>
@@ -100,76 +95,28 @@ ls -t ~/.claude/projects/*/*.jsonl | head -10</code></pre>
 <li>Finder で <span class="kbd">⌘⇧G</span> を押し、<code>~/.claude/projects</code> と入力して Enter；</li>
 <li>ファイルダイアログでは <span class="kbd">⌘⇧.</span> で隠しフォルダを表示（<code>.</code> 始まりのディレクトリはデフォルトで非表示）。</li>
 </ul>
-''',
-    faqs=[
-        ('~/.claude ディレクトリが見つかりません。なぜ？',
-         'ドットで始まるためデフォルトで隠されています。Finder で ⌘⇧G からパスを入力するか、⌘⇧. で隠しファイルを表示してください。端末では ls -la ~/.claude で常に見えます。'),
-        ('プロジェクトのディレクトリに jsonl が大量にあります。どれが目的のファイル？',
-         '1 ファイル = 1 セッションです。更新時刻（ls -t）や内容（grep -l）で絞り込むのが最も効果的。CCViewer でフォルダ全体を取り込めば各セッションのタイトルと統計が表示され、一目で判別できます。'),
-        ('Windows でのパスは？',
-         'ユーザープロファイル配下に同じ構造があります：%USERPROFILE%\\\\.claude\\\\projects\\\\&lt;project&gt;\\\\&lt;sessionId&gt;.jsonl。'),
-    ],
+<p>セッションファイルはブラウザ内で解析・表示されます。公開サイトでは Microsoft Clarity を自動で読み込み、ページ操作を記録します。オフライン版では解析を読み込みません。</p>''',
+    faqs=[('~/.claude ディレクトリが見つかりません。なぜ？', 'ドットで始まるためデフォルトで隠されています。Finder で ⌘⇧G からパスを入力するか、⌘⇧. で隠しファイルを表示してください。端末では ls -la ~/.claude で常に見えます。'), ('プロジェクトのディレクトリに jsonl が大量にあります。どれが目的のファイル？', '1 ファイル = 1 セッションです。更新時刻（ls -t）や内容（grep -l）で絞り込むのが最も効果的。CCViewer でフォルダ全体を取り込めば各セッションのタイトルと統計が表示され、一目で判別できます。'), ('Windows でのパスは？', 'ユーザープロファイル配下に同じ構造があります：%USERPROFILE%\\\\.claude\\\\projects\\\\&lt;project&gt;\\\\&lt;sessionId&gt;.jsonl。')],
 ),
 dict(
-    slug='where-claude-code-sessions-stored.html', crumb='保存場所',
+    slug='where-claude-code-sessions-stored.html',
+    crumb='保存場所',
     short='Claude Code のセッション履歴はどこに保存される？',
     title='Claude Code セッション履歴はどこに保存される？ 保存構造の詳細解説 | CCViewer',
-    desc='Claude Code はセッション履歴を ~/.claude/projects/ 配下に JSONL ファイルとしてローカル保存します — クラウド同期なし。ディレクトリ構造、各行 JSON のフィールド（message/timestamp/usage/gitBranch）、バックアップのアドバイスまで詳しく解説。',
+    desc='ローカルセッションの既定の保存先は ~/.claude/projects/ です。CLAUDE_CONFIG_DIR を設定すると基準ディレクトリが変わります。保存の無効化や保持期間による削除があるため、すべての履歴が永久に残るとは限りません。クラウドやリモート環境では実行場所を確認してください。',
     h1='Claude Code セッションの履歴はどこに保存されますか？',
-    body='''
-<p>簡潔に答えると：<b>すべて <code>~/.claude/projects/</code> 配下に JSONL ファイルとしてローカル保存されます</b>。クラウド同期も、アカウント紐付けのセッション履歴もありません。</p>
-
-<h2>ディレクトリ構造</h2>
-<pre><code>~/.claude/
-├── projects/                     # ← すべてのセッション履歴はここ
-│   ├── -Users-you-Documents-app/ #   プロジェクトごとに 1 ディレクトリ（パス変換）
-│   │   ├── 9a1b2c3d-….jsonl     #     セッションごとに 1 ファイル
-│   │   └── 7c2d3e4f-….jsonl
-│   └── -home-you-shop-api/
-│       └── …
-├── claude.json                   # グローバル設定（MCP、テーマ、プロジェクト状態）
-└── …（キャッシュ、ログ、統計などの補助ファイル）</code></pre>
-<p>プロジェクトディレクトリ名の規則：<b>プロジェクトパス中の <code>/</code>、<code>_</code> などの非英数字が <code>-</code> に置換される</b>。そのため同じプロジェクトのセッションはすべて同じディレクトリに集まります — 各種ビューアの「プロジェクト別グループ化」の根拠もこれです。</p>
-
-<h2>JSONL ファイルの中身</h2>
-<p>JSONL = 1 行 1 個の独立した JSON オブジェクト。セッションファイルは時系列で完全な対話を記録します。主なエントリ型：</p>
-<table>
-<tr><th>type</th><th>内容</th></tr>
-<tr><td><code>user</code></td><td>あなたの入力（テキスト / 画像）とツール実行結果の返却</td></tr>
-<tr><td><code>assistant</code></td><td>モデルの応答：本文、思考ブロック、tool_use 呼び出しとトークン使用量</td></tr>
-<tr><td><code>system</code></td><td>システムイベント（hooks など）</td></tr>
-<tr><td><code>summary / ai-title</code></td><td>セッションサマリーと自動生成タイトル</td></tr>
-<tr><td><code>cost-state</code></td><td>コスト・使用量スナップショット（合計コスト、増減行数、API 時間）</td></tr>
-</table>
-<p>各エントリには <code>timestamp</code>、<code>cwd</code>（プロジェクトパス）、<code>gitBranch</code>、<code>version</code>、<code>sessionId</code> などのメタデータも付きます。つまり<b>履歴ファイルは端末の表示より完全</b>です — 思考過程、ツール呼び出しの生パラメータと結果、トークン消費がすべて記録されています。</p>
-
-<h2>これが意味すること</h2>
-<ul>
-<li><b>プライバシーは自分の手の中</b>：ファイルは PC から出ません。逆に言えば、<b>PC 交換・リインストール前に <code>~/.claude/projects/</code> をバックアップ</b>しないと履歴は失われます；</li>
-<li><b>ファイルは機密になりうる</b>：セッションにはソースコード断片、ファイルパス、コマンド出力、時にはシークレットが含まれます — .jsonl を気軽に共有・公開しないこと；</li>
-<li><b>サイズは増える</b>：数ヶ月ヘビーに使うと 1 セッションが数 MB〜数十 MB、ディレクトリ全体で数百 MB になるのは普通です。</li>
-</ul>
-
-<h2>この履歴を快適に読むには</h2>
-<p>生の JSONL を読むのは骨が折れます。<a href="{{app}}">CCViewer</a> でディレクトリを開く（フォルダごとドロップ可能）と、セッションはプロジェクト別にグループ化され、Markdown・思考ブロック・ツール呼び出し・コスト統計がすべてグラフィカルに描画されます — 解析はブラウザ内のみで行われ、「データは PC の外に出ない」性質は変わりません。</p>
-''',
-    faqs=[
-        ('Claude Code の履歴は Anthropic のサーバーにアップロードされますか？',
-         'セッションファイル自体はローカルの ~/.claude/projects/ に保存され、クラウドに別途保存されることはありません。もちろん会話の発生中は内容が API 経由で処理されます（モデル利用の前提）が、「履歴ファイル」はあなたが完全に管理するローカルファイルです。'),
-        ('セッション履歴の削除方法は？',
-         '対応する .jsonl ファイル（またはプロジェクトのサブディレクトリ全体）を削除するだけです。resume 一覧からも消えます。削除前にバックアップが不要か確認してください。'),
-        ('~/.claude/projects と ~/.claude.json は同じもの？',
-         '違います。~/.claude.json（または claude.json）はグローバル設定ファイル（MCP サーバー、テーマなど）。セッション履歴は ~/.claude/projects/ 配下の .jsonl ファイルにあります。'),
-    ],
+    body=r'''<p>ローカルセッションの既定の保存先は ~/.claude/projects/ です。CLAUDE_CONFIG_DIR を設定すると基準ディレクトリが変わります。保存の無効化や保持期間による削除があるため、すべての履歴が永久に残るとは限りません。クラウドやリモート環境では実行場所を確認してください。</p><h2>保存場所と保持期間</h2><ul><li><code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code> — JSONL</li><li><code>~/.claude/settings.json</code> — settings</li><li><code>~/.claude.json</code> — configuration</li></ul><p><a href="https://code.claude.com/docs/en/claude-directory">Claude Code — 保存場所と保持期間</a></p><h2>形式と制限</h2><p>JSONL は 1 行ごとの JSON データです。CCViewer はファイルに残っている対応メッセージやツール記録を表示します。欠落・削除された記録は復元できず、利用量は存在するフィールドに依存します。元ファイルを保管してください。</p><p>セッションファイルはブラウザ内で解析・表示されます。公開サイトでは Microsoft Clarity を自動で読み込み、ページ操作を記録します。オフライン版では解析を読み込みません。</p><p><a href="{{app}}">CCViewer</a></p>''',
+    faqs=[('Claude Code の履歴は Anthropic のサーバーにアップロードされますか？', 'ローカルセッションの既定の保存先は ~/.claude/projects/ です。CLAUDE_CONFIG_DIR を設定すると基準ディレクトリが変わります。保存の無効化や保持期間による削除があるため、すべての履歴が永久に残るとは限りません。クラウドやリモート環境では実行場所を確認してください。 セッションファイルはブラウザ内で解析・表示されます。公開サイトでは Microsoft Clarity を自動で読み込み、ページ操作を記録します。オフライン版では解析を読み込みません。'), ('セッション履歴の削除方法は？', '対応する .jsonl ファイル（またはプロジェクトのサブディレクトリ全体）を削除するだけです。resume 一覧からも消えます。削除前にバックアップが不要か確認してください。'), ('~/.claude/projects と ~/.claude.json は同じもの？', '違います。~/.claude.json（または claude.json）はグローバル設定ファイル（MCP サーバー、テーマなど）。セッション履歴は ~/.claude/projects/ 配下の .jsonl ファイルにあります。')],
 ),
 dict(
-    slug='best-claude-code-session-viewer.html', crumb='2026 年のベストビューア',
+    slug='best-claude-code-session-viewer.html',
+    crumb='2026 年のベストビューア',
     short='2026 年のベストな Claude Code セッションビューアは？',
     title='2026 年のベストな Claude Code セッションビューアは？ 比較と推奨 | CCViewer',
     desc='2026 年に Claude Code セッション履歴を振り返る主な方法を比較：内蔵の claude --resume、コマンドラインの jq/grep、汎用 JSONL ツール、そしてオープンソースのグラフィカルビューア CCViewer — 機能・プライバシー・使いやすさから推奨を提示。',
     h1='2026 年、Claude Code セッションのベストビューアは？',
-    body='''
-<p>Claude Code が 2025〜2026 年に爆発的に普及し、「溜まったセッション履歴を快適に振り返りたい」というニーズが高まっています。ローカルの <code>~/.claude/projects/</code> には何百もの JSONL ファイルが溜まりがちで、テキストエディタでは読めたものではありません。実際のユースケースごとに主流の選択肢を比較します。</p>
+    body=r'''
+<p>この記事は CCViewer プロジェクトによる用途別の比較です。独立したランキングや性能測定ではありません。CCViewer は閲覧と Markdown 出力に、resume は作業の継続に、jq はスクリプト分析に適しています。</p><p>CCViewer にはセッションライブラリ全体の全文検索はありません。ブラウザの保存データを消去すると取り込んだライブラリも削除される場合があります。</p>
 
 <h2>候補の一覧</h2>
 <table>
@@ -200,14 +147,7 @@ dict(
 
 <h2>結論</h2>
 <p>日常の振り返りと整理：<b>CCViewer</b>。作業継続：<b>claude --resume</b>。一括スクリプト分析：<b>jq</b>。三者は競合しません — むしろ CCViewer のエクスポート機能が生成する Markdown は、他ツールへの入力として好適です。</p>
-''',
-    faqs=[
-        ('CCViewer は無料ですか？ 有料化の予定は？',
-         'MIT ライセンスの無料・オープンソースで、登録不要です。ツール自体がブラウザ内で動くためサーバーコストはほぼゼロで、長期的に安心して利用できます。'),
-        ('公式ツールと関係がありますか？',
-         'ありません。CCViewer は Anthropic に属さない独立したコミュニティのオープンソースプロジェクトで、Claude Code がローカルに生成するセッションファイルを読むだけです。'),
-        ('デスクトップアプリはありますか？',
-         '現在はウェブアプリです（オフライン利用可、単一 HTML ファイルを開くだけ）。PWA/デスクトップ版はロードマップにあり、GitHub の issue で投票・貢献を歓迎します。'),
-    ],
+<p>セッションファイルはブラウザ内で解析・表示されます。公開サイトでは Microsoft Clarity を自動で読み込み、ページ操作を記録します。オフライン版では解析を読み込みません。</p>''',
+    faqs=[('CCViewer は無料ですか？ 有料化の予定は？', '無料でオープンソースです。登録やログインは不要で、ブラウザから直接利用できます。'), ('公式ツールと関係がありますか？', 'ありません。CCViewer は Anthropic に属さない独立したコミュニティのオープンソースプロジェクトで、Claude Code がローカルに生成するセッションファイルを読むだけです。')],
 ),
 ]

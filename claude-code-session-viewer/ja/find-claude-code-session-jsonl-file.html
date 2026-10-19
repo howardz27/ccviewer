@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Claude Code セッションの JSONL ファイルの場所を探す方法 | CCViewer</title>
-<meta name="description" content="Claude Code のセッションファイルは ~/.claude/projects/<project-dir>/<sessionId>.jsonl にあります。find/grep でセッションの JSONL ファイルを素早く特定する方法と、sessionId が分からないときに内容や時刻から逆引きする方法を解説。">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Claude Code のセッションファイルは ~/.claude/projects/&lt;project-dir&gt;/&lt;sessionId&gt;.jsonl にあります。find/grep でセッションの JSONL ファイルを素早く特定する方法と、sessionId が分からないときに内容や時刻から逆引きする方法を解説。">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file">
 <link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file">
 <link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file">
@@ -21,17 +21,18 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="CCViewer">
 <meta property="og:title" content="Claude Code セッションの JSONL ファイルの場所を探す方法 | CCViewer">
-<meta property="og:description" content="Claude Code のセッションファイルは ~/.claude/projects/<project-dir>/<sessionId>.jsonl にあります。find/grep でセッションの JSONL ファイルを素早く特定する方法と、sessionId が分からないときに内容や時刻から逆引きする方法を解説。">
+<meta property="og:description" content="Claude Code のセッションファイルは ~/.claude/projects/&lt;project-dir&gt;/&lt;sessionId&gt;.jsonl にあります。find/grep でセッションの JSONL ファイルを素早く特定する方法と、sessionId が分からないときに内容や時刻から逆引きする方法を解説。">
 <meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code セッションの JSONL ファイルの場所を探すには？", "description": "Claude Code のセッションファイルは ~/.claude/projects/<project-dir>/<sessionId>.jsonl にあります。find/grep でセッションの JSONL ファイルを素早く特定する方法と、sessionId が分からないときに内容や時刻から逆引きする方法を解説。", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "ja", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "@id": "https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file#article", "headline": "Claude Code セッションの JSONL ファイルの場所を探すには？", "description": "Claude Code のセッションファイルは ~/.claude/projects/\u003cproject-dir>/\u003csessionId>.jsonl にあります。find/grep でセッションの JSONL ファイルを素早く特定する方法と、sessionId が分からないときに内容や時刻から逆引きする方法を解説。", "citation": [], "datePublished": "2026-10-12", "dateModified": "2026-10-19", "inLanguage": "ja", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://github.com/howardz27/ccviewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/ja/"}, {"@type": "ListItem", "position": 2, "name": "ヘルプセンター", "item": "https://ccviewer.top/claude-code-session-viewer/ja/help"}, {"@type": "ListItem", "position": 3, "name": "Claude Code セッションの JSONL ファイルの場所を探すには？", "item": "https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "~/.claude ディレクトリが見つかりません。なぜ？", "acceptedAnswer": {"@type": "Answer", "text": "ドットで始まるためデフォルトで隠されています。Finder で ⌘⇧G からパスを入力するか、⌘⇧. で隠しファイルを表示してください。端末では ls -la ~/.claude で常に見えます。"}}, {"@type": "Question", "name": "プロジェクトのディレクトリに jsonl が大量にあります。どれが目的のファイル？", "acceptedAnswer": {"@type": "Answer", "text": "1 ファイル = 1 セッションです。更新時刻（ls -t）や内容（grep -l）で絞り込むのが最も効果的。CCViewer でフォルダ全体を取り込めば各セッションのタイトルと統計が表示され、一目で判別できます。"}}, {"@type": "Question", "name": "Windows でのパスは？", "acceptedAnswer": {"@type": "Answer", "text": "ユーザープロファイル配下に同じ構造があります：%USERPROFILE%\\\\.claude\\\\projects\\\\&lt;project&gt;\\\\&lt;sessionId&gt;.jsonl。"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://ccviewer.top/#organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/", "sameAs": ["https://github.com/howardz27/ccviewer"], "logo": "https://ccviewer.top/assets/logo.svg"}, {"@type": "WebSite", "@id": "https://ccviewer.top/#website", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/", "publisher": {"@id": "https://ccviewer.top/#organization"}}, {"@type": "WebPage", "@id": "https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file#webpage", "url": "https://ccviewer.top/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file", "name": "Claude Code セッションの JSONL ファイルの場所を探す方法 | CCViewer", "description": "Claude Code のセッションファイルは ~/.claude/projects/\u003cproject-dir>/\u003csessionId>.jsonl にあります。find/grep でセッションの JSONL ファイルを素早く特定する方法と、sessionId が分からないときに内容や時刻から逆引きする方法を解説。", "inLanguage": "ja", "isPartOf": {"@id": "https://ccviewer.top/#website"}, "publisher": {"@id": "https://ccviewer.top/#organization"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "~/.claude ディレクトリが見つかりません。なぜ？", "acceptedAnswer": {"@type": "Answer", "text": "ドットで始まるためデフォルトで隠されています。Finder で ⌘⇧G からパスを入力するか、⌘⇧. で隠しファイルを表示してください。端末では ls -la ~/.claude で常に見えます。"}}, {"@type": "Question", "name": "プロジェクトのディレクトリに jsonl が大量にあります。どれが目的のファイル？", "acceptedAnswer": {"@type": "Answer", "text": "1 ファイル = 1 セッションです。更新時刻（ls -t）や内容（grep -l）で絞り込むのが最も効果的。CCViewer でフォルダ全体を取り込めば各セッションのタイトルと統計が表示され、一目で判別できます。"}}, {"@type": "Question", "name": "Windows でのパスは？", "acceptedAnswer": {"@type": "Answer", "text": "ユーザープロファイル配下に同じ構造があります：%USERPROFILE%\\\\.claude\\\\projects\\\\\u003cproject>\\\\\u003csessionId>.jsonl。"}}]}</script>
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Claude Code セッションの JSONL ファイルの場所を探す方法 | CCViewer">
-<meta name="twitter:description" content="Claude Code のセッションファイルは ~/.claude/projects/<project-dir>/<sessionId>.jsonl にあります。find/grep でセッションの JSONL ファイルを素早く特定する方法と、sessionId が分からないときに内容や時刻から逆引きする方法を解説。">
+<meta name="twitter:description" content="Claude Code のセッションファイルは ~/.claude/projects/&lt;project-dir&gt;/&lt;sessionId&gt;.jsonl にあります。find/grep でセッションの JSONL ファイルを素早く特定する方法と、sessionId が分からないときに内容や時刻から逆引きする方法を解説。">
 <meta name="twitter:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
 <script>
 /* Load the standard Clarity tag on the deployed site. */
@@ -85,6 +86,8 @@ main{max-width:820px;margin:0 auto;padding:36px 20px 64px}
 .crumbs a:hover{color:var(--accent)}
 h1{font-size:27px;line-height:1.4;margin:0 0 10px}
 .meta{color:var(--faint);font-size:12.5px;margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+h2[id]{scroll-margin-top:80px}
+.toc{border:1px solid var(--border);border-radius:8px;padding:8px 18px;margin:20px 0}.toc ul{margin:8px 0}
 h2{font-size:19px;margin:34px 0 10px;color:var(--accent2)}
 h3{font-size:16px;margin:24px 0 8px}
 p{margin:10px 0}
@@ -97,7 +100,7 @@ pre code{background:none;border:none;padding:0;color:var(--text);font-size:13px}
 table{border-collapse:collapse;margin:14px 0;width:100%;font-size:13.5px}
 th,td{border:1px solid var(--border);padding:7px 11px;text-align:left}
 th{background:var(--panel2);color:var(--accent2)}
-img.shot{max-width:100%;border:1px solid var(--border);border-radius:10px;margin:12px 0;
+img.shot{max-width:100%;height:auto;border:1px solid var(--border);border-radius:10px;margin:12px 0;
 box-shadow:0 14px 44px rgba(0,0,0,.4)}
 .cta{background:linear-gradient(120deg,rgba(217,119,87,.13),rgba(191,227,239,.05));
 border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;
@@ -143,22 +146,22 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
 <div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/ja/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/ja/help">ヘルプセンター</a> / JSONL を探す</div>
 <article>
 <h1>Claude Code セッションの JSONL ファイルの場所を探すには？</h1>
-<div class="meta">更新日 2026-10-12 · CCViewer ヘルプセンター · Claude Code 2.x 対応</div>
+<div class="meta">更新日 <time datetime="2026-10-19">2026-10-19</time> · CCViewer ヘルプセンター · Claude Code 2.x 対応</div>
 
-<p>すべてのセッションファイルは <code>~/.claude/projects/</code> という固定ディレクトリにあります。sessionId が分かれば数秒で特定できますし、分からなくても内容や時刻から逆引きできます。</p>
+<p>ローカルセッションの既定の保存先は ~/.claude/projects/ です。CLAUDE_CONFIG_DIR を設定すると基準ディレクトリが変わります。保存の無効化や保持期間による削除があるため、すべての履歴が永久に残るとは限りません。クラウドやリモート環境では実行場所を確認してください。</p><nav class="toc" aria-label="Claude Code セッションの JSONL ファイルの場所を探すには？"><ul><li><a href="#section-1">まずディレクトリ命名規則を理解する</a></li><li><a href="#section-2">ケース 1：sessionId が分かる — find で一発</a></li><li><a href="#section-3">ケース 2：sessionId が分からない — 内容で逆引き</a></li><li><a href="#section-4">ケース 3：時刻で最近のセッションを探す</a></li><li><a href="#section-5">グラフィカルな方法：CCViewer に任せる</a></li><li><a href="#section-6">macOS のコツ：隠しフォルダを開く</a></li></ul></nav>
 
-<h2>まずディレクトリ命名規則を理解する</h2>
+<h2 id="section-1">まずディレクトリ命名規則を理解する</h2>
 <p><code>~/.claude/projects/</code> の各サブディレクトリは 1 つのプロジェクト（作業ディレクトリ）に対応します。ディレクトリ名は<b>プロジェクトパスから変換されます：<code>/</code>、<code>_</code> などの英数字以外の文字がすべてハイフン <code>-</code> に置き換えられる</b>のです。例：</p>
 <pre><code>プロジェクトパス                     セッションディレクトリ
 /Users/you/Documents/my_app      →  -Users-you-Documents-my-app
 /home/you/projects/shop-api      →  -home-you-projects-shop-api</code></pre>
 <p>1 セッション = 1 ファイル：<code>&lt;sessionId&gt;.jsonl</code>（<code>9a1b2c3d-…</code> のような UUID）。</p>
 
-<h2>ケース 1：sessionId が分かる — find で一発</h2>
+<h2 id="section-2">ケース 1：sessionId が分かる — find で一発</h2>
 <pre><code>find ~/.claude/projects -name "&lt;sessionId&gt;.jsonl"</code></pre>
 <p>sessionId はどこで手に入る？ 最も簡単なのは<b>会話中にスラッシュコマンド <code>/status</code> を入力する</b>こと — 出力に現在の Session ID が含まれます。ほかに <code>claude --resume</code> のセッション一覧、エラーメッセージ、ビューアのサイドバーの「Session ID」欄でも確認できます。</p>
 
-<h2>ケース 2：sessionId が分からない — 内容で逆引き</h2>
+<h2 id="section-3">ケース 2：sessionId が分からない — 内容で逆引き</h2>
 <p>会話の内容（当時の質問など）を覚えていれば、grep します：</p>
 <pre><code># 全セッションからキーワードを検索し、一致したファイルを一覧
 grep -l "ログイン画面の修正" ~/.claude/projects/*/*.jsonl
@@ -166,23 +169,23 @@ grep -l "ログイン画面の修正" ~/.claude/projects/*/*.jsonl
 # 特定プロジェクトのディレクトリのみ検索
 grep -l "ログイン画面の修正" ~/.claude/projects/-Users-you-Documents-my-app/*.jsonl</code></pre>
 
-<h2>ケース 3：時刻で最近のセッションを探す</h2>
+<h2 id="section-4">ケース 3：時刻で最近のセッションを探す</h2>
 <pre><code># 最近更新されたセッションファイル 10 件を一覧
 ls -t ~/.claude/projects/*/*.jsonl | head -10</code></pre>
 
-<h2>グラフィカルな方法：CCViewer に任せる</h2>
+<h2 id="section-5">グラフィカルな方法：CCViewer に任せる</h2>
 <p>コマンドを打ちたくない？ <a href="https://ccviewer.top/claude-code-session-viewer/ja/">CCViewer</a> なら <code>~/.claude/projects/</code> フォルダ全体を選択（またはドロップ）できます。すべての <code>.jsonl</code> を再帰的にスキャンし、プロジェクト別にグループ化、時刻でソートし、各セッションのタイトル・パス・時間範囲・メッセージ数・コストを表示 — ファイルの場所を知らなくてもクリックで開けます。</p>
-<img class="shot" src="/assets/screenshot-library.png" alt="CCViewer フォルダモード：プロジェクト別にグループ化された Claude Code セッションライブラリ" width="880">
+<img class="shot" src="/assets/screenshot-library.png" alt="CCViewer フォルダモード：プロジェクト別にグループ化された Claude Code セッションライブラリ" width="880" height="550" loading="lazy" decoding="async">
 
-<h2>macOS のコツ：隠しフォルダを開く</h2>
+<h2 id="section-6">macOS のコツ：隠しフォルダを開く</h2>
 <ul>
 <li>Finder で <span class="kbd">⌘⇧G</span> を押し、<code>~/.claude/projects</code> と入力して Enter；</li>
 <li>ファイルダイアログでは <span class="kbd">⌘⇧.</span> で隠しフォルダを表示（<code>.</code> 始まりのディレクトリはデフォルトで非表示）。</li>
 </ul>
-
+<p>セッションファイルはブラウザ内で解析・表示されます。公開サイトでは Microsoft Clarity を自動で読み込み、ページ操作を記録します。オフライン版では解析を読み込みません。</p>
 <div class="cta">
   <b>CCViewer で Claude Code セッションをビジュアルに再生</b><br>
-  ページを開いて <code>.jsonl</code> ファイル（または <code>~/.claude/projects/</code> フォルダ全体）をドロップするだけ。Markdown レンダリング、思考ブロック、ツール呼び出し、トークン・コスト統計まで、すべてブラウザ内のローカル処理で、データは送信されません。
+  セッションファイルはブラウザ内で解析・表示されます。公開サイトでは Microsoft Clarity を自動で読み込み、ページ操作を記録します。オフライン版では解析を読み込みません。
   <div class="btns">
     <a class="btn primary" href="https://ccviewer.top/claude-code-session-viewer/ja/">CCViewer を開く（無料・インストール不要）</a>
     <a class="btn" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">ソースを見る</a>
@@ -191,7 +194,7 @@ ls -t ~/.claude/projects/*/*.jsonl | head -10</code></pre>
 <h2 id="faq">よくある質問</h2><details><summary>~/.claude ディレクトリが見つかりません。なぜ？</summary><div class="a">ドットで始まるためデフォルトで隠されています。Finder で ⌘⇧G からパスを入力するか、⌘⇧. で隠しファイルを表示してください。端末では ls -la ~/.claude で常に見えます。</div></details><details><summary>プロジェクトのディレクトリに jsonl が大量にあります。どれが目的のファイル？</summary><div class="a">1 ファイル = 1 セッションです。更新時刻（ls -t）や内容（grep -l）で絞り込むのが最も効果的。CCViewer でフォルダ全体を取り込めば各セッションのタイトルと統計が表示され、一目で判別できます。</div></details><details><summary>Windows でのパスは？</summary><div class="a">ユーザープロファイル配下に同じ構造があります：%USERPROFILE%\\.claude\\projects\\&lt;project&gt;\\&lt;sessionId&gt;.jsonl。</div></details>
 <div class="related">
 <h3>関連記事</h3>
-<a href="how-to-view-claude-code-session-history">Claude Code セッションの完全な履歴を表示する方法</a><a href="find-claude-code-session-jsonl-file">セッションの JSONL ファイルの場所を探す方法</a><a href="where-claude-code-sessions-stored">Claude Code のセッション履歴はどこに保存される？</a><a href="best-claude-code-session-viewer">2026 年のベストな Claude Code セッションビューアは？</a>
+<a href="how-to-view-claude-code-session-history">Claude Code セッションの完全な履歴を表示する方法</a><a href="where-claude-code-sessions-stored">Claude Code のセッション履歴はどこに保存される？</a><a href="best-claude-code-session-viewer">2026 年のベストな Claude Code セッションビューアは？</a>
 </div>
 </article>
 </main>
@@ -199,6 +202,7 @@ ls -t ~/.claude/projects/*/*.jsonl | head -10</code></pre>
 <ul>
 <li><a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener noreferrer">Claude Code — ドキュメント</a></li>
 <li><a href="https://code.claude.com/docs/en/cli-reference" target="_blank" rel="noopener noreferrer">Claude Code — CLI</a></li>
+<li><a href="https://code.claude.com/docs/en/claude-directory" target="_blank" rel="noopener noreferrer">Claude Code — ~/.claude</a></li>
 <li><a href="https://jsonlines.org/" target="_blank" rel="noopener noreferrer">JSON Lines (.jsonl)</a></li>
 <li><a href="https://github.com/howardz27/ccviewer/issues" target="_blank" rel="noopener noreferrer">GitHub — 問題を報告</a></li>
 </ul></aside><nav aria-label="Language" class="site-languages"><a href="/claude-code-session-viewer/find-claude-code-session-jsonl-file" hreflang="en" lang="en">English</a> · <a href="/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file" hreflang="zh" lang="zh">中文</a> · <a href="/claude-code-session-viewer/ja/find-claude-code-session-jsonl-file" hreflang="ja" lang="ja" aria-current="page">日本語</a> · <a href="/claude-code-session-viewer/ko/find-claude-code-session-jsonl-file" hreflang="ko" lang="ko">한국어</a> · <a href="/claude-code-session-viewer/es/find-claude-code-session-jsonl-file" hreflang="es" lang="es">Español</a> · <a href="/claude-code-session-viewer/fr/find-claude-code-session-jsonl-file" hreflang="fr" lang="fr">Français</a> · <a href="/claude-code-session-viewer/de/find-claude-code-session-jsonl-file" hreflang="de" lang="de">Deutsch</a> · <a href="/claude-code-session-viewer/pt/find-claude-code-session-jsonl-file" hreflang="pt" lang="pt">Português</a> · <a href="/claude-code-session-viewer/ru/find-claude-code-session-jsonl-file" hreflang="ru" lang="ru">Русский</a> · <a href="/claude-code-session-viewer/hi/find-claude-code-session-jsonl-file" hreflang="hi" lang="hi">हिन्दी</a></nav>© 2026 CCViewer · MIT オープンソース · Anthropic とは提携関係にありません。「Claude Code」は Anthropic の商標です。</footer>

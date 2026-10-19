@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Où sont stockés les historiques de sessions Claude Code ? Structure de stockage expliquée | CCViewer</title>
-<meta name="description" content="Claude Code stocke l’historique des sessions localement en JSONL sous ~/.claude/projects/ — aucune synchronisation cloud. Panorama détaillé de l’arborescence, des champs de chaque ligne JSON (message/timestamp/usage/gitBranch) et conseils de sauvegarde.">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Les sessions locales sont enregistrées par défaut sous ~/.claude/projects/. CLAUDE_CONFIG_DIR change le répertoire de base. La persistance peut être désactivée et la rétention peut supprimer des fichiers : tout ne reste pas nécessairement disponible. Vérifiez où les sessions distantes ou cloud ont été exécutées.">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored">
 <link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored">
 <link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/where-claude-code-sessions-stored">
@@ -21,17 +21,18 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="CCViewer">
 <meta property="og:title" content="Où sont stockés les historiques de sessions Claude Code ? Structure de stockage expliquée | CCViewer">
-<meta property="og:description" content="Claude Code stocke l’historique des sessions localement en JSONL sous ~/.claude/projects/ — aucune synchronisation cloud. Panorama détaillé de l’arborescence, des champs de chaque ligne JSON (message/timestamp/usage/gitBranch) et conseils de sauvegarde.">
+<meta property="og:description" content="Les sessions locales sont enregistrées par défaut sous ~/.claude/projects/. CLAUDE_CONFIG_DIR change le répertoire de base. La persistance peut être désactivée et la rétention peut supprimer des fichiers : tout ne reste pas nécessairement disponible. Vérifiez où les sessions distantes ou cloud ont été exécutées.">
 <meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Où sont stockées les informations d’historique des sessions Claude Code ?", "description": "Claude Code stocke l’historique des sessions localement en JSONL sous ~/.claude/projects/ — aucune synchronisation cloud. Panorama détaillé de l’arborescence, des champs de chaque ligne JSON (message/timestamp/usage/gitBranch) et conseils de sauvegarde.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "fr", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "@id": "https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored#article", "headline": "Où sont stockées les informations d’historique des sessions Claude Code ?", "description": "Les sessions locales sont enregistrées par défaut sous ~/.claude/projects/. CLAUDE_CONFIG_DIR change le répertoire de base. La persistance peut être désactivée et la rétention peut supprimer des fichiers : tout ne reste pas nécessairement disponible. Vérifiez où les sessions distantes ou cloud ont été exécutées.", "citation": [], "datePublished": "2026-10-12", "dateModified": "2026-10-19", "inLanguage": "fr", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://github.com/howardz27/ccviewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/fr/"}, {"@type": "ListItem", "position": 2, "name": "Centre d'aide", "item": "https://ccviewer.top/claude-code-session-viewer/fr/help"}, {"@type": "ListItem", "position": 3, "name": "Où sont stockées les informations d’historique des sessions Claude Code ?", "item": "https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "L’historique de Claude Code est-il téléversé sur les serveurs d’Anthropic ?", "acceptedAnswer": {"@type": "Answer", "text": "Les fichiers de session restent dans le ~/.claude/projects/ local et ne sont pas stockés à part dans le cloud. Bien sûr, pendant une conversation, son contenu transite par l’API — c’est inhérent à l’usage du modèle —, mais les fichiers d’historique sont des fichiers locaux sous votre contrôle total."}}, {"@type": "Question", "name": "Comment supprimer l’historique des sessions ?", "acceptedAnswer": {"@type": "Answer", "text": "Supprimez simplement le fichier .jsonl correspondant (ou tout le sous-répertoire du projet) ; la session disparaît alors de la liste de reprise. Vérifiez d’abord que vous n’avez pas besoin d’une sauvegarde."}}, {"@type": "Question", "name": "~/.claude/projects et ~/.claude.json, est-ce la même chose ?", "acceptedAnswer": {"@type": "Answer", "text": "Non. ~/.claude.json (ou claude.json) est le fichier de configuration globale (serveurs MCP, thème, etc.) ; l’historique des sessions vit dans les fichiers .jsonl sous ~/.claude/projects/."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://ccviewer.top/#organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/", "sameAs": ["https://github.com/howardz27/ccviewer"], "logo": "https://ccviewer.top/assets/logo.svg"}, {"@type": "WebSite", "@id": "https://ccviewer.top/#website", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/", "publisher": {"@id": "https://ccviewer.top/#organization"}}, {"@type": "WebPage", "@id": "https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored#webpage", "url": "https://ccviewer.top/claude-code-session-viewer/fr/where-claude-code-sessions-stored", "name": "Où sont stockés les historiques de sessions Claude Code ? Structure de stockage expliquée | CCViewer", "description": "Les sessions locales sont enregistrées par défaut sous ~/.claude/projects/. CLAUDE_CONFIG_DIR change le répertoire de base. La persistance peut être désactivée et la rétention peut supprimer des fichiers : tout ne reste pas nécessairement disponible. Vérifiez où les sessions distantes ou cloud ont été exécutées.", "inLanguage": "fr", "isPartOf": {"@id": "https://ccviewer.top/#website"}, "publisher": {"@id": "https://ccviewer.top/#organization"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "L’historique de Claude Code est-il téléversé sur les serveurs d’Anthropic ?", "acceptedAnswer": {"@type": "Answer", "text": "Les sessions locales sont enregistrées par défaut sous ~/.claude/projects/. CLAUDE_CONFIG_DIR change le répertoire de base. La persistance peut être désactivée et la rétention peut supprimer des fichiers : tout ne reste pas nécessairement disponible. Vérifiez où les sessions distantes ou cloud ont été exécutées. Les fichiers de session sont analysés et affichés localement dans le navigateur. Le site hébergé charge automatiquement Microsoft Clarity pour enregistrer les interactions. Les copies hors ligne ne chargent pas de mesure."}}, {"@type": "Question", "name": "Comment supprimer l’historique des sessions ?", "acceptedAnswer": {"@type": "Answer", "text": "Supprimez simplement le fichier .jsonl correspondant (ou tout le sous-répertoire du projet) ; la session disparaît alors de la liste de reprise. Vérifiez d’abord que vous n’avez pas besoin d’une sauvegarde."}}, {"@type": "Question", "name": "~/.claude/projects et ~/.claude.json, est-ce la même chose ?", "acceptedAnswer": {"@type": "Answer", "text": "Non. ~/.claude.json (ou claude.json) est le fichier de configuration globale (serveurs MCP, thème, etc.) ; l’historique des sessions vit dans les fichiers .jsonl sous ~/.claude/projects/."}}]}</script>
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Où sont stockés les historiques de sessions Claude Code ? Structure de stockage expliquée | CCViewer">
-<meta name="twitter:description" content="Claude Code stocke l’historique des sessions localement en JSONL sous ~/.claude/projects/ — aucune synchronisation cloud. Panorama détaillé de l’arborescence, des champs de chaque ligne JSON (message/timestamp/usage/gitBranch) et conseils de sauvegarde.">
+<meta name="twitter:description" content="Les sessions locales sont enregistrées par défaut sous ~/.claude/projects/. CLAUDE_CONFIG_DIR change le répertoire de base. La persistance peut être désactivée et la rétention peut supprimer des fichiers : tout ne reste pas nécessairement disponible. Vérifiez où les sessions distantes ou cloud ont été exécutées.">
 <meta name="twitter:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
 <script>
 /* Load the standard Clarity tag on the deployed site. */
@@ -85,6 +86,8 @@ main{max-width:820px;margin:0 auto;padding:36px 20px 64px}
 .crumbs a:hover{color:var(--accent)}
 h1{font-size:27px;line-height:1.4;margin:0 0 10px}
 .meta{color:var(--faint);font-size:12.5px;margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+h2[id]{scroll-margin-top:80px}
+.toc{border:1px solid var(--border);border-radius:8px;padding:8px 18px;margin:20px 0}.toc ul{margin:8px 0}
 h2{font-size:19px;margin:34px 0 10px;color:var(--accent2)}
 h3{font-size:16px;margin:24px 0 8px}
 p{margin:10px 0}
@@ -97,7 +100,7 @@ pre code{background:none;border:none;padding:0;color:var(--text);font-size:13px}
 table{border-collapse:collapse;margin:14px 0;width:100%;font-size:13.5px}
 th,td{border:1px solid var(--border);padding:7px 11px;text-align:left}
 th{background:var(--panel2);color:var(--accent2)}
-img.shot{max-width:100%;border:1px solid var(--border);border-radius:10px;margin:12px 0;
+img.shot{max-width:100%;height:auto;border:1px solid var(--border);border-radius:10px;margin:12px 0;
 box-shadow:0 14px 44px rgba(0,0,0,.4)}
 .cta{background:linear-gradient(120deg,rgba(217,119,87,.13),rgba(191,227,239,.05));
 border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;
@@ -143,56 +146,20 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
 <div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/fr/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/fr/help">Centre d'aide</a> / Lieu de stockage</div>
 <article>
 <h1>Où sont stockées les informations d’historique des sessions Claude Code ?</h1>
-<div class="meta">Mis à jour 2026-10-12 · CCViewer Centre d'aide · Concerne Claude Code 2.x</div>
-
-<p>Réponse courte : <b>tout est stocké localement sous <code>~/.claude/projects/</code></b> sous forme de fichiers JSONL — pas de sync cloud, pas d’historique de session lié au compte.</p>
-
-<h2>Arborescence</h2>
-<pre><code>~/.claude/
-├── projects/                     # ← tout l’historique des sessions est ici
-│   ├── -Users-you-Documents-app/ #   un répertoire par projet (chemin transformé)
-│   │   ├── 9a1b2c3d-….jsonl     #     un fichier par session
-│   │   └── 7c2d3e4f-….jsonl
-│   └── -home-you-shop-api/
-│       └── …
-├── claude.json                   # configuration globale (MCP, thème, état des projets)
-└── … (cache, journaux, stats et autres fichiers auxiliaires)</code></pre>
-<p>Règle de nommage des répertoires projet : <b>chaque caractère non alphanumérique (<code>/</code>, <code>_</code>, …) du chemin devient <code>-</code></b>. Toutes les sessions d’un projet se retrouvent donc dans un même répertoire — c’est aussi ce qui permet aux visualiseurs de « grouper par projet ».</p>
-
-<h2>Que contient un fichier JSONL</h2>
-<p>JSONL = un objet JSON indépendant par ligne. Un fichier de session enregistre la conversation complète dans l’ordre chronologique. Principaux types d’entrées :</p>
-<table>
-<tr><th>type</th><th>Contenu</th></tr>
-<tr><td><code>user</code></td><td>Vos saisies (texte / images) et les résultats d’outils renvoyés</td></tr>
-<tr><td><code>assistant</code></td><td>Réponses du modèle : texte, blocs de réflexion, appels tool_use et usage des tokens</td></tr>
-<tr><td><code>system</code></td><td>Événements système (hooks, etc.)</td></tr>
-<tr><td><code>summary / ai-title</code></td><td>Résumé de session et titre généré automatiquement</td></tr>
-<tr><td><code>cost-state</code></td><td>Instantané coût &amp; usage (coût total, lignes ±, durée API)</td></tr>
-</table>
-<p>Chaque entrée embarque aussi des métadonnées : <code>timestamp</code>, <code>cwd</code> (chemin du projet), <code>gitBranch</code>, <code>version</code>, <code>sessionId</code>, etc. Autrement dit, <b>le fichier d’historique est plus complet que ce que montre le terminal</b> — raisonnement, paramètres et résultats bruts des outils, consommation de tokens : tout y est.</p>
-
-<h2>Ce que cela implique</h2>
-<ul>
-<li><b>La confidentialité est entre vos mains</b> : les fichiers ne quittent jamais votre machine. En contrepartie, <b>sauvegardez <code>~/.claude/projects/</code> avant de changer de machine ou de réinstaller</b>, sinon l’historique est perdu ;</li>
-<li><b>Les fichiers peuvent être sensibles</b> : les sessions contiennent des extraits de code source, des chemins, des sorties de commandes, parfois des secrets — ne partagez pas les .jsonl à la légère ;</li>
-<li><b>La taille grimpe</b> : après quelques mois d’usage intensif, une session peut atteindre plusieurs (dizaines de) Mo et le répertoire complet des centaines de Mo — c’est normal.</li>
-</ul>
-
-<h2>Comment lire cet historique confortablement</h2>
-<p>Lire du JSONL brut est un pensum. Ouvrez le répertoire avec <a href="https://ccviewer.top/claude-code-session-viewer/fr/">CCViewer</a> (glisser-déposer du dossier entier pris en charge) : les sessions se regroupent par projet, et Markdown, blocs de réflexion, appels d’outils et statistiques de coût sont rendus graphiquement — l’analyse restant uniquement dans votre navigateur, préservant la propriété « les données ne quittent jamais cette machine ».</p>
-
+<div class="meta">Mis à jour <time datetime="2026-10-19">2026-10-19</time> · CCViewer Centre d'aide · Concerne Claude Code 2.x</div>
+<p>Les sessions locales sont enregistrées par défaut sous ~/.claude/projects/. CLAUDE_CONFIG_DIR change le répertoire de base. La persistance peut être désactivée et la rétention peut supprimer des fichiers : tout ne reste pas nécessairement disponible. Vérifiez où les sessions distantes ou cloud ont été exécutées.</p><nav class="toc" aria-label="Où sont stockées les informations d’historique des sessions Claude Code ?"><ul><li><a href="#section-1">Emplacement et rétention</a></li><li><a href="#section-2">Format et limites</a></li></ul></nav><h2 id="section-1">Emplacement et rétention</h2><ul><li><code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code> — JSONL</li><li><code>~/.claude/settings.json</code> — settings</li><li><code>~/.claude.json</code> — configuration</li></ul><p><a href="https://code.claude.com/docs/en/claude-directory">Claude Code — Emplacement et rétention</a></p><h2 id="section-2">Format et limites</h2><p>JSONL contient une valeur JSON par ligne. CCViewer affiche les messages et appels d’outils pris en charge qui restent dans le fichier. Il ne restaure pas les données absentes ou supprimées ; les statistiques dépendent des champs disponibles. Conservez les originaux.</p><p>Les fichiers de session sont analysés et affichés localement dans le navigateur. Le site hébergé charge automatiquement Microsoft Clarity pour enregistrer les interactions. Les copies hors ligne ne chargent pas de mesure.</p><p><a href="https://ccviewer.top/claude-code-session-viewer/fr/">CCViewer</a></p>
 <div class="cta">
   <b>Rejouez vos sessions Claude Code visuellement avec CCViewer</b><br>
-  Ouvrez la page et déposez un fichier <code>.jsonl</code> — ou tout le dossier <code>~/.claude/projects/</code>. Rendu Markdown, blocs de réflexion, appels d’outils, statistiques de tokens et de coûts : tout se passe localement dans votre navigateur, rien n’est envoyé.
+  Les fichiers de session sont analysés et affichés localement dans le navigateur. Le site hébergé charge automatiquement Microsoft Clarity pour enregistrer les interactions. Les copies hors ligne ne chargent pas de mesure.
   <div class="btns">
     <a class="btn primary" href="https://ccviewer.top/claude-code-session-viewer/fr/">Ouvrir CCViewer (gratuit, sans installation)</a>
     <a class="btn" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">Voir le code</a>
   </div>
 </div>
-<h2 id="faq">FAQ</h2><details><summary>L’historique de Claude Code est-il téléversé sur les serveurs d’Anthropic ?</summary><div class="a">Les fichiers de session restent dans le ~/.claude/projects/ local et ne sont pas stockés à part dans le cloud. Bien sûr, pendant une conversation, son contenu transite par l’API — c’est inhérent à l’usage du modèle —, mais les fichiers d’historique sont des fichiers locaux sous votre contrôle total.</div></details><details><summary>Comment supprimer l’historique des sessions ?</summary><div class="a">Supprimez simplement le fichier .jsonl correspondant (ou tout le sous-répertoire du projet) ; la session disparaît alors de la liste de reprise. Vérifiez d’abord que vous n’avez pas besoin d’une sauvegarde.</div></details><details><summary>~/.claude/projects et ~/.claude.json, est-ce la même chose ?</summary><div class="a">Non. ~/.claude.json (ou claude.json) est le fichier de configuration globale (serveurs MCP, thème, etc.) ; l’historique des sessions vit dans les fichiers .jsonl sous ~/.claude/projects/.</div></details>
+<h2 id="faq">FAQ</h2><details><summary>L’historique de Claude Code est-il téléversé sur les serveurs d’Anthropic ?</summary><div class="a">Les sessions locales sont enregistrées par défaut sous ~/.claude/projects/. CLAUDE_CONFIG_DIR change le répertoire de base. La persistance peut être désactivée et la rétention peut supprimer des fichiers : tout ne reste pas nécessairement disponible. Vérifiez où les sessions distantes ou cloud ont été exécutées. Les fichiers de session sont analysés et affichés localement dans le navigateur. Le site hébergé charge automatiquement Microsoft Clarity pour enregistrer les interactions. Les copies hors ligne ne chargent pas de mesure.</div></details><details><summary>Comment supprimer l’historique des sessions ?</summary><div class="a">Supprimez simplement le fichier .jsonl correspondant (ou tout le sous-répertoire du projet) ; la session disparaît alors de la liste de reprise. Vérifiez d’abord que vous n’avez pas besoin d’une sauvegarde.</div></details><details><summary>~/.claude/projects et ~/.claude.json, est-ce la même chose ?</summary><div class="a">Non. ~/.claude.json (ou claude.json) est le fichier de configuration globale (serveurs MCP, thème, etc.) ; l’historique des sessions vit dans les fichiers .jsonl sous ~/.claude/projects/.</div></details>
 <div class="related">
 <h3>Guides liés</h3>
-<a href="how-to-view-claude-code-session-history">Comment voir l’historique complet d’une session Claude Code</a><a href="find-claude-code-session-jsonl-file">Comment trouver le fichier JSONL d’une session</a><a href="where-claude-code-sessions-stored">Où sont stockés les historiques de sessions Claude Code ?</a><a href="best-claude-code-session-viewer">Quel est le meilleur visualiseur de sessions Claude Code en 2026 ?</a>
+<a href="how-to-view-claude-code-session-history">Comment voir l’historique complet d’une session Claude Code</a><a href="find-claude-code-session-jsonl-file">Comment trouver le fichier JSONL d’une session</a><a href="best-claude-code-session-viewer">Quel est le meilleur visualiseur de sessions Claude Code en 2026 ?</a>
 </div>
 </article>
 </main>
@@ -200,6 +167,7 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
 <ul>
 <li><a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener noreferrer">Claude Code — Documentation</a></li>
 <li><a href="https://code.claude.com/docs/en/cli-reference" target="_blank" rel="noopener noreferrer">Claude Code — CLI</a></li>
+<li><a href="https://code.claude.com/docs/en/claude-directory" target="_blank" rel="noopener noreferrer">Claude Code — ~/.claude</a></li>
 <li><a href="https://jsonlines.org/" target="_blank" rel="noopener noreferrer">JSON Lines (.jsonl)</a></li>
 <li><a href="https://github.com/howardz27/ccviewer/issues" target="_blank" rel="noopener noreferrer">GitHub — Signaler un problème</a></li>
 </ul></aside><nav aria-label="Language" class="site-languages"><a href="/claude-code-session-viewer/where-claude-code-sessions-stored" hreflang="en" lang="en">English</a> · <a href="/claude-code-session-viewer/zh/where-claude-code-sessions-stored" hreflang="zh" lang="zh">中文</a> · <a href="/claude-code-session-viewer/ja/where-claude-code-sessions-stored" hreflang="ja" lang="ja">日本語</a> · <a href="/claude-code-session-viewer/ko/where-claude-code-sessions-stored" hreflang="ko" lang="ko">한국어</a> · <a href="/claude-code-session-viewer/es/where-claude-code-sessions-stored" hreflang="es" lang="es">Español</a> · <a href="/claude-code-session-viewer/fr/where-claude-code-sessions-stored" hreflang="fr" lang="fr" aria-current="page">Français</a> · <a href="/claude-code-session-viewer/de/where-claude-code-sessions-stored" hreflang="de" lang="de">Deutsch</a> · <a href="/claude-code-session-viewer/pt/where-claude-code-sessions-stored" hreflang="pt" lang="pt">Português</a> · <a href="/claude-code-session-viewer/ru/where-claude-code-sessions-stored" hreflang="ru" lang="ru">Русский</a> · <a href="/claude-code-session-viewer/hi/where-claude-code-sessions-stored" hreflang="hi" lang="hi">हिन्दी</a></nav>© 2026 CCViewer · open source MIT · Sans affiliation avec Anthropic. « Claude Code » est une marque d’Anthropic, utilisée à titre descriptif.</footer>

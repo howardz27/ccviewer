@@ -10,7 +10,14 @@ A free, open-source viewer for [Claude Code](https://claude.com/claude-code) ses
 
 > **Client-side viewer.** Session files are parsed, rendered and stored locally in the browser. The hosted site automatically loads Microsoft Clarity for page analytics and recordings. Offline copies do not load analytics.
 
-**Try it online:** <https://ccviewer.top> (the site serves the exact same code as this repo)
+**Try it online:** [CCViewer](https://ccviewer.top/claude-code-session-viewer/)
+
+## Guides and sample
+
+- [Read and export session history](https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history)
+- [Find JSONL files on macOS, Linux and Windows](https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file)
+- [Understand storage and retention](https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored)
+- [Fictional JSONL sample](assets/example-session.jsonl) — reading fixture, not a resumable session
 
 ## Screenshots
 
@@ -66,7 +73,7 @@ This builds all 60 localized application, help and guide pages. See [analytics s
 
 CI runs this build on every PR, so a broken build shows up as a red ✗ before merge.
 
-The Cloudflare deployment uses extensionless guide URLs. `build.py` also regenerates the root `_redirects` and `sitemap.xml`; deploy these together with the HTML pages. To test the production routing locally, run `pnpm dlx wrangler@4.151.1 dev --local --port 8787`, then `python3 tests/check_routing.py --base http://127.0.0.1:8787`. Python's basic HTTP server is sufficient for the viewer but does not implement Cloudflare's extensionless guide routes. See [domain and redirect setup](docs/domain-routing.zh-CN.md) for DNS, HTTPS and GSC verification.
+The Cloudflare deployment uses extensionless guide URLs. `build.py` also regenerates the root `_redirects`, `sitemap.xml` and the optional `llms.txt` guide index; deploy these together with the HTML pages. To test the production routing locally, run `pnpm dlx wrangler@4.151.1 dev --local --port 8787`, then `python3 tests/check_routing.py --base http://127.0.0.1:8787`. Python's basic HTTP server is sufficient for the viewer but does not implement Cloudflare's extensionless guide routes. See [domain and redirect setup](docs/domain-routing.zh-CN.md) for DNS, HTTPS and GSC verification.
 
 ### Contributing
 

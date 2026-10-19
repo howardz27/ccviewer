@@ -1,5 +1,7 @@
 # CCViewer 功能、SEO 与外链建议
 
+2026-10-19 的后续实施、真实外链与 GSC 基线见 [SEO / GEO 实施记录](seo-geo-2026-10-19.zh-CN.md)。下方保留早期审查背景，以新记录中的状态为准。
+
 基于本仓库源码检查，2026-10-17。以下优先级是代码审查推断，尚无 Search Console、真实用户转化率或性能采样数据。
 
 ## 本次已完成
@@ -48,11 +50,11 @@ Awesome Claude Code 当前要求项目至少 14 天且持续维护，或至少 1
 
 英文简介草稿：
 
-> CCViewer is a free, MIT-licensed browser viewer for Claude Code JSONL session files. It renders Markdown, thinking blocks, tool calls, token usage and cost statistics, supports folder import and local session storage, and exports Markdown. Session files are processed locally. The hosted site offers opt-in analytics on public pages; offline copies do not load analytics. Available in 10 languages.
+> CCViewer is a free, MIT-licensed browser viewer for Claude Code JSONL session files. It renders Markdown, thinking blocks, tool calls, token usage and cost statistics, supports folder import and local session storage, and exports Markdown. Session files are processed locally. The hosted site automatically loads Microsoft Clarity analytics and recordings; offline copies do not load analytics. Available in 10 languages.
 
 中文简介草稿：
 
-> CCViewer 是免费、MIT 开源的 Claude Code JSONL 会话查看器，支持 Markdown、思考块、工具调用、Token 与费用统计、文件夹导入和 Markdown 导出。会话在浏览器本地处理，支持 10 种语言。线上公开页面提供可选统计，离线版本不加载统计。
+> CCViewer 是免费、MIT 开源的 Claude Code JSONL 会话查看器，支持 Markdown、思考块、工具调用、Token 与费用统计、文件夹导入和 Markdown 导出。会话在浏览器本地处理，支持 10 种语言。线上网站自动加载 Microsoft Clarity 统计和交互录制，离线版本不加载统计。
 
 产品地址：<https://ccviewer.top/claude-code-session-viewer/>；中文工具：<https://ccviewer.top/claude-code-session-viewer/zh/>；源码：<https://github.com/howardz27/ccviewer>。
 

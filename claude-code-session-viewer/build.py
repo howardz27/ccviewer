@@ -4,7 +4,8 @@
 输出: index.html (en, 默认) + <lang>/index.html ×9
 """
 import json, html, re, os, html as H
-from site_support import analytics, language_links, resources, public_slug, build_routes
+from seo import identity, MODIFIED, REPOSITORY, json_ld
+from site_support import analytics, language_links, resources, public_slug, build_routes, build_discovery
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 LANGS = ['en','zh','ja','ko','es','fr','de','pt','ru','hi']
@@ -40,31 +41,35 @@ def build():
         loc = json.load(open(os.path.join(HERE,'src/i18n',f'{lang}.json'),encoding='utf-8'))
         ui = loc['ui']
         url = url_for(lang)
-        webapp_ld = json.dumps({
+        webapp_ld = json_ld({
             '@context':'https://schema.org','@type':'WebApplication',
-            'name':'CCViewer','url':url,'applicationCategory':'DeveloperApplication',
+            '@id':url+'#application', 'name':'CCViewer','url':url,'applicationCategory':'DeveloperApplication',
             'operatingSystem':'Any','browserRequirements':'Requires JavaScript',
             'description':loc['app_desc'],'inLanguage':loc['lang_tag'],
+            'isAccessibleForFree':True, 'license':REPOSITORY+'/blob/main/LICENSE',
+            'sameAs':[REPOSITORY], 'publisher':{'@id':'https://ccviewer.top/#organization'},
+            'mainEntityOfPage':{'@id':url+'#webpage'},
             'offers':{'@type':'Offer','price':'0','priceCurrency':'USD'},
-        }, ensure_ascii=False)
+        })
         faqs=[]
         for i in range(1,6):
             q=strip_tags(ui['q%d'%i]); a=strip_tags(ui['a%d'%i])
             faqs.append({'@type':'Question','name':q,
                          'acceptedAnswer':{'@type':'Answer','text':a}})
-        faq_ld = json.dumps({
+        faq_ld = json_ld({
             '@context':'https://schema.org','@type':'FAQPage','mainEntity':faqs,
-        }, ensure_ascii=False)
+        })
 
         page = tpl
         for k,v in {
-            '{{lang_tag}}':loc['lang_tag'],'{{title}}':loc['title'],
+            '{{lang_tag}}':loc['lang_tag'],'{{title}}':H.escape(loc['title'],quote=True),
             '{{description}}':H.escape(loc['description'],quote=True),
             '{{keywords}}':H.escape(loc['keywords'],quote=True),
             '{{url}}':url,'{{hreflang}}':hreflang,
             '{{og_title}}':H.escape(loc['og_title'],quote=True),
             '{{og_desc}}':H.escape(loc['og_desc'],quote=True),
             '{{og_locale}}':OG_LOCALE[lang],
+            '{{identity_ld}}':identity(url,loc['lang_tag'],loc['title'],loc['description']),
             '{{webapp_ld}}':webapp_ld,'{{faq_ld}}':faq_ld,
             '{{analytics}}':analytics(lang),
             '{{language_links}}':language_links(lang),
@@ -81,9 +86,10 @@ def build():
         os.makedirs(os.path.dirname(out),exist_ok=True)
         open(out,'w',encoding='utf-8').write(page)
         print('built',out)
-    from src.pages.build_pages import build as build_guides, SLUGS, HELP_SLUG, ARTICLE_DATES, DATE
+    from src.pages.build_pages import build as build_guides, SLUGS, HELP_SLUG, ARTICLE_DATES
     build_guides()
-    build_routes(SLUGS + [HELP_SLUG], ARTICLE_DATES, DATE)
+    build_routes(SLUGS + [HELP_SLUG], ARTICLE_DATES, MODIFIED)
+    build_discovery()
     print('done.')
 
 if __name__=='__main__':

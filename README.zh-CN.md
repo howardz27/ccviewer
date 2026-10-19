@@ -12,6 +12,13 @@
 
 **在线体验：** <https://ccviewer.top>（线上与仓库代码完全一致）
 
+## 指南与示例
+
+- [阅读与导出会话历史](https://ccviewer.top/claude-code-session-viewer/zh/how-to-view-claude-code-session-history)
+- [查找 JSONL 文件](https://ccviewer.top/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file)
+- [存储位置与保留策略](https://ccviewer.top/claude-code-session-viewer/zh/where-claude-code-sessions-stored)
+- [虚构 JSONL 示例](assets/example-session.jsonl)：仅用于阅读验证，不能用于恢复会话
+
 ## 截图
 
 | 落地页 | 会话查看器 |

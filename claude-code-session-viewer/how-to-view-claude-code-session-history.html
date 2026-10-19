@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How to View the Full History of a Claude Code Session — 3 Methods (2026) | CCViewer</title>
-<meta name="description" content="Three ways to view your complete Claude Code session history: claude --resume in the terminal, opening the .jsonl files under ~/.claude/projects, or replaying them visually in the browser with CCViewer (Markdown, thinking blocks, tool calls, cost stats) — 100% local rendering.">
-<meta name="robots" content="index, follow">
+<title>How to View Claude Code Session History: 3 Methods | CCViewer</title>
+<meta name="description" content="Read saved Claude Code JSONL sessions, resume work in the CLI, or inspect raw records. Includes a fictional sample, export steps and hosted/offline limitations.">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history">
 <link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history">
 <link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/how-to-view-claude-code-session-history">
@@ -20,18 +20,19 @@
 <link rel="alternate" hreflang="x-default" href="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="CCViewer">
-<meta property="og:title" content="How to View the Full History of a Claude Code Session — 3 Methods (2026) | CCViewer">
-<meta property="og:description" content="Three ways to view your complete Claude Code session history: claude --resume in the terminal, opening the .jsonl files under ~/.claude/projects, or replaying them visually in the browser with CCViewer (Markdown, thinking blocks, tool calls, cost stats) — 100% local rendering.">
+<meta property="og:title" content="How to View Claude Code Session History: 3 Methods | CCViewer">
+<meta property="og:description" content="Read saved Claude Code JSONL sessions, resume work in the CLI, or inspect raw records. Includes a fictional sample, export steps and hosted/offline limitations.">
 <meta property="og:url" content="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How do I view the full history of a Claude Code session?", "description": "Three ways to view your complete Claude Code session history: claude --resume in the terminal, opening the .jsonl files under ~/.claude/projects, or replaying them visually in the browser with CCViewer (Markdown, thinking blocks, tool calls, cost stats) — 100% local rendering.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "en", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history"}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/"}, {"@type": "ListItem", "position": 2, "name": "Help Center", "item": "https://ccviewer.top/claude-code-session-viewer/help"}, {"@type": "ListItem", "position": 3, "name": "How do I view the full history of a Claude Code session?", "item": "https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does viewing history upload my code?", "acceptedAnswer": {"@type": "Answer", "text": "No. CCViewer parses and renders everything in your browser; no network request ever carries session content. You can verify this yourself in the DevTools Network panel."}}, {"@type": "Question", "name": "Can I still see compacted parts of a session?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Compaction summaries and subsequent messages live in the same JSONL file; the viewer shows summaries as injected context, visible via the \"System/Injected\" toggle."}}, {"@type": "Question", "name": "Does it work on mobile?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — CCViewer is a responsive web page. The session files live on your computer though, so you first need to copy the .jsonl to your phone (e.g. via iCloud/cloud drive) and open it in a browser."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "@id": "https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history#article", "headline": "How to View Claude Code Session History: 3 Methods", "description": "Read saved Claude Code JSONL sessions, resume work in the CLI, or inspect raw records. Includes a fictional sample, export steps and hosted/offline limitations.", "citation": ["https://code.claude.com/docs/en/claude-directory", "https://code.claude.com/docs/en/sessions", "https://jsonlines.org/", "https://github.com/howardz27/ccviewer"], "datePublished": "2026-10-12", "dateModified": "2026-10-19", "inLanguage": "en", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://github.com/howardz27/ccviewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/"}, {"@type": "ListItem", "position": 2, "name": "Help Center", "item": "https://ccviewer.top/claude-code-session-viewer/help"}, {"@type": "ListItem", "position": 3, "name": "How to View Claude Code Session History: 3 Methods", "item": "https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://ccviewer.top/#organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/", "sameAs": ["https://github.com/howardz27/ccviewer"], "logo": "https://ccviewer.top/assets/logo.svg"}, {"@type": "WebSite", "@id": "https://ccviewer.top/#website", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/", "publisher": {"@id": "https://ccviewer.top/#organization"}}, {"@type": "WebPage", "@id": "https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history#webpage", "url": "https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history", "name": "How to View Claude Code Session History: 3 Methods | CCViewer", "description": "Read saved Claude Code JSONL sessions, resume work in the CLI, or inspect raw records. Includes a fictional sample, export steps and hosted/offline limitations.", "inLanguage": "en", "isPartOf": {"@id": "https://ccviewer.top/#website"}, "publisher": {"@id": "https://ccviewer.top/#organization"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can a viewer recover deleted messages?", "acceptedAnswer": {"@type": "Answer", "text": "No. A viewer can only render supported records that remain in the selected file."}}, {"@type": "Question", "name": "Is the hosted viewer network-free?", "acceptedAnswer": {"@type": "Answer", "text": "No. Processing is local, but the hosted site loads Microsoft Clarity analytics and recordings. Remote images may also make requests."}}]}</script>
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="How to View the Full History of a Claude Code Session — 3 Methods (2026) | CCViewer">
-<meta name="twitter:description" content="Three ways to view your complete Claude Code session history: claude --resume in the terminal, opening the .jsonl files under ~/.claude/projects, or replaying them visually in the browser with CCViewer (Markdown, thinking blocks, tool calls, cost stats) — 100% local rendering.">
+<meta name="twitter:title" content="How to View Claude Code Session History: 3 Methods | CCViewer">
+<meta name="twitter:description" content="Read saved Claude Code JSONL sessions, resume work in the CLI, or inspect raw records. Includes a fictional sample, export steps and hosted/offline limitations.">
 <meta name="twitter:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
 <script>
 /* Load the standard Clarity tag on the deployed site. */
@@ -85,6 +86,8 @@ main{max-width:820px;margin:0 auto;padding:36px 20px 64px}
 .crumbs a:hover{color:var(--accent)}
 h1{font-size:27px;line-height:1.4;margin:0 0 10px}
 .meta{color:var(--faint);font-size:12.5px;margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+h2[id]{scroll-margin-top:80px}
+.toc{border:1px solid var(--border);border-radius:8px;padding:8px 18px;margin:20px 0}.toc ul{margin:8px 0}
 h2{font-size:19px;margin:34px 0 10px;color:var(--accent2)}
 h3{font-size:16px;margin:24px 0 8px}
 p{margin:10px 0}
@@ -97,7 +100,7 @@ pre code{background:none;border:none;padding:0;color:var(--text);font-size:13px}
 table{border-collapse:collapse;margin:14px 0;width:100%;font-size:13.5px}
 th,td{border:1px solid var(--border);padding:7px 11px;text-align:left}
 th{background:var(--panel2);color:var(--accent2)}
-img.shot{max-width:100%;border:1px solid var(--border);border-radius:10px;margin:12px 0;
+img.shot{max-width:100%;height:auto;border:1px solid var(--border);border-radius:10px;margin:12px 0;
 box-shadow:0 14px 44px rgba(0,0,0,.4)}
 .cta{background:linear-gradient(120deg,rgba(217,119,87,.13),rgba(191,227,239,.05));
 border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;
@@ -142,64 +145,39 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
 <main>
 <div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/help">Help Center</a> / View full history</div>
 <article>
-<h1>How do I view the full history of a Claude Code session?</h1>
-<div class="meta">Updated 2026-10-12 · CCViewer Help Center · Applies to Claude Code 2.x</div>
+<h1>How to View Claude Code Session History: 3 Methods</h1>
+<div class="meta">Updated <time datetime="2026-10-19">2026-10-19</time> · CCViewer Help Center · Applies to Claude Code 2.x</div>
 
-<p>Claude Code records every session completely on your local disk, so there are three main ways to view the history — ranked by ease of use below.</p>
-
-<h2>Method 1: Replay it visually in the browser with CCViewer (recommended)</h2>
-<p><a href="https://ccviewer.top/claude-code-session-viewer/">CCViewer</a> is a free, open-source Claude Code session viewer. Open the page, drop in a session file (you can also pick the whole <code>~/.claude/projects/</code> folder to import everything), and replay the session like a chat transcript:</p>
-<ul>
-<li><b>Full Markdown rendering</b> — code blocks, tables, lists and links rendered as-is, no more walls of JSON;</li>
-<li><b>Thinking blocks</b> — the model’s extended reasoning, collapsible with one click;</li>
-<li><b>Tool calls</b> — parameters and results of every Read / Edit / Bash call, expandable for inspection;</li>
-<li><b>Usage &amp; cost stats</b> — input/output/cache tokens, session duration, lines added/removed, total cost at a glance;</li>
-<li><b>Markdown export</b> — turn any session into a shareable <code>.md</code> document in one click.</li>
-</ul>
-<p>Crucially, it <b>parses and renders 100% locally in your browser — nothing is uploaded</b>. That matters: session files contain your source code, file paths and sometimes secrets.</p>
-<img class="shot" src="/assets/screenshot-viewer.png" alt="Viewing Claude Code session history with CCViewer: Markdown, thinking blocks, tool calls and stats" width="880">
-
-<h2>Method 2: Resume the session in the terminal</h2>
-<p>Claude Code has built-in session resume. Run this in the <b>original project directory</b>:</p>
-<pre><code># List this project's sessions and pick one interactively
-claude --resume     # shorthand: claude -r
-
-# Resume the most recent session directly
-claude --continue   # shorthand: claude -c
-
-# Resume a specific session by ID
-claude --resume &lt;sessionId&gt;</code></pre>
-<p>Great for "keep working", but inconvenient for <b>reading or searching</b> history: digging through a long session for one tool call is painful, and there are no cost stats.</p>
-
-<h2>Method 3: Read the raw JSONL file</h2>
-<p>Sessions are stored as JSONL at <code>~/.claude/projects/&lt;project&gt;/&lt;sessionId&gt;.jsonl</code> — one JSON object per line. You can inspect them with any editor or the command line:</p>
-<pre><code># Extract all user prompts with jq
-cat ~/.claude/projects/-Users-you-myproject/&lt;sessionId&gt;.jsonl \
-  | jq -r 'select(.type=="user") | .message.content'</code></pre>
-<p>The raw file is the most complete source (token usage, git branch, timestamps and other metadata), but readability is poor — which is exactly why graphical viewers exist.</p>
-
-<h2>Comparison</h2>
-<table>
-<tr><th></th><th>CCViewer</th><th>claude --resume</th><th>Raw JSONL</th></tr>
-<tr><td>Graphical reading</td><td>✅</td><td>Partial (continue chat)</td><td>❌</td></tr>
-<tr><td>Markdown rendering</td><td>✅</td><td>✅</td><td>❌</td></tr>
-<tr><td>Thinking / tool calls</td><td>✅ collapsible</td><td>Collapsed summary</td><td>Raw JSON</td></tr>
-<tr><td>Token / cost stats</td><td>✅</td><td>❌</td><td>Manual jq</td></tr>
-<tr><td>Multi-session library</td><td>✅ folder import</td><td>Current project only</td><td>❌</td></tr>
-</table>
-
+<p>To read a saved Claude Code conversation, open its <code>.jsonl</code> transcript in CCViewer. To continue the work, use <code>claude --resume</code>. To inspect raw records or automate analysis, use a text editor or <code>jq</code>. A viewer can only show records present in the file.</p><nav class="toc" aria-label="How to View Claude Code Session History: 3 Methods"><ul><li><a href="#section-1">Read a session in the browser</a></li><li><a href="#section-2">Continue a session in the terminal</a></li><li><a href="#section-3">Inspect the original JSONL</a></li><li><a href="#section-4">Try a fictional sample</a></li><li><a href="#section-5">Hosted and offline use</a></li></ul></nav>
+<h2 id="section-1">Read a session in the browser</h2>
+<ol><li>Find a transcript under your Claude Code configuration directory, usually <code>~/.claude/projects/</code>.</li><li>Open <a href="https://ccviewer.top/claude-code-session-viewer/">CCViewer</a> and choose the file, paste JSONL text, or select a project folder.</li><li>Expand tool calls and thinking blocks, inspect the available usage fields, then export Markdown if you need a readable archive.</li></ol>
+<p>Folder imports are stored in this browser's IndexedDB. Clearing site data can remove the imported library; keep the original files as a backup. Token totals reflect records in the file; cost snapshots, when present, are not a billing statement.</p>
+<img class="shot" src="/assets/screenshot-viewer.png" alt="CCViewer displaying messages, tool calls and usage fields" width="880" height="550" loading="lazy" decoding="async">
+<h2 id="section-2">Continue a session in the terminal</h2>
+<pre><code>claude --resume
+claude --continue
+claude --resume SESSION_ID</code></pre>
+<p>Run these in the relevant project. Resume continues the conversation; CCViewer is a reader and does not send a new prompt to Claude. See the official session guide below for the current picker behavior.</p>
+<h2 id="section-3">Inspect the original JSONL</h2>
+<pre><code>jq -r 'select(.type == "user") | .message.content' session.jsonl</code></pre>
+<p>Some user records contain tool results rather than a human prompt. Inspect the content type when scripting. A malformed line can cause jq to stop; keep an untouched copy before attempting repairs.</p>
+<h2 id="section-4">Try a fictional sample</h2>
+<p>Download the <a href="/assets/example-session.jsonl" download>synthetic JSONL sample</a>, then import it. It contains one prompt, a fictional Read call and result, and a Markdown reply. It contains no real conversation or credentials. The 120 input and 45 output tokens are illustrative values.</p>
+<h2 id="section-5">Hosted and offline use</h2>
+<p>Parsing and rendering happen locally. The hosted site automatically loads Microsoft Clarity for analytics and recordings. Remote images in a transcript can also cause requests. For disconnected use, download the HTML from the repository and open it with networking disabled; offline copies do not load Clarity.</p>
+<section class="sources"><h2>Sources and verification</h2><ul><li><a href="https://code.claude.com/docs/en/claude-directory">Claude Code: application data, paths and retention</a></li><li><a href="https://code.claude.com/docs/en/sessions">Claude Code: resume and manage sessions</a></li><li><a href="https://jsonlines.org/">JSON Lines format</a></li><li><a href="https://github.com/howardz27/ccviewer">CCViewer source and license</a></li></ul></section>
 <div class="cta">
   <b>Replay your Claude Code sessions visually with CCViewer</b><br>
-  Open the page and drop in a <code>.jsonl</code> file — or the whole <code>~/.claude/projects/</code> folder. Markdown rendering, thinking blocks, tool calls, token &amp; cost stats, all processed locally in your browser. Nothing is ever uploaded.
+  Session files are parsed and rendered locally in your browser. The hosted site automatically loads Microsoft Clarity to record page interactions. Offline copies do not load analytics.
   <div class="btns">
     <a class="btn primary" href="https://ccviewer.top/claude-code-session-viewer/">Open CCViewer (free, no install)</a>
     <a class="btn" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">View source</a>
   </div>
 </div>
-<h2 id="faq">FAQ</h2><details><summary>Does viewing history upload my code?</summary><div class="a">No. CCViewer parses and renders everything in your browser; no network request ever carries session content. You can verify this yourself in the DevTools Network panel.</div></details><details><summary>Can I still see compacted parts of a session?</summary><div class="a">Yes. Compaction summaries and subsequent messages live in the same JSONL file; the viewer shows summaries as injected context, visible via the "System/Injected" toggle.</div></details><details><summary>Does it work on mobile?</summary><div class="a">Yes — CCViewer is a responsive web page. The session files live on your computer though, so you first need to copy the .jsonl to your phone (e.g. via iCloud/cloud drive) and open it in a browser.</div></details>
+<h2 id="faq">FAQ</h2><details><summary>Can a viewer recover deleted messages?</summary><div class="a">No. A viewer can only render supported records that remain in the selected file.</div></details><details><summary>Is the hosted viewer network-free?</summary><div class="a">No. Processing is local, but the hosted site loads Microsoft Clarity analytics and recordings. Remote images may also make requests.</div></details>
 <div class="related">
 <h3>Related guides</h3>
-<a href="how-to-view-claude-code-session-history">How to view the full history of a Claude Code session</a><a href="find-claude-code-session-jsonl-file">How to find the JSONL file for a session</a><a href="where-claude-code-sessions-stored">Where are Claude Code session histories stored?</a><a href="best-claude-code-session-viewer">What is the best Claude Code session viewer in 2026?</a>
+<a href="find-claude-code-session-jsonl-file">Find Claude Code JSONL Files on macOS, Linux & Windows</a><a href="where-claude-code-sessions-stored">Where Claude Code Sessions Are Stored: Paths & Retention</a><a href="best-claude-code-session-viewer">Claude Code Session Viewers Compared by Task</a>
 </div>
 </article>
 </main>
@@ -207,6 +185,7 @@ cat ~/.claude/projects/-Users-you-myproject/&lt;sessionId&gt;.jsonl \
 <ul>
 <li><a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener noreferrer">Claude Code — Documentation</a></li>
 <li><a href="https://code.claude.com/docs/en/cli-reference" target="_blank" rel="noopener noreferrer">Claude Code — CLI</a></li>
+<li><a href="https://code.claude.com/docs/en/claude-directory" target="_blank" rel="noopener noreferrer">Claude Code — ~/.claude</a></li>
 <li><a href="https://jsonlines.org/" target="_blank" rel="noopener noreferrer">JSON Lines (.jsonl)</a></li>
 <li><a href="https://github.com/howardz27/ccviewer/issues" target="_blank" rel="noopener noreferrer">GitHub — Report an issue</a></li>
 </ul></aside><nav aria-label="Language" class="site-languages"><a href="/claude-code-session-viewer/how-to-view-claude-code-session-history" hreflang="en" lang="en" aria-current="page">English</a> · <a href="/claude-code-session-viewer/zh/how-to-view-claude-code-session-history" hreflang="zh" lang="zh">中文</a> · <a href="/claude-code-session-viewer/ja/how-to-view-claude-code-session-history" hreflang="ja" lang="ja">日本語</a> · <a href="/claude-code-session-viewer/ko/how-to-view-claude-code-session-history" hreflang="ko" lang="ko">한국어</a> · <a href="/claude-code-session-viewer/es/how-to-view-claude-code-session-history" hreflang="es" lang="es">Español</a> · <a href="/claude-code-session-viewer/fr/how-to-view-claude-code-session-history" hreflang="fr" lang="fr">Français</a> · <a href="/claude-code-session-viewer/de/how-to-view-claude-code-session-history" hreflang="de" lang="de">Deutsch</a> · <a href="/claude-code-session-viewer/pt/how-to-view-claude-code-session-history" hreflang="pt" lang="pt">Português</a> · <a href="/claude-code-session-viewer/ru/how-to-view-claude-code-session-history" hreflang="ru" lang="ru">Русский</a> · <a href="/claude-code-session-viewer/hi/how-to-view-claude-code-session-history" hreflang="hi" lang="hi">हिन्दी</a></nav>© 2026 CCViewer · MIT open source · Not affiliated with Anthropic. "Claude Code" is an Anthropic trademark, used descriptively.</footer>

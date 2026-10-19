@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{title}}</title>
 <meta name="description" content="{{description}}">
-<meta name="keywords" content="{{keywords}}">
 <meta name="author" content="CCViewer">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="{{url}}">
 {{hreflang}}
 <link rel="icon" type="image/svg+xml" href="/claude-code-session-viewer/favicon.svg">
@@ -30,6 +29,7 @@
 <meta name="twitter:description" content="{{og_desc}}">
 <meta name="twitter:image" content="https://ccviewer.top/claude-code-session-viewer/og-image.png">
 <!-- 结构化数据 -->
+<script type="application/ld+json">{{identity_ld}}</script>
 <script type="application/ld+json">{{webapp_ld}}</script>
 <script type="application/ld+json">{{faq_ld}}</script>
 <style>
@@ -883,7 +883,7 @@ function curName(){if(!CUR)return'';return CUR.pasted?t('pastedContent'):CUR.nam
 function applyFname(){
   const fn=$('#fname');const n=curName();
   if(fn)fn.textContent=n?('  ·  '+n):'';
-  document.title=((CUR&&(CUR.sum.title||n))||'Claude Code')+' · '+t('viewerSuffix');
+  document.title=CUR?((CUR.sum.title||n||'Claude Code')+' · '+t('viewerSuffix')):HOME_TITLE;
 }
 // 切换语言 / 重新渲染已加载内容
 function rerender(){

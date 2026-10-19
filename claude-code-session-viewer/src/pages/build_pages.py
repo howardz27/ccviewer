@@ -4,16 +4,17 @@
 内容源: src/pages/content/<lang>.py（每语言定义 PAGES 列表）
 输出: en -> <root>/<slug>.html，其余 -> <lang>/<slug>.html
 """
-import json, os, importlib.util, sys
+import json, os, importlib.util, sys, re, html
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from seo import identity, PUBLISHED, MODIFIED, SOURCES, attribute, plain, json_ld
 from site_support import analytics, language_links, resources, public_slug
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(HERE, '..', '..')
 SITE = 'https://ccviewer.top/claude-code-session-viewer'
 GH = 'https://github.com/howardz27/ccviewer'
-DATE = '2026-10-12'
+DATE = PUBLISHED
 LANGS = ['en','zh','ja','ko','es','fr','de','pt','ru','hi']
 
 P1 = 'how-to-view-claude-code-session-history.html'
@@ -24,7 +25,7 @@ SLUGS = [P1, P2, P3, P4]
 
 HELP_SLUG = 'help.html'
 # 各文章的更新时间（帮助中心按此倒序展示）
-ARTICLE_DATES = {P1: '2026-10-12', P2: '2026-10-12', P3: '2026-10-12', P4: '2026-10-12'}
+ARTICLE_DATES = {slug: MODIFIED for slug in SLUGS}
 
 OG_LOCALE = {'en':'en_US','zh':'zh_CN','ja':'ja_JP','ko':'ko_KR','es':'es_ES',
              'fr':'fr_FR','de':'de_DE','pt':'pt_BR','ru':'ru_RU','hi':'hi_IN'}
@@ -131,6 +132,8 @@ main{max-width:820px;margin:0 auto;padding:36px 20px 64px}
 .crumbs a:hover{color:var(--accent)}
 h1{font-size:27px;line-height:1.4;margin:0 0 10px}
 .meta{color:var(--faint);font-size:12.5px;margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+h2[id]{scroll-margin-top:80px}
+.toc{border:1px solid var(--border);border-radius:8px;padding:8px 18px;margin:20px 0}.toc ul{margin:8px 0}
 h2{font-size:19px;margin:34px 0 10px;color:var(--accent2)}
 h3{font-size:16px;margin:24px 0 8px}
 p{margin:10px 0}
@@ -143,7 +146,7 @@ pre code{background:none;border:none;padding:0;color:var(--text);font-size:13px}
 table{border-collapse:collapse;margin:14px 0;width:100%;font-size:13.5px}
 th,td{border:1px solid var(--border);padding:7px 11px;text-align:left}
 th{background:var(--panel2);color:var(--accent2)}
-img.shot{max-width:100%;border:1px solid var(--border);border-radius:10px;margin:12px 0;
+img.shot{max-width:100%;height:auto;border:1px solid var(--border);border-radius:10px;margin:12px 0;
 box-shadow:0 14px 44px rgba(0,0,0,.4)}
 .cta{background:linear-gradient(120deg,rgba(217,119,87,.13),rgba(191,227,239,.05));
 border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;
@@ -186,7 +189,7 @@ SHELL = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{title}}</title>
 <meta name="description" content="{{desc}}">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="{{url}}">
 {{hreflang}}
 <meta property="og:type" content="article">
@@ -199,6 +202,7 @@ SHELL = """<!DOCTYPE html>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <script type="application/ld+json">{{ld_article}}</script>
 <script type="application/ld+json">{{ld_breadcrumb}}</script>
+<script type="application/ld+json">{{identity_ld}}</script>
 <script type="application/ld+json">{{ld_faq}}</script>
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{title}}">
@@ -217,7 +221,7 @@ SHELL = """<!DOCTYPE html>
 <div class="crumbs"><a href="{{app}}">CCViewer</a> / <a href="{{help_url}}">{{help}}</a> / {{crumb}}</div>
 <article>
 <h1>{{h1}}</h1>
-<div class="meta">{{updated}} {{date}} · CCViewer {{help}} · {{applies}}</div>
+<div class="meta">{{updated}} <time datetime="{{date}}">{{date}}</time> · CCViewer {{help}} · {{applies}}</div>
 {{body}}
 <div class="cta">
   <b>{{cta_t}}</b><br>
@@ -246,7 +250,7 @@ HELP_SHELL = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{title}}</title>
 <meta name="description" content="{{desc}}">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="{{url}}">
 {{hreflang}}
 <meta property="og:type" content="website">
@@ -259,6 +263,7 @@ HELP_SHELL = """<!DOCTYPE html>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <script type="application/ld+json">{{ld_itemlist}}</script>
 <script type="application/ld+json">{{ld_breadcrumb}}</script>
+<script type="application/ld+json">{{identity_ld}}</script>
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{title}}">
 <meta name="twitter:description" content="{{desc}}">
@@ -276,7 +281,7 @@ HELP_SHELL = """<!DOCTYPE html>
 <div class="crumbs"><a href="{{app}}">CCViewer</a> / {{help}}</div>
 <article>
 <h1>{{h1}}</h1>
-<div class="meta">{{updated}} {{date}} · CCViewer {{help}} · {{applies}}</div>
+<div class="meta">{{updated}} <time datetime="{{date}}">{{date}}</time> · CCViewer {{help}} · {{applies}}</div>
 <p class="hlead">{{hlead}}</p>
 <div class="hlist">
 {{cards}}
@@ -326,57 +331,72 @@ def render(lang):
         hreflang = '\n'.join(
             f'<link rel="alternate" hreflang="{l}" href="{page_url(l, slug)}">' for l in LANGS
         ) + f'\n<link rel="alternate" hreflang="x-default" href="{page_url("en", slug)}">'
-        article_ld = json.dumps({
+        article_ld = json_ld({
             '@context': 'https://schema.org', '@type': 'Article',
-            'headline': pg['h1'], 'description': pg['desc'],
-            'datePublished': DATE, 'dateModified': DATE,
+            '@id': url + '#article', 'headline': plain(pg['h1']), 'description': plain(pg['desc']),
+            'citation': [link for _, link in SOURCES] if lang in ('en', 'zh') else [],
+            'datePublished': DATE, 'dateModified': ARTICLE_DATES[slug],
             'inLanguage': HTML_LANG[lang],
             'image': 'https://ccviewer.top/assets/screenshot-viewer.png',
-            'author': {'@type': 'Organization', 'name': 'CCViewer', 'url': SITE},
+            'author': {'@type': 'Organization', 'name': 'CCViewer', 'url': GH},
             'publisher': {'@type': 'Organization', 'name': 'CCViewer', 'url': SITE},
             'mainEntityOfPage': url,
-        }, ensure_ascii=False)
-        crumb_ld = json.dumps({
+        })
+        crumb_ld = json_ld({
             '@context': 'https://schema.org', '@type': 'BreadcrumbList',
             'itemListElement': [
                 {'@type': 'ListItem', 'position': 1, 'name': 'CCViewer', 'item': app_url(lang)},
                 {'@type': 'ListItem', 'position': 2, 'name': ui['help'], 'item': page_url(lang, HELP_SLUG)},
                 {'@type': 'ListItem', 'position': 3, 'name': pg['h1'], 'item': url},
             ],
-        }, ensure_ascii=False)
-        faq_ld = json.dumps({
+        })
+        faq_ld = json_ld({
             '@context': 'https://schema.org', '@type': 'FAQPage',
             'mainEntity': [
                 {'@type': 'Question', 'name': q,
-                 'acceptedAnswer': {'@type': 'Answer', 'text': a}}
+                 'acceptedAnswer': {'@type': 'Answer', 'text': html.unescape(re.sub(r'<[^>]+>', '', a))}}
                 for q, a in pg['faqs']
             ],
-        }, ensure_ascii=False)
+        })
         faq_html = f'<h2 id="faq">{ui["faq"]}</h2>' + ''.join(
             f'<details><summary>{q}</summary><div class="a">{a}</div></details>'
             for q, a in pg['faqs']
         )
         related = ''.join(
-            f'<a href="{public_slug(s)}">{by_slug[s]["short"]}</a>' for s in SLUGS if s in by_slug
+            f'<a href="{public_slug(s)}">{by_slug[s]["short"]}</a>' for s in SLUGS if s in by_slug and s != slug
         )
         body = pg['body'].replace('{{app}}', app_url(lang))
+        body = body.replace('width="880">', 'width="880" height="550" loading="lazy" decoding="async">')
+        # Stable heading links make precise sections easy to cite and navigate.
+        sections = []
+        def heading(match):
+            anchor = f'section-{len(sections) + 1}'
+            sections.append((anchor, match[1]))
+            return f'<h2 id="{anchor}">{match[1]}</h2>'
+        body = re.sub(r'<h2>(.*?)</h2>', heading, body)
+        if sections:
+            toc = '<nav class="toc" aria-label="' + attribute(pg['h1']) + '"><ul>' + ''.join(f'<li><a href="#{anchor}">{label}</a></li>' for anchor, label in sections) + '</ul></nav>'
+            body = re.sub(r'(<p>.*?</p>)', lambda match: match[1] + toc, body, count=1, flags=re.S)
+        if lang in ('en', 'zh'):
+            label = '参考来源与核验依据' if lang == 'zh' else 'Sources and verification'
+            body += f'<section class="sources"><h2>{label}</h2><ul>' + ''.join(f'<li><a href="{link}">{title}</a></li>' for title, link in SOURCES) + '</ul></section>'
         page = (SHELL.replace('__CSS__', CSS)
                 .replace('{{html_lang}}', HTML_LANG[lang])
-                .replace('{{title}}', pg['title'])
-                .replace('{{desc}}', pg['desc'])
+                .replace('{{title}}', attribute(pg['title']))
+                .replace('{{desc}}', attribute(pg['desc']))
                 .replace('{{url}}', url)
                 .replace('{{hreflang}}', hreflang)
                 .replace('{{og_locale}}', OG_LOCALE[lang])
-                .replace('{{h1}}', pg['h1'])
+                .replace('{{h1}}', attribute(pg['h1']))
                 .replace('{{crumb}}', pg['crumb'])
                 .replace('{{help}}', ui['help'])
                 .replace('{{help_url}}', page_url(lang, HELP_SLUG))
                 .replace('{{updated}}', ui['updated'])
                 .replace('{{applies}}', ui['applies'])
-                .replace('{{date}}', DATE)
+                .replace('{{date}}', ARTICLE_DATES[slug])
                 .replace('{{body}}', body)
                 .replace('{{cta_t}}', ui['cta_t'])
-                .replace('{{cta_b}}', ui['cta_b'])
+                .replace('{{cta_b}}', json.loads((Path(ROOT) / 'src/i18n' / (lang + '.json')).read_text())['ui']['a2'])
                 .replace('{{open}}', ui['open'])
                 .replace('{{src}}', ui['src'])
                 .replace('{{faq}}', faq_html)
@@ -385,6 +405,7 @@ def render(lang):
                 .replace('{{app}}', app_url(lang))
                 .replace('{{gh}}', GH)
                 .replace('{{ld_article}}', article_ld)
+                .replace('{{identity_ld}}', identity(url, HTML_LANG[lang], pg['title'], pg['desc']))
                 .replace('{{ld_breadcrumb}}', crumb_ld)
                 .replace('{{ld_faq}}', faq_ld)
                 .replace('{{foot}}', ui['foot'])
@@ -422,21 +443,21 @@ def render_help(lang):
             f'<div class="hd">{excerpt}</div>'
             f'<div class="hm">{ui["updated"]}: {d}</div></a>'
         )
-    itemlist_ld = json.dumps({
+    itemlist_ld = json_ld({
         '@context': 'https://schema.org', '@type': 'ItemList',
         'itemListElement': [
             {'@type': 'ListItem', 'position': i + 1, 'name': pg['short'],
              'url': page_url(lang, pg['slug'])}
             for i, pg in enumerate(ordered)
         ],
-    }, ensure_ascii=False)
-    crumb_ld = json.dumps({
+    })
+    crumb_ld = json_ld({
         '@context': 'https://schema.org', '@type': 'BreadcrumbList',
         'itemListElement': [
             {'@type': 'ListItem', 'position': 1, 'name': 'CCViewer', 'item': app_url(lang)},
             {'@type': 'ListItem', 'position': 2, 'name': ui['help'], 'item': url},
         ],
-    }, ensure_ascii=False)
+    })
     page = (HELP_SHELL.replace('__CSS__', CSS)
             .replace('{{html_lang}}', HTML_LANG[lang])
             .replace('{{title}}', f'{ui["help"]} | CCViewer')
@@ -449,15 +470,16 @@ def render_help(lang):
             .replace('{{hlead}}', HELP_LEAD[lang])
             .replace('{{updated}}', ui['updated'])
             .replace('{{applies}}', ui['applies'])
-            .replace('{{date}}', DATE)
+            .replace('{{date}}', max(ARTICLE_DATES.values()))
             .replace('{{cards}}', '\n'.join(cards))
             .replace('{{cta_t}}', ui['cta_t'])
-            .replace('{{cta_b}}', ui['cta_b'])
+            .replace('{{cta_b}}', json.loads((Path(ROOT) / 'src/i18n' / (lang + '.json')).read_text())['ui']['a2'])
             .replace('{{open}}', ui['open'])
             .replace('{{src}}', ui['src'])
             .replace('{{app}}', app_url(lang))
             .replace('{{gh}}', GH)
             .replace('{{ld_itemlist}}', itemlist_ld)
+            .replace('{{identity_ld}}', identity(url, HTML_LANG[lang], ui['help'] + ' | CCViewer', HELP_DESC[lang], 'CollectionPage'))
             .replace('{{ld_breadcrumb}}', crumb_ld)
             .replace('{{foot}}', ui['foot'])
             .replace('{{analytics}}', analytics(lang))

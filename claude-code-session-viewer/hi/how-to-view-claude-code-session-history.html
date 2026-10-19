@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Claude Code सत्र का पूरा इतिहास कैसे देखें — 3 तरीके (2026) | CCViewer</title>
 <meta name="description" content="Claude Code सत्रों का पूरा इतिहास देखने के तीन तरीके: टर्मिनल में claude --resume, ~/.claude/projects के .jsonl फ़ाइलें खोलना, या CCViewer से ब्राउज़र में विज़ुअली रीप्ले करना (Markdown, थिंकिंग ब्लॉक, टूल कॉल, लागत आँकड़े) — 100% लोकल रेंडरिंग।">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history">
 <link rel="alternate" hreflang="en" href="https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history">
 <link rel="alternate" hreflang="zh" href="https://ccviewer.top/claude-code-session-viewer/zh/how-to-view-claude-code-session-history">
@@ -26,9 +26,10 @@
 <meta property="og:locale" content="hi_IN">
 <meta property="og:image" content="https://ccviewer.top/assets/screenshot-viewer.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "मैं Claude Code सत्र का पूरा इतिहास कैसे देख सकता हूँ?", "description": "Claude Code सत्रों का पूरा इतिहास देखने के तीन तरीके: टर्मिनल में claude --resume, ~/.claude/projects के .jsonl फ़ाइलें खोलना, या CCViewer से ब्राउज़र में विज़ुअली रीप्ले करना (Markdown, थिंकिंग ब्लॉक, टूल कॉल, लागत आँकड़े) — 100% लोकल रेंडरिंग।", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "inLanguage": "hi", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "@id": "https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history#article", "headline": "मैं Claude Code सत्र का पूरा इतिहास कैसे देख सकता हूँ?", "description": "Claude Code सत्रों का पूरा इतिहास देखने के तीन तरीके: टर्मिनल में claude --resume, ~/.claude/projects के .jsonl फ़ाइलें खोलना, या CCViewer से ब्राउज़र में विज़ुअली रीप्ले करना (Markdown, थिंकिंग ब्लॉक, टूल कॉल, लागत आँकड़े) — 100% लोकल रेंडरिंग।", "citation": [], "datePublished": "2026-10-12", "dateModified": "2026-10-19", "inLanguage": "hi", "image": "https://ccviewer.top/assets/screenshot-viewer.png", "author": {"@type": "Organization", "name": "CCViewer", "url": "https://github.com/howardz27/ccviewer"}, "publisher": {"@type": "Organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer"}, "mainEntityOfPage": "https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CCViewer", "item": "https://ccviewer.top/claude-code-session-viewer/hi/"}, {"@type": "ListItem", "position": 2, "name": "सहायता केंद्र", "item": "https://ccviewer.top/claude-code-session-viewer/hi/help"}, {"@type": "ListItem", "position": 3, "name": "मैं Claude Code सत्र का पूरा इतिहास कैसे देख सकता हूँ?", "item": "https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "इतिहास देखने से मेरा कोड अपलोड होता है क्या?", "acceptedAnswer": {"@type": "Answer", "text": "नहीं। CCViewer सब कुछ आपके ब्राउज़र में पार्स और रेंडर करता है; सत्र की सामग्री ले जाने वाला कोई नेटवर्क रिक्वेस्ट नहीं होता। आप DevTools के Network पैनल में खुद जाँच सकते हैं।"}}, {"@type": "Question", "name": "सत्र के compact हुए हिस्से भी दिखते हैं?", "acceptedAnswer": {"@type": "Answer", "text": "हाँ। कम्पैक्शन सारांश और बाद के संदेश उसी JSONL फ़ाइल में रहते हैं; व्यूअर सारांश को इंजेक्टेड कॉन्टेक्स्ट के रूप में दिखाता है — “सिस्टम/इंजेक्टेड” टॉगल से देखें।"}}, {"@type": "Question", "name": "मोबाइल पर चलता है?", "acceptedAnswer": {"@type": "Answer", "text": "हाँ — CCViewer एक रेस्पॉन्सिव वेब पेज है। लेकिन सत्र फ़ाइलें आपके कंप्यूटर पर होती हैं: पहले .jsonl फ़ोन पर लाएँ (जैसे iCloud/क्लाउड से), फिर ब्राउज़र में खोलें।"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://ccviewer.top/#organization", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/", "sameAs": ["https://github.com/howardz27/ccviewer"], "logo": "https://ccviewer.top/assets/logo.svg"}, {"@type": "WebSite", "@id": "https://ccviewer.top/#website", "name": "CCViewer", "url": "https://ccviewer.top/claude-code-session-viewer/", "publisher": {"@id": "https://ccviewer.top/#organization"}}, {"@type": "WebPage", "@id": "https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history#webpage", "url": "https://ccviewer.top/claude-code-session-viewer/hi/how-to-view-claude-code-session-history", "name": "Claude Code सत्र का पूरा इतिहास कैसे देखें — 3 तरीके (2026) | CCViewer", "description": "Claude Code सत्रों का पूरा इतिहास देखने के तीन तरीके: टर्मिनल में claude --resume, ~/.claude/projects के .jsonl फ़ाइलें खोलना, या CCViewer से ब्राउज़र में विज़ुअली रीप्ले करना (Markdown, थिंकिंग ब्लॉक, टूल कॉल, लागत आँकड़े) — 100% लोकल रेंडरिंग।", "inLanguage": "hi", "isPartOf": {"@id": "https://ccviewer.top/#website"}, "publisher": {"@id": "https://ccviewer.top/#organization"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "इतिहास देखने से मेरा कोड अपलोड होता है क्या?", "acceptedAnswer": {"@type": "Answer", "text": "सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं।"}}, {"@type": "Question", "name": "सत्र के compact हुए हिस्से भी दिखते हैं?", "acceptedAnswer": {"@type": "Answer", "text": "JSONL में हर पंक्ति पर एक JSON मान होता है। CCViewer फ़ाइल में बचे समर्थित संदेश और टूल रिकॉर्ड दिखाता है। यह गायब या हटाए गए रिकॉर्ड वापस नहीं लाता; आँकड़े उपलब्ध फ़ील्ड पर निर्भर हैं। मूल फ़ाइलें सुरक्षित रखें।"}}, {"@type": "Question", "name": "मोबाइल पर चलता है?", "acceptedAnswer": {"@type": "Answer", "text": "हाँ — CCViewer एक रेस्पॉन्सिव वेब पेज है। लेकिन सत्र फ़ाइलें आपके कंप्यूटर पर होती हैं: पहले .jsonl फ़ोन पर लाएँ (जैसे iCloud/क्लाउड से), फिर ब्राउज़र में खोलें।"}}]}</script>
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Claude Code सत्र का पूरा इतिहास कैसे देखें — 3 तरीके (2026) | CCViewer">
 <meta name="twitter:description" content="Claude Code सत्रों का पूरा इतिहास देखने के तीन तरीके: टर्मिनल में claude --resume, ~/.claude/projects के .jsonl फ़ाइलें खोलना, या CCViewer से ब्राउज़र में विज़ुअली रीप्ले करना (Markdown, थिंकिंग ब्लॉक, टूल कॉल, लागत आँकड़े) — 100% लोकल रेंडरिंग।">
@@ -85,6 +86,8 @@ main{max-width:820px;margin:0 auto;padding:36px 20px 64px}
 .crumbs a:hover{color:var(--accent)}
 h1{font-size:27px;line-height:1.4;margin:0 0 10px}
 .meta{color:var(--faint);font-size:12.5px;margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+h2[id]{scroll-margin-top:80px}
+.toc{border:1px solid var(--border);border-radius:8px;padding:8px 18px;margin:20px 0}.toc ul{margin:8px 0}
 h2{font-size:19px;margin:34px 0 10px;color:var(--accent2)}
 h3{font-size:16px;margin:24px 0 8px}
 p{margin:10px 0}
@@ -97,7 +100,7 @@ pre code{background:none;border:none;padding:0;color:var(--text);font-size:13px}
 table{border-collapse:collapse;margin:14px 0;width:100%;font-size:13.5px}
 th,td{border:1px solid var(--border);padding:7px 11px;text-align:left}
 th{background:var(--panel2);color:var(--accent2)}
-img.shot{max-width:100%;border:1px solid var(--border);border-radius:10px;margin:12px 0;
+img.shot{max-width:100%;height:auto;border:1px solid var(--border);border-radius:10px;margin:12px 0;
 box-shadow:0 14px 44px rgba(0,0,0,.4)}
 .cta{background:linear-gradient(120deg,rgba(217,119,87,.13),rgba(191,227,239,.05));
 border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;
@@ -143,11 +146,11 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
 <div class="crumbs"><a href="https://ccviewer.top/claude-code-session-viewer/hi/">CCViewer</a> / <a href="https://ccviewer.top/claude-code-session-viewer/hi/help">सहायता केंद्र</a> / पूरा इतिहास देखें</div>
 <article>
 <h1>मैं Claude Code सत्र का पूरा इतिहास कैसे देख सकता हूँ?</h1>
-<div class="meta">अपडेट 2026-10-12 · CCViewer सहायता केंद्र · Claude Code 2.x के लिए</div>
+<div class="meta">अपडेट <time datetime="2026-10-19">2026-10-19</time> · CCViewer सहायता केंद्र · Claude Code 2.x के लिए</div>
 
-<p>Claude Code हर सत्र को पूरी तरह आपकी लोकल डिस्क पर रिकॉर्ड करता है, इसलिए इतिहास देखने के तीन मुख्य तरीके हैं — उपयोग में आसानी के क्रम में।</p>
+<p>लोकल सत्रों का डिफ़ॉल्ट स्थान ~/.claude/projects/ है। CLAUDE_CONFIG_DIR से आधार निर्देशिका बदलती है। सत्र सहेजना बंद हो सकता है और प्रतिधारण नियम फ़ाइलें हटा सकते हैं; पूरा इतिहास हमेशा नहीं रहता। क्लाउड या रिमोट सत्र के लिए निष्पादन परिवेश जाँचें।</p><nav class="toc" aria-label="मैं Claude Code सत्र का पूरा इतिहास कैसे देख सकता हूँ?"><ul><li><a href="#section-1">तरीका 1: CCViewer से ब्राउज़र में विज़ुअली रीप्ले (अनुशंसित)</a></li><li><a href="#section-2">तरीका 2: टर्मिनल में सत्र फिर से शुरू करें</a></li><li><a href="#section-3">तरीका 3: रॉ JSONL फ़ाइल पढ़ें</a></li><li><a href="#section-4">तुलना</a></li></ul></nav>
 
-<h2>तरीका 1: CCViewer से ब्राउज़र में विज़ुअली रीप्ले (अनुशंसित)</h2>
+<h2 id="section-1">तरीका 1: CCViewer से ब्राउज़र में विज़ुअली रीप्ले (अनुशंसित)</h2>
 <p><a href="https://ccviewer.top/claude-code-session-viewer/hi/">CCViewer</a> एक मुफ़्त, ओपन-सोर्स Claude Code सत्र व्यूअर है। पेज खोलें, सत्र फ़ाइल ड्रैप करें (पूरा <code>~/.claude/projects/</code> फ़ोल्डर भी चुन सकते हैं) और सत्र को चैट ट्रांसक्रिप्ट की तरह देखें:</p>
 <ul>
 <li><b>पूरी Markdown रेंडरिंग</b> — कोड ब्लॉक, टेबल, लिस्ट और लिंक जैसे हैं वैसे दिखेंगे, JSON की दीवारें नहीं;</li>
@@ -156,10 +159,10 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
 <li><b>उपयोग व लागत आँकड़े</b> — इनपुट/आउटपुट/कैश टोकन, सत्र अवधि, जोड़ी/हटाई गई लाइनें, कुल लागत एक नज़र में;</li>
 <li><b>Markdown एक्सपोर्ट</b> — किसी भी सत्र को एक क्लिक में शेयर करने योग्य <code>.md</code> दस्तावेज़ बनाएँ।</li>
 </ul>
-<p>सबसे ज़रूरी बात: <b>यह सब कुछ 100% आपके ब्राउज़र में लोकल पार्स और रेंडर होता है — कुछ भी अपलोड नहीं होता</b>। इससे फ़र्क़ पड़ता है: सत्र फ़ाइलों में आपका सोर्स कोड, फ़ाइल पाथ और कभी-कभी सीक्रेट्स होते हैं।</p>
-<img class="shot" src="/assets/screenshot-viewer.png" alt="CCViewer से Claude Code सत्र इतिहास देखना: Markdown, थिंकिंग ब्लॉक, टूल कॉल और आँकड़े" width="880">
+<p>सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं।</p>
+<img class="shot" src="/assets/screenshot-viewer.png" alt="CCViewer से Claude Code सत्र इतिहास देखना: Markdown, थिंकिंग ब्लॉक, टूल कॉल और आँकड़े" width="880" height="550" loading="lazy" decoding="async">
 
-<h2>तरीका 2: टर्मिनल में सत्र फिर से शुरू करें</h2>
+<h2 id="section-2">तरीका 2: टर्मिनल में सत्र फिर से शुरू करें</h2>
 <p>Claude Code में सत्र रिज़्यूम बिल्ट-इन है। <b>मूल प्रोजेक्ट डायरेक्टरी</b> में चलाएँ:</p>
 <pre><code># इस प्रोजेक्ट के सत्र सूचीबद्ध करें और इंटरैक्टिवली चुनें
 claude --resume     # छोटा रूप: claude -r
@@ -171,14 +174,14 @@ claude --continue   # छोटा रूप: claude -c
 claude --resume &lt;sessionId&gt;</code></pre>
 <p>“काम जारी रखने” के लिए बढ़िया, लेकिन इतिहास <b>पढ़ने/खोजने</b> के लिए असुविधाजनक: लंबे सत्र में एक टूल कॉल खोजना कष्टप्रद है और लागत के आँकड़े भी नहीं मिलते।</p>
 
-<h2>तरीका 3: रॉ JSONL फ़ाइल पढ़ें</h2>
+<h2 id="section-3">तरीका 3: रॉ JSONL फ़ाइल पढ़ें</h2>
 <p>सत्र <code>~/.claude/projects/&lt;project&gt;/&lt;sessionId&gt;.jsonl</code> पर JSONL रूप में सेव होते हैं — हर लाइन में एक JSON ऑब्जेक्ट। किसी भी एडिटर या कमांड लाइन से देखें:</p>
 <pre><code># jq से सभी यूज़र प्रॉम्प्ट निकालें
 cat ~/.claude/projects/-Users-you-myproject/&lt;sessionId&gt;.jsonl \\
   | jq -r 'select(.type=="user") | .message.content'</code></pre>
 <p>रॉ फ़ाइल सबसे पूरा स्रोत है (टोकन उपयोग, git ब्रांच, टाइमस्टैम्प व अन्य मेटाडेटा), लेकिन पढ़ने में कठिन — ठीक यहीं ग्राफिकल व्यूअर काम आते हैं।</p>
 
-<h2>तुलना</h2>
+<h2 id="section-4">तुलना</h2>
 <table>
 <tr><th></th><th>CCViewer</th><th>claude --resume</th><th>रॉ JSONL</th></tr>
 <tr><td>ग्राफिकल पढ़ना</td><td>✅</td><td>आंशिक (चैट जारी)</td><td>❌</td></tr>
@@ -187,19 +190,19 @@ cat ~/.claude/projects/-Users-you-myproject/&lt;sessionId&gt;.jsonl \\
 <tr><td>टोकन / लागत आँकड़े</td><td>✅</td><td>❌</td><td>मैन्युअल jq</td></tr>
 <tr><td>मल्टी-सत्र प्रबंधन</td><td>✅ फ़ोल्डर इम्पोर्ट</td><td>केवल वर्तमान प्रोजेक्ट</td><td>❌</td></tr>
 </table>
-
+<p>सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं।</p>
 <div class="cta">
   <b>CCViewer से अपने Claude Code सत्र विज़ुअली रीप्ले करें</b><br>
-  पेज खोलें और कोई <code>.jsonl</code> फ़ाइल — या पूरा <code>~/.claude/projects/</code> फ़ोल्डर — ड्रैप कर दें। Markdown रेंडरिंग, थिंकिंग ब्लॉक, टूल कॉल, टोकन व लागत आँकड़े सब आपके ब्राउज़र में लोकल चलते हैं, कुछ भी अपलोड नहीं होता।
+  सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं।
   <div class="btns">
     <a class="btn primary" href="https://ccviewer.top/claude-code-session-viewer/hi/">CCViewer खोलें (नि:शुल्क, इंस्टॉल ज़रूरी नहीं)</a>
     <a class="btn" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">सोर्स देखें</a>
   </div>
 </div>
-<h2 id="faq">सामान्य प्रश्न</h2><details><summary>इतिहास देखने से मेरा कोड अपलोड होता है क्या?</summary><div class="a">नहीं। CCViewer सब कुछ आपके ब्राउज़र में पार्स और रेंडर करता है; सत्र की सामग्री ले जाने वाला कोई नेटवर्क रिक्वेस्ट नहीं होता। आप DevTools के Network पैनल में खुद जाँच सकते हैं।</div></details><details><summary>सत्र के compact हुए हिस्से भी दिखते हैं?</summary><div class="a">हाँ। कम्पैक्शन सारांश और बाद के संदेश उसी JSONL फ़ाइल में रहते हैं; व्यूअर सारांश को इंजेक्टेड कॉन्टेक्स्ट के रूप में दिखाता है — “सिस्टम/इंजेक्टेड” टॉगल से देखें।</div></details><details><summary>मोबाइल पर चलता है?</summary><div class="a">हाँ — CCViewer एक रेस्पॉन्सिव वेब पेज है। लेकिन सत्र फ़ाइलें आपके कंप्यूटर पर होती हैं: पहले .jsonl फ़ोन पर लाएँ (जैसे iCloud/क्लाउड से), फिर ब्राउज़र में खोलें।</div></details>
+<h2 id="faq">सामान्य प्रश्न</h2><details><summary>इतिहास देखने से मेरा कोड अपलोड होता है क्या?</summary><div class="a">सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं।</div></details><details><summary>सत्र के compact हुए हिस्से भी दिखते हैं?</summary><div class="a">JSONL में हर पंक्ति पर एक JSON मान होता है। CCViewer फ़ाइल में बचे समर्थित संदेश और टूल रिकॉर्ड दिखाता है। यह गायब या हटाए गए रिकॉर्ड वापस नहीं लाता; आँकड़े उपलब्ध फ़ील्ड पर निर्भर हैं। मूल फ़ाइलें सुरक्षित रखें।</div></details><details><summary>मोबाइल पर चलता है?</summary><div class="a">हाँ — CCViewer एक रेस्पॉन्सिव वेब पेज है। लेकिन सत्र फ़ाइलें आपके कंप्यूटर पर होती हैं: पहले .jsonl फ़ोन पर लाएँ (जैसे iCloud/क्लाउड से), फिर ब्राउज़र में खोलें।</div></details>
 <div class="related">
 <h3>संबंधित लेख</h3>
-<a href="how-to-view-claude-code-session-history">Claude Code सत्र का पूरा इतिहास कैसे देखें</a><a href="find-claude-code-session-jsonl-file">सत्र की JSONL फ़ाइल कैसे खोजें</a><a href="where-claude-code-sessions-stored">Claude Code सत्र इतिहास कहाँ सेव होता है?</a><a href="best-claude-code-session-viewer">2026 में Claude Code सत्र का सबसे अच्छा व्यूअर कौन?</a>
+<a href="find-claude-code-session-jsonl-file">सत्र की JSONL फ़ाइल कैसे खोजें</a><a href="where-claude-code-sessions-stored">Claude Code सत्र इतिहास कहाँ सेव होता है?</a><a href="best-claude-code-session-viewer">2026 में Claude Code सत्र का सबसे अच्छा व्यूअर कौन?</a>
 </div>
 </article>
 </main>
@@ -207,6 +210,7 @@ cat ~/.claude/projects/-Users-you-myproject/&lt;sessionId&gt;.jsonl \\
 <ul>
 <li><a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener noreferrer">Claude Code — दस्तावेज़</a></li>
 <li><a href="https://code.claude.com/docs/en/cli-reference" target="_blank" rel="noopener noreferrer">Claude Code — CLI</a></li>
+<li><a href="https://code.claude.com/docs/en/claude-directory" target="_blank" rel="noopener noreferrer">Claude Code — ~/.claude</a></li>
 <li><a href="https://jsonlines.org/" target="_blank" rel="noopener noreferrer">JSON Lines (.jsonl)</a></li>
 <li><a href="https://github.com/howardz27/ccviewer/issues" target="_blank" rel="noopener noreferrer">GitHub — समस्या की रिपोर्ट करें</a></li>
 </ul></aside><nav aria-label="Language" class="site-languages"><a href="/claude-code-session-viewer/how-to-view-claude-code-session-history" hreflang="en" lang="en">English</a> · <a href="/claude-code-session-viewer/zh/how-to-view-claude-code-session-history" hreflang="zh" lang="zh">中文</a> · <a href="/claude-code-session-viewer/ja/how-to-view-claude-code-session-history" hreflang="ja" lang="ja">日本語</a> · <a href="/claude-code-session-viewer/ko/how-to-view-claude-code-session-history" hreflang="ko" lang="ko">한국어</a> · <a href="/claude-code-session-viewer/es/how-to-view-claude-code-session-history" hreflang="es" lang="es">Español</a> · <a href="/claude-code-session-viewer/fr/how-to-view-claude-code-session-history" hreflang="fr" lang="fr">Français</a> · <a href="/claude-code-session-viewer/de/how-to-view-claude-code-session-history" hreflang="de" lang="de">Deutsch</a> · <a href="/claude-code-session-viewer/pt/how-to-view-claude-code-session-history" hreflang="pt" lang="pt">Português</a> · <a href="/claude-code-session-viewer/ru/how-to-view-claude-code-session-history" hreflang="ru" lang="ru">Русский</a> · <a href="/claude-code-session-viewer/hi/how-to-view-claude-code-session-history" hreflang="hi" lang="hi" aria-current="page">हिन्दी</a></nav>© 2026 CCViewer · MIT ओपन सोर्स · Anthropic से कोई संबंध नहीं। "Claude Code" Anthropic का ट्रेडमार्क है, वर्णनात्मक उपयोग।</footer>

@@ -1,0 +1,38 @@
+# CCViewer
+
+> Free, MIT-licensed browser viewer for saved Claude Code JSONL sessions.
+
+CCViewer is an independent community project, not affiliated with Anthropic.
+It renders supported messages, thinking blocks and tool calls, imports folders,
+stores a browser library and exports Markdown. It cannot resume sessions or
+restore missing records. Statistics depend on the records in each file.
+
+Files are parsed locally. The hosted site automatically loads Microsoft Clarity
+analytics and recordings. Offline copies do not load analytics. Remote images
+may still request external URLs when networking is available.
+
+## Product and source
+
+- [Viewer](https://ccviewer.top/claude-code-session-viewer/): English application.
+- [Source and MIT license](https://github.com/howardz27/ccviewer): implementation and issue tracker.
+- [Fictional sample](https://ccviewer.top/assets/example-session.jsonl): reading fixture, not a resumable session.
+
+## Guides by language
+
+- [English](https://ccviewer.top/claude-code-session-viewer/help): session reading, file lookup, storage and workflow comparison.
+- [中文](https://ccviewer.top/claude-code-session-viewer/zh/help): session reading, file lookup, storage and workflow comparison.
+- [日本語](https://ccviewer.top/claude-code-session-viewer/ja/help): session reading, file lookup, storage and workflow comparison.
+- [한국어](https://ccviewer.top/claude-code-session-viewer/ko/help): session reading, file lookup, storage and workflow comparison.
+- [Español](https://ccviewer.top/claude-code-session-viewer/es/help): session reading, file lookup, storage and workflow comparison.
+- [Français](https://ccviewer.top/claude-code-session-viewer/fr/help): session reading, file lookup, storage and workflow comparison.
+- [Deutsch](https://ccviewer.top/claude-code-session-viewer/de/help): session reading, file lookup, storage and workflow comparison.
+- [Português](https://ccviewer.top/claude-code-session-viewer/pt/help): session reading, file lookup, storage and workflow comparison.
+- [Русский](https://ccviewer.top/claude-code-session-viewer/ru/help): session reading, file lookup, storage and workflow comparison.
+- [हिन्दी](https://ccviewer.top/claude-code-session-viewer/hi/help): session reading, file lookup, storage and workflow comparison.
+
+## English reference guides
+
+- [Read and export session history](https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history)
+- [Find JSONL files on macOS, Linux and Windows](https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file)
+- [Storage, retention and record limitations](https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored)
+- [Product-authored workflow comparison](https://ccviewer.top/claude-code-session-viewer/best-claude-code-session-viewer)

@@ -1,213 +1,108 @@
 # -*- coding: utf-8 -*-
 PAGES = [
 dict(
-    slug='how-to-view-claude-code-session-history.html', crumb='View full history',
-    short='How to view the full history of a Claude Code session',
-    title='How to View the Full History of a Claude Code Session — 3 Methods (2026) | CCViewer',
-    desc='Three ways to view your complete Claude Code session history: claude --resume in the terminal, opening the .jsonl files under ~/.claude/projects, or replaying them visually in the browser with CCViewer (Markdown, thinking blocks, tool calls, cost stats) — 100% local rendering.',
-    h1='How do I view the full history of a Claude Code session?',
-    body='''
-<p>Claude Code records every session completely on your local disk, so there are three main ways to view the history — ranked by ease of use below.</p>
-
-<h2>Method 1: Replay it visually in the browser with CCViewer (recommended)</h2>
-<p><a href="{{app}}">CCViewer</a> is a free, open-source Claude Code session viewer. Open the page, drop in a session file (you can also pick the whole <code>~/.claude/projects/</code> folder to import everything), and replay the session like a chat transcript:</p>
-<ul>
-<li><b>Full Markdown rendering</b> — code blocks, tables, lists and links rendered as-is, no more walls of JSON;</li>
-<li><b>Thinking blocks</b> — the model\u2019s extended reasoning, collapsible with one click;</li>
-<li><b>Tool calls</b> — parameters and results of every Read / Edit / Bash call, expandable for inspection;</li>
-<li><b>Usage &amp; cost stats</b> — input/output/cache tokens, session duration, lines added/removed, total cost at a glance;</li>
-<li><b>Markdown export</b> — turn any session into a shareable <code>.md</code> document in one click.</li>
-</ul>
-<p>Crucially, it <b>parses and renders 100% locally in your browser — nothing is uploaded</b>. That matters: session files contain your source code, file paths and sometimes secrets.</p>
-<img class="shot" src="/assets/screenshot-viewer.png" alt="Viewing Claude Code session history with CCViewer: Markdown, thinking blocks, tool calls and stats" width="880">
-
-<h2>Method 2: Resume the session in the terminal</h2>
-<p>Claude Code has built-in session resume. Run this in the <b>original project directory</b>:</p>
-<pre><code># List this project's sessions and pick one interactively
-claude --resume     # shorthand: claude -r
-
-# Resume the most recent session directly
-claude --continue   # shorthand: claude -c
-
-# Resume a specific session by ID
-claude --resume &lt;sessionId&gt;</code></pre>
-<p>Great for "keep working", but inconvenient for <b>reading or searching</b> history: digging through a long session for one tool call is painful, and there are no cost stats.</p>
-
-<h2>Method 3: Read the raw JSONL file</h2>
-<p>Sessions are stored as JSONL at <code>~/.claude/projects/&lt;project&gt;/&lt;sessionId&gt;.jsonl</code> — one JSON object per line. You can inspect them with any editor or the command line:</p>
-<pre><code># Extract all user prompts with jq
-cat ~/.claude/projects/-Users-you-myproject/&lt;sessionId&gt;.jsonl \\
-  | jq -r 'select(.type=="user") | .message.content'</code></pre>
-<p>The raw file is the most complete source (token usage, git branch, timestamps and other metadata), but readability is poor — which is exactly why graphical viewers exist.</p>
-
-<h2>Comparison</h2>
-<table>
-<tr><th></th><th>CCViewer</th><th>claude --resume</th><th>Raw JSONL</th></tr>
-<tr><td>Graphical reading</td><td>✅</td><td>Partial (continue chat)</td><td>❌</td></tr>
-<tr><td>Markdown rendering</td><td>✅</td><td>✅</td><td>❌</td></tr>
-<tr><td>Thinking / tool calls</td><td>✅ collapsible</td><td>Collapsed summary</td><td>Raw JSON</td></tr>
-<tr><td>Token / cost stats</td><td>✅</td><td>❌</td><td>Manual jq</td></tr>
-<tr><td>Multi-session library</td><td>✅ folder import</td><td>Current project only</td><td>❌</td></tr>
-</table>
+    slug='how-to-view-claude-code-session-history.html',
+    crumb='View full history',
+    short='How to View Claude Code Session History: 3 Methods',
+    title='How to View Claude Code Session History: 3 Methods | CCViewer',
+    desc='Read saved Claude Code JSONL sessions, resume work in the CLI, or inspect raw records. Includes a fictional sample, export steps and hosted/offline limitations.',
+    h1='How to View Claude Code Session History: 3 Methods',
+    body=r'''
+<p>To read a saved Claude Code conversation, open its <code>.jsonl</code> transcript in CCViewer. To continue the work, use <code>claude --resume</code>. To inspect raw records or automate analysis, use a text editor or <code>jq</code>. A viewer can only show records present in the file.</p>
+<h2>Read a session in the browser</h2>
+<ol><li>Find a transcript under your Claude Code configuration directory, usually <code>~/.claude/projects/</code>.</li><li>Open <a href="{{app}}">CCViewer</a> and choose the file, paste JSONL text, or select a project folder.</li><li>Expand tool calls and thinking blocks, inspect the available usage fields, then export Markdown if you need a readable archive.</li></ol>
+<p>Folder imports are stored in this browser's IndexedDB. Clearing site data can remove the imported library; keep the original files as a backup. Token totals reflect records in the file; cost snapshots, when present, are not a billing statement.</p>
+<img class="shot" src="/assets/screenshot-viewer.png" alt="CCViewer displaying messages, tool calls and usage fields" width="880">
+<h2>Continue a session in the terminal</h2>
+<pre><code>claude --resume
+claude --continue
+claude --resume SESSION_ID</code></pre>
+<p>Run these in the relevant project. Resume continues the conversation; CCViewer is a reader and does not send a new prompt to Claude. See the official session guide below for the current picker behavior.</p>
+<h2>Inspect the original JSONL</h2>
+<pre><code>jq -r 'select(.type == "user") | .message.content' session.jsonl</code></pre>
+<p>Some user records contain tool results rather than a human prompt. Inspect the content type when scripting. A malformed line can cause jq to stop; keep an untouched copy before attempting repairs.</p>
+<h2>Try a fictional sample</h2>
+<p>Download the <a href="/assets/example-session.jsonl" download>synthetic JSONL sample</a>, then import it. It contains one prompt, a fictional Read call and result, and a Markdown reply. It contains no real conversation or credentials. The 120 input and 45 output tokens are illustrative values.</p>
+<h2>Hosted and offline use</h2>
+<p>Parsing and rendering happen locally. The hosted site automatically loads Microsoft Clarity for analytics and recordings. Remote images in a transcript can also cause requests. For disconnected use, download the HTML from the repository and open it with networking disabled; offline copies do not load Clarity.</p>
 ''',
-    faqs=[
-        ('Does viewing history upload my code?',
-         'No. CCViewer parses and renders everything in your browser; no network request ever carries session content. You can verify this yourself in the DevTools Network panel.'),
-        ('Can I still see compacted parts of a session?',
-         'Yes. Compaction summaries and subsequent messages live in the same JSONL file; the viewer shows summaries as injected context, visible via the "System/Injected" toggle.'),
-        ('Does it work on mobile?',
-         'Yes — CCViewer is a responsive web page. The session files live on your computer though, so you first need to copy the .jsonl to your phone (e.g. via iCloud/cloud drive) and open it in a browser.'),
-    ],
+    faqs=[('Can a viewer recover deleted messages?', 'No. A viewer can only render supported records that remain in the selected file.'), ('Is the hosted viewer network-free?', 'No. Processing is local, but the hosted site loads Microsoft Clarity analytics and recordings. Remote images may also make requests.')],
 ),
 dict(
-    slug='find-claude-code-session-jsonl-file.html', crumb='Find the JSONL file',
-    short='How to find the JSONL file for a session',
-    title='How to Find the JSONL File Location of a Claude Code Session | CCViewer',
-    desc='Claude Code session files live at ~/.claude/projects/<project-dir>/<sessionId>.jsonl. Learn how to locate a session\u2019s JSONL file quickly with find/grep, and how to search by content or time when you don\u2019t know the sessionId.',
-    h1='How do I find the JSONL file location of a Claude Code session?',
-    body='''
-<p>All session files live under one fixed directory: <code>~/.claude/projects/</code>. If you know the sessionId, locating the file takes seconds; if you don\u2019t, you can search by content or time.</p>
-
-<h2>First, understand the directory naming</h2>
-<p>Each subdirectory of <code>~/.claude/projects/</code> corresponds to one project (working directory). The name is <b>derived from the project path: <code>/</code>, <code>_</code> and other non-alphanumeric characters are replaced with hyphens <code>-</code></b>. For example:</p>
-<pre><code>Project path                       Session directory
-/Users/you/Documents/my_app      →  -Users-you-Documents-my-app
-/home/you/projects/shop-api      →  -home-you-projects-shop-api</code></pre>
-<p>Each session is one file: <code>&lt;sessionId&gt;.jsonl</code> (a UUID like <code>9a1b2c3d-…</code>).</p>
-
-<h2>Case 1: you know the sessionId — just find it</h2>
-<pre><code>find ~/.claude/projects -name "&lt;sessionId&gt;.jsonl"</code></pre>
-<p>Where does the sessionId come from? The easiest way is to <b>type the slash command <code>/status</code> in the conversation</b> — the output includes the current Session ID. You can also get it from the <code>claude --resume</code> session list, error messages, or the "Session ID" field in the viewer\u2019s sidebar.</p>
-
-<h2>Case 2: no sessionId — search by content</h2>
-<p>If you remember something from the conversation (e.g. your original question), grep for it:</p>
-<pre><code># Search all sessions for a keyword, list matching files
-grep -l "fix the login page" ~/.claude/projects/*/*.jsonl
-
-# Search only one project directory
-grep -l "fix the login page" ~/.claude/projects/-Users-you-Documents-my-app/*.jsonl</code></pre>
-
-<h2>Case 3: find recent sessions by time</h2>
-<pre><code># List the 10 most recently modified session files
-ls -t ~/.claude/projects/*/*.jsonl | head -10</code></pre>
-
-<h2>The graphical way: let CCViewer do it</h2>
-<p>Don\u2019t want to type commands? <a href="{{app}}">CCViewer</a> lets you select (or drag in) the entire <code>~/.claude/projects/</code> folder: it scans all <code>.jsonl</code> files recursively, groups them by project, sorts by time, and shows each session\u2019s title, path, time range, message count and cost — click to open, no need to know where the file is.</p>
-<img class="shot" src="/assets/screenshot-library.png" alt="CCViewer folder mode: Claude Code session library grouped by project" width="880">
-
-<h2>macOS tips: opening hidden folders</h2>
-<ul>
-<li>In Finder press <span class="kbd">⌘⇧G</span>, type <code>~/.claude/projects</code> and hit Enter;</li>
-<li>In file dialogs press <span class="kbd">⌘⇧.</span> to reveal hidden folders (directories starting with <code>.</code> are invisible by default).</li>
-</ul>
+    slug='find-claude-code-session-jsonl-file.html',
+    crumb='Find the JSONL file',
+    short='Find Claude Code JSONL Files on macOS, Linux & Windows',
+    title='Find Claude Code JSONL Files on macOS, Linux & Windows | CCViewer',
+    desc='Locate Claude Code session JSONL files with macOS, Linux and PowerShell commands. Check custom config paths, WSL and missing transcripts.',
+    h1='Find Claude Code JSONL Files on macOS, Linux & Windows',
+    body=r'''
+<p>Start in <code>~/.claude/projects/</code>, or the <code>projects</code> directory inside your custom <code>CLAUDE_CONFIG_DIR</code>. Search recursively rather than guessing a folder name. These instructions concern transcripts on the machine that ran the local session.</p>
+<h2>macOS and Linux: list transcript files</h2>
+<pre><code>session_root="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/projects"
+find "$session_root" -type f -name '*.jsonl'
+# Replace SESSION_ID with the identifier you already know.
+find "$session_root" -type f -name 'SESSION_ID.jsonl'</code></pre>
+<p>In macOS Finder, press Command–Shift–G and enter <code>~/.claude/projects/</code>. Use your custom configuration directory if set.</p>
+<h2>Search by a remembered phrase</h2>
+<pre><code>find "$session_root" -type f -name '*.jsonl' \
+  -exec grep -lF -- 'fix the login page' {} +</code></pre>
+<p>The command prints matching file names. It handles spaces in paths and searches text literally. Encoded text, images and missing transcripts will not necessarily match.</p>
+<h2>Windows PowerShell: show recent files</h2>
+<pre><code>$sessionRoot = if ($env:CLAUDE_CONFIG_DIR) {
+  Join-Path $env:CLAUDE_CONFIG_DIR 'projects'
+} else {
+  Join-Path $env:USERPROFILE '.claude/projects'
+}
+Get-ChildItem -LiteralPath $sessionRoot -Filter *.jsonl -Recurse -File |
+  Sort-Object LastWriteTime -Descending |
+  Select-Object -First 10 FullName, LastWriteTime</code></pre>
+<p>For a session run inside WSL, check that Linux environment's home directory instead of assuming the Windows profile contains it.</p>
+<h2>If no file appears</h2>
+<ul><li>Check the account, machine, container or remote environment where the session ran.</li><li>Check <code>CLAUDE_CONFIG_DIR</code>, hidden folders and directory permissions.</li><li>Check whether persistence was disabled or retention cleanup removed the transcript. A missing file cannot be recovered by importing the folder into a viewer.</li></ul>
+<p>Once located, open the file in <a href="{{app}}">CCViewer</a>. For the distinction between prompt history and full transcripts, see the storage guide in Related guides.</p>
 ''',
-    faqs=[
-        ("Why can't I find the ~/.claude directory?",
-         'Because it starts with a dot and is hidden by default. Press ⌘⇧G in Finder and type the path, or ⌘⇧. to show hidden files; in a terminal, ls -la ~/.claude always works.'),
-        ('There are many jsonl files under a project — which one is mine?',
-         'One file equals one session. Filter by modification time (ls -t) or content (grep -l); or import the whole folder with CCViewer, which shows each session\u2019s title and stats so you can tell them apart at a glance.'),
-        ('What is the path on Windows?',
-         'Same layout under your user profile: %USERPROFILE%\\.claude\\projects\\&lt;project&gt;\\&lt;sessionId&gt;.jsonl.'),
-    ],
+    faqs=[('Why is the default folder empty?', 'Check the runtime environment, custom configuration path, disabled persistence and retention cleanup. The transcript may live on another machine.'), ('Can I import a folder?', 'Yes. CCViewer imports JSONL files into a local browser library grouped by project.')],
 ),
 dict(
-    slug='where-claude-code-sessions-stored.html', crumb='Where sessions are stored',
-    short='Where are Claude Code session histories stored?',
-    title='Where Are Claude Code Session Histories Stored? Storage Structure Explained | CCViewer',
-    desc='Claude Code stores session history locally as JSONL files under ~/.claude/projects/ — nothing is synced to the cloud. A detailed look at the directory layout, the fields in each JSON line (message/timestamp/usage/gitBranch), and backup advice.',
-    h1='Where are Claude Code session histories stored?',
-    body='''
-<p>Short answer: <b>everything is stored locally under <code>~/.claude/projects/</code></b> as JSONL files — no cloud sync, no account-based session history.</p>
-
-<h2>Directory layout</h2>
-<pre><code>~/.claude/
-├── projects/                     # ← all session history lives here
-│   ├── -Users-you-Documents-app/ #   one directory per project (path-mangled)
-│   │   ├── 9a1b2c3d-….jsonl     #     one file per session
-│   │   └── 7c2d3e4f-….jsonl
-│   └── -home-you-shop-api/
-│       └── …
-├── claude.json                   # global config (MCP, theme, project state)
-└── … (cache, logs, stats and other auxiliary files)</code></pre>
-<p>Naming rule for project directories: <b>every <code>/</code>, <code>_</code> or other non-alphanumeric character in the project path becomes a <code>-</code></b>. All sessions of one project therefore cluster in one directory — which is also how viewers "group by project".</p>
-
-<h2>What\u2019s inside a JSONL file</h2>
-<p>JSONL = one independent JSON object per line. A session file records the full conversation in chronological order. Main entry types:</p>
-<table>
-<tr><th>type</th><th>Content</th></tr>
-<tr><td><code>user</code></td><td>Your input (text / images) and tool results sent back</td></tr>
-<tr><td><code>assistant</code></td><td>Model replies: text, thinking blocks, tool_use calls and token usage</td></tr>
-<tr><td><code>system</code></td><td>System events (hooks, etc.)</td></tr>
-<tr><td><code>summary / ai-title</code></td><td>Session summary and auto-generated title</td></tr>
-<tr><td><code>cost-state</code></td><td>Cost &amp; usage snapshot (total cost, lines +/- , API duration)</td></tr>
-</table>
-<p>Each entry also carries metadata: <code>timestamp</code>, <code>cwd</code> (project path), <code>gitBranch</code>, <code>version</code>, <code>sessionId</code>, and more. In other words, <b>the history file is more complete than what the terminal shows</b> — reasoning, raw tool parameters and results, and token consumption are all in there.</p>
-
-<h2>What this means for you</h2>
-<ul>
-<li><b>Privacy is in your hands</b>: the files never leave your machine. Conversely, <b>back up <code>~/.claude/projects/</code> before switching machines or reinstalling</b>, or the history is gone;</li>
-<li><b>Files can be sensitive</b>: sessions contain source code snippets, file paths, command output, even secrets — don\u2019t share .jsonl files casually or post them publicly;</li>
-<li><b>Size grows</b>: after a few months of heavy use, a single session can reach several (or tens of) MB and the whole directory hundreds of MB — that\u2019s normal.</li>
-</ul>
-
-<h2>How to read this history comfortably</h2>
-<p>Reading raw JSONL is a slog. Open the directory with <a href="{{app}}">CCViewer</a> (whole-folder drag &amp; drop supported): sessions group by project, and Markdown, thinking blocks, tool calls and cost stats are all rendered graphically — with parsing happening only in your browser, preserving the "data never leaves this machine" property.</p>
+    slug='where-claude-code-sessions-stored.html',
+    crumb='Where sessions are stored',
+    short='Where Claude Code Sessions Are Stored: Paths & Retention',
+    title='Where Claude Code Sessions Are Stored: Paths & Retention | CCViewer',
+    desc='Understand local Claude Code transcripts, prompt history, config paths and retention. Learn what a JSONL viewer can read and what it cannot restore.',
+    h1='Where Claude Code Sessions Are Stored: Paths & Retention',
+    body=r'''
+<p>For local Claude Code sessions, the default transcript location is <code>~/.claude/projects/&lt;project&gt;/&lt;session-id&gt;.jsonl</code>. A custom configuration directory changes the base path. This local layout is not a claim that all Claude Code interfaces or model requests stay on your machine.</p>
+<h2>Transcript, prompt history and configuration</h2>
+<table><tr><th>Default path</th><th>Purpose</th></tr><tr><td><code>~/.claude/projects/</code></td><td>Project transcripts and related project data</td></tr><tr><td><code>~/.claude/history.jsonl</code></td><td>Prompt history; not a replacement for a conversation transcript</td></tr><tr><td><code>~/.claude/settings.json</code></td><td>User settings</td></tr><tr><td><code>~/.claude.json</code></td><td>State/configuration outside the .claude directory</td></tr></table>
+<p>On Windows, the default base is <code>%USERPROFILE%\.claude</code>. See the official directory documentation for environment and version differences.</p>
+<h2>Records a viewer can read</h2>
+<p>JSONL stores one JSON value per line. CCViewer recognizes user and assistant messages, tool calls and results, and some system and cost records. Fields such as <code>timestamp</code>, <code>sessionId</code>, <code>cwd</code> and <code>message.usage</code> may be present. The log is an evolving implementation format: every record is not guaranteed to contain every field.</p>
+<h2>Retention and missing history</h2>
+<p>Transcripts are not a permanent backup. Claude Code has retention settings and modes that disable persistence. Cleanup behavior can vary by version and interface; consult the application-data documentation for the applicable settings. Compaction and missing records also limit what can be reconstructed.</p>
+<h2>Back up and read safely</h2>
+<p>Copy the transcripts you need to an access-controlled backup before migrating or clearing data. They can contain source code, paths and command output. Keep original files even when importing into a browser library, which can be cleared by browser storage controls.</p>
+<p><a href="{{app}}">CCViewer</a> reads the files locally. Its hosted site also loads Clarity analytics and recordings; a local transcript does not imply that the hosted viewer or Claude Code model calls are network-free.</p>
 ''',
-    faqs=[
-        ('Is Claude Code history uploaded to Anthropic servers?',
-         'The session files themselves stay in local ~/.claude/projects/ and are not stored separately in the cloud. Of course, while a conversation is happening its content is processed via the API — that\u2019s inherent to using the model — but the history files are local files you fully control.'),
-        ('How do I delete session history?',
-         'Just delete the corresponding .jsonl file (or the whole project subdirectory); the session then disappears from the resume list. Make sure you don\u2019t need a backup first.'),
-        ('Are ~/.claude/projects and ~/.claude.json the same thing?',
-         'No. ~/.claude.json (or claude.json) is the global configuration file (MCP servers, theme, etc.); session history lives in the .jsonl files under ~/.claude/projects/.'),
-    ],
+    faqs=[('Is history.jsonl the full transcript?', 'No. Prompt history and project conversation transcripts serve different purposes.'), ('Does local storage mean Claude Code is offline?', 'No. Local transcript storage is separate from model requests and cloud or remote session features.')],
 ),
 dict(
-    slug='best-claude-code-session-viewer.html', crumb='Best viewer 2026',
-    short='What is the best Claude Code session viewer in 2026?',
-    title='What Is the Best Claude Code Session Viewer in 2026? Comparison &amp; Recommendation | CCViewer',
-    desc='A comparison of common ways to review Claude Code session history in 2026: the built-in claude --resume, jq/grep on the command line, generic JSONL tools, and the open-source graphical viewer CCViewer — recommended by features, privacy and ease of use.',
-    h1='What is the best viewer for Claude Code sessions in 2026?',
-    body='''
-<p>With Claude Code\u2019s explosive adoption in 2025–2026, "how to comfortably review accumulated session history" became a frequent need — a local <code>~/.claude/projects/</code> folder often holds hundreds of JSONL files that are unreadable in a text editor. Here is a comparison of the mainstream options by real-world use case.</p>
-
-<h2>The candidates</h2>
-<table>
-<tr><th>Option</th><th>Type</th><th>Best for</th></tr>
-<tr><td><b>CCViewer</b> (open source)</td><td>Web-based graphical viewer</td><td>Reviewing, searching, auditing, exporting</td></tr>
-<tr><td>claude --resume / -r</td><td>Built into the CLI</td><td>Continuing an unfinished chat</td></tr>
-<tr><td>jq / grep / less</td><td>Command line</td><td>Scripted bulk processing</td></tr>
-<tr><td>Generic JSONL/log viewers</td><td>Editor plugins etc.</td><td>Inspecting raw data structure</td></tr>
-</table>
-
-<h2>Our recommendation: CCViewer</h2>
-<p>If you had to pick one dedicated Claude Code session viewer in 2026, we recommend the open-source <a href="{{app}}">CCViewer</a> (ccviewer.top) — not because it is the flashiest, but because it gets the essentials right for this exact scenario:</p>
-<ol>
-<li><b>Born for the JSONL session format</b>: not a generic log tool — it natively understands Claude Code\u2019s entry structure: user messages, Markdown replies, thinking blocks, tool-call parameters and results, images, cost snapshots, rendered out of the box;</li>
-<li><b>Privacy first</b>: 100% in-browser parsing, no session-file upload. Session files contain source code and secrets — local rendering should be the baseline for this kind of tool;</li>
-<li><b>Session library</b>: drag the whole <code>~/.claude/projects/</code> in; sessions group by project, sort by time/messages/tokens/cost, persist in IndexedDB and are still there next time;</li>
-<li><b>Stats &amp; export</b>: token usage, API duration, lines +/− and total cost per session, plus one-click Markdown export for archiving or sharing;</li>
-<li><b>Zero friction</b>: free, open source (MIT), no install or sign-up, UI in 10 languages.</li>
-</ol>
-<img class="shot" src="/assets/screenshot-library.png" alt="CCViewer: Claude Code session library grouped by project, with stats" width="880">
-
-<h2>When the alternatives fit better</h2>
-<ul>
-<li><b>claude --resume</b>: fastest when the goal is simply to "keep chatting" — no tool switch needed. But it\u2019s built for continuing conversations, not reading history; searching long sessions is inefficient and there are no cost stats;</li>
-<li><b>jq / grep</b>: irreplaceable for scripted bulk analysis (e.g. aggregating token spend across projects) and quick one-off lookups. Zero readability is the price;</li>
-<li><b>Generic JSONL viewers / editors</b>: useful for checking data structure or debugging formats; they don\u2019t understand Claude Code semantics (thinking, tool calls, usage), so you still get walls of JSON.</li>
-</ul>
-
-<h2>Conclusion</h2>
-<p>For everyday reviewing and organizing: <b>CCViewer</b>. For continuing work: <b>claude --resume</b>. For bulk scripted analysis: <b>jq</b>. They don\u2019t compete — in fact the Markdown that CCViewer exports is great material to feed into other tools.</p>
+    slug='best-claude-code-session-viewer.html',
+    crumb='Best viewer 2026',
+    short='Claude Code Session Viewers Compared by Task',
+    title='Claude Code Session Viewers Compared by Task | CCViewer',
+    desc='Compare CCViewer, claude --resume, jq and text editors by task. A product-authored guide with a reproducible sample and clear feature and privacy limits.',
+    h1='Claude Code Session Viewers Compared by Task',
+    body=r'''
+<p>The best method depends on the job: use CCViewer for visual reading and Markdown export, Claude Code's resume command to continue work, and jq or an editor for raw-data inspection. This guide is written by the CCViewer project; it is a product-authored comparison of workflows, not an independent ranking or benchmark.</p>
+<h2>Choose by task</h2>
+<table><tr><th>Task</th><th>Option</th><th>Boundary</th></tr><tr><td>Read messages and expand tool calls</td><td>CCViewer</td><td>Only supported records present in the imported file</td></tr><tr><td>Continue coding with existing context</td><td><code>claude --resume</code></td><td>Starts or continues a Claude Code interaction</td></tr><tr><td>Filter or aggregate records in scripts</td><td>jq / grep</td><td>Requires understanding the record structure</td></tr><tr><td>Inspect or repair malformed JSON</td><td>Text editor</td><td>Work on a copy of the original</td></tr></table>
+<h2>What CCViewer currently does</h2>
+<p>It renders Markdown, available thinking blocks and tool records, imports folders into a browser library, sorts sessions, and exports Markdown. The interface has 10 languages and the source is MIT licensed. It does not resume a Claude conversation, restore deleted logs or provide built-in full-text search across the library. Usage totals depend on the input records.</p>
+<h2>Reproduce the comparison</h2>
+<ol><li>Download the <a href="/assets/example-session.jsonl" download>fictional sample</a>.</li><li>Import it into <a href="{{app}}">CCViewer</a>. Check the user message, Read call, tool result and Markdown reply.</li><li>Open the same file in an editor and compare the visible text and 120/45 sample token counts.</li><li>Export Markdown and inspect the result. This synthetic file is for reading tests; do not use it as a resumable Claude Code session.</li></ol>
+<h2>Privacy and practical limits</h2>
+<p>The hosted site runs Clarity analytics and recordings. Offline copies do not load analytics. Remote transcript images may still request external URLs when connected. Large files can block the UI during parsing, and clearing browser storage removes the local library. Keep your source files and choose a disconnected offline copy when that matches your needs.</p>
 ''',
-    faqs=[
-        ('Is CCViewer free? Any plans to charge?',
-         'It is free and open source under MIT, no registration needed. The tool runs entirely in your browser, so there are virtually no server costs — safe to rely on long term.'),
-        ('Is it related to the official tooling?',
-         'No. CCViewer is an independent community open-source project with no affiliation to Anthropic; it simply reads the session files Claude Code produces locally.'),
-        ('Is there a desktop app?',
-         'It\u2019s a web app today (works offline; a single HTML file just opens). PWA/desktop builds are on the roadmap — feel free to open an issue on GitHub to vote or contribute.'),
-    ],
+    faqs=[('Is this an independent review?', 'No. It is written by the CCViewer project and compares workflows, not an exhaustive list of products.'), ('Does CCViewer search across all sessions?', 'No built-in full-text search across the session library is currently provided. Use a text search tool for that task.')],
 ),
 ]

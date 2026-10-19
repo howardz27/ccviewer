@@ -4,6 +4,7 @@ import json
 import re
 from pathlib import Path
 import xml.etree.ElementTree as ET
+from seo import APP_URL, REPOSITORY
 
 ROOT = Path(__file__).resolve().parent
 LANGS = [('en', 'English'), ('zh', '中文'), ('ja', '日本語'), ('ko', '한국어'),
@@ -42,6 +43,7 @@ def resources(lang):
 <ul>
 <li><a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" rel="noopener noreferrer">Claude Code — {html.escape(ui['resourcesDocs'])}</a></li>
 <li><a href="https://code.claude.com/docs/en/cli-reference" target="_blank" rel="noopener noreferrer">Claude Code — CLI</a></li>
+<li><a href="https://code.claude.com/docs/en/claude-directory" target="_blank" rel="noopener noreferrer">Claude Code — ~/.claude</a></li>
 <li><a href="https://jsonlines.org/" target="_blank" rel="noopener noreferrer">JSON Lines (.jsonl)</a></li>
 <li><a href="https://github.com/howardz27/ccviewer/issues" target="_blank" rel="noopener noreferrer">GitHub — {html.escape(ui['resourcesIssues'])}</a></li>
 </ul></aside>'''
@@ -83,3 +85,35 @@ def build_routes(guide_slugs, article_dates, published_date):
     from xml.dom import minidom
     xml = minidom.parseString(ET.tostring(sitemap, encoding='utf-8')).toprettyxml(indent='  ', encoding='UTF-8')
     (ROOT.parent / 'sitemap.xml').write_bytes(xml)
+
+
+def build_discovery():
+    """Optional plain-text navigation, not a search-engine indexing protocol."""
+    lines = [
+        '# CCViewer', '',
+        '> Free, MIT-licensed browser viewer for saved Claude Code JSONL sessions.', '',
+        'CCViewer is an independent community project, not affiliated with Anthropic.',
+        'It renders supported messages, thinking blocks and tool calls, imports folders,',
+        'stores a browser library and exports Markdown. It cannot resume sessions or',
+        'restore missing records. Statistics depend on the records in each file.', '',
+        'Files are parsed locally. The hosted site automatically loads Microsoft Clarity',
+        'analytics and recordings. Offline copies do not load analytics. Remote images',
+        'may still request external URLs when networking is available.', '',
+        '## Product and source', '',
+        f'- [Viewer]({APP_URL}): English application.',
+        f'- [Source and MIT license]({REPOSITORY}): implementation and issue tracker.',
+        '- [Fictional sample](https://ccviewer.top/assets/example-session.jsonl): reading fixture, not a resumable session.', '',
+        '## Guides by language', '',
+    ]
+    for lang, label in LANGS:
+        prefix = APP_URL + ('' if lang == 'en' else lang + '/')
+        lines.append(f'- [{label}]({prefix}help): session reading, file lookup, storage and workflow comparison.')
+    lines += ['', '## English reference guides', '']
+    for slug, label in [
+        ('how-to-view-claude-code-session-history', 'Read and export session history'),
+        ('find-claude-code-session-jsonl-file', 'Find JSONL files on macOS, Linux and Windows'),
+        ('where-claude-code-sessions-stored', 'Storage, retention and record limitations'),
+        ('best-claude-code-session-viewer', 'Product-authored workflow comparison'),
+    ]:
+        lines.append(f'- [{label}]({APP_URL}{slug})')
+    (ROOT.parent / 'llms.txt').write_text('\n'.join(lines) + '\n', encoding='utf-8')
