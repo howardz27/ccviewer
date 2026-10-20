@@ -47,7 +47,7 @@
 | Product Hunt | 真实功能介绍、开源定价、3 张截图、作者身份与首条介绍 | 已提交，预约北京时间 2026-10-20 15:01 发布 |
 | Show HN | 准备真实演示、更新记录、产品截图及作者声明，发布时回应技术问题 | 尚未提交 |
 
-2026-10-19 目录提交进展：Future Tools 已提交、待人工审核；Product Hunt 已创建产品页，后台确认 Scheduled，预约于北京时间 2026-10-20 15:01 正式发布；Uneed 等待用户确认登录时接受服务条款。费用核验、回执和复用文案见 [目录提交记录](directory-submissions.zh-CN.md)。
+2026-10-20 目录提交进展：Future Tools 已提交、待人工审核；Product Hunt 已创建产品页，后台确认 Scheduled，预约于北京时间 2026-10-20 15:01 正式发布；Uneed 已完成 Google 登录并保存完整产品资料，但免费队列未来 5 个月已满，未排期、未公开上架、未付费。费用核验、回执和复用文案见 [目录提交记录](directory-submissions.zh-CN.md)。
 
 Awesome Claude Code 当前要求项目至少 14 天且持续维护，或至少 100 stars，并要求推荐由人类通过网页 issue 表单提交，不能用 PR/gh 代替；[贡献规则](https://github.com/hesreallyhim/awesome-claude-code/blob/main/CONTRIBUTING.md)。本次没有绕过规则提交。
 
