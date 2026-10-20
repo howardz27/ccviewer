@@ -68,9 +68,9 @@ DevHunt [免费产品页成功证据](evidence/devhunt-free-listing-created.png)
 | --- | --- | --- |
 | [SaaSHub](https://www.saashub.com/manage/ccviewer) | 登录现有 Howard_Zhu 账号，更新 50 字符 tagline、完整介绍、MIT 开源和 GitHub 源码；成功上传现有 Logo 及首页、查看器、会话库三张截图；保存 Free Option=Yes、Free Trial=No、Paid Option=No。正常免费 Verify 首次返回 502，重试成功；管理页 **Verification Status: ACTIVE**，带 Officially verified details 标志。 | **仍为 Pending approval**，验证不等于审核通过。不要重复创建产品。平台要求每季度重新验证，未创建自动任务。 |
 | [Nick Launches](https://nicklaunches.com/submit/thanks/?slug=ccviewer&plan=free) | Google 登录；保存完整介绍、使用场景、替代产品、定价、4 项 FAQ、源码、Logo 及 3 张截图，选择 Developer Tools / Open Source / Productivity，免费开源。选择 $0 Free Launch，完成三轮产品比较；最早可选免费周为 **2026-11-16 至 11-22**。最终回执 **Submission received / Thanks, you’re in the queue**。 | **已提交，待社区审核及排期发布**，未计作已公开收录。产品目标页 https://nicklaunches.com/products/ccviewer/ 。 |
-| [G2](https://www.g2.com/seller_login) | 到达免费产品申请前的登录页，提供 Google / LinkedIn；页面明确继续即接受 G2 条款及隐私政策。 | 已展示具体条款并请求用户确认，尚未收到本轮确认，未登录或创建 listing。后续也可能要求 business email / LinkedIn 身份验证，不虚构工作邮箱。 |
-| [Crunchbase](https://www.crunchbase.com/add-new) | 到达新建资料前的注册页，支持 Google；注册即接受其条款和隐私政策。 | 已展示具体条款并请求用户确认，尚未收到本轮确认。不得为独立项目编造注册公司、总部、员工或融资资料。 |
-| [Capterra](https://www.capterra.com/vendors/) | 核对官方供应商入口，实际页面持续显示 Cloudflare 安全验证；Computer Use 可见页面没有复选框或其他可操作验证控件。 | **未提交**。保留页面待验证恢复；供应商入口现在介绍 G2 Digital Markets，不把 G2 申请自动算作 Capterra 收录。 |
+| [G2](https://www.g2.com/seller_login) | 用户告知已登录后，重新访问产品创建入口并续接 Google 登录；返回提示 **You must be validated through LinkedIn or business email to access this page**。 | **未提交**。普通 Google 登录尚不能获得产品创建权限；已请求用户选择 LinkedIn 验证或提供真实企业邮箱。不是再次等待条款确认。 |
+| [Crunchbase](https://www.crunchbase.com/organization/ccviewer) | **已提交并创建资料页**。用户完成登录后保存 CCViewer 名称、简短和完整介绍、官网、Claude Code Session Viewer 别名、现有 Logo 和 Open Source 行业。回执 Edit successfully made / Your edits have been submitted；随后资料页显示全部已填内容及官网链接。 | 登录态详情页已可访问；搜索引擎收录未验证。法律名称、总部、员工、成立日期和融资等未知字段留空；说明明确是 independent open-source project。未购买 Pro 或启动试用。 |
+| [Capterra](https://www.capterra.com/vendors/) | 用户验证后供应商页面可正常访问；Get Your Product Listed 明确链接到 https://www.g2.com/products/new ，与 G2 的产品创建身份验证相同。另查既有 Vendor Account login 指向 https://app.g2digitalmarkets.com/ 。 | **未提交**。G2 路径仍需 LinkedIn / 企业邮箱验证；独立供应商后台持续 Cloudflare 自动验证，未显示可点击控件。不能把普通登录或 Crunchbase 成功记作 Capterra 收录。 |
 | AI Tool Directory | 名称对应多个站点，已请求准确网址。此前 ToolDirectory.AI 的 Stripe 路径未确认免费，不能据此记为已提交。 | 等待目标 URL；CCViewer 读取现有 AI 会话，本身不运行模型，不能虚称 AI 生成工具以满足目录要求。 |
 
 Nick Launches 徽章是免费 listing 的必要条件。已将官方 6,798 字节 PNG 内嵌到共用模板页脚并重建 10 个语言页，保留离线单文件，不增加外部图片请求。首次检测发生在部署更新前，平台提供“已安装，继续并人工核验”的正常入口；官网部署可见后再检查，回执明确 **Verified / Badge backlink found**。徽章需保持在线以维持免费 listing。
@@ -78,6 +78,8 @@ Nick Launches 徽章是免费 listing 的必要条件。已将官方 6,798 字�
 证据：[SaaSHub 已完善且 ACTIVE](evidence/saashub-profile-enriched.png)、[免费验证成功提示](evidence/saashub-verified.png)、[Nick Launches 免费提交及徽章验证](evidence/nick-launches-free-submitted.png)、[官网徽章](evidence/nick-launches-home-badge.png)、[G2 条款步骤](evidence/g2-signin-terms.png)、[Crunchbase 条款步骤](evidence/crunchbase-register-terms.png)、[Capterra 安全检查](evidence/capterra-security-check.png)。
 
 代码验证：构建完成；`tests/check_pages.py` 的 60 页结构化数据、canonical/hreflang、链接及 sitemap 检查通过；`git diff --check` 通过，线上浏览器确认徽章及目标链接，Nick Launches 实际检测通过。线上路由脚本因本机 Python 缺少可信证书链而未完成，未绕过 TLS 验证。徽章部署提交为 `4b4e328`。
+
+登录后续证据：[Crunchbase 提交成功回执](evidence/crunchbase-submitted.png)、[已创建的资料及官网链接](evidence/crunchbase-profile-created.png)、[G2 要求企业身份验证](evidence/g2-business-validation-required.png)。Crunchbase 编辑过程遭遇原标签页失联，恢复原地址未发现待保存记录后从正常入口重新填写；只执行一次成功保存，未重复发布资料。
 
 ## 复用提交材料
 
