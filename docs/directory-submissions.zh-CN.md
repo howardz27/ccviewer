@@ -32,17 +32,17 @@ Product Hunt [产品页截图](evidence/product-hunt-created.png)、[预约成�
 
 ## 新增 5 个免费渠道核验（2026-10-20）
 
-用户要求选择另外 5 个免费、优先成熟的软件和开发者平台进行提交。原先目标为 DevHunt、SaaSHub、AlternativeTo、SourceForge、Launching Next；实际因注册和安全验证限制，补选 Peerlist、Devpost。截至当前步骤，**新增成功提交 / 创建产品页 4/5**：DevHunt、Launching Next、SaaSHub、Peerlist。Devpost 等待新站点注册条款确认。
+用户要求选择另外 5 个免费、优先成熟的软件和开发者平台进行提交。最终完成 **5/5**：**DevHunt、Launching Next、SaaSHub、Peerlist、SourceForge**。其中 SaaSHub、Launching Next、SourceForge 仍待平台审核；DevHunt 和 Peerlist 已创建产品 / 项目页，未验证搜索引擎收录。AlternativeTo、Devpost 不计入完成数。
 
 | 平台 | 免费路径与选择依据 | 当前实际进度 |
 | --- | --- | --- |
 | [DevHunt](https://devhunt.org/tool/ccviewer) | 官方 FAQ 区分免费永久 listing 与付费 launch；开发者工具受众匹配。免费链接为 nofollow。首页自报 Ahrefs DR 65，未经独立核验，不作为保证。 | **已完成免费提交，产品页已创建**。Google 验证后完成基本资料，保存产品、Logo、真实说明、GitHub 和首条介绍，并选择 Keep my free spot。页面显示 **2031-08-19** 正式 launch，不应当作近期首页曝光。独立公开抓取失败，搜索引擎收录尚未验证。 |
 | [SaaSHub](https://www.saashub.com/ccviewer/added) | 成熟的软件目录，接受已发布的英语软件及应用，有免费审核申请。实际免费队列写明 1–12 周。 | **已免费提交，待人工审核**。回执显示“CCViewer was submitted successfully”，明确审核后才会上线。选择 Developer Tools、Open Source、Productivity，并补充 Web App；同类产品 ccusage、Claudebin。联系邮箱使用已授权账户，未虚构域名邮箱验证、LinkedIn、定价或用户评价。尚未登录认领，Logo 和扩展说明管理需要账号。 |
 | [AlternativeTo](https://alternativeto.net/faq/) | 成熟的社区软件目录；官方 FAQ 提供 Suggest new application 流程，需验证邮箱并审核。 | 安全验证已通过。注册页仅显示用户名、邮箱、新密码，并要求接受条款；未显示 Google 入口，已请求用户亲自注册及验证邮箱。尚未提交产品。 |
-| [SourceForge](https://docs.sourceforge.net/sourceforge-product-page) | 成熟的软件发现平台；官方文档说明基础 listing 管理免费。 | **尚未确认提交成功**。搜索 CCViewer 返回 0 产品，已完整填写。用户接手后表单出现已勾选条款及提交校验错误“URLs are not allowed”；已移除简介中的 GitHub URL、重新附加 Logo 并提交，但 `/software/vendors/new_submit` 持续停留在 Cloudflare 验证循环，未得到回执。不计入完成数。 |
+| [SourceForge](https://sourceforge.net/software/vendors/new_submitted) | 成熟的软件发现平台；官方文档说明基础 listing 管理免费。 | **免费申请提交成功，待审核**。最终页面标题 Software Request Submitted，显示 Request Received / THANKS，明确正在审核。验证通过后旧 POST 跳转为 GET 并返回 405；从正常表单恢复全部资料、移除简介中不允许的 URL、重新选择 Logo 后提交成功。无需先注册即可申请，管理获批页面需要账号。未选择付费营销服务。 |
 | [Launching Next](https://www.launchingnext.com/submit/) | 官方明确免费提交，$99 仅为可选加急；接受 side project。 | **已免费提交，待审核**。恢复页面时已经显示 Submitted、Status: In Queue，预计等待 4 个月；申请编号 `163932`。未点击 $99 加急或结账。 |
 | [Peerlist](https://peerlist.io/zhuyinghao0427/project/ccviewer) | 开发者社区项目作品集，支持免费添加项目，适合开源开发工具。未核验独立 DA/DR，未承诺权重提升。 | **项目页已创建**。Google 基础资料登录成功；补充真实简介、官网和已使用的 Product Hunt 账号。项目 DevTool / Productivity 类别、JavaScript、开源源码链接、完整功能及隐私边界说明、Logo 和 3 张真实截图，编辑器显示 100% 完成。未申请付费推广、身份认证或邀请他人。未参加每周 Launchpad，独立公开抓取失败，搜索引擎收录未验证。 |
-| [Devpost](https://devpost.com/users/register) | [官方帮助](https://help.devpost.com/article/116-adding-projects-to-your-portfolio) 支持不参加比赛、直接添加项目作品集。 | 注册页支持 Google，但创建账户明确接受新站点条款；已取消 newsletter 并请求用户当次确认，尚未完成注册或发布。不计入完成数。 |
+| [Devpost](https://devpost.com/users/register) | [官方帮助](https://help.devpost.com/article/116-adding-projects-to-your-portfolio) 支持不参加比赛、直接添加项目作品集。 | 仅作为备用渠道检查了注册页，未注册或发布。SourceForge 成功后本轮已完成 5 个，无需再接受该站条款。不计入完成数。 |
 
 备用平台核验结果：
 
@@ -56,9 +56,9 @@ Product Hunt [产品页截图](evidence/product-hunt-created.png)、[预约成�
 
 DevHunt [免费产品页成功证据](evidence/devhunt-free-listing-created.png)。已清理自动抓取的页面导航混入简介问题，明确本地处理、Clarity 和离线版本的区别；保留现有官网宣传图，未虚构媒体或用户评价。
 
-其他本次证据：[Launching Next 已进入队列](evidence/launching-next-submitted.png)、[SaaSHub 成功回执](evidence/saashub-submitted.png)、[Peerlist 项目页](evidence/peerlist-project-published.png)、[SourceForge 提交后的验证循环](evidence/sourceforge-post-verification-loop.png)。
+其他本次证据：[Launching Next 已进入队列](evidence/launching-next-submitted.png)、[SaaSHub 成功回执](evidence/saashub-submitted.png)、[Peerlist 项目页](evidence/peerlist-project-published.png)、[SourceForge 最终成功回执](evidence/sourceforge-submitted.png)。此前的 [SourceForge 验证循环](evidence/sourceforge-post-verification-loop.png) 只用于记录已解决的障碍。
 
-没有付费、没有购买加急、没有将任何等待验证、草稿或账号选择算成提交成功。待用户完成必要确认后，继续原页面并以成功回执更新记录。SourceForge [最后确认项](evidence/sourceforge-form-ready.png) 包含通讯接收同意。用户随后要求“继续”时推进已列明的确认流程；Devpost 属于新增站点，另行请求其当次条款确认。
+没有付费、没有购买加急、没有将任何等待验证、草稿或账号选择算成提交成功。SourceForge [确认项](evidence/sourceforge-form-ready.png) 包含通讯接收同意。用户要求“继续”后推进已列明流程，并在用户明确要求使用 Computer Use 操作验证后继续排查，最终通过正常表单完成申请。没有绕过安全保护、伪造注册资料或购买 SEO 服务。
 
 ## 复用提交材料
 
