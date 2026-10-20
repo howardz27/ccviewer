@@ -37,7 +37,7 @@ Product Hunt [产品页截图](evidence/product-hunt-created.png)、[预约成�
 | 平台 | 免费路径与选择依据 | 当前实际进度 |
 | --- | --- | --- |
 | [DevHunt](https://devhunt.org/tool/ccviewer) | 官方 FAQ 区分免费永久 listing 与付费 launch；开发者工具受众匹配。免费链接为 nofollow。首页自报 Ahrefs DR 65，未经独立核验，不作为保证。 | **已完成免费提交，产品页已创建**。Google 验证后完成基本资料，保存产品、Logo、真实说明、GitHub 和首条介绍，并选择 Keep my free spot。页面显示 **2031-08-19** 正式 launch，不应当作近期首页曝光。独立公开抓取失败，搜索引擎收录尚未验证。 |
-| [SaaSHub](https://www.saashub.com/ccviewer/added) | 成熟的软件目录，接受已发布的英语软件及应用，有免费审核申请。实际免费队列写明 1–12 周。 | **已免费提交，待人工审核**。回执显示“CCViewer was submitted successfully”，明确审核后才会上线。选择 Developer Tools、Open Source、Productivity，并补充 Web App；同类产品 ccusage、Claudebin。联系邮箱使用已授权账户，未虚构域名邮箱验证、LinkedIn、定价或用户评价。尚未登录认领，Logo 和扩展说明管理需要账号。 |
+| [SaaSHub](https://www.saashub.com/ccviewer/added) | 成熟的软件目录，接受已发布的英语软件及应用，有免费审核申请。实际免费队列写明 1–12 周。 | **已免费提交，待人工审核**。回执显示“CCViewer was submitted successfully”，明确审核后才会上线。选择 Developer Tools、Open Source、Productivity，并补充 Web App；同类产品 ccusage、Claudebin。联系邮箱使用已授权账户，未虚构域名邮箱验证、LinkedIn、定价或用户评价。后续已登录现有账号补齐 Logo、截图、说明和免费定价，完成免费验证；详见下方六站推进记录。 |
 | [AlternativeTo](https://alternativeto.net/faq/) | 成熟的社区软件目录；官方 FAQ 提供 Suggest new application 流程，需验证邮箱并审核。 | 安全验证已通过。注册页仅显示用户名、邮箱、新密码，并要求接受条款；未显示 Google 入口，已请求用户亲自注册及验证邮箱。尚未提交产品。 |
 | [SourceForge](https://sourceforge.net/software/vendors/new_submitted) | 成熟的软件发现平台；官方文档说明基础 listing 管理免费。 | **免费申请提交成功，待审核**。最终页面标题 Software Request Submitted，显示 Request Received / THANKS，明确正在审核。验证通过后旧 POST 跳转为 GET 并返回 405；从正常表单恢复全部资料、移除简介中不允许的 URL、重新选择 Logo 后提交成功。无需先注册即可申请，管理获批页面需要账号。未选择付费营销服务。 |
 | [Launching Next](https://www.launchingnext.com/submit/) | 官方明确免费提交，$99 仅为可选加急；接受 side project。 | **已免费提交，待审核**。恢复页面时已经显示 Submitted、Status: In Queue，预计等待 4 个月；申请编号 `163932`。未点击 $99 加急或结账。 |
@@ -59,6 +59,25 @@ DevHunt [免费产品页成功证据](evidence/devhunt-free-listing-created.png)
 其他本次证据：[Launching Next 已进入队列](evidence/launching-next-submitted.png)、[SaaSHub 成功回执](evidence/saashub-submitted.png)、[Peerlist 项目页](evidence/peerlist-project-published.png)、[SourceForge 最终成功回执](evidence/sourceforge-submitted.png)。此前的 [SourceForge 验证循环](evidence/sourceforge-post-verification-loop.png) 只用于记录已解决的障碍。
 
 没有付费、没有购买加急、没有将任何等待验证、草稿或账号选择算成提交成功。SourceForge [确认项](evidence/sourceforge-form-ready.png) 包含通讯接收同意。用户要求“继续”后推进已列明流程，并在用户明确要求使用 Computer Use 操作验证后继续排查，最终通过正常表单完成申请。没有绕过安全保护、伪造注册资料或购买 SEO 服务。
+
+## 用户指定六站推进（2026-10-20）
+
+本轮按 SaaSHub、AI Tool Directory、Crunchbase、G2、Capterra、Nick Launches 继续操作，所有付费推广均未购买。
+
+| 平台 | 本轮实际结果 | 尚需处理 |
+| --- | --- | --- |
+| [SaaSHub](https://www.saashub.com/manage/ccviewer) | 登录现有 Howard_Zhu 账号，更新 50 字符 tagline、完整介绍、MIT 开源和 GitHub 源码；成功上传现有 Logo 及首页、查看器、会话库三张截图；保存 Free Option=Yes、Free Trial=No、Paid Option=No。正常免费 Verify 首次返回 502，重试成功；管理页 **Verification Status: ACTIVE**，带 Officially verified details 标志。 | **仍为 Pending approval**，验证不等于审核通过。不要重复创建产品。平台要求每季度重新验证，未创建自动任务。 |
+| [Nick Launches](https://nicklaunches.com/submit/thanks/?slug=ccviewer&plan=free) | Google 登录；保存完整介绍、使用场景、替代产品、定价、4 项 FAQ、源码、Logo 及 3 张截图，选择 Developer Tools / Open Source / Productivity，免费开源。选择 $0 Free Launch，完成三轮产品比较；最早可选免费周为 **2026-11-16 至 11-22**。最终回执 **Submission received / Thanks, you’re in the queue**。 | **已提交，待社区审核及排期发布**，未计作已公开收录。产品目标页 https://nicklaunches.com/products/ccviewer/ 。 |
+| [G2](https://www.g2.com/seller_login) | 到达免费产品申请前的登录页，提供 Google / LinkedIn；页面明确继续即接受 G2 条款及隐私政策。 | 已展示具体条款并请求用户确认，尚未收到本轮确认，未登录或创建 listing。后续也可能要求 business email / LinkedIn 身份验证，不虚构工作邮箱。 |
+| [Crunchbase](https://www.crunchbase.com/add-new) | 到达新建资料前的注册页，支持 Google；注册即接受其条款和隐私政策。 | 已展示具体条款并请求用户确认，尚未收到本轮确认。不得为独立项目编造注册公司、总部、员工或融资资料。 |
+| [Capterra](https://www.capterra.com/vendors/) | 核对官方供应商入口，实际页面持续显示 Cloudflare 安全验证；Computer Use 可见页面没有复选框或其他可操作验证控件。 | **未提交**。保留页面待验证恢复；供应商入口现在介绍 G2 Digital Markets，不把 G2 申请自动算作 Capterra 收录。 |
+| AI Tool Directory | 名称对应多个站点，已请求准确网址。此前 ToolDirectory.AI 的 Stripe 路径未确认免费，不能据此记为已提交。 | 等待目标 URL；CCViewer 读取现有 AI 会话，本身不运行模型，不能虚称 AI 生成工具以满足目录要求。 |
+
+Nick Launches 徽章是免费 listing 的必要条件。已将官方 6,798 字节 PNG 内嵌到共用模板页脚并重建 10 个语言页，保留离线单文件，不增加外部图片请求。首次检测发生在部署更新前，平台提供“已安装，继续并人工核验”的正常入口；官网部署可见后再检查，回执明确 **Verified / Badge backlink found**。徽章需保持在线以维持免费 listing。
+
+证据：[SaaSHub 已完善且 ACTIVE](evidence/saashub-profile-enriched.png)、[免费验证成功提示](evidence/saashub-verified.png)、[Nick Launches 免费提交及徽章验证](evidence/nick-launches-free-submitted.png)、[官网徽章](evidence/nick-launches-home-badge.png)、[G2 条款步骤](evidence/g2-signin-terms.png)、[Crunchbase 条款步骤](evidence/crunchbase-register-terms.png)、[Capterra 安全检查](evidence/capterra-security-check.png)。
+
+代码验证：构建完成；`tests/check_pages.py` 的 60 页结构化数据、canonical/hreflang、链接及 sitemap 检查通过；`git diff --check` 通过，线上浏览器确认徽章及目标链接，Nick Launches 实际检测通过。线上路由脚本因本机 Python 缺少可信证书链而未完成，未绕过 TLS 验证。徽章部署提交为 `4b4e328`。
 
 ## 复用提交材料
 
