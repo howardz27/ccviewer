@@ -30,6 +30,32 @@ Product Hunt [产品页截图](evidence/product-hunt-created.png)、[预约成�
 
 因此本轮不能记作“已加入免费队列”或“已新增 Uneed 公开目录外链”。未购买付费服务，也未创建自动监测或未来重试任务。
 
+## 新增 5 个免费渠道核验（2026-10-20）
+
+用户要求选择另外 5 个免费、优先成熟的软件和开发者平台进行提交。本次优先目标为 **DevHunt、SaaSHub、AlternativeTo、SourceForge、Launching Next**。截至当前步骤，**新增成功提交 1/5**；其余 4 个仍是待确认或待注册状态。
+
+| 平台 | 免费路径与选择依据 | 当前实际进度 |
+| --- | --- | --- |
+| [DevHunt](https://devhunt.org/tool/ccviewer) | 官方 FAQ 区分免费永久 listing 与付费 launch；开发者工具受众匹配。免费链接为 nofollow。首页自报 Ahrefs DR 65，未经独立核验，不作为保证。 | **已完成免费提交，产品页已创建**。Google 验证后完成基本资料，保存产品、Logo、真实说明、GitHub 和首条介绍，并选择 Keep my free spot。页面显示 **2031-08-19** 正式 launch，不应当作近期首页曝光。独立公开抓取失败，搜索引擎收录尚未验证。 |
+| [SaaSHub](https://www.saashub.com/services/submit) | 成熟的软件目录，接受已发布的英语软件及应用，有免费审核申请。 | 已填写规范产品 URL；Continue 明确表示同意服务条款和隐私政策，已请求用户当次确认，尚未点击。域名邮箱验证只是优先审核条件，未虚构域名邮箱。 |
+| [AlternativeTo](https://alternativeto.net/faq/) | 成熟的社区软件目录；官方 FAQ 提供 Suggest new application 流程，需验证邮箱并审核。 | 安全验证已通过。注册页仅显示用户名、邮箱、新密码，并要求接受条款；未显示 Google 入口，已请求用户亲自注册及验证邮箱。尚未提交产品。 |
+| [SourceForge](https://docs.sourceforge.net/sourceforge-product-page) | 成熟的软件发现平台；官方文档说明基础 listing 管理免费。 | 安全验证已通过，搜索 CCViewer 返回 0 产品。已完整填写产品申请并选择 Logo、Log Analysis、Free Version、Online、Documentation、SaaS/Web。未虚构电话、成立日期或公司地点。最后必选项同时接受条款、隐私政策和接收通讯，已请求明确确认，尚未勾选或提交。 |
+| [Launching Next](https://www.launchingnext.com/submit/) | 官方明确免费提交，$99 仅为可选加急；接受 side project。 | 已填写名称、URL、8 词 headline、功能及隐私边界介绍、7 个标签、Side project、$0 营销预算和联系资料；已取消 newsletter。最后是 2+3 人机验证，已请求当次操作许可，尚未填答或提交。 |
+
+备用平台核验结果：
+
+- [BetaList](https://betalist.com/support) 当前提交收费，剔除。
+- [TopAI.tools](https://www.topai.tools/submit) 当前 Fast Track $47，剔除。
+- [AIxploria 免费入口](https://www.aixploria.com/free-listings/) 仍可见，但嵌入的 Tally 表单返回“page was not found”，未提交。
+- [OpenSourceAlternative.to](https://opensourcealternative.to/submit) 免费队列预计 6+ 个月，而且要求替代明确的闭源产品；CCViewer 不应虚构替代关系，未提交。
+- [Alternative.me](https://alternative.me/how-to/submit-software/) 需邮箱和新密码注册，未提供 Google 登录，未创建凭据。
+- [SaaSworthy](https://www.saasworthy.com/offerings) 本次访问被站点安全团队拦截，未提交。
+- [10015 Tools](https://www.10015.io/product-finder/submit) 免费队列 3–4 个月、nofollow；页面把 Google 索引作为付费 featured 权益，优先级低于上述 5 个。登录要求接受其条款，未接受或提交。
+
+DevHunt [免费产品页成功证据](evidence/devhunt-free-listing-created.png)。已清理自动抓取的页面导航混入简介问题，明确本地处理、Clarity 和离线版本的区别；保留现有官网宣传图，未虚构媒体或用户评价。
+
+没有付费、没有购买加急、没有将任何等待验证、草稿或账号选择算成提交成功。待用户完成必要确认后，继续原页面并以成功回执更新记录。SourceForge [最后确认项](evidence/sourceforge-form-ready.png) 包含通讯接收同意，不能把用户“已验证”解读成接受这些条款。
+
 ## 复用提交材料
 
 - 名称：CCViewer
