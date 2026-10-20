@@ -124,6 +124,20 @@
   "helpCenter": "Centre d'aide",
   "resourcesTitle": "Ressources officielles",
   "resourcesDocs": "Documentation",
-  "resourcesIssues": "Signaler un problème"
+  "resourcesIssues": "Signaler un problème",
+  "refresh": "Actualiser",
+  "autoRefresh": "Actualisation automatique",
+  "autoRefreshOff": "Désactivée",
+  "refresh2s": "Toutes les 2 s",
+  "refresh5s": "Toutes les 5 s",
+  "refresh10s": "Toutes les 10 s",
+  "refresh30s": "Toutes les 30 s",
+  "refreshReady": "Fichier connecté · lecture du contenu local le plus récent",
+  "refreshReconnect": "Cliquez sur Actualiser pour sélectionner à nouveau le fichier. L’actualisation automatique nécessite un accès continu au fichier.",
+  "refreshing": "Actualisation…",
+  "refreshChecked": "Vérifié à {time}",
+  "refreshFailed": "Impossible de lire le fichier. Cliquez sur Actualiser pour le reconnecter.",
+  "refreshWrongFile": "Sélectionnez le fichier source de cette session.",
+  "imagePreview": "Aperçu de l’image"
  }
 }

@@ -124,6 +124,20 @@
   "helpCenter": "ヘルプ",
   "resourcesTitle": "公式リソース",
   "resourcesDocs": "ドキュメント",
-  "resourcesIssues": "問題を報告"
+  "resourcesIssues": "問題を報告",
+  "refresh": "更新",
+  "autoRefresh": "自動更新",
+  "autoRefreshOff": "オフ",
+  "refresh2s": "2 秒ごと",
+  "refresh5s": "5 秒ごと",
+  "refresh10s": "10 秒ごと",
+  "refresh30s": "30 秒ごと",
+  "refreshReady": "元ファイルに接続済み · 最新のローカル内容を読み込みます",
+  "refreshReconnect": "更新をクリックして元ファイルを再選択してください。自動更新には継続的なファイルアクセスが必要です。",
+  "refreshing": "更新中…",
+  "refreshChecked": "確認時刻：{time}",
+  "refreshFailed": "元ファイルを読み込めません。更新をクリックして再接続してください。",
+  "refreshWrongFile": "このセッションの元ファイルを選択してください。",
+  "imagePreview": "画像プレビュー"
  }
 }

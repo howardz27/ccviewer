@@ -124,6 +124,20 @@
   "helpCenter": "Help Center",
   "resourcesTitle": "Official resources",
   "resourcesDocs": "Documentation",
-  "resourcesIssues": "Report an issue"
+  "resourcesIssues": "Report an issue",
+  "refresh": "Refresh",
+  "autoRefresh": "Auto refresh",
+  "autoRefreshOff": "Off",
+  "refresh2s": "Every 2 s",
+  "refresh5s": "Every 5 s",
+  "refresh10s": "Every 10 s",
+  "refresh30s": "Every 30 s",
+  "refreshReady": "Source connected · reads the latest local file",
+  "refreshReconnect": "Select the source file with Refresh to reconnect. Automatic refresh requires live file access.",
+  "refreshing": "Refreshing…",
+  "refreshChecked": "Checked at {time}",
+  "refreshFailed": "Cannot read the source. Click Refresh to reconnect.",
+  "refreshWrongFile": "Choose the source file for this session.",
+  "imagePreview": "Image preview"
  }
 }

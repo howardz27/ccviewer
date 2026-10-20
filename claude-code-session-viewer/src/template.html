@@ -58,6 +58,17 @@ code,pre,.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,mon
 select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 14px) 55%,calc(100% - 9px) 55%;background-size:5px 5px;background-repeat:no-repeat;cursor:pointer}
 .toggle{display:inline-flex;align-items:center;gap:5px;color:var(--dim);font-size:12px;cursor:pointer;user-select:none}
 .toggle input{accent-color:var(--accent)}
+#refreshbar{display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:8px 16px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0}
+#refreshbar.hidden{display:none}
+#refreshStatus{font-size:12px;color:var(--dim);overflow-wrap:anywhere}
+#refreshStatus.error{color:var(--red)}
+.btn:disabled{opacity:.5;cursor:default}
+#imagePreview{position:fixed;inset:0;z-index:1000;margin:auto;width:100vw;height:100vh;max-width:none;max-height:none;border:0;padding:56px 20px 20px;background:rgba(0,0,0,.92);color:var(--text)}
+#imagePreview::backdrop{background:rgba(0,0,0,.7)}
+#imagePreview[open]{display:flex;align-items:center;justify-content:center}
+#imagePreview img{max-width:100%;max-height:100%;object-fit:contain}
+#imagePreview button{position:absolute;right:20px;top:14px}
+#stream img{cursor:zoom-in}
 #main{display:flex;flex:1;min-height:0}
 /* sidebar */
 #sidebar{width:280px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);overflow-y:auto;padding:14px}
@@ -277,6 +288,8 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .btn.primary:hover{opacity:.9;color:#1a1109}
 .site-resources,.site-languages{max-width:1100px;margin:18px auto;padding:0 24px;color:var(--dim)}
 .site-resources h2{font-size:16px}.site-resources ul{display:flex;flex-wrap:wrap;gap:10px 28px;padding-left:18px}.site-resources a,.site-languages a{color:var(--user)}
+@media(max-width:900px){#topbar{flex-wrap:wrap;gap:8px}#topbar .brand{max-width:100%;min-width:0}#fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#sidebar{width:220px}#content{padding:18px}}
+@media(max-width:600px){#sidebar,#nav.show,#btnNavToggle{display:none}}
 </style>
 {{analytics}}
 </head>
@@ -296,6 +309,19 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <select class="btn langsel" aria-label="Language"></select>
     <button class="btn" id="btnPasteTop" data-i18n="pasteText">粘贴文本</button>
     <button class="btn" id="btnOpen" data-i18n="openFile">打开文件</button>
+  </div>
+  <div id="refreshbar" class="hidden">
+    <button class="btn" id="btnRefresh" data-i18n="refresh">刷新</button>
+    <label class="toggle"><span data-i18n="autoRefresh">自动刷新</span>
+      <select class="btn" id="autoRefresh" aria-label="Auto refresh">
+        <option value="0" data-i18n="autoRefreshOff">关闭</option>
+        <option value="2" data-i18n="refresh2s">每 2 秒</option>
+        <option value="5" data-i18n="refresh5s">每 5 秒</option>
+        <option value="10" data-i18n="refresh10s">每 10 秒</option>
+        <option value="30" data-i18n="refresh30s">每 30 秒</option>
+      </select>
+    </label>
+    <span id="refreshStatus" role="status"></span>
   </div>
   <div id="main">
     <div id="nav"><h3 data-i18n="navProjects">项目</h3><div id="navList"></div><div id="navResizer" title=""></div></div>
@@ -429,7 +455,12 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     </div>
   </div>
 </div>
+<dialog id="imagePreview" aria-label="Image preview">
+  <button class="btn" id="closeImagePreview" data-i18n="closeBtn">关闭</button>
+  <img id="previewImage" alt="">
+</dialog>
 <input type="file" id="file" accept=".jsonl,.json,.txt" style="display:none">
+<input type="file" id="refreshFile" accept=".jsonl,.json,.txt" style="display:none">
 <input type="file" id="dirpicker" webkitdirectory multiple style="display:none">
 <script>
 "use strict";
@@ -501,7 +532,7 @@ function md(src){
   function inline(t){
     t=esc(t);
     t=t.replace(/`([^`]+)`/g,(m,c)=>'<code>'+c+'</code>');
-    t=t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,(m,a,u)=>'<img alt="'+a+'" src="'+safeImg(u)+'">');
+    t=t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,(m,a,u)=>'<img role="button" tabindex="0" alt="'+a.replace(/"/g,'&quot;')+'" src="'+safeImg(u)+'">');
     t=t.replace(/\[([^\]]+)\]\(([^)]+)\)/g,(m,txt,u)=>'<a href="'+safeHref(u)+'" target="_blank" rel="noopener">'+txt+'</a>');
     t=t.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/__([^_]+)__/g,'<b>$1</b>');
     t=t.replace(/(^|[^\w*])\*([^\s*][^*\n]*?[^\s*]|[^\s*])\*(?!\w)/g,'$1<i>$2</i>');
@@ -652,14 +683,18 @@ function renderThinking(text){
   hd.onclick=()=>{bd.classList.toggle('hidden');sync();};
   wrap.appendChild(hd);wrap.appendChild(bd);return wrap;
 }
-function imgEl(src){const im=el('img','inlimg');im.src=src;im.onclick=()=>window.open(src,'_blank');return im;}
+function imgEl(src){const im=el('img','inlimg');im.src=safeImg(src);im.alt=t('imagePreview');im.tabIndex=0;im.setAttribute('role','button');return im;}
+function imageSource(source){
+  if(!source)return '';
+  return source.type==='url'?safeImg(source.url):'data:'+source.media_type+';base64,'+source.data;
+}
 function resultContent(content){
   const frag=document.createDocumentFragment();
   if(typeof content==='string'){frag.appendChild(el('pre',null,esc(content)));return frag;}
   if(Array.isArray(content)){
     for(const b of content){
       if(b.type==='text')frag.appendChild(el('pre',null,esc(b.text)));
-      else if(b.type==='image'&&b.source){frag.appendChild(imgEl('data:'+b.source.media_type+';base64,'+b.source.data));}
+      else if(b.type==='image'&&b.source){frag.appendChild(imgEl(imageSource(b.source)));}
       else frag.appendChild(el('pre',null,esc(JSON.stringify(b,null,2))));
     }
     return frag;
@@ -726,7 +761,7 @@ function renderEntry(o,stream){
       if(typeof content==='string')box.textContent=content;
       else if(Array.isArray(content))for(const b of content){
         if(b.type==='text'){const d=el('div');d.textContent=b.text;box.appendChild(d);}
-        else if(b.type==='image'&&b.source)box.appendChild(imgEl('data:'+b.source.media_type+';base64,'+b.source.data));
+        else if(b.type==='image'&&b.source)box.appendChild(imgEl(imageSource(b.source)));
       }
       const meta='<span class="who">'+esc(t('you'))+'</span> '+metaLine(o);
       stream.appendChild(turn('&gt;','',meta,box,'user'));
@@ -761,7 +796,7 @@ function renderEntry(o,stream){
         tk.dataset.think='1';tk.classList.toggle('hidden',!SHOW_THINK);body.appendChild(tk);printed=true;hasThink=true;
       }
       else if(b.type==='tool_use'){const tc=renderToolUse(b);tc.dataset.tool='1';tc.classList.toggle('hidden',!SHOW_TOOL);body.appendChild(tc);printed=true;hasTool=true;}
-      else if(b.type==='image'&&b.source){body.appendChild(imgEl('data:'+b.source.media_type+';base64,'+b.source.data));printed=true;hasSolid=true;}
+      else if(b.type==='image'&&b.source){body.appendChild(imgEl(imageSource(b.source)));printed=true;hasSolid=true;}
     }
     if(printed){
       const meta=hasSolid?('<span class="who ai">'+esc(t('reply'))+'</span> '+metaLine(o)):metaLine(o);
@@ -818,15 +853,19 @@ function renderAll(){
   const stream=$('#stream');stream.innerHTML='';
   for(const o of CUR.entries)renderEntry(o,stream);
 }
-function load(text,name,pasted){
+function load(text,name,pasted,source){
   const {entries,bad}=parse(text);
   const sum=summarize(entries);
-  CUR={entries,bad,sum,name:name||'',pasted:!!pasted};
+  CUR_ID=null;
+  CUR={entries,bad,sum,text,name:name||'',pasted:!!pasted,source:source||null};
+  stopRefreshTimer();
   applyFname();
   renderSidebar(sum,bad);
   renderAll();
   $('#drop').classList.add('hide');
   $('#btnExportMd').style.display='';
+  updateRefreshControls();
+  scheduleRefresh();
 }
 /* ---------- 导出 Markdown ---------- */
 const resultText=b=>typeof b.content==='string'?b.content:Array.isArray(b.content)?b.content.map(x=>x.text||JSON.stringify(x)).join('\n'):JSON.stringify(b.content);
@@ -951,11 +990,11 @@ async function putRec(rec){
   }
   LIB_FULL.set(rec.id,rec);upsertLib(rec);
 }
-async function saveToLibrary(text,name,source){
+async function saveToLibrary(text,name,source,id){
   const {entries,bad}=parse(text);
   if(!entries.length)return null;
   const sum=sumToJSON(summarize(entries));
-  const rec={id:makeId(sum,name,text.length),name:name||'',source:source||'file',size:text.length,addedAt:Date.now(),bad,noText:false,sum,text};
+  const rec={id:id||makeId(sum,name,text.length),name:name||'',source:source||'file',size:text.length,addedAt:Date.now(),bad,noText:false,sum,text};
   await putRec(rec);
   return rec.id;
 }
@@ -980,6 +1019,121 @@ function updateLibBtn(){
 }
 /* ---------- 左侧导览：按项目目录聚类 ---------- */
 let CUR_ID=null,NAV_COLLAPSED=new Set();
+// Keep live access separate from cached transcripts. File objects are snapshots.
+const SESSION_SOURCES=new Map(),FILE_SOURCES=new WeakMap();
+let REFRESH_TIMER=null;
+function stopRefreshTimer(){clearTimeout(REFRESH_TIMER);REFRESH_TIMER=null;}
+function viewerVisible(){return CUR&&$('#drop').classList.contains('hide')&&$('#library').classList.contains('hide');}
+function refreshStatus(key,error){
+  const status=$('#refreshStatus');
+  status.textContent=t(key);
+  status.classList.toggle('error',!!error);
+}
+function updateRefreshControls(){
+  $('#refreshbar').classList.toggle('hidden',!CUR);
+  $('#btnRefresh').disabled=!!(CUR&&CUR.refreshing);
+  $('#autoRefresh').disabled=!CUR||!CUR.source;
+  $('#autoRefresh').setAttribute('aria-label',t('autoRefresh'));
+  if(CUR)refreshStatus(CUR.source?'refreshReady':'refreshReconnect');
+}
+function scheduleRefresh(){
+  stopRefreshTimer();
+  const seconds=Number($('#autoRefresh').value);
+  if(!viewerVisible()||!CUR.source||!seconds||document.hidden)return;
+  REFRESH_TIMER=setTimeout(()=>refreshSession(false),seconds*1000);
+}
+async function openLocalFile(file,source){
+  const text=await file.text();
+  load(text,file.name,false,source);
+  const session=CUR;
+  showView('viewer');
+  const id=await saveToLibrary(text,file.name,'file');
+  if(id&&source)SESSION_SOURCES.set(id,source);
+  if(CUR===session){CUR_ID=id;renderNav();}
+}
+async function applyRefresh(session,file,source){
+  const text=await file.text();
+  if(CUR!==session)return;
+  const {entries,bad}=parse(text),sum=summarize(entries);
+  if(!entries.length)throw new Error('empty-session');
+  if((session.sum.sessionId&&sum.sessionId&&session.sum.sessionId!==sum.sessionId)||
+     ((!session.sum.sessionId||!sum.sessionId)&&session.name&&session.name!==file.name)){
+    $('#autoRefresh').value='0';
+    refreshStatus('refreshWrongFile',true);return;
+  }
+  session.source=source||null;
+  if(CUR_ID&&source)SESSION_SOURCES.set(CUR_ID,source);
+  if(text!==session.text){
+    const content=$('#content'),stream=$('#stream');
+    const top=content.scrollTop,atBottom=content.scrollHeight-content.clientHeight-top<60;
+    const appended=entries.length>=session.entries.length&&session.entries.every((entry,i)=>JSON.stringify(entry)===JSON.stringify(entries[i]));
+    const previousLength=session.entries.length;
+    Object.assign(session,{text,entries,bad,sum});
+    if(appended){for(const entry of entries.slice(previousLength))renderEntry(entry,stream);}
+    else renderAll();
+    renderSidebar(sum,bad);applyFname();applyToggles();
+    // Images finish loading later; keep a reader at the end following new output.
+    const restoreScroll=()=>{if(CUR===session)content.scrollTop=atBottom?content.scrollHeight:top;};
+    restoreScroll();
+    stream.querySelectorAll('img:not([data-scroll-bound])').forEach(img=>{
+      img.dataset.scrollBound='1';
+      img.addEventListener('load',()=>{if(atBottom&&CUR===session&&content.scrollHeight-content.clientHeight-content.scrollTop<img.offsetHeight+60)restoreScroll();},{once:true});
+    });
+    const id=await saveToLibrary(text,session.name,session.pasted?'paste':'file',CUR_ID);
+    if(id&&source)SESSION_SOURCES.set(id,source);
+    if(CUR!==session)return;
+    CUR_ID=id;renderNav();
+  }
+  updateRefreshControls();
+  $('#refreshStatus').textContent=t('refreshChecked').replace('{time}',new Date().toLocaleTimeString())+(session.source?'':' · '+t('refreshReconnect'));
+}
+async function refreshSession(manual){
+  const session=CUR;
+  if(!session||session.refreshing)return;
+  stopRefreshTimer();
+  session.refreshing=true;
+  $('#btnRefresh').disabled=true;
+  refreshStatus('refreshing');
+  try{
+    let source=session.source,file;
+    if(!source){
+      if(!manual)return;
+      if(window.showOpenFilePicker&&self.isSecureContext){
+        [source]=await window.showOpenFilePicker({id:'ccviewer-session',multiple:false});
+      }else{
+        REFRESH_TARGET=session;
+        $('#refreshFile').value='';$('#refreshFile').click();
+        refreshStatus('refreshReconnect');return;
+      }
+    }
+    file=await source.getFile();
+    await applyRefresh(session,file,source);
+  }catch(e){
+    if(CUR===session){
+      if(e.name==='AbortError')updateRefreshControls();
+      else{
+        session.source=null;
+        if(CUR_ID)SESSION_SOURCES.delete(CUR_ID);
+        $('#autoRefresh').value='0';updateRefreshControls();refreshStatus('refreshFailed',true);
+      }
+    }
+  }finally{
+    session.refreshing=false;
+    if(CUR===session){$('#btnRefresh').disabled=false;scheduleRefresh();}
+  }
+}
+let REFRESH_TARGET=null;
+$('#btnRefresh').onclick=()=>refreshSession(true);
+$('#autoRefresh').onchange=scheduleRefresh;
+document.addEventListener('visibilitychange',scheduleRefresh);
+$('#refreshFile').onchange=async e=>{
+  const session=REFRESH_TARGET,file=e.target.files[0];REFRESH_TARGET=null;
+  if(!session||!file||CUR!==session)return;
+  session.refreshing=true;$('#btnRefresh').disabled=true;
+  try{await applyRefresh(session,file,null);}
+  catch(e){if(CUR===session)refreshStatus('refreshFailed',true);}
+  finally{session.refreshing=false;if(CUR===session)$('#btnRefresh').disabled=false;}
+};
 const cwdBasename=p=>{p=String(p||'').replace(/\/+$/,'');const i=p.lastIndexOf('/');return i>=0?p.slice(i+1):p;};
 function renderNav(){
   const list=$('#navList');if(!list)return;
@@ -1019,6 +1173,7 @@ function updateNav(){
 function showView(v){
   $('#drop').classList.toggle('hide',v!=='landing');
   $('#library').classList.toggle('hide',v!=='library');
+  scheduleRefresh();
 }
 function showLibrary(){showView('library');renderLibrary();}
 const LIB_SORTERS={
@@ -1054,8 +1209,8 @@ function openSession(id){
   const rec=LIB_FULL.get(id);
   if(!rec)return;
   if(!rec.text){alert(t('noTextErr'));return;}
+  load(rec.text,rec.name,rec.source==='paste',SESSION_SOURCES.get(id));
   CUR_ID=id;
-  load(rec.text,rec.name,false);
   renderNav();
   showView('viewer');
 }
@@ -1069,7 +1224,12 @@ async function importFiles(files){
     prog.textContent=t('importing').replace('{n}',i+1).replace('{m}',list.length)+'  '+list[i].name;
     let text='';
     try{text=await list[i].text();}catch(e){continue;}
-    await saveToLibrary(text,list[i].name,'dir');
+    const id=await saveToLibrary(text,list[i].name,'dir');
+    const source=FILE_SOURCES.get(list[i]);
+    if(id&&source){
+      SESSION_SOURCES.set(id,source);
+      if(CUR_ID===id){CUR.source=source;updateRefreshControls();scheduleRefresh();}
+    }
     await new Promise(r=>setTimeout(r,0));
   }
   prog.style.display='none';
@@ -1090,7 +1250,7 @@ async function importDirHandle(dir){
   async function walk(d,depth){
     if(depth>4)return;
     for await(const [name,h] of d.entries()){
-      if(h.kind==='file'&&/\.jsonl$/i.test(name)){try{files.push(await h.getFile());}catch(e){}}
+      if(h.kind==='file'&&/\.jsonl$/i.test(name)){try{const file=await h.getFile();FILE_SOURCES.set(file,h);files.push(file);}catch(e){}}
       else if(h.kind==='directory'&&name!=='node_modules')await walk(h,depth+1);
     }
   }
@@ -1125,9 +1285,29 @@ $('#tgThink').onchange=e=>{SHOW_THINK=e.target.checked;applyToggles();};
 $('#tgTool').onchange=e=>{SHOW_TOOL=e.target.checked;applyToggles();};
 $('#tgMeta').onchange=e=>{SHOW_META=e.target.checked;applyToggles();};
 $('#tgExpand').onchange=e=>{EXPAND_ALL=e.target.checked;renderAll();applyToggles();};
-function pick(){window.ccviewerAnalytics.event('file_picker_open');$('#file').click();}
+async function pick(){
+  window.ccviewerAnalytics.event('file_picker_open');
+  if(!(window.showOpenFilePicker&&self.isSecureContext)){$('#file').click();return;}
+  try{
+    const [source]=await window.showOpenFilePicker({id:'ccviewer-session',multiple:false,types:[{description:'Session',accept:{'application/json':['.jsonl','.json','.txt']}}]});
+    await openLocalFile(await source.getFile(),source);
+  }catch(e){if(e.name!=='AbortError')$('#file').click();}
+}
 $('#btnOpen').onclick=pick;$('#btnPick').onclick=pick;
-$('#file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{load(r.result,f.name);saveToLibrary(r.result,f.name,'file');};r.readAsText(f);};
+$('#file').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(f)await openLocalFile(f,null);};
+/* Image previews stay in the page, including base64 tool results and Markdown. */
+const imagePreview=$('#imagePreview');
+imagePreview.setAttribute('aria-label',t('imagePreview'));
+function previewImage(img){
+  $('#previewImage').src=img.currentSrc||img.src;
+  $('#previewImage').alt=img.alt||t('imagePreview');
+  if(!imagePreview.open)imagePreview.showModal();
+}
+$('#stream').addEventListener('click',e=>{const img=e.target.closest('img');if(img){e.preventDefault();previewImage(img);}});
+$('#stream').addEventListener('keydown',e=>{if(e.target.matches('img')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();previewImage(e.target);}});
+$('#closeImagePreview').onclick=()=>imagePreview.close();
+imagePreview.onclick=e=>{if(e.target===imagePreview)imagePreview.close();};
+imagePreview.addEventListener('close',()=>$('#previewImage').removeAttribute('src'));
 /* 粘贴文本 */
 const pasteModal=$('#paste');
 function openPaste(){window.ccviewerAnalytics.event('paste_open');$('#pasteErr').textContent='';pasteModal.classList.add('show');const ta=$('#pasteText');ta.focus();ta.select();}
@@ -1155,7 +1335,7 @@ async function filesFromDataTransfer(dt){
   const entryFile=en=>new Promise((res,rej)=>en.file(res,rej));
   async function walk(en,depth){
     if(depth>4)return;
-    if(en.isFile){try{files.push(await entryFile(en));}catch(e){}}
+    if(en.isFile){try{const file=await entryFile(en);FILE_SOURCES.set(file,{getFile:()=>entryFile(en)});files.push(file);}catch(e){}}
     else if(en.isDirectory){
       if(en.name==='node_modules')return;
       const rd=en.createReader();
@@ -1177,7 +1357,15 @@ document.addEventListener('drop',e=>{
   if(!dt||!dt.files||!dt.files.length)return;
   const hadDir=[...(dt.items||[])].some(it=>{const en=it.webkitGetAsEntry&&it.webkitGetAsEntry();return en&&en.isDirectory;});
   if(dt.files.length===1&&!hadDir){
-    const f=dt.files[0];const r=new FileReader();r.onload=()=>{load(r.result,f.name);saveToLibrary(r.result,f.name,'file');};r.readAsText(f);
+    const item=dt.items&&dt.items[0];
+    const handle=item&&item.getAsFileSystemHandle?item.getAsFileSystemHandle():null;
+    const entry=item&&item.webkitGetAsEntry&&item.webkitGetAsEntry();
+    const f=dt.files[0];
+    (async()=>{
+      let source=entry&&entry.isFile?{getFile:()=>new Promise((res,rej)=>entry.file(res,rej))}:null;
+      try{if(handle)source=await handle||source;}catch(e){/* use the entry fallback */}
+      await openLocalFile(f,source);
+    })();
     return;
   }
   const p=filesFromDataTransfer(dt); // 同步启动，先取 entries
@@ -1187,6 +1375,7 @@ document.addEventListener('drop',e=>{
 const HOME_TITLE=document.title;
 $('#btnHome').onclick=()=>{
   CUR=null;
+  CUR_ID=null;stopRefreshTimer();updateRefreshControls();
   $('#stream').innerHTML='';
   $('#sidebar').innerHTML='';
   const fn=$('#fname');if(fn)fn.textContent='';
@@ -1211,6 +1400,7 @@ $('#btnClearAll').onclick=async()=>{
   if(!confirm(t('confirmClear')))return;
   await dbClear();
   LIB=[];LIB_FULL=new Map();CUR_ID=null;
+  SESSION_SOURCES.clear();
   updateLibBtn();renderLibrary();
 };
 $('#libList').onclick=e=>{
@@ -1220,6 +1410,7 @@ $('#libList').onclick=e=>{
   if(e.target.closest('.libdel')){
     if(!confirm(t('confirmDelete')))return;
     LIB_FULL.delete(id);
+    SESSION_SOURCES.delete(id);
     LIB=LIB.filter(x=>x.id!==id);
     if(CUR_ID===id)CUR_ID=null;
     dbDelete(id);

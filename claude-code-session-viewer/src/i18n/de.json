@@ -124,6 +124,20 @@
   "helpCenter": "Hilfe",
   "resourcesTitle": "Offizielle Ressourcen",
   "resourcesDocs": "Dokumentation",
-  "resourcesIssues": "Problem melden"
+  "resourcesIssues": "Problem melden",
+  "refresh": "Aktualisieren",
+  "autoRefresh": "Automatisch aktualisieren",
+  "autoRefreshOff": "Aus",
+  "refresh2s": "Alle 2 s",
+  "refresh5s": "Alle 5 s",
+  "refresh10s": "Alle 10 s",
+  "refresh30s": "Alle 30 s",
+  "refreshReady": "Quelldatei verbunden · liest den neuesten lokalen Inhalt",
+  "refreshReconnect": "Zum erneuten Auswählen der Quelldatei auf Aktualisieren klicken. Automatische Aktualisierung erfordert fortlaufenden Dateizugriff.",
+  "refreshing": "Wird aktualisiert…",
+  "refreshChecked": "Geprüft um {time}",
+  "refreshFailed": "Quelldatei nicht lesbar. Zum erneuten Verbinden auf Aktualisieren klicken.",
+  "refreshWrongFile": "Bitte die Quelldatei dieser Sitzung auswählen.",
+  "imagePreview": "Bildvorschau"
  }
 }

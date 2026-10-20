@@ -35,6 +35,8 @@ A free, open-source viewer for [Claude Code](https://claude.com/claude-code) ses
 
 - 📁 **Session library** — import an entire folder (e.g. `~/.claude/projects/`), sessions persist in IndexedDB, grouped by project, sortable by recency / messages / tokens / cost
 - 💬 **Full-fidelity rendering** — Markdown (code blocks, tables, lists), collapsible extended thinking, tool-call inputs & results, images
+- 🔍 **Image preview** — enlarge images in the page; close with Escape, the close button or the backdrop
+- 🔄 **Live refresh** — refresh manually or every 2 / 5 / 10 / 30 seconds while a session runs; appended messages preserve reading position and expanded content, and follow new output when you are at the bottom
 - 📊 **Usage & cost stats** — input/output/cache tokens, API duration, lines +/−, total cost per session
 - 🌍 **10 languages** — English, 中文, 日本語, 한국어, Español, Français, Deutsch, Português, Русский, हिन्दी
 - 📤 **Export to Markdown** — turn any session into a shareable `.md` document
@@ -52,6 +54,8 @@ Download `claude-code-session-viewer/index.html` and open it in your browser. Th
 python3 -m http.server 8765 -d claude-code-session-viewer
 # open http://localhost:8765
 ```
+
+Open the local source file or folder in a browser with file access support (such as Chrome / Edge) to enable automatic refresh. Cached sessions and pasted text are snapshots: click **Refresh** to reconnect the source file. Browsers without continuing file access require manually selecting the file again. Automatic refresh pauses when the page is hidden or the session library is open, and resumes when you return to the viewer.
 
 ### Deploy your own
 
