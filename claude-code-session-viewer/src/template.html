@@ -868,7 +868,13 @@ function load(text,name,pasted,source){
   scheduleRefresh();
 }
 /* ---------- 导出 Markdown ---------- */
-const resultText=b=>typeof b.content==='string'?b.content:Array.isArray(b.content)?b.content.map(x=>x.text||JSON.stringify(x)).join('\n'):JSON.stringify(b.content);
+const resultText=b=>typeof b.content==='string'?b.content:Array.isArray(b.content)?b.content.filter(x=>x.type!=='image').map(x=>x.text||JSON.stringify(x)).join('\n'):JSON.stringify(b.content);
+function mdImage(b){
+  if(b.type!=='image'||!b.source)return '';
+  const src=safeImg(imageSource(b.source));
+  // Keep embedded images in the single .md file; escape URL delimiters for Markdown.
+  return src?'![Image]('+src.replace(/[\s\\()<>]/g,c=>encodeURIComponent(c).replace(/\(/g,'%28').replace(/\)/g,'%29'))+')':'';
+}
 function buildMd(){
   if(!CUR)return null;
   const s=CUR.sum;
@@ -887,12 +893,15 @@ function buildMd(){
     if(o.type==='user'){
       const kind=classifyUser(o);
       if(kind==='human'){
-        let txt=typeof c==='string'?c:(Array.isArray(c)?c.filter(b=>b.type==='text').map(b=>b.text).join('\n'):'');
+        let txt=typeof c==='string'?c:(Array.isArray(c)?c.map(b=>b.type==='text'?b.text:mdImage(b)).filter(Boolean).join('\n\n'):'');
         txt=(txt||'').trim();if(!txt)continue;
         out.push('## 🧑 '+t('you')+ts,'',txt,'');
       }else if(kind==='toolresult'&&SHOW_TOOL){
-        for(const b of (Array.isArray(c)?c:[]))if(b.type==='tool_result'&&b.is_error)
-          out.push('**❌ '+t('error')+ts+'**','','```',String(resultText(b)).slice(0,2000),'```','');
+        for(const b of (Array.isArray(c)?c:[]))if(b.type==='tool_result'){
+          if(b.is_error)out.push('**❌ '+t('error')+ts+'**','','```',String(resultText(b)).slice(0,2000),'```','');
+          const images=Array.isArray(b.content)?b.content.map(mdImage).filter(Boolean):[];
+          if(images.length)out.push('**⎿ '+t('result')+ts+'**','',images.join('\n\n'),'');
+        }
       }
     }else if(o.type==='assistant'){
       if(typeof c==='string'&&c.trim()){out.push('## 🤖 '+t('reply')+ts,'',c.trim(),'');continue;}
@@ -900,6 +909,10 @@ function buildMd(){
       const seg=[];
       for(const b of c){
         if(b.type==='text'&&b.text.trim())seg.push('## 🤖 '+t('reply')+ts,'',b.text.trim());
+        else if(b.type==='image'){
+          const image=mdImage(b);
+          if(image){if(!seg.length)seg.push('## 🤖 '+t('reply')+ts,'');seg.push(image);}
+        }
         else if(b.type==='thinking'&&SHOW_THINK)seg.push('**'+t('thinkLabel')+'**','',String(b.thinking||'').split('\n').map(l=>'> '+l).join('\n'));
         else if(b.type==='tool_use'&&SHOW_TOOL)seg.push('**⏺ '+b.name+'**','','```json',JSON.stringify(b.input,null,2),'```');
       }

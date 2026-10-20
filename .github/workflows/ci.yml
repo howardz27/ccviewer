@@ -30,6 +30,7 @@ jobs:
           node tests/analytics.cjs
           node tests/seo-runtime.cjs
           node tests/viewer-runtime.cjs
+          node tests/export-md.cjs
           python3 tests/check_pages.py
 
       - name: Ensure build is up to date
