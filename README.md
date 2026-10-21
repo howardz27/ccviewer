@@ -39,7 +39,7 @@ A free, open-source viewer for [Claude Code](https://claude.com/claude-code) ses
 - 🔄 **Live refresh** — refresh manually or every 2 / 5 / 10 / 30 seconds while a session runs; appended messages preserve reading position and expanded content, and follow new output when you are at the bottom
 - 📊 **Usage & cost stats** — input/output/cache tokens, API duration, lines +/−, total cost per session
 - 🌍 **10 languages** — English, 中文, 日本語, 한국어, Español, Français, Deutsch, Português, Русский, हिन्दी
-- 📤 **Export to Markdown** — turn any session into a shareable `.md` document
+- 📤 **Export to Markdown** — turn any session into a shareable `.md` document; embedded images are exported in a ZIP with an `images/` folder and relative Markdown links, ready to extract, move, or share together
 - 🪶 **Zero dependencies** — one HTML file, no framework, no build required to *use* (only to rebuild)
 
 ## Usage

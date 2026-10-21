@@ -869,14 +869,22 @@ function load(text,name,pasted,source){
 }
 /* ---------- 导出 Markdown ---------- */
 const resultText=b=>typeof b.content==='string'?b.content:Array.isArray(b.content)?b.content.filter(x=>x.type!=='image').map(x=>x.text||JSON.stringify(x)).join('\n'):JSON.stringify(b.content);
-function mdImage(b){
+function mdImage(b,images){
   if(b.type!=='image'||!b.source)return '';
-  const src=safeImg(imageSource(b.source));
-  // Keep embedded images in the single .md file; escape URL delimiters for Markdown.
+  let src=safeImg(imageSource(b.source));
+  const embedded=/^data:(image\/[^;,]+);base64,([\s\S]*)$/i.exec(src);
+  if(embedded){
+    const extensions={'image/png':'png','image/jpeg':'jpg','image/gif':'gif','image/webp':'webp','image/avif':'avif','image/svg+xml':'svg','image/bmp':'bmp','image/tiff':'tiff','image/x-icon':'ico'};
+    const name='images/image-'+(images.length+1)+'.'+(extensions[embedded[1].toLowerCase()]||'img');
+    const bytes=atob(embedded[2]);
+    images.push({name,data:Uint8Array.from(bytes,c=>c.charCodeAt(0))});
+    src=name;
+  }
   return src?'![Image]('+src.replace(/[\s\\()<>]/g,c=>encodeURIComponent(c).replace(/\(/g,'%28').replace(/\)/g,'%29'))+')':'';
 }
-function buildMd(){
+function buildMd(images=[]){
   if(!CUR)return null;
+  const renderImage=b=>mdImage(b,images);
   const s=CUR.sum;
   const out=['# '+(s.title||CUR.name||s.sessionId||'Claude Code Session'),''];
   const info=[];
@@ -893,14 +901,14 @@ function buildMd(){
     if(o.type==='user'){
       const kind=classifyUser(o);
       if(kind==='human'){
-        let txt=typeof c==='string'?c:(Array.isArray(c)?c.map(b=>b.type==='text'?b.text:mdImage(b)).filter(Boolean).join('\n\n'):'');
+        let txt=typeof c==='string'?c:(Array.isArray(c)?c.map(b=>b.type==='text'?b.text:renderImage(b)).filter(Boolean).join('\n\n'):'');
         txt=(txt||'').trim();if(!txt)continue;
         out.push('## 🧑 '+t('you')+ts,'',txt,'');
       }else if(kind==='toolresult'&&SHOW_TOOL){
         for(const b of (Array.isArray(c)?c:[]))if(b.type==='tool_result'){
           if(b.is_error)out.push('**❌ '+t('error')+ts+'**','','```',String(resultText(b)).slice(0,2000),'```','');
-          const images=Array.isArray(b.content)?b.content.map(mdImage).filter(Boolean):[];
-          if(images.length)out.push('**⎿ '+t('result')+ts+'**','',images.join('\n\n'),'');
+          const refs=Array.isArray(b.content)?b.content.map(renderImage).filter(Boolean):[];
+          if(refs.length)out.push('**⎿ '+t('result')+ts+'**','',refs.join('\n\n'),'');
         }
       }
     }else if(o.type==='assistant'){
@@ -910,7 +918,7 @@ function buildMd(){
       for(const b of c){
         if(b.type==='text'&&b.text.trim())seg.push('## 🤖 '+t('reply')+ts,'',b.text.trim());
         else if(b.type==='image'){
-          const image=mdImage(b);
+          const image=renderImage(b);
           if(image){if(!seg.length)seg.push('## 🤖 '+t('reply')+ts,'');seg.push(image);}
         }
         else if(b.type==='thinking'&&SHOW_THINK)seg.push('**'+t('thinkLabel')+'**','',String(b.thinking||'').split('\n').map(l=>'> '+l).join('\n'));
@@ -921,13 +929,34 @@ function buildMd(){
   }
   return out.join('\n');
 }
+// ZIP STORE keeps Markdown and image files together, with no library or server.
+function zipFiles(files){
+  const table=Uint32Array.from({length:256},(_,n)=>{for(let i=0;i<8;i++)n=(n&1)?0xedb88320^(n>>>1):n>>>1;return n>>>0;});
+  const parts=[],directory=[];
+  let offset=0,directorySize=0;
+  for(const file of files){
+    const name=new TextEncoder().encode(file.name),data=file.data;
+    let crc=0xffffffff;for(const byte of data)crc=table[(crc^byte)&255]^(crc>>>8);crc=(crc^0xffffffff)>>>0;
+    const local=new Uint8Array(30+name.length),lv=new DataView(local.buffer);
+    lv.setUint32(0,0x04034b50,true);lv.setUint16(4,20,true);lv.setUint16(6,0x800,true);lv.setUint16(12,33,true);
+    lv.setUint32(14,crc,true);lv.setUint32(18,data.length,true);lv.setUint32(22,data.length,true);lv.setUint16(26,name.length,true);local.set(name,30);
+    const central=new Uint8Array(46+name.length),cv=new DataView(central.buffer);
+    cv.setUint32(0,0x02014b50,true);cv.setUint16(4,20,true);cv.setUint16(6,20,true);cv.setUint16(8,0x800,true);cv.setUint16(14,33,true);
+    cv.setUint32(16,crc,true);cv.setUint32(20,data.length,true);cv.setUint32(24,data.length,true);cv.setUint16(28,name.length,true);cv.setUint32(42,offset,true);central.set(name,46);
+    parts.push(local,data);directory.push(central);offset+=local.length+data.length;directorySize+=central.length;
+  }
+  const end=new Uint8Array(22),ev=new DataView(end.buffer);
+  ev.setUint32(0,0x06054b50,true);ev.setUint16(8,files.length,true);ev.setUint16(10,files.length,true);ev.setUint32(12,directorySize,true);ev.setUint32(16,offset,true);
+  return new Blob([...parts,...directory,end],{type:'application/zip'});
+}
 function exportMd(){
-  const md=buildMd();
+  const images=[];
+  const md=buildMd(images);
   if(!md){alert(t('exportEmptyErr'));return;}
-  const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
   const a=document.createElement('a');
   const base=((CUR.sum.title||CUR.name||CUR.sum.sessionId||'session').replace(/\.jsonl?$/i,'').replace(/[^\w\u4e00-\u9fa5.-]+/g,'_').slice(0,80))||'session';
-  a.href=URL.createObjectURL(blob);a.download=base+'.md';
+  const blob=images.length?zipFiles([{name:base+'.md',data:new TextEncoder().encode(md)},...images]):new Blob([md],{type:'text/markdown;charset=utf-8'});
+  a.href=URL.createObjectURL(blob);a.download=base+(images.length?'.zip':'.md');
   document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
