@@ -117,6 +117,7 @@
   "exportMd": "Export MD",
   "exportEmptyErr": "Load a session first.",
   "guideH": "Guides",
+  "tutorialCap": "Choose File → press ⌘⇧. to reveal hidden folders → open ~/.claude/projects/ → pick a session .jsonl → stats, search, thinking blocks and Markdown export.",
   "g1": "How to View Claude Code Session History: 3 Methods",
   "g2": "Find Claude Code JSONL Files on macOS, Linux & Windows",
   "g3": "Where Claude Code Sessions Are Stored: Paths & Retention",

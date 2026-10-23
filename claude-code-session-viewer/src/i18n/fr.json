@@ -117,6 +117,7 @@
   "exportMd": "Exporter MD",
   "exportEmptyErr": "Chargez d'abord une session.",
   "guideH": "Guides",
+  "tutorialCap": "Choisir un fichier → appuyer sur ⌘⇧. pour afficher les dossiers cachés → ouvrir ~/.claude/projects/ → sélectionner un .jsonl de session → statistiques, recherche, blocs de réflexion et export Markdown.",
   "g1": "Comment voir l’historique complet d’une session Claude Code",
   "g2": "Comment trouver le fichier JSONL d’une session",
   "g3": "Où sont stockés les historiques de sessions Claude Code ?",

@@ -269,6 +269,9 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .seo .feat b svg{color:var(--accent);flex-shrink:0}
 .seo .feat span{color:var(--dim);font-size:12.5px;line-height:1.5}
 .seo h2{color:var(--accent);font-size:18px;margin:0 0 20px;text-align:center;font-family:var(--disp)}
+.seo .tutorial{margin:0 auto 40px;max-width:880px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px}
+.seo .tutorial img{display:block;width:100%;height:auto;border-radius:8px}
+.seo .tutorial figcaption{color:var(--dim);font-size:12.5px;line-height:1.6;text-align:center;padding:10px 4px 2px}
 .seo .guides{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin:0 0 64px}
 .seo .guides a{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;color:var(--text);text-decoration:none;font-size:13.5px;line-height:1.55;transition:border-color .15s}
 .seo .guides a:hover{border-color:var(--accent);color:var(--accent)}
@@ -413,6 +416,10 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   <div class="seo">
     <p class="intro" data-i18n-html="intro">在浏览器本地阅读 Claude Code JSONL 会话，查看消息、思考块和工具调用，导入项目文件夹并导出 Markdown。免费开源，无需注册。</p>
     <h2 data-i18n="guideH">使用指南</h2>
+    <figure class="tutorial">
+      <img src="/assets/tutorial.gif" alt="Animated tutorial: open a session file, reveal hidden folders with ⌘⇧., navigate to ~/.claude/projects/ and browse the session in the viewer" width="880" height="550" loading="lazy" decoding="async">
+      <figcaption data-i18n="tutorialCap">选择文件 → 按 ⌘⇧. 显示隐藏文件夹 → 打开 ~/.claude/projects/ → 选中会话 .jsonl → 查看统计、搜索、thinking 块与 Markdown 导出。</figcaption>
+    </figure>
     <div class="guides">
       <a data-guide="how-to-view-claude-code-session-history.html" href="https://ccviewer.top/claude-code-session-viewer/zh/how-to-view-claude-code-session-history" data-i18n="g1">如何查看 Claude Code 会话历史：3 种方法</a>
       <a data-guide="find-claude-code-session-jsonl-file.html" href="https://ccviewer.top/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file" data-i18n="g2">查找 Claude Code JSONL 文件：macOS、Linux、Windows</a>
@@ -509,7 +516,7 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={'zh':{"brand": "CCViewer", "thinking": "思考", "tools": "工具", "sysInj": "系统/注入", "expandAll": "展开全部", "pasteText": "粘贴文本", "openFile": "打开文件", "noFile": "未加载文件", "dropHint1": "把 <b>.jsonl</b> 历史文件<b>或整个项目文件夹</b>拖到这里，或点击选择", "dropHint2": "例如 <code>~/.claude/projects/</code> 整个文件夹，或其中的 <code>&lt;sessionId&gt;.jsonl</code>", "chooseFile": "选择文件", "pasteTitle": "粘贴 JSONL 文本", "pasteHint": "把历史文件内容整段粘贴进来，每行一个 JSON 对象（也兼容单个 JSON 数组 / 对象）。", "cancel": "取消", "loadBtn": "加载", "thinkLabel": "✻ 思考", "you": "你", "reply": "回复", "result": "结果", "error": "错误", "lines": "行", "images": "图片", "viewResult": "查看结果", "sysMsg": "系统消息", "injCtx": "注入上下文", "system": "系统", "sessionInfo": "会话信息", "stats": "统计", "costUsage": "成本 / 用量", "titleRow": "标题", "projectDir": "项目目录", "gitBranch": "Git 分支", "version": "版本", "sessionId": "会话 ID", "time": "时间", "model": "模型", "userMsgs": "用户消息", "replies": "回复", "toolCalls": "工具调用", "thinkingStat": "思考", "imagesStat": "图片", "parseFailed": "解析失败", "home": "首页", "inTokens": "输入 tokens", "outTokens": "输出 tokens", "cacheRead": "缓存读取", "cacheCreate": "缓存写入", "totalCost": "总花费", "linesPM": "代码 +/-", "apiTime": "API 时长", "toolTime": "工具时长", "viewerSuffix": "历史查看器", "pasteEmptyErr": "没有解析到任何有效记录，请检查粘贴内容", "pastedContent": "粘贴内容", "intro": "在浏览器本地阅读 Claude Code JSONL 会话，查看消息、思考块和工具调用，导入项目文件夹并导出 Markdown。免费开源，无需注册。", "featMd": "Markdown 渲染", "featMdD": "代码块、表格、列表、引用完整还原", "featThink": "思考过程", "featThinkD": "折叠查看 extended thinking 全文", "featTool": "工具调用", "featToolD": "参数与结果逐条展开查看", "featCost": "用量统计", "featCostD": "token 用量、时长与花费分析", "featI18n": "多语言界面", "featI18nD": "10 种语言一键切换", "featPrivacy": "本地处理", "featPrivacyD": "在浏览器中解析与渲染", "faqTitle": "常见问题", "tagline": "阅读 JSONL 会话、展开工具调用、导出 Markdown。免费开源。", "heroTitle": "<em>Claude Code</em> 对话历史查看器", "pvUserQ": "帮我修复登录页在移动端的样式错乱", "pvThink": "先查看登录页组件的样式代码…", "pvReply": "问题定位在 <code>flex</code> 布局缺少 <code>wrap</code>，已修复并在 375px 宽度下验证正常。", "footerPrivacy": "会话文件在浏览器中本地解析和渲染。线上网站会自动加载 Microsoft Clarity，记录页面交互；离线版本不加载统计。", "q1": "如何查看 Claude Code 的历史会话？", "a1": "本地会话通常位于 <code>~/.claude/projects/</code> 或自定义配置目录中。导入已保存的 JSONL 文件，即可阅读其中受支持的记录。", "q2": "我的会话文件会被上传吗？", "a2": "会话文件在浏览器中本地解析和渲染。线上网站会自动加载 Microsoft Clarity，记录页面交互；离线版本不加载统计。", "q3": "查看器支持哪些内容？", "a3": "支持用户消息与 AI 回复的 Markdown 渲染、extended thinking 思考过程、工具调用参数与结果、图片、token 用量与成本统计，界面支持 10 种语言。", "q4": ".jsonl 是什么格式？", "a4": "JSON Lines——每行一个独立的 JSON 对象。Claude Code 用它逐条记录会话中的消息、工具调用与元数据。", "q5": "CCViewer 是免费的吗？", "a5": "免费且开源，直接在浏览器使用，无需注册或登录。", "libraryBtn": "会话库", "libraryTitle": "会话库", "libraryEmpty": "还没有会话。打开 .jsonl 所在文件夹即可建立会话库。", "openFolder": "打开文件夹", "importing": "导入中… {n}/{m}", "importedN": "{n} 个会话", "sortRecent": "最近活动", "sortOldest": "最早优先", "sortMsgs": "消息数", "sortTokens": "Tokens", "sortCost": "费用", "deleteBtn": "删除", "clearAll": "清空全部", "confirmDelete": "删除该会话？", "confirmClear": "删除全部已存会话？不可恢复。", "noTextErr": "内容未缓存（存储已满）。请重新导入文件夹后再打开。", "storageWarn": "浏览器存储已满，部分会话仅保存了摘要。", "closeBtn": "关闭", "dirTip": "小技巧（macOS）：选择窗口内按 <kbd>⌘⇧.</kbd> 显示隐藏文件夹；或 Finder 按 <kbd>⌘⇧G</kbd> 输入 <code>~/.claude/projects</code> 直达。浏览器会记住上次选的目录。", "navProjects": "项目", "noProject": "（无项目目录）", "toggleNav": "折叠/展开项目栏", "dragResize": "拖动调整宽度", "exportMd": "导出 MD", "exportEmptyErr": "请先加载会话再导出。", "guideH": "使用指南", "g1": "如何查看 Claude Code 会话历史：3 种方法", "g2": "查找 Claude Code JSONL 文件：macOS、Linux、Windows", "g3": "Claude Code 会话保存在哪里？路径、结构与保留策略", "g4": "Claude Code 会话查看工具对比：按任务选择", "helpCenter": "帮助中心", "resourcesTitle": "官方资源", "resourcesDocs": "使用文档", "resourcesIssues": "反馈问题", "refresh": "刷新", "refreshReady": "已连接源文件 · 刷新时读取本地最新内容", "refreshReconnect": "点击刷新，重新选择源文件。自动刷新需要实时文件访问权限。", "refreshing": "刷新中…", "refreshChecked": "已检查更新 · {time}", "refreshFailed": "无法读取源文件，请点击刷新重新连接。", "refreshWrongFile": "请选择当前会话对应的源文件。", "imagePreview": "图片预览"}};
+const I18N={'zh':{"brand": "CCViewer", "thinking": "思考", "tools": "工具", "sysInj": "系统/注入", "expandAll": "展开全部", "pasteText": "粘贴文本", "openFile": "打开文件", "noFile": "未加载文件", "dropHint1": "把 <b>.jsonl</b> 历史文件<b>或整个项目文件夹</b>拖到这里，或点击选择", "dropHint2": "例如 <code>~/.claude/projects/</code> 整个文件夹，或其中的 <code>&lt;sessionId&gt;.jsonl</code>", "chooseFile": "选择文件", "pasteTitle": "粘贴 JSONL 文本", "pasteHint": "把历史文件内容整段粘贴进来，每行一个 JSON 对象（也兼容单个 JSON 数组 / 对象）。", "cancel": "取消", "loadBtn": "加载", "thinkLabel": "✻ 思考", "you": "你", "reply": "回复", "result": "结果", "error": "错误", "lines": "行", "images": "图片", "viewResult": "查看结果", "sysMsg": "系统消息", "injCtx": "注入上下文", "system": "系统", "sessionInfo": "会话信息", "stats": "统计", "costUsage": "成本 / 用量", "titleRow": "标题", "projectDir": "项目目录", "gitBranch": "Git 分支", "version": "版本", "sessionId": "会话 ID", "time": "时间", "model": "模型", "userMsgs": "用户消息", "replies": "回复", "toolCalls": "工具调用", "thinkingStat": "思考", "imagesStat": "图片", "parseFailed": "解析失败", "home": "首页", "inTokens": "输入 tokens", "outTokens": "输出 tokens", "cacheRead": "缓存读取", "cacheCreate": "缓存写入", "totalCost": "总花费", "linesPM": "代码 +/-", "apiTime": "API 时长", "toolTime": "工具时长", "viewerSuffix": "历史查看器", "pasteEmptyErr": "没有解析到任何有效记录，请检查粘贴内容", "pastedContent": "粘贴内容", "intro": "在浏览器本地阅读 Claude Code JSONL 会话，查看消息、思考块和工具调用，导入项目文件夹并导出 Markdown。免费开源，无需注册。", "featMd": "Markdown 渲染", "featMdD": "代码块、表格、列表、引用完整还原", "featThink": "思考过程", "featThinkD": "折叠查看 extended thinking 全文", "featTool": "工具调用", "featToolD": "参数与结果逐条展开查看", "featCost": "用量统计", "featCostD": "token 用量、时长与花费分析", "featI18n": "多语言界面", "featI18nD": "10 种语言一键切换", "featPrivacy": "本地处理", "featPrivacyD": "在浏览器中解析与渲染", "faqTitle": "常见问题", "tagline": "阅读 JSONL 会话、展开工具调用、导出 Markdown。免费开源。", "heroTitle": "<em>Claude Code</em> 对话历史查看器", "pvUserQ": "帮我修复登录页在移动端的样式错乱", "pvThink": "先查看登录页组件的样式代码…", "pvReply": "问题定位在 <code>flex</code> 布局缺少 <code>wrap</code>，已修复并在 375px 宽度下验证正常。", "footerPrivacy": "会话文件在浏览器中本地解析和渲染。线上网站会自动加载 Microsoft Clarity，记录页面交互；离线版本不加载统计。", "q1": "如何查看 Claude Code 的历史会话？", "a1": "本地会话通常位于 <code>~/.claude/projects/</code> 或自定义配置目录中。导入已保存的 JSONL 文件，即可阅读其中受支持的记录。", "q2": "我的会话文件会被上传吗？", "a2": "会话文件在浏览器中本地解析和渲染。线上网站会自动加载 Microsoft Clarity，记录页面交互；离线版本不加载统计。", "q3": "查看器支持哪些内容？", "a3": "支持用户消息与 AI 回复的 Markdown 渲染、extended thinking 思考过程、工具调用参数与结果、图片、token 用量与成本统计，界面支持 10 种语言。", "q4": ".jsonl 是什么格式？", "a4": "JSON Lines——每行一个独立的 JSON 对象。Claude Code 用它逐条记录会话中的消息、工具调用与元数据。", "q5": "CCViewer 是免费的吗？", "a5": "免费且开源，直接在浏览器使用，无需注册或登录。", "libraryBtn": "会话库", "libraryTitle": "会话库", "libraryEmpty": "还没有会话。打开 .jsonl 所在文件夹即可建立会话库。", "openFolder": "打开文件夹", "importing": "导入中… {n}/{m}", "importedN": "{n} 个会话", "sortRecent": "最近活动", "sortOldest": "最早优先", "sortMsgs": "消息数", "sortTokens": "Tokens", "sortCost": "费用", "deleteBtn": "删除", "clearAll": "清空全部", "confirmDelete": "删除该会话？", "confirmClear": "删除全部已存会话？不可恢复。", "noTextErr": "内容未缓存（存储已满）。请重新导入文件夹后再打开。", "storageWarn": "浏览器存储已满，部分会话仅保存了摘要。", "closeBtn": "关闭", "dirTip": "小技巧（macOS）：选择窗口内按 <kbd>⌘⇧.</kbd> 显示隐藏文件夹；或 Finder 按 <kbd>⌘⇧G</kbd> 输入 <code>~/.claude/projects</code> 直达。浏览器会记住上次选的目录。", "navProjects": "项目", "noProject": "（无项目目录）", "toggleNav": "折叠/展开项目栏", "dragResize": "拖动调整宽度", "exportMd": "导出 MD", "exportEmptyErr": "请先加载会话再导出。", "guideH": "使用指南", "tutorialCap": "选择文件 → 按 ⌘⇧. 显示隐藏文件夹 → 打开 ~/.claude/projects/ → 选中会话 .jsonl → 查看统计、搜索、thinking 块与 Markdown 导出。", "g1": "如何查看 Claude Code 会话历史：3 种方法", "g2": "查找 Claude Code JSONL 文件：macOS、Linux、Windows", "g3": "Claude Code 会话保存在哪里？路径、结构与保留策略", "g4": "Claude Code 会话查看工具对比：按任务选择", "helpCenter": "帮助中心", "resourcesTitle": "官方资源", "resourcesDocs": "使用文档", "resourcesIssues": "反馈问题", "refresh": "刷新", "refreshReady": "已连接源文件 · 刷新时读取本地最新内容", "refreshReconnect": "点击刷新，重新选择源文件。自动刷新需要实时文件访问权限。", "refreshing": "刷新中…", "refreshChecked": "已检查更新 · {time}", "refreshFailed": "无法读取源文件，请点击刷新重新连接。", "refreshWrongFile": "请选择当前会话对应的源文件。", "imagePreview": "图片预览"}};
 const LANG='zh';
 const BASE_PATH='/claude-code-session-viewer';
 const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
@@ -1322,10 +1329,31 @@ async function importFiles(files){
     }
   }
 }
-// 统一走 <input webkitdirectory>：只弹系统目录选择框，不触发
-// showDirectoryPicker 的“允许此网站查看和复制文件？”授权提示
+// File System Access API：递归扫描目录句柄下的 .jsonl（深度上限 4，跳过 node_modules）
+// 授权提示每个目录每次会话只弹一次（浏览器记住），并保留句柄供自动刷新使用
+async function importDirHandle(dir){
+  const files=[];
+  async function walk(d,depth){
+    if(depth>4)return;
+    for await(const [name,h] of d.entries()){
+      if(h.kind==='file'&&/\.jsonl$/i.test(name)){try{const file=await h.getFile();FILE_SOURCES.set(file,h);files.push(file);}catch(e){}}
+      else if(h.kind==='directory'&&name!=='node_modules')await walk(h,depth+1);
+    }
+  }
+  await walk(dir,0);
+  showLibrary();
+  await importFiles(files);
+}
 const pickDir=async()=>{
   window.ccviewerAnalytics.event('folder_picker_open');
+  // 优先 showDirectoryPicker：授权只弹一次且支持句柄刷新；不支持的浏览器降级 webkitdirectory
+  if(window.showDirectoryPicker&&self.isSecureContext){
+    try{
+      const h=await window.showDirectoryPicker({id:'ccviewer-projects',mode:'read'});
+      await importDirHandle(h);
+      return;
+    }catch(e){if(e.name!=='AbortError')$('#dirpicker').click();return;}
+  }
   $('#dirpicker').click();
 };
 /* ---------- 交互 ---------- */

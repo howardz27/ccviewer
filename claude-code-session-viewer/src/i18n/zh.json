@@ -117,6 +117,7 @@
   "exportMd": "导出 MD",
   "exportEmptyErr": "请先加载会话再导出。",
   "guideH": "使用指南",
+  "tutorialCap": "选择文件 → 按 ⌘⇧. 显示隐藏文件夹 → 打开 ~/.claude/projects/ → 选中会话 .jsonl → 查看统计、搜索、thinking 块与 Markdown 导出。",
   "g1": "如何查看 Claude Code 会话历史：3 种方法",
   "g2": "查找 Claude Code JSONL 文件：macOS、Linux、Windows",
   "g3": "Claude Code 会话保存在哪里？路径、结构与保留策略",

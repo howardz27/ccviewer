@@ -117,6 +117,7 @@
   "exportMd": "MD エクスポート",
   "exportEmptyErr": "先にセッションを読み込んでください。",
   "guideH": "使い方ガイド",
+  "tutorialCap": "ファイルを選択 → ⌘⇧. で隠しフォルダを表示 → ~/.claude/projects/ を開く → セッションの .jsonl を選択 → 統計・検索・thinking ブロック・Markdown エクスポート。",
   "g1": "Claude Code セッションの完全な履歴を表示する方法",
   "g2": "セッションの JSONL ファイルの場所を探す方法",
   "g3": "Claude Code のセッション履歴はどこに保存される？",

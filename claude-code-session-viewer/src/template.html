@@ -259,6 +259,9 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .seo .feat b svg{color:var(--accent);flex-shrink:0}
 .seo .feat span{color:var(--dim);font-size:12.5px;line-height:1.5}
 .seo h2{color:var(--accent);font-size:18px;margin:0 0 20px;text-align:center;font-family:var(--disp)}
+.seo .tutorial{margin:0 auto 40px;max-width:880px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px}
+.seo .tutorial img{display:block;width:100%;height:auto;border-radius:8px}
+.seo .tutorial figcaption{color:var(--dim);font-size:12.5px;line-height:1.6;text-align:center;padding:10px 4px 2px}
 .seo .guides{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin:0 0 64px}
 .seo .guides a{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;color:var(--text);text-decoration:none;font-size:13.5px;line-height:1.55;transition:border-color .15s}
 .seo .guides a:hover{border-color:var(--accent);color:var(--accent)}
@@ -373,6 +376,10 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   <div class="seo">
     <p class="intro" data-i18n-html="intro"></p>
     <h2 data-i18n="guideH"></h2>
+    <figure class="tutorial">
+      <img src="/assets/tutorial.gif" alt="Animated tutorial: open a session file, reveal hidden folders with ⌘⇧., navigate to ~/.claude/projects/ and browse the session in the viewer" width="880" height="550" loading="lazy" decoding="async">
+      <figcaption data-i18n="tutorialCap"></figcaption>
+    </figure>
     <div class="guides">
       <a data-guide="how-to-view-claude-code-session-history.html" data-i18n="g1"></a>
       <a data-guide="find-claude-code-session-jsonl-file.html" data-i18n="g2"></a>
