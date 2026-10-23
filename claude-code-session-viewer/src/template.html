@@ -1275,10 +1275,31 @@ async function importFiles(files){
     }
   }
 }
-// 统一走 <input webkitdirectory>：只弹系统目录选择框，不触发
-// showDirectoryPicker 的“允许此网站查看和复制文件？”授权提示
+// File System Access API：递归扫描目录句柄下的 .jsonl（深度上限 4，跳过 node_modules）
+// 授权提示每个目录每次会话只弹一次（浏览器记住），并保留句柄供自动刷新使用
+async function importDirHandle(dir){
+  const files=[];
+  async function walk(d,depth){
+    if(depth>4)return;
+    for await(const [name,h] of d.entries()){
+      if(h.kind==='file'&&/\.jsonl$/i.test(name)){try{const file=await h.getFile();FILE_SOURCES.set(file,h);files.push(file);}catch(e){}}
+      else if(h.kind==='directory'&&name!=='node_modules')await walk(h,depth+1);
+    }
+  }
+  await walk(dir,0);
+  showLibrary();
+  await importFiles(files);
+}
 const pickDir=async()=>{
   window.ccviewerAnalytics.event('folder_picker_open');
+  // 优先 showDirectoryPicker：授权只弹一次且支持句柄刷新；不支持的浏览器降级 webkitdirectory
+  if(window.showDirectoryPicker&&self.isSecureContext){
+    try{
+      const h=await window.showDirectoryPicker({id:'ccviewer-projects',mode:'read'});
+      await importDirHandle(h);
+      return;
+    }catch(e){if(e.name!=='AbortError')$('#dirpicker').click();return;}
+  }
   $('#dirpicker').click();
 };
 /* ---------- 交互 ---------- */
