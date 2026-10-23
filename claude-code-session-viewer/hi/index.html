@@ -352,15 +352,6 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   </div>
   <div id="refreshbar" class="hidden">
     <button class="btn" id="btnRefresh" data-i18n="refresh">रीफ़्रेश करें</button>
-    <label class="toggle"><span data-i18n="autoRefresh">अपने आप रीफ़्रेश</span>
-      <select class="btn" id="autoRefresh" aria-label="Auto refresh">
-        <option value="0" data-i18n="autoRefreshOff">बंद</option>
-        <option value="2" data-i18n="refresh2s">हर 2 सेकंड</option>
-        <option value="5" data-i18n="refresh5s">हर 5 सेकंड</option>
-        <option value="10" data-i18n="refresh10s">हर 10 सेकंड</option>
-        <option value="30" data-i18n="refresh30s">हर 30 सेकंड</option>
-      </select>
-    </label>
     <span id="refreshStatus" role="status"></span>
   </div>
   <div id="main">
@@ -518,7 +509,7 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={'hi':{"brand": "CCViewer", "thinking": "थिंकिंग", "tools": "टूल्स", "sysInj": "सिस्टम/इंजेक्टेड", "expandAll": "सब खोलें", "pasteText": "टेक्स्ट पेस्ट करें", "openFile": "फ़ाइल खोलें", "noFile": "कोई फ़ाइल लोड नहीं", "dropHint1": "कोई <b>.jsonl</b> फ़ाइल <b>या पूरा प्रोजेक्ट फ़ोल्डर</b> यहाँ खींचें, या चुनने के लिए क्लिक करें", "dropHint2": "जैसे पूरा <code>~/.claude/projects/</code> फ़ोल्डर, या उसमें से कोई एक <code>&lt;sessionId&gt;.jsonl</code>", "chooseFile": "फ़ाइल चुनें", "pasteTitle": "JSONL टेक्स्ट पेस्ट करें", "pasteHint": "पूरी हिस्ट्री फ़ाइल की सामग्री यहाँ पेस्ट करें, हर लाइन में एक JSON ऑब्जेक्ट (एकल JSON ऐरे / ऑब्जेक्ट भी चलेगा)।", "cancel": "रद्द करें", "loadBtn": "लोड करें", "thinkLabel": "✻ थिंकिंग", "you": "आप", "reply": "उत्तर", "result": "परिणाम", "error": "त्रुटि", "lines": "लाइनें", "images": "इमेज", "viewResult": "परिणाम देखें", "sysMsg": "सिस्टम संदेश", "injCtx": "इंजेक्टेड संदर्भ", "system": "सिस्टम", "sessionInfo": "सेशन जानकारी", "stats": "आँकड़े", "costUsage": "लागत / उपयोग", "titleRow": "शीर्षक", "projectDir": "प्रोजेक्ट डायरेक्टरी", "gitBranch": "Git ब्रांच", "version": "संस्करण", "sessionId": "सेशन ID", "time": "समय", "model": "मॉडल", "userMsgs": "उपयोगकर्ता संदेश", "replies": "उत्तर", "toolCalls": "टूल कॉल", "thinkingStat": "थिंकिंग", "imagesStat": "इमेज", "parseFailed": "पार्स विफल", "home": "होम", "inTokens": "इनपुट टोकन", "outTokens": "आउटपुट टोकन", "cacheRead": "कैश रीड", "cacheCreate": "कैश राइट", "totalCost": "कुल लागत", "linesPM": "कोड लाइनें +/-", "apiTime": "API समय", "toolTime": "टूल समय", "viewerSuffix": "हिस्ट्री व्यूअर", "pasteEmptyErr": "कोई वैध रिकॉर्ड पार्स नहीं हुआ। पेस्ट की गई सामग्री जाँचें।", "pastedContent": "पेस्ट की गई सामग्री", "intro": "ब्राउज़र में Claude Code JSONL सत्र स्थानीय रूप से पढ़ें। संदेश और टूल कॉल देखें, फ़ोल्डर आयात करें और Markdown निर्यात करें। निःशुल्क और ओपन सोर्स।", "featMd": "Markdown रेंडरिंग", "featMdD": "कोड ब्लॉक, टेबल, सूचियाँ और उद्धरण", "featThink": "थिंकिंग प्रोसेस", "featThinkD": "extended thinking को फोल्ड करके देखें", "featTool": "टूल कॉल", "featToolD": "पैरामीटर और परिणाम, खोलकर देखें", "featCost": "उपयोग और लागत", "featCostD": "टोकन उपयोग, अवधि और खर्च", "featI18n": "बहुभाषी इंटरफ़ेस", "featI18nD": "10 भाषाओं में एक क्लिक पर बदलें", "featPrivacy": "प्राइवेसी पहले", "featPrivacyD": "100% क्लाइंट-साइड, शून्य अपलोड", "faqTitle": "सामान्य प्रश्न", "tagline": ".jsonl सेशन फ़ाइलों को ब्राउज़र में लोकल रेंडर करें। प्राइवेट, मुफ़्त और ओपन-सोर्स", "heroTitle": "<em>Claude Code</em> का सेशन इतिहास पढ़ें", "pvUserQ": "मोबाइल पर लॉगिन पेज का टूटा लेआउट ठीक करो", "pvThink": "पहले लॉगिन पेज के स्टाइल देखता हूँ…", "pvReply": "समस्या <code>flex</code> लेआउट में <code>wrap</code> के अभाव से थी। ठीक किया और 375px चौड़ाई पर जाँचा।", "footerPrivacy": "सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं।", "q1": "Claude Code की पुरानी सेशन कैसे देखें?", "a1": "लोकल सत्रों का डिफ़ॉल्ट स्थान ~/.claude/projects/ है। CLAUDE_CONFIG_DIR से आधार निर्देशिका बदलती है। सत्र सहेजना बंद हो सकता है और प्रतिधारण नियम फ़ाइलें हटा सकते हैं; पूरा इतिहास हमेशा नहीं रहता। क्लाउड या रिमोट सत्र के लिए निष्पादन परिवेश जाँचें।", "q2": "क्या मेरी सेशन फ़ाइल कहीं अपलोड होती है?", "a2": "सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं।", "q3": "व्यूअर क्या सबपोर्ट करता है?", "a3": "संदेशों की Markdown रेंडरिंग, extended thinking ब्लॉक, टूल कॉल के पैरामीटर और परिणाम, इमेज, टोकन उपयोग व लागत आँकड़े — 10 भाषाओं के इंटरफ़ेस के साथ।", "q4": ".jsonl क्या फॉर्मेट है?", "a4": "JSON Lines — हर लाइन में एक स्वतंत्र JSON ऑब्जेक्ट। Claude Code हर संदेश, टूल कॉल और मेटाडेटा को एक लाइन के रूप में लिखता है।", "q5": "क्या CCViewer मुफ़्त है?", "a5": "हाँ, मुफ़्त और ओपन-सोर्स। कोई रजिस्ट्रेशन ज़रूरी नहीं।", "libraryBtn": "सेशन", "libraryTitle": "सेशन लाइब्रेरी", "libraryEmpty": "अभी कोई सेशन नहीं है। अपनी लाइब्रेरी बनाने के लिए .jsonl फ़ाइलों वाला फ़ोल्डर खोलें।", "openFolder": "फ़ोल्डर खोलें", "importing": "इंपोर्ट हो रहा है… {n}/{m}", "importedN": "{n} सेशन", "sortRecent": "सबसे नए", "sortOldest": "सबसे पुराने", "sortMsgs": "संदेश", "sortTokens": "टोकन", "sortCost": "लागत", "deleteBtn": "हटाएं", "clearAll": "सब हटाएं", "confirmDelete": "यह सेशन हटाएं?", "confirmClear": "सभी सहेजे गए सेशन हटाएं? इसे पूर्ववत नहीं किया जा सकता।", "noTextErr": "सामग्री कैश नहीं है (स्टोरेज भरा हुआ है)। खोलने के लिए फ़ोल्डर दोबारा इंपोर्ट करें।", "storageWarn": "ब्राउज़र स्टोरेज भर गया है; कुछ सेशन केवल सारांश के रूप में सहेजे गए हैं।", "closeBtn": "बंद करें", "dirTip": "सुझाव (macOS): पिकर में <kbd>⌘⇧.</kbd> दबाएं ताकि छिपे फ़ोल्डर दिखें, या Finder में <kbd>⌘⇧G</kbd> दबाकर <code>~/.claude/projects</code> टाइप करें। पिकर आपका अंतिम फ़ोल्डर याद रखता है।", "navProjects": "प्रोजेक्ट", "noProject": "(कोई प्रोजेक्ट डायरेक्टरी नहीं)", "toggleNav": "प्रोजेक्ट पैनल टॉगल करें", "dragResize": "चौड़ाई बदलने के लिए खींचें", "exportMd": "MD निर्यात", "exportEmptyErr": "पहले एक सत्र लोड करें।", "guideH": "गाइड", "g1": "Claude Code सत्र का पूरा इतिहास कैसे देखें", "g2": "सत्र की JSONL फ़ाइल कैसे खोजें", "g3": "Claude Code सत्र इतिहास कहाँ सेव होता है?", "g4": "2026 में Claude Code सत्र का सबसे अच्छा व्यूअर कौन?", "helpCenter": "सहायता", "resourcesTitle": "आधिकारिक संसाधन", "resourcesDocs": "दस्तावेज़", "resourcesIssues": "समस्या की रिपोर्ट करें", "refresh": "रीफ़्रेश करें", "autoRefresh": "अपने आप रीफ़्रेश", "autoRefreshOff": "बंद", "refresh2s": "हर 2 सेकंड", "refresh5s": "हर 5 सेकंड", "refresh10s": "हर 10 सेकंड", "refresh30s": "हर 30 सेकंड", "refreshReady": "स्रोत फ़ाइल जुड़ी है · नवीनतम स्थानीय सामग्री पढ़ी जाएगी", "refreshReconnect": "स्रोत फ़ाइल फिर से चुनने के लिए रीफ़्रेश करें। अपने आप रीफ़्रेश करने के लिए फ़ाइल का निरंतर एक्सेस चाहिए।", "refreshing": "रीफ़्रेश हो रहा है…", "refreshChecked": "{time} पर जाँचा गया", "refreshFailed": "स्रोत फ़ाइल पढ़ी नहीं जा सकी। फिर से जोड़ने के लिए रीफ़्रेश करें।", "refreshWrongFile": "इस सत्र की स्रोत फ़ाइल चुनें।", "imagePreview": "छवि पूर्वावलोकन"}};
+const I18N={'hi':{"brand": "CCViewer", "thinking": "थिंकिंग", "tools": "टूल्स", "sysInj": "सिस्टम/इंजेक्टेड", "expandAll": "सब खोलें", "pasteText": "टेक्स्ट पेस्ट करें", "openFile": "फ़ाइल खोलें", "noFile": "कोई फ़ाइल लोड नहीं", "dropHint1": "कोई <b>.jsonl</b> फ़ाइल <b>या पूरा प्रोजेक्ट फ़ोल्डर</b> यहाँ खींचें, या चुनने के लिए क्लिक करें", "dropHint2": "जैसे पूरा <code>~/.claude/projects/</code> फ़ोल्डर, या उसमें से कोई एक <code>&lt;sessionId&gt;.jsonl</code>", "chooseFile": "फ़ाइल चुनें", "pasteTitle": "JSONL टेक्स्ट पेस्ट करें", "pasteHint": "पूरी हिस्ट्री फ़ाइल की सामग्री यहाँ पेस्ट करें, हर लाइन में एक JSON ऑब्जेक्ट (एकल JSON ऐरे / ऑब्जेक्ट भी चलेगा)।", "cancel": "रद्द करें", "loadBtn": "लोड करें", "thinkLabel": "✻ थिंकिंग", "you": "आप", "reply": "उत्तर", "result": "परिणाम", "error": "त्रुटि", "lines": "लाइनें", "images": "इमेज", "viewResult": "परिणाम देखें", "sysMsg": "सिस्टम संदेश", "injCtx": "इंजेक्टेड संदर्भ", "system": "सिस्टम", "sessionInfo": "सेशन जानकारी", "stats": "आँकड़े", "costUsage": "लागत / उपयोग", "titleRow": "शीर्षक", "projectDir": "प्रोजेक्ट डायरेक्टरी", "gitBranch": "Git ब्रांच", "version": "संस्करण", "sessionId": "सेशन ID", "time": "समय", "model": "मॉडल", "userMsgs": "उपयोगकर्ता संदेश", "replies": "उत्तर", "toolCalls": "टूल कॉल", "thinkingStat": "थिंकिंग", "imagesStat": "इमेज", "parseFailed": "पार्स विफल", "home": "होम", "inTokens": "इनपुट टोकन", "outTokens": "आउटपुट टोकन", "cacheRead": "कैश रीड", "cacheCreate": "कैश राइट", "totalCost": "कुल लागत", "linesPM": "कोड लाइनें +/-", "apiTime": "API समय", "toolTime": "टूल समय", "viewerSuffix": "हिस्ट्री व्यूअर", "pasteEmptyErr": "कोई वैध रिकॉर्ड पार्स नहीं हुआ। पेस्ट की गई सामग्री जाँचें।", "pastedContent": "पेस्ट की गई सामग्री", "intro": "ब्राउज़र में Claude Code JSONL सत्र स्थानीय रूप से पढ़ें। संदेश और टूल कॉल देखें, फ़ोल्डर आयात करें और Markdown निर्यात करें। निःशुल्क और ओपन सोर्स।", "featMd": "Markdown रेंडरिंग", "featMdD": "कोड ब्लॉक, टेबल, सूचियाँ और उद्धरण", "featThink": "थिंकिंग प्रोसेस", "featThinkD": "extended thinking को फोल्ड करके देखें", "featTool": "टूल कॉल", "featToolD": "पैरामीटर और परिणाम, खोलकर देखें", "featCost": "उपयोग और लागत", "featCostD": "टोकन उपयोग, अवधि और खर्च", "featI18n": "बहुभाषी इंटरफ़ेस", "featI18nD": "10 भाषाओं में एक क्लिक पर बदलें", "featPrivacy": "प्राइवेसी पहले", "featPrivacyD": "100% क्लाइंट-साइड, शून्य अपलोड", "faqTitle": "सामान्य प्रश्न", "tagline": ".jsonl सेशन फ़ाइलों को ब्राउज़र में लोकल रेंडर करें। प्राइवेट, मुफ़्त और ओपन-सोर्स", "heroTitle": "<em>Claude Code</em> का सेशन इतिहास पढ़ें", "pvUserQ": "मोबाइल पर लॉगिन पेज का टूटा लेआउट ठीक करो", "pvThink": "पहले लॉगिन पेज के स्टाइल देखता हूँ…", "pvReply": "समस्या <code>flex</code> लेआउट में <code>wrap</code> के अभाव से थी। ठीक किया और 375px चौड़ाई पर जाँचा।", "footerPrivacy": "सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं।", "q1": "Claude Code की पुरानी सेशन कैसे देखें?", "a1": "लोकल सत्रों का डिफ़ॉल्ट स्थान ~/.claude/projects/ है। CLAUDE_CONFIG_DIR से आधार निर्देशिका बदलती है। सत्र सहेजना बंद हो सकता है और प्रतिधारण नियम फ़ाइलें हटा सकते हैं; पूरा इतिहास हमेशा नहीं रहता। क्लाउड या रिमोट सत्र के लिए निष्पादन परिवेश जाँचें।", "q2": "क्या मेरी सेशन फ़ाइल कहीं अपलोड होती है?", "a2": "सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं।", "q3": "व्यूअर क्या सबपोर्ट करता है?", "a3": "संदेशों की Markdown रेंडरिंग, extended thinking ब्लॉक, टूल कॉल के पैरामीटर और परिणाम, इमेज, टोकन उपयोग व लागत आँकड़े — 10 भाषाओं के इंटरफ़ेस के साथ।", "q4": ".jsonl क्या फॉर्मेट है?", "a4": "JSON Lines — हर लाइन में एक स्वतंत्र JSON ऑब्जेक्ट। Claude Code हर संदेश, टूल कॉल और मेटाडेटा को एक लाइन के रूप में लिखता है।", "q5": "क्या CCViewer मुफ़्त है?", "a5": "हाँ, मुफ़्त और ओपन-सोर्स। कोई रजिस्ट्रेशन ज़रूरी नहीं।", "libraryBtn": "सेशन", "libraryTitle": "सेशन लाइब्रेरी", "libraryEmpty": "अभी कोई सेशन नहीं है। अपनी लाइब्रेरी बनाने के लिए .jsonl फ़ाइलों वाला फ़ोल्डर खोलें।", "openFolder": "फ़ोल्डर खोलें", "importing": "इंपोर्ट हो रहा है… {n}/{m}", "importedN": "{n} सेशन", "sortRecent": "सबसे नए", "sortOldest": "सबसे पुराने", "sortMsgs": "संदेश", "sortTokens": "टोकन", "sortCost": "लागत", "deleteBtn": "हटाएं", "clearAll": "सब हटाएं", "confirmDelete": "यह सेशन हटाएं?", "confirmClear": "सभी सहेजे गए सेशन हटाएं? इसे पूर्ववत नहीं किया जा सकता।", "noTextErr": "सामग्री कैश नहीं है (स्टोरेज भरा हुआ है)। खोलने के लिए फ़ोल्डर दोबारा इंपोर्ट करें।", "storageWarn": "ब्राउज़र स्टोरेज भर गया है; कुछ सेशन केवल सारांश के रूप में सहेजे गए हैं।", "closeBtn": "बंद करें", "dirTip": "सुझाव (macOS): पिकर में <kbd>⌘⇧.</kbd> दबाएं ताकि छिपे फ़ोल्डर दिखें, या Finder में <kbd>⌘⇧G</kbd> दबाकर <code>~/.claude/projects</code> टाइप करें। पिकर आपका अंतिम फ़ोल्डर याद रखता है।", "navProjects": "प्रोजेक्ट", "noProject": "(कोई प्रोजेक्ट डायरेक्टरी नहीं)", "toggleNav": "प्रोजेक्ट पैनल टॉगल करें", "dragResize": "चौड़ाई बदलने के लिए खींचें", "exportMd": "MD निर्यात", "exportEmptyErr": "पहले एक सत्र लोड करें।", "guideH": "गाइड", "g1": "Claude Code सत्र का पूरा इतिहास कैसे देखें", "g2": "सत्र की JSONL फ़ाइल कैसे खोजें", "g3": "Claude Code सत्र इतिहास कहाँ सेव होता है?", "g4": "2026 में Claude Code सत्र का सबसे अच्छा व्यूअर कौन?", "helpCenter": "सहायता", "resourcesTitle": "आधिकारिक संसाधन", "resourcesDocs": "दस्तावेज़", "resourcesIssues": "समस्या की रिपोर्ट करें", "refresh": "रीफ़्रेश करें", "refreshReady": "स्रोत फ़ाइल जुड़ी है · नवीनतम स्थानीय सामग्री पढ़ी जाएगी", "refreshReconnect": "स्रोत फ़ाइल फिर से चुनने के लिए रीफ़्रेश करें। अपने आप रीफ़्रेश करने के लिए फ़ाइल का निरंतर एक्सेस चाहिए।", "refreshing": "रीफ़्रेश हो रहा है…", "refreshChecked": "{time} पर जाँचा गया", "refreshFailed": "स्रोत फ़ाइल पढ़ी नहीं जा सकी। फिर से जोड़ने के लिए रीफ़्रेश करें।", "refreshWrongFile": "इस सत्र की स्रोत फ़ाइल चुनें।", "imagePreview": "छवि पूर्वावलोकन"}};
 const LANG='hi';
 const BASE_PATH='/claude-code-session-viewer';
 const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
@@ -1110,6 +1101,7 @@ function updateLibBtn(){
 let CUR_ID=null,NAV_COLLAPSED=new Set();
 // Keep live access separate from cached transcripts. File objects are snapshots.
 const SESSION_SOURCES=new Map(),FILE_SOURCES=new WeakMap();
+const AUTO_REFRESH_SECONDS=5; // 后台自动轮询间隔，无需用户设置
 let REFRESH_TIMER=null;
 function stopRefreshTimer(){clearTimeout(REFRESH_TIMER);REFRESH_TIMER=null;}
 function viewerVisible(){return CUR&&$('#drop').classList.contains('hide')&&$('#library').classList.contains('hide');}
@@ -1121,15 +1113,12 @@ function refreshStatus(key,error){
 function updateRefreshControls(){
   $('#refreshbar').classList.toggle('hidden',!CUR);
   $('#btnRefresh').disabled=!!(CUR&&CUR.refreshing);
-  $('#autoRefresh').disabled=!CUR||!CUR.source;
-  $('#autoRefresh').setAttribute('aria-label',t('autoRefresh'));
   if(CUR)refreshStatus(CUR.source?'refreshReady':'refreshReconnect');
 }
 function scheduleRefresh(){
   stopRefreshTimer();
-  const seconds=Number($('#autoRefresh').value);
-  if(!viewerVisible()||!CUR.source||!seconds||document.hidden)return;
-  REFRESH_TIMER=setTimeout(()=>refreshSession(false),seconds*1000);
+  if(!viewerVisible()||!CUR||!CUR.source||document.hidden)return;
+  REFRESH_TIMER=setTimeout(()=>refreshSession(false),AUTO_REFRESH_SECONDS*1000);
 }
 async function openLocalFile(file,source){
   const text=await file.text();
@@ -1147,8 +1136,9 @@ async function applyRefresh(session,file,source){
   if(!entries.length)throw new Error('empty-session');
   if((session.sum.sessionId&&sum.sessionId&&session.sum.sessionId!==sum.sessionId)||
      ((!session.sum.sessionId||!sum.sessionId)&&session.name&&session.name!==file.name)){
-    $('#autoRefresh').value='0';
-    refreshStatus('refreshWrongFile',true);return;
+    session.source=null;
+    if(CUR_ID)SESSION_SOURCES.delete(CUR_ID);
+    updateRefreshControls();refreshStatus('refreshWrongFile',true);return;
   }
   session.source=source||null;
   if(CUR_ID&&source)SESSION_SOURCES.set(CUR_ID,source);
@@ -1203,7 +1193,7 @@ async function refreshSession(manual){
       else{
         session.source=null;
         if(CUR_ID)SESSION_SOURCES.delete(CUR_ID);
-        $('#autoRefresh').value='0';updateRefreshControls();refreshStatus('refreshFailed',true);
+        updateRefreshControls();refreshStatus('refreshFailed',true);
       }
     }
   }finally{
@@ -1213,7 +1203,6 @@ async function refreshSession(manual){
 }
 let REFRESH_TARGET=null;
 $('#btnRefresh').onclick=()=>refreshSession(true);
-$('#autoRefresh').onchange=scheduleRefresh;
 document.addEventListener('visibilitychange',scheduleRefresh);
 $('#refreshFile').onchange=async e=>{
   const session=REFRESH_TARGET,file=e.target.files[0];REFRESH_TARGET=null;
@@ -1333,31 +1322,11 @@ async function importFiles(files){
     }
   }
 }
-// File System Access API：递归扫描目录句柄下的 .jsonl（深度上限 4，跳过 node_modules）
-async function importDirHandle(dir){
-  const files=[];
-  async function walk(d,depth){
-    if(depth>4)return;
-    for await(const [name,h] of d.entries()){
-      if(h.kind==='file'&&/\.jsonl$/i.test(name)){try{const file=await h.getFile();FILE_SOURCES.set(file,h);files.push(file);}catch(e){}}
-      else if(h.kind==='directory'&&name!=='node_modules')await walk(h,depth+1);
-    }
-  }
-  await walk(dir,0);
-  showLibrary();
-  await importFiles(files);
-}
-// 每次点击都弹出目录选择框（会话已持久化在 IndexedDB，无需重复导入同一目录）
-async function pickDirModern(){
-  try{
-    const h=await window.showDirectoryPicker({id:'ccviewer-projects',mode:'read'});
-    await importDirHandle(h);
-  }catch(e){/* 用户取消或权限拒绝 */}
-}
+// 统一走 <input webkitdirectory>：只弹系统目录选择框，不触发
+// showDirectoryPicker 的“允许此网站查看和复制文件？”授权提示
 const pickDir=async()=>{
   window.ccviewerAnalytics.event('folder_picker_open');
-  if(!(window.showDirectoryPicker&&self.isSecureContext)){$('#dirpicker').click();return;}
-  await pickDirModern();
+  $('#dirpicker').click();
 };
 /* ---------- 交互 ---------- */
 function applyToggles(){
@@ -1480,9 +1449,14 @@ $('#btnPickDir').onclick=pickDir;
 $('#btnImportFolder').onclick=pickDir;
 $('#btnImportFolder2').onclick=pickDir;
 $('#dirpicker').onchange=async e=>{
-  const fs=e.target.files;
+  // 与原 showDirectoryPicker 扫描保持一致：跳过 node_modules，目录深度上限 4
+  const fs=[...e.target.files].filter(f=>{
+    if(!/\.jsonl$/i.test(f.name))return false;
+    const parts=(f.webkitRelativePath||'').split('/');
+    return !parts.slice(0,-1).includes('node_modules')&&parts.length<=6;
+  });
   e.target.value=''; // 允许重复选择同一目录
-  if(fs&&fs.length){showLibrary();await importFiles(fs);}
+  if(fs.length){showLibrary();await importFiles(fs);}
 };
 $('#libSort').onchange=e=>{LIB_SORT=e.target.value;renderLibrary();};
 $('#btnClearAll').onclick=async()=>{

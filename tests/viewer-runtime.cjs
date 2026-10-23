@@ -10,7 +10,7 @@ const classes = (names = []) => {
   return {contains: name => items.has(name), toggle(name, enabled) { enabled ? items.add(name) : items.delete(name); }};
 };
 const elements = new Map();
-for (const id of ['#drop', '#library', '#content', '#stream', '#refreshbar', '#btnRefresh', '#autoRefresh', '#refreshStatus', '#refreshFile']) {
+for (const id of ['#drop', '#library', '#content', '#stream', '#refreshbar', '#btnRefresh', '#refreshStatus', '#refreshFile']) {
   elements.set(id, {classList: classes(['hide']), value: '0', textContent: '', disabled: false,
     scrollHeight: 2000, clientHeight: 500, scrollTop: 300, setAttribute() {}, querySelectorAll: () => []});
 }
@@ -64,8 +64,7 @@ function resetSession() {
   await run('refreshSession(true)');
   assert.equal(rebuilds, 1);
   assert.equal(run('CUR_ID'), 'session-1');
-  // Auto refresh is scheduled only for a visible viewer with a live source.
-  elements.get('#autoRefresh').value = '5';
+  // Auto refresh runs at a fixed interval for a visible viewer with a live source.
   run('scheduleRefresh()');
   assert.equal(timerDelay, 5000);
   assert.equal(typeof timer, 'function');
@@ -81,8 +80,6 @@ function resetSession() {
   context.CUR.source = {getFile: async () => { throw new Error('permission revoked'); }};
   await run('refreshSession(true)');
   assert.equal(context.CUR.source, null);
-  assert.equal(elements.get('#autoRefresh').value, '0');
-  assert.equal(elements.get('#autoRefresh').disabled, true);
   assert.equal(elements.get('#refreshStatus').textContent, 'refreshFailed');
   // Reconnecting the wrong file must not overwrite a session.
   context.window.showOpenFilePicker = async () => [{getFile: async () => ({name: 'wrong.jsonl', text: async () => JSON.stringify(record('wrong', 'session-2'))})}];

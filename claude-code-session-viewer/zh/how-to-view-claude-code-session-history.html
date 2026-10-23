@@ -80,6 +80,9 @@ header.nav .sp{flex:1}
 header.nav a.gh{color:var(--text);text-decoration:none;font-size:13px;border:1px solid var(--border);
 background:var(--panel2);padding:5px 11px;border-radius:6px}
 header.nav a.gh:hover{border-color:var(--accent);color:var(--accent)}
+header.nav select.lang{background:var(--panel2);color:var(--text);border:1px solid var(--border);
+border-radius:6px;padding:5px 10px;font-size:13px;font-family:inherit;cursor:pointer}
+header.nav select.lang:hover{border-color:var(--accent)}
 main{max-width:820px;margin:0 auto;padding:36px 20px 64px}
 .crumbs{font-size:12.5px;color:var(--faint);margin-bottom:14px}
 .crumbs a{color:var(--dim);text-decoration:none}
@@ -140,6 +143,8 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
 <header class="nav">
   <a class="brand" href="https://ccviewer.top/claude-code-session-viewer/zh/"><img src="/assets/logo.svg" width="26" alt="CCViewer logo">CCViewer</a>
   <span class="sp"></span>
+  <select class="lang" onchange="if(this.value)location.href=this.value" aria-label="Language"><option value="/claude-code-session-viewer/how-to-view-claude-code-session-history">English</option><option value="/claude-code-session-viewer/zh/how-to-view-claude-code-session-history" selected>中文</option><option value="/claude-code-session-viewer/ja/how-to-view-claude-code-session-history">日本語</option><option value="/claude-code-session-viewer/ko/how-to-view-claude-code-session-history">한국어</option><option value="/claude-code-session-viewer/es/how-to-view-claude-code-session-history">Español</option><option value="/claude-code-session-viewer/fr/how-to-view-claude-code-session-history">Français</option><option value="/claude-code-session-viewer/de/how-to-view-claude-code-session-history">Deutsch</option><option value="/claude-code-session-viewer/pt/how-to-view-claude-code-session-history">Português</option><option value="/claude-code-session-viewer/ru/how-to-view-claude-code-session-history">Русский</option><option value="/claude-code-session-viewer/hi/how-to-view-claude-code-session-history">हिन्दी</option></select>
+  <a class="gh" href="https://ccviewer.top/claude-code-session-viewer/zh/">首页</a>
   <a class="gh" href="https://github.com/howardz27/ccviewer" target="_blank" rel="noopener">GitHub</a>
 </header>
 <main>

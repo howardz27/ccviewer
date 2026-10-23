@@ -8,7 +8,7 @@ import json, os, importlib.util, sys, re, html
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from seo import identity, PUBLISHED, MODIFIED, SOURCES, attribute, plain, json_ld
-from site_support import analytics, language_links, resources, public_slug
+from site_support import analytics, language_links, resources, public_slug, LANGS as SITE_LANGS
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(HERE, '..', '..')
@@ -36,52 +36,52 @@ UI = {
  'zh': dict(help='帮助中心', updated='更新于', applies='适用于 Claude Code 2.x',
    cta_t='用 CCViewer 图形化回放你的 Claude Code 会话',
    cta_b='打开网页，把 <code>.jsonl</code> 文件或整个 <code>~/.claude/projects/</code> 文件夹拖进去即可 —— Markdown 渲染、思考块、工具调用、Token 与费用统计，全程在你的浏览器本地完成，不上传任何数据。',
-   open='打开 CCViewer（免费、无需安装）', src='查看源码', faq='常见问题', rel='相关阅读',
+   open='打开 CCViewer（免费、无需安装）', src='查看源码', faq='常见问题', rel='相关阅读', home='首页',
    foot='© 2026 CCViewer · MIT 开源 · 与 Anthropic 无隶属关系，"Claude Code" 是 Anthropic 的商标，此处为描述性使用'),
  'en': dict(help='Help Center', updated='Updated', applies='Applies to Claude Code 2.x',
    cta_t='Replay your Claude Code sessions visually with CCViewer',
    cta_b='Open the page and drop in a <code>.jsonl</code> file — or the whole <code>~/.claude/projects/</code> folder. Markdown rendering, thinking blocks, tool calls, token &amp; cost stats, all processed locally in your browser. Nothing is ever uploaded.',
-   open='Open CCViewer (free, no install)', src='View source', faq='FAQ', rel='Related guides',
+   open='Open CCViewer (free, no install)', src='View source', faq='FAQ', rel='Related guides', home='Home',
    foot='© 2026 CCViewer · MIT open source · Not affiliated with Anthropic. "Claude Code" is an Anthropic trademark, used descriptively.'),
  'ja': dict(help='ヘルプセンター', updated='更新日', applies='Claude Code 2.x 対応',
    cta_t='CCViewer で Claude Code セッションをビジュアルに再生',
    cta_b='ページを開いて <code>.jsonl</code> ファイル（または <code>~/.claude/projects/</code> フォルダ全体）をドロップするだけ。Markdown レンダリング、思考ブロック、ツール呼び出し、トークン・コスト統計まで、すべてブラウザ内のローカル処理で、データは送信されません。',
-   open='CCViewer を開く（無料・インストール不要）', src='ソースを見る', faq='よくある質問', rel='関連記事',
+   open='CCViewer を開く（無料・インストール不要）', src='ソースを見る', faq='よくある質問', rel='関連記事', home='ホーム',
    foot='© 2026 CCViewer · MIT オープンソース · Anthropic とは提携関係にありません。「Claude Code」は Anthropic の商標です。'),
  'ko': dict(help='도움말 센터', updated='업데이트', applies='Claude Code 2.x 대응',
    cta_t='CCViewer로 Claude Code 세션을 시각적으로 재생하기',
    cta_b='페이지를 열고 <code>.jsonl</code> 파일 또는 <code>~/.claude/projects/</code> 폴더 전체를 끌어다 놓기만 하면 됩니다. Markdown 렌더링, 사고 블록, 도구 호출, 토큰·비용 통계가 모두 브라우저에서 로컬로 처리되며 어떤 데이터도 업로드되지 않습니다.',
-   open='CCViewer 열기(무료, 설치 불필요)', src='소스 보기', faq='자주 묻는 질문', rel='관련 글',
+   open='CCViewer 열기(무료, 설치 불필요)', src='소스 보기', faq='자주 묻는 질문', rel='관련 글', home='홈',
    foot='© 2026 CCViewer · MIT 오픈소스 · Anthropic와는 무관합니다. "Claude Code"는 Anthropic의 상표입니다.'),
  'es': dict(help='Centro de ayuda', updated='Actualizado', applies='Aplica a Claude Code 2.x',
    cta_t='Reproduce tus sesiones de Claude Code visualmente con CCViewer',
    cta_b='Abre la página y suelta un archivo <code>.jsonl</code> — o la carpeta <code>~/.claude/projects/</code> completa. Markdown, bloques de pensamiento, llamadas a herramientas y estadísticas de tokens y coste, todo se procesa localmente en tu navegador. Nada se sube.',
-   open='Abrir CCViewer (gratis, sin instalación)', src='Ver código', faq='Preguntas frecuentes', rel='Guías relacionadas',
+   open='Abrir CCViewer (gratis, sin instalación)', src='Ver código', faq='Preguntas frecuentes', rel='Guías relacionadas', home='Inicio',
    foot='© 2026 CCViewer · código abierto MIT · Sin afiliación con Anthropic. "Claude Code" es una marca de Anthropic, usada de forma descriptiva.'),
  'fr': dict(help="Centre d'aide", updated='Mis à jour', applies='Concerne Claude Code 2.x',
    cta_t='Rejouez vos sessions Claude Code visuellement avec CCViewer',
    cta_b='Ouvrez la page et déposez un fichier <code>.jsonl</code> — ou tout le dossier <code>~/.claude/projects/</code>. Rendu Markdown, blocs de réflexion, appels d\u2019outils, statistiques de tokens et de coûts : tout se passe localement dans votre navigateur, rien n\u2019est envoyé.',
-   open='Ouvrir CCViewer (gratuit, sans installation)', src='Voir le code', faq='FAQ', rel='Guides liés',
+   open='Ouvrir CCViewer (gratuit, sans installation)', src='Voir le code', faq='FAQ', rel='Guides liés', home='Accueil',
    foot='© 2026 CCViewer · open source MIT · Sans affiliation avec Anthropic. « Claude Code » est une marque d\u2019Anthropic, utilisée à titre descriptif.'),
  'de': dict(help='Hilfe-Center', updated='Aktualisiert', applies='Gilt für Claude Code 2.x',
    cta_t='Claude-Code-Sessions visuell mit CCViewer wiedergeben',
    cta_b='Seite öffnen und eine <code>.jsonl</code>-Datei — oder den ganzen Ordner <code>~/.claude/projects/</code> — hineinziehen. Markdown-Rendering, Thinking-Blöcke, Tool-Aufrufe, Token- und Kostenstatistiken: alles läuft lokal im Browser, nichts wird hochgeladen.',
-   open='CCViewer öffnen (kostenlos, ohne Installation)', src='Quellcode ansehen', faq='Häufige Fragen', rel='Verwandte Artikel',
+   open='CCViewer öffnen (kostenlos, ohne Installation)', src='Quellcode ansehen', faq='Häufige Fragen', rel='Verwandte Artikel', home='Startseite',
    foot='© 2026 CCViewer · MIT Open Source · Keine Verbindung zu Anthropic. „Claude Code“ ist eine Marke von Anthropic, rein beschreibend verwendet.'),
  'pt': dict(help='Central de Ajuda', updated='Atualizado', applies='Aplica-se ao Claude Code 2.x',
    cta_t='Releia visualmente suas sessões do Claude Code com o CCViewer',
    cta_b='Abra a página e arraste um arquivo <code>.jsonl</code> — ou a pasta <code>~/.claude/projects/</code> inteira. Markdown, blocos de raciocínio, chamadas de ferramentas e estatísticas de tokens e custo, tudo processado localmente no navegador. Nada é enviado.',
-   open='Abrir o CCViewer (grátis, sem instalação)', src='Ver código-fonte', faq='Perguntas frequentes', rel='Guias relacionados',
+   open='Abrir o CCViewer (grátis, sem instalação)', src='Ver código-fonte', faq='Perguntas frequentes', rel='Guias relacionados', home='Início',
    foot='© 2026 CCViewer · código aberto MIT · Sem afiliação com a Anthropic. "Claude Code" é marca da Anthropic, usada de forma descritiva.'),
  'ru': dict(help='Центр справки', updated='Обновлено', applies='Подходит для Claude Code 2.x',
    cta_t='Визуально воспроизводите сессии Claude Code с CCViewer',
    cta_b='Откройте страницу и перетащите файл <code>.jsonl</code> — или всю папку <code>~/.claude/projects/</code>. Markdown, блоки размышлений, вызовы инструментов, статистика токенов и расходов — всё обрабатывается локально в браузере, ничего не отправляется.',
-   open='Открыть CCViewer (бесплатно, без установки)', src='Исходный код', faq='Частые вопросы', rel='Похожие статьи',
+   open='Открыть CCViewer (бесплатно, без установки)', src='Исходный код', faq='Частые вопросы', rel='Похожие статьи', home='Главная',
    foot='© 2026 CCViewer · open source MIT · Не аффилировано с Anthropic. «Claude Code» — товарный знак Anthropic, используется описательно.'),
  'hi': dict(help='सहायता केंद्र', updated='अपडेट', applies='Claude Code 2.x के लिए',
    cta_t='CCViewer से अपने Claude Code सत्र विज़ुअली रीप्ले करें',
    cta_b='पेज खोलें और कोई <code>.jsonl</code> फ़ाइल — या पूरा <code>~/.claude/projects/</code> फ़ोल्डर — ड्रैप कर दें। Markdown रेंडरिंग, थिंकिंग ब्लॉक, टूल कॉल, टोकन व लागत आँकड़े सब आपके ब्राउज़र में लोकल चलते हैं, कुछ भी अपलोड नहीं होता।',
-   open='CCViewer खोलें (नि:शुल्क, इंस्टॉल ज़रूरी नहीं)', src='सोर्स देखें', faq='सामान्य प्रश्न', rel='संबंधित लेख',
+   open='CCViewer खोलें (नि:शुल्क, इंस्टॉल ज़रूरी नहीं)', src='सोर्स देखें', faq='सामान्य प्रश्न', rel='संबंधित लेख', home='होम',
    foot='© 2026 CCViewer · MIT ओपन सोर्स · Anthropic से कोई संबंध नहीं। "Claude Code" Anthropic का ट्रेडमार्क है, वर्णनात्मक उपयोग।'),
 }
 
@@ -126,6 +126,9 @@ header.nav .sp{flex:1}
 header.nav a.gh{color:var(--text);text-decoration:none;font-size:13px;border:1px solid var(--border);
 background:var(--panel2);padding:5px 11px;border-radius:6px}
 header.nav a.gh:hover{border-color:var(--accent);color:var(--accent)}
+header.nav select.lang{background:var(--panel2);color:var(--text);border:1px solid var(--border);
+border-radius:6px;padding:5px 10px;font-size:13px;font-family:inherit;cursor:pointer}
+header.nav select.lang:hover{border-color:var(--accent)}
 main{max-width:820px;margin:0 auto;padding:36px 20px 64px}
 .crumbs{font-size:12.5px;color:var(--faint);margin-bottom:14px}
 .crumbs a{color:var(--dim);text-decoration:none}
@@ -215,6 +218,8 @@ SHELL = """<!DOCTYPE html>
 <header class="nav">
   <a class="brand" href="{{app}}"><img src="/assets/logo.svg" width="26" alt="CCViewer logo">CCViewer</a>
   <span class="sp"></span>
+  {{lang_switch}}
+  <a class="gh" href="{{app}}">{{home}}</a>
   <a class="gh" href="{{gh}}" target="_blank" rel="noopener">GitHub</a>
 </header>
 <main>
@@ -275,6 +280,8 @@ HELP_SHELL = """<!DOCTYPE html>
 <header class="nav">
   <a class="brand" href="{{app}}"><img src="/assets/logo.svg" width="26" alt="CCViewer logo">CCViewer</a>
   <span class="sp"></span>
+  {{lang_switch}}
+  <a class="gh" href="{{app}}">{{home}}</a>
   <a class="gh" href="{{gh}}" target="_blank" rel="noopener">GitHub</a>
 </header>
 <main>
@@ -317,6 +324,18 @@ def page_url(lang, slug):
 
 def app_url(lang):
     return f'{SITE}/' if lang == 'en' else f'{SITE}/{lang}/'
+
+
+def lang_switch(lang, slug):
+    """Header dropdown that swaps the current page to another language."""
+    def target(code):
+        return '/claude-code-session-viewer/' + ('' if code == 'en' else code + '/') + public_slug(slug)
+    options = ''.join(
+        f'<option value="{target(code)}"{" selected" if code == lang else ""}>{label}</option>'
+        for code, label in SITE_LANGS
+    )
+    return ('<select class="lang" onchange="if(this.value)location.href=this.value" '
+            'aria-label="Language">' + options + '</select>')
 
 
 def render(lang):
@@ -406,6 +425,8 @@ def render(lang):
                 .replace('{{related}}', related)
                 .replace('{{app}}', app_url(lang))
                 .replace('{{gh}}', GH)
+                .replace('{{home}}', ui['home'])
+                .replace('{{lang_switch}}', lang_switch(lang, slug))
                 .replace('{{ld_article}}', article_ld)
                 .replace('{{identity_ld}}', identity(url, HTML_LANG[lang], pg['title'], pg['desc']))
                 .replace('{{ld_breadcrumb}}', crumb_ld)
@@ -480,6 +501,8 @@ def render_help(lang):
             .replace('{{src}}', ui['src'])
             .replace('{{app}}', app_url(lang))
             .replace('{{gh}}', GH)
+            .replace('{{home}}', ui['home'])
+            .replace('{{lang_switch}}', lang_switch(lang, HELP_SLUG))
             .replace('{{ld_itemlist}}', itemlist_ld)
             .replace('{{identity_ld}}', identity(url, HTML_LANG[lang], ui['help'] + ' | CCViewer', HELP_DESC[lang], 'CollectionPage'))
             .replace('{{ld_breadcrumb}}', crumb_ld)

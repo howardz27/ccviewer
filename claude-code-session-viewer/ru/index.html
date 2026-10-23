@@ -352,15 +352,6 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   </div>
   <div id="refreshbar" class="hidden">
     <button class="btn" id="btnRefresh" data-i18n="refresh">Обновить</button>
-    <label class="toggle"><span data-i18n="autoRefresh">Автообновление</span>
-      <select class="btn" id="autoRefresh" aria-label="Auto refresh">
-        <option value="0" data-i18n="autoRefreshOff">Выкл.</option>
-        <option value="2" data-i18n="refresh2s">Каждые 2 с</option>
-        <option value="5" data-i18n="refresh5s">Каждые 5 с</option>
-        <option value="10" data-i18n="refresh10s">Каждые 10 с</option>
-        <option value="30" data-i18n="refresh30s">Каждые 30 с</option>
-      </select>
-    </label>
     <span id="refreshStatus" role="status"></span>
   </div>
   <div id="main">
@@ -518,7 +509,7 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={'ru':{"brand": "CCViewer", "thinking": "Размышления", "tools": "Инструменты", "sysInj": "Система/Инъекции", "expandAll": "Развернуть всё", "pasteText": "Вставить текст", "openFile": "Открыть файл", "noFile": "Файл не загружен", "dropHint1": "Перетащите сюда файл <b>.jsonl</b> <b>или папку проекта целиком</b>, либо нажмите для выбора", "dropHint2": "напр. всю папку <code>~/.claude/projects/</code> или один <code>&lt;sessionId&gt;.jsonl</code> из неё", "chooseFile": "Выбрать файл", "pasteTitle": "Вставить JSONL-текст", "pasteHint": "Вставьте всё содержимое файла истории, по одному JSON-объекту в строке (подойдёт и одиночный JSON-массив / объект).", "cancel": "Отмена", "loadBtn": "Загрузить", "thinkLabel": "✻ Размышления", "you": "Вы", "reply": "Ответ", "result": "Результат", "error": "Ошибка", "lines": "строк", "images": "изобр.", "viewResult": "Показать результат", "sysMsg": "Системное сообщение", "injCtx": "Внедрённый контекст", "system": "Система", "sessionInfo": "О сессии", "stats": "Статистика", "costUsage": "Затраты / Использование", "titleRow": "Заголовок", "projectDir": "Каталог проекта", "gitBranch": "Ветка Git", "version": "Версия", "sessionId": "ID сессии", "time": "Время", "model": "Модель", "userMsgs": "Сообщения", "replies": "Ответы", "toolCalls": "Вызовы инструментов", "thinkingStat": "Размышления", "imagesStat": "Изображения", "parseFailed": "Ошибка разбора", "home": "Главная", "inTokens": "Входные токены", "outTokens": "Выходные токены", "cacheRead": "Чтения кэша", "cacheCreate": "Записи кэша", "totalCost": "Всего потрачено", "linesPM": "Строк +/-", "apiTime": "Время API", "toolTime": "Время инструментов", "viewerSuffix": "просмотрщик истории", "pasteEmptyErr": "Не найдено ни одной валидной записи. Проверьте вставленный текст.", "pastedContent": "Вставленный текст", "intro": "Читайте JSONL-сессии Claude Code локально в браузере. Просмотр сообщений и вызовов инструментов, импорт папок и экспорт Markdown. Бесплатно, с открытым кодом.", "featMd": "Рендер Markdown", "featMdD": "Блоки кода, таблицы, списки и цитаты", "featThink": "Ход размышлений", "featThinkD": "Раскрываемый extended thinking", "featTool": "Вызовы инструментов", "featToolD": "Параметры и результаты, раскрываются", "featCost": "Использование и затраты", "featCostD": "Токены, длительность и расходы", "featI18n": "10 языков", "featI18nD": "Переключение языка в один клик", "featPrivacy": "Приватность", "featPrivacyD": "100% в браузере, без загрузок", "faqTitle": "Частые вопросы", "tagline": "Рендер .jsonl-файлов сессий локально в браузере. Приватно, бесплатно, open source", "heroTitle": "Читайте историю сессий <em>Claude Code</em>", "pvUserQ": "Исправь сломанную вёрстку страницы входа на мобильном", "pvThink": "Сначала посмотрю стили страницы входа…", "pvReply": "Причина — отсутствующий <code>wrap</code> во <code>flex</code>-вёрстке. Исправлено и проверено при ширине 375 px.", "footerPrivacy": "Файлы сеансов обрабатываются и отображаются локально в браузере. Сайт автоматически загружает Microsoft Clarity для записи взаимодействий со страницей. Офлайн-копии не загружают аналитику.", "q1": "Как посмотреть прошлые сессии Claude Code?", "a1": "Локальные сессии по умолчанию находятся в ~/.claude/projects/. CLAUDE_CONFIG_DIR меняет базовый каталог. Сохранение может быть отключено, а правила хранения могут удалять файлы: история не обязательно остаётся навсегда. Для облачных и удалённых сессий проверьте среду выполнения.", "q2": "Мой файл сессии куда-нибудь загружается?", "a2": "Файлы сеансов обрабатываются и отображаются локально в браузере. Сайт автоматически загружает Microsoft Clarity для записи взаимодействий со страницей. Офлайн-копии не загружают аналитику.", "q3": "Что поддерживает просмотрщик?", "a3": "Markdown-рендер сообщений, блоки extended thinking, параметры и результаты вызовов инструментов, изображения, использование токенов и статистика затрат; интерфейс на 10 языках.", "q4": "Что такое формат .jsonl?", "a4": "JSON Lines — по одному независимому JSON-объекту в строке. Claude Code записывает каждое сообщение, вызов инструмента и метаданные отдельной строкой.", "q5": "CCViewer бесплатный?", "a5": "Да, бесплатный и открытый. Регистрация не требуется.", "libraryBtn": "Сессии", "libraryTitle": "Библиотека сессий", "libraryEmpty": "Пока нет сессий. Откройте папку с файлами .jsonl, чтобы создать библиотеку.", "openFolder": "Открыть папку", "importing": "Импорт… {n}/{m}", "importedN": "Сессий: {n}", "sortRecent": "Свежие", "sortOldest": "Старые", "sortMsgs": "Сообщения", "sortTokens": "Токены", "sortCost": "Стоимость", "deleteBtn": "Удалить", "clearAll": "Очистить всё", "confirmDelete": "Удалить эту сессию?", "confirmClear": "Удалить ВСЕ сохранённые сессии? Это нельзя отменить.", "noTextErr": "Содержимое не закешировано (хранилище переполнено). Переимпортируйте папку, чтобы открыть его.", "storageWarn": "Хранилище браузера переполнено; часть сессий сохранена только в виде сводки.", "closeBtn": "Закрыть", "dirTip": "Совет (macOS): нажмите <kbd>⌘⇧.</kbd> в диалоге выбора, чтобы показать скрытые папки, или в Finder нажмите <kbd>⌘⇧G</kbd> и введите <code>~/.claude/projects</code>. Диалог запоминает последнюю папку.", "navProjects": "Проекты", "noProject": "(без каталога проекта)", "toggleNav": "Показать/скрыть панель проектов", "dragResize": "Потяните, чтобы изменить ширину", "exportMd": "Экспорт MD", "exportEmptyErr": "Сначала загрузите сессию.", "guideH": "Руководства", "g1": "Как посмотреть полную историю сессии Claude Code", "g2": "Как найти JSONL-файл сессии", "g3": "Где Claude Code хранит истории сессий?", "g4": "Какой просмотрщик сессий Claude Code лучший в 2026?", "helpCenter": "Справка", "resourcesTitle": "Официальные ресурсы", "resourcesDocs": "Документация", "resourcesIssues": "Сообщить о проблеме", "refresh": "Обновить", "autoRefresh": "Автообновление", "autoRefreshOff": "Выкл.", "refresh2s": "Каждые 2 с", "refresh5s": "Каждые 5 с", "refresh10s": "Каждые 10 с", "refresh30s": "Каждые 30 с", "refreshReady": "Файл подключён · чтение последнего локального содержимого", "refreshReconnect": "Нажмите «Обновить», чтобы снова выбрать исходный файл. Автообновлению нужен постоянный доступ к файлу.", "refreshing": "Обновление…", "refreshChecked": "Проверено в {time}", "refreshFailed": "Не удалось прочитать файл. Нажмите «Обновить» для подключения.", "refreshWrongFile": "Выберите исходный файл текущей сессии.", "imagePreview": "Просмотр изображения"}};
+const I18N={'ru':{"brand": "CCViewer", "thinking": "Размышления", "tools": "Инструменты", "sysInj": "Система/Инъекции", "expandAll": "Развернуть всё", "pasteText": "Вставить текст", "openFile": "Открыть файл", "noFile": "Файл не загружен", "dropHint1": "Перетащите сюда файл <b>.jsonl</b> <b>или папку проекта целиком</b>, либо нажмите для выбора", "dropHint2": "напр. всю папку <code>~/.claude/projects/</code> или один <code>&lt;sessionId&gt;.jsonl</code> из неё", "chooseFile": "Выбрать файл", "pasteTitle": "Вставить JSONL-текст", "pasteHint": "Вставьте всё содержимое файла истории, по одному JSON-объекту в строке (подойдёт и одиночный JSON-массив / объект).", "cancel": "Отмена", "loadBtn": "Загрузить", "thinkLabel": "✻ Размышления", "you": "Вы", "reply": "Ответ", "result": "Результат", "error": "Ошибка", "lines": "строк", "images": "изобр.", "viewResult": "Показать результат", "sysMsg": "Системное сообщение", "injCtx": "Внедрённый контекст", "system": "Система", "sessionInfo": "О сессии", "stats": "Статистика", "costUsage": "Затраты / Использование", "titleRow": "Заголовок", "projectDir": "Каталог проекта", "gitBranch": "Ветка Git", "version": "Версия", "sessionId": "ID сессии", "time": "Время", "model": "Модель", "userMsgs": "Сообщения", "replies": "Ответы", "toolCalls": "Вызовы инструментов", "thinkingStat": "Размышления", "imagesStat": "Изображения", "parseFailed": "Ошибка разбора", "home": "Главная", "inTokens": "Входные токены", "outTokens": "Выходные токены", "cacheRead": "Чтения кэша", "cacheCreate": "Записи кэша", "totalCost": "Всего потрачено", "linesPM": "Строк +/-", "apiTime": "Время API", "toolTime": "Время инструментов", "viewerSuffix": "просмотрщик истории", "pasteEmptyErr": "Не найдено ни одной валидной записи. Проверьте вставленный текст.", "pastedContent": "Вставленный текст", "intro": "Читайте JSONL-сессии Claude Code локально в браузере. Просмотр сообщений и вызовов инструментов, импорт папок и экспорт Markdown. Бесплатно, с открытым кодом.", "featMd": "Рендер Markdown", "featMdD": "Блоки кода, таблицы, списки и цитаты", "featThink": "Ход размышлений", "featThinkD": "Раскрываемый extended thinking", "featTool": "Вызовы инструментов", "featToolD": "Параметры и результаты, раскрываются", "featCost": "Использование и затраты", "featCostD": "Токены, длительность и расходы", "featI18n": "10 языков", "featI18nD": "Переключение языка в один клик", "featPrivacy": "Приватность", "featPrivacyD": "100% в браузере, без загрузок", "faqTitle": "Частые вопросы", "tagline": "Рендер .jsonl-файлов сессий локально в браузере. Приватно, бесплатно, open source", "heroTitle": "Читайте историю сессий <em>Claude Code</em>", "pvUserQ": "Исправь сломанную вёрстку страницы входа на мобильном", "pvThink": "Сначала посмотрю стили страницы входа…", "pvReply": "Причина — отсутствующий <code>wrap</code> во <code>flex</code>-вёрстке. Исправлено и проверено при ширине 375 px.", "footerPrivacy": "Файлы сеансов обрабатываются и отображаются локально в браузере. Сайт автоматически загружает Microsoft Clarity для записи взаимодействий со страницей. Офлайн-копии не загружают аналитику.", "q1": "Как посмотреть прошлые сессии Claude Code?", "a1": "Локальные сессии по умолчанию находятся в ~/.claude/projects/. CLAUDE_CONFIG_DIR меняет базовый каталог. Сохранение может быть отключено, а правила хранения могут удалять файлы: история не обязательно остаётся навсегда. Для облачных и удалённых сессий проверьте среду выполнения.", "q2": "Мой файл сессии куда-нибудь загружается?", "a2": "Файлы сеансов обрабатываются и отображаются локально в браузере. Сайт автоматически загружает Microsoft Clarity для записи взаимодействий со страницей. Офлайн-копии не загружают аналитику.", "q3": "Что поддерживает просмотрщик?", "a3": "Markdown-рендер сообщений, блоки extended thinking, параметры и результаты вызовов инструментов, изображения, использование токенов и статистика затрат; интерфейс на 10 языках.", "q4": "Что такое формат .jsonl?", "a4": "JSON Lines — по одному независимому JSON-объекту в строке. Claude Code записывает каждое сообщение, вызов инструмента и метаданные отдельной строкой.", "q5": "CCViewer бесплатный?", "a5": "Да, бесплатный и открытый. Регистрация не требуется.", "libraryBtn": "Сессии", "libraryTitle": "Библиотека сессий", "libraryEmpty": "Пока нет сессий. Откройте папку с файлами .jsonl, чтобы создать библиотеку.", "openFolder": "Открыть папку", "importing": "Импорт… {n}/{m}", "importedN": "Сессий: {n}", "sortRecent": "Свежие", "sortOldest": "Старые", "sortMsgs": "Сообщения", "sortTokens": "Токены", "sortCost": "Стоимость", "deleteBtn": "Удалить", "clearAll": "Очистить всё", "confirmDelete": "Удалить эту сессию?", "confirmClear": "Удалить ВСЕ сохранённые сессии? Это нельзя отменить.", "noTextErr": "Содержимое не закешировано (хранилище переполнено). Переимпортируйте папку, чтобы открыть его.", "storageWarn": "Хранилище браузера переполнено; часть сессий сохранена только в виде сводки.", "closeBtn": "Закрыть", "dirTip": "Совет (macOS): нажмите <kbd>⌘⇧.</kbd> в диалоге выбора, чтобы показать скрытые папки, или в Finder нажмите <kbd>⌘⇧G</kbd> и введите <code>~/.claude/projects</code>. Диалог запоминает последнюю папку.", "navProjects": "Проекты", "noProject": "(без каталога проекта)", "toggleNav": "Показать/скрыть панель проектов", "dragResize": "Потяните, чтобы изменить ширину", "exportMd": "Экспорт MD", "exportEmptyErr": "Сначала загрузите сессию.", "guideH": "Руководства", "g1": "Как посмотреть полную историю сессии Claude Code", "g2": "Как найти JSONL-файл сессии", "g3": "Где Claude Code хранит истории сессий?", "g4": "Какой просмотрщик сессий Claude Code лучший в 2026?", "helpCenter": "Справка", "resourcesTitle": "Официальные ресурсы", "resourcesDocs": "Документация", "resourcesIssues": "Сообщить о проблеме", "refresh": "Обновить", "refreshReady": "Файл подключён · чтение последнего локального содержимого", "refreshReconnect": "Нажмите «Обновить», чтобы снова выбрать исходный файл. Автообновлению нужен постоянный доступ к файлу.", "refreshing": "Обновление…", "refreshChecked": "Проверено в {time}", "refreshFailed": "Не удалось прочитать файл. Нажмите «Обновить» для подключения.", "refreshWrongFile": "Выберите исходный файл текущей сессии.", "imagePreview": "Просмотр изображения"}};
 const LANG='ru';
 const BASE_PATH='/claude-code-session-viewer';
 const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
@@ -1110,6 +1101,7 @@ function updateLibBtn(){
 let CUR_ID=null,NAV_COLLAPSED=new Set();
 // Keep live access separate from cached transcripts. File objects are snapshots.
 const SESSION_SOURCES=new Map(),FILE_SOURCES=new WeakMap();
+const AUTO_REFRESH_SECONDS=5; // 后台自动轮询间隔，无需用户设置
 let REFRESH_TIMER=null;
 function stopRefreshTimer(){clearTimeout(REFRESH_TIMER);REFRESH_TIMER=null;}
 function viewerVisible(){return CUR&&$('#drop').classList.contains('hide')&&$('#library').classList.contains('hide');}
@@ -1121,15 +1113,12 @@ function refreshStatus(key,error){
 function updateRefreshControls(){
   $('#refreshbar').classList.toggle('hidden',!CUR);
   $('#btnRefresh').disabled=!!(CUR&&CUR.refreshing);
-  $('#autoRefresh').disabled=!CUR||!CUR.source;
-  $('#autoRefresh').setAttribute('aria-label',t('autoRefresh'));
   if(CUR)refreshStatus(CUR.source?'refreshReady':'refreshReconnect');
 }
 function scheduleRefresh(){
   stopRefreshTimer();
-  const seconds=Number($('#autoRefresh').value);
-  if(!viewerVisible()||!CUR.source||!seconds||document.hidden)return;
-  REFRESH_TIMER=setTimeout(()=>refreshSession(false),seconds*1000);
+  if(!viewerVisible()||!CUR||!CUR.source||document.hidden)return;
+  REFRESH_TIMER=setTimeout(()=>refreshSession(false),AUTO_REFRESH_SECONDS*1000);
 }
 async function openLocalFile(file,source){
   const text=await file.text();
@@ -1147,8 +1136,9 @@ async function applyRefresh(session,file,source){
   if(!entries.length)throw new Error('empty-session');
   if((session.sum.sessionId&&sum.sessionId&&session.sum.sessionId!==sum.sessionId)||
      ((!session.sum.sessionId||!sum.sessionId)&&session.name&&session.name!==file.name)){
-    $('#autoRefresh').value='0';
-    refreshStatus('refreshWrongFile',true);return;
+    session.source=null;
+    if(CUR_ID)SESSION_SOURCES.delete(CUR_ID);
+    updateRefreshControls();refreshStatus('refreshWrongFile',true);return;
   }
   session.source=source||null;
   if(CUR_ID&&source)SESSION_SOURCES.set(CUR_ID,source);
@@ -1203,7 +1193,7 @@ async function refreshSession(manual){
       else{
         session.source=null;
         if(CUR_ID)SESSION_SOURCES.delete(CUR_ID);
-        $('#autoRefresh').value='0';updateRefreshControls();refreshStatus('refreshFailed',true);
+        updateRefreshControls();refreshStatus('refreshFailed',true);
       }
     }
   }finally{
@@ -1213,7 +1203,6 @@ async function refreshSession(manual){
 }
 let REFRESH_TARGET=null;
 $('#btnRefresh').onclick=()=>refreshSession(true);
-$('#autoRefresh').onchange=scheduleRefresh;
 document.addEventListener('visibilitychange',scheduleRefresh);
 $('#refreshFile').onchange=async e=>{
   const session=REFRESH_TARGET,file=e.target.files[0];REFRESH_TARGET=null;
@@ -1333,31 +1322,11 @@ async function importFiles(files){
     }
   }
 }
-// File System Access API：递归扫描目录句柄下的 .jsonl（深度上限 4，跳过 node_modules）
-async function importDirHandle(dir){
-  const files=[];
-  async function walk(d,depth){
-    if(depth>4)return;
-    for await(const [name,h] of d.entries()){
-      if(h.kind==='file'&&/\.jsonl$/i.test(name)){try{const file=await h.getFile();FILE_SOURCES.set(file,h);files.push(file);}catch(e){}}
-      else if(h.kind==='directory'&&name!=='node_modules')await walk(h,depth+1);
-    }
-  }
-  await walk(dir,0);
-  showLibrary();
-  await importFiles(files);
-}
-// 每次点击都弹出目录选择框（会话已持久化在 IndexedDB，无需重复导入同一目录）
-async function pickDirModern(){
-  try{
-    const h=await window.showDirectoryPicker({id:'ccviewer-projects',mode:'read'});
-    await importDirHandle(h);
-  }catch(e){/* 用户取消或权限拒绝 */}
-}
+// 统一走 <input webkitdirectory>：只弹系统目录选择框，不触发
+// showDirectoryPicker 的“允许此网站查看和复制文件？”授权提示
 const pickDir=async()=>{
   window.ccviewerAnalytics.event('folder_picker_open');
-  if(!(window.showDirectoryPicker&&self.isSecureContext)){$('#dirpicker').click();return;}
-  await pickDirModern();
+  $('#dirpicker').click();
 };
 /* ---------- 交互 ---------- */
 function applyToggles(){
@@ -1480,9 +1449,14 @@ $('#btnPickDir').onclick=pickDir;
 $('#btnImportFolder').onclick=pickDir;
 $('#btnImportFolder2').onclick=pickDir;
 $('#dirpicker').onchange=async e=>{
-  const fs=e.target.files;
+  // 与原 showDirectoryPicker 扫描保持一致：跳过 node_modules，目录深度上限 4
+  const fs=[...e.target.files].filter(f=>{
+    if(!/\.jsonl$/i.test(f.name))return false;
+    const parts=(f.webkitRelativePath||'').split('/');
+    return !parts.slice(0,-1).includes('node_modules')&&parts.length<=6;
+  });
   e.target.value=''; // 允许重复选择同一目录
-  if(fs&&fs.length){showLibrary();await importFiles(fs);}
+  if(fs.length){showLibrary();await importFiles(fs);}
 };
 $('#libSort').onchange=e=>{LIB_SORT=e.target.value;renderLibrary();};
 $('#btnClearAll').onclick=async()=>{
