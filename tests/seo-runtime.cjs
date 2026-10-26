@@ -9,11 +9,12 @@ const context = {sample};
 vm.createContext(context);
 vm.runInContext(parser + '\nvar parsed = parse(sample); var summary = summarize(parsed.entries);', context);
 assert.equal(context.parsed.bad, 0);
-assert.equal(context.parsed.entries.length, 4);
+assert.equal(context.parsed.entries.length, 6);
 assert.equal(context.summary.counts.user, 1);
-assert.equal(context.summary.counts.tool, 1);
-assert.equal(context.summary.tokens.in, 120);
-assert.equal(context.summary.tokens.out, 45);
+assert.equal(context.summary.counts.tool, 2);
+assert.equal(context.summary.counts.thinking, 1);
+assert.equal(context.summary.tokens.in, 2150);
+assert.equal(context.summary.tokens.out, 384);
 const titleLogic = source.slice(source.indexOf('function curName('), source.indexOf('// 切换语言 / 重新渲染'));
 const titleContext = {document: {title: 'CCViewer SEO title'}, HOME_TITLE: 'CCViewer SEO title',
   CUR: null, $: () => ({textContent: ''}), t: key => key};
@@ -37,6 +38,6 @@ const markdownLogic = source.slice(source.indexOf('const resultText='), source.i
 vm.runInContext(markdownLogic + '\nvar markdown = buildMd();', context);
 assert.match(context.markdown, /## Summary/);
 assert.match(context.markdown, /fictional demo/);
-assert.match(context.markdown, /in 120 \/ out 45/);
+assert.match(context.markdown, /in 2150 \/ out 384/);
 assert.match(context.markdown, /README\.md/);
 console.log('Sample Markdown: prompt, reply, tool parameters and token counts passed.');

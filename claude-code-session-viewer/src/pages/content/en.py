@@ -22,7 +22,7 @@ claude --resume SESSION_ID</code></pre>
 <pre><code>jq -r 'select(.type == "user") | .message.content' session.jsonl</code></pre>
 <p>Some user records contain tool results rather than a human prompt. Inspect the content type when scripting. A malformed line can cause jq to stop; keep an untouched copy before attempting repairs.</p>
 <h2>Try a fictional sample</h2>
-<p>Download the <a href="/assets/example-session.jsonl" download>synthetic JSONL sample</a>, then import it. It contains one prompt, a fictional Read call and result, and a Markdown reply. It contains no real conversation or credentials. The 120 input and 45 output tokens are illustrative values.</p>
+<p>Download the <a href="/assets/example-session.jsonl" download>synthetic JSONL sample</a>, then import it. It contains one prompt, a thinking block, fictional Read and Edit calls with results, and a Markdown reply. It contains no real conversation or credentials. The 2,150 input and 384 output tokens are illustrative values.</p>
 <h2>Hosted and offline use</h2>
 <p>Parsing and rendering happen locally. The hosted site automatically loads Microsoft Clarity for analytics and recordings. Remote images in a transcript can also cause requests. For disconnected use, download the HTML from the repository and open it with networking disabled; offline copies do not load Clarity.</p>
 ''',
@@ -99,7 +99,7 @@ dict(
 <h2>What CCViewer currently does</h2>
 <p>It renders Markdown, available thinking blocks and tool records, imports folders into a browser library, sorts sessions, and exports Markdown. The interface has 10 languages and the source is MIT licensed. It does not resume a Claude conversation, restore deleted logs or provide built-in full-text search across the library. Usage totals depend on the input records.</p>
 <h2>Reproduce the comparison</h2>
-<ol><li>Download the <a href="/assets/example-session.jsonl" download>fictional sample</a>.</li><li>Import it into <a href="{{app}}">CCViewer</a>. Check the user message, Read call, tool result and Markdown reply.</li><li>Open the same file in an editor and compare the visible text and 120/45 sample token counts.</li><li>Export Markdown and inspect the result. This synthetic file is for reading tests; do not use it as a resumable Claude Code session.</li></ol>
+<ol><li>Download the <a href="/assets/example-session.jsonl" download>fictional sample</a>.</li><li>Import it into <a href="{{app}}">CCViewer</a>. Check the user message, thinking block, tool calls, tool results and Markdown reply.</li><li>Open the same file in an editor and compare the visible text and 2,150/384 sample token counts.</li><li>Export Markdown and inspect the result. This synthetic file is for reading tests; do not use it as a resumable Claude Code session.</li></ol>
 <h2>Privacy and practical limits</h2>
 <p>The hosted site runs Clarity analytics and recordings. Offline copies do not load analytics. Remote transcript images may still request external URLs when connected. Large files can block the UI during parsing, and clearing browser storage removes the local library. Keep your source files and choose a disconnected offline copy when that matches your needs.</p>
 ''',

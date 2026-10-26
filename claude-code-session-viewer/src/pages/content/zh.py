@@ -22,7 +22,7 @@ claude --resume SESSION_ID</code></pre>
 <pre><code>jq -r 'select(.type == "user") | .message.content' session.jsonl</code></pre>
 <p>部分 user 记录实际包含工具结果，编写脚本时需区分内容类型。损坏的 JSON 行可能使 jq 停止，修复前先保存原始副本。</p>
 <h2>用虚构示例复现</h2>
-<p>下载<a href="/assets/example-session.jsonl" download>人工构造的 JSONL 示例</a>后导入。示例包含提问、虚构的 Read 调用与结果、Markdown 回复，没有真实会话或凭据。120 个输入 Token 和 45 个输出 Token 均为演示数据。</p>
+<p>下载<a href="/assets/example-session.jsonl" download>人工构造的 JSONL 示例</a>后导入。示例包含提问、thinking 块、虚构的 Read/Edit 调用与结果、Markdown 回复，没有真实会话或凭据。2,150 个输入 Token 和 384 个输出 Token 均为演示数据。</p>
 <h2>线上和离线版本的区别</h2>
 <p>解析与渲染在本地完成。线上网站自动加载 Microsoft Clarity，进行统计和交互录制；会话中的远程图片也可能触发请求。需要断网使用时，从仓库下载 HTML 并在断网环境打开；离线副本不加载 Clarity。</p>
 ''',
@@ -99,7 +99,7 @@ dict(
 <h2>CCViewer 当前的能力</h2>
 <p>支持 Markdown、已有思考块和工具记录的渲染、文件夹导入、会话排序和 Markdown 导出；界面有 10 种语言，代码采用 MIT 许可。目前不能继续 Claude 对话、恢复已删除日志，也没有跨会话库的内置全文搜索。用量汇总取决于输入记录。</p>
 <h2>如何复现比较</h2>
-<ol><li>下载<a href="/assets/example-session.jsonl" download>虚构示例文件</a>。</li><li>导入 <a href="{{app}}">CCViewer</a>，检查提问、Read 调用、工具结果和 Markdown 回复。</li><li>在编辑器中打开同一文件，比较文本与示例中的 120/45 Token 数字。</li><li>导出 Markdown，检查结果。示例只用于阅读验证，不应用作可恢复的 Claude Code 会话。</li></ol>
+<ol><li>下载<a href="/assets/example-session.jsonl" download>虚构示例文件</a>。</li><li>导入 <a href="{{app}}">CCViewer</a>，检查提问、thinking 块、工具调用、工具结果和 Markdown 回复。</li><li>在编辑器中打开同一文件，比较文本与示例中的 2,150/384 Token 数字。</li><li>导出 Markdown，检查结果。示例只用于阅读验证，不应用作可恢复的 Claude Code 会话。</li></ol>
 <h2>隐私和使用边界</h2>
 <p>线上网站加载 Clarity 统计与交互录制；离线副本不加载统计。联网时，记录中的远程图片仍可能触发外部请求。大文件同步解析可能阻塞界面，清理浏览器存储会删除本地会话库。请保留原件，并按需要选择断网运行的离线副本。</p>
 ''',

@@ -159,7 +159,7 @@ a.hcard .hm{color:var(--faint);font-size:12px;margin-top:9px}
 <h2 id="section-2">CCViewer 当前的能力</h2>
 <p>支持 Markdown、已有思考块和工具记录的渲染、文件夹导入、会话排序和 Markdown 导出；界面有 10 种语言，代码采用 MIT 许可。目前不能继续 Claude 对话、恢复已删除日志，也没有跨会话库的内置全文搜索。用量汇总取决于输入记录。</p>
 <h2 id="section-3">如何复现比较</h2>
-<ol><li>下载<a href="/assets/example-session.jsonl" download>虚构示例文件</a>。</li><li>导入 <a href="https://ccviewer.top/claude-code-session-viewer/zh/">CCViewer</a>，检查提问、Read 调用、工具结果和 Markdown 回复。</li><li>在编辑器中打开同一文件，比较文本与示例中的 120/45 Token 数字。</li><li>导出 Markdown，检查结果。示例只用于阅读验证，不应用作可恢复的 Claude Code 会话。</li></ol>
+<ol><li>下载<a href="/assets/example-session.jsonl" download>虚构示例文件</a>。</li><li>导入 <a href="https://ccviewer.top/claude-code-session-viewer/zh/">CCViewer</a>，检查提问、thinking 块、工具调用、工具结果和 Markdown 回复。</li><li>在编辑器中打开同一文件，比较文本与示例中的 2,150/384 Token 数字。</li><li>导出 Markdown，检查结果。示例只用于阅读验证，不应用作可恢复的 Claude Code 会话。</li></ol>
 <h2 id="section-4">隐私和使用边界</h2>
 <p>线上网站加载 Clarity 统计与交互录制；离线副本不加载统计。联网时，记录中的远程图片仍可能触发外部请求。大文件同步解析可能阻塞界面，清理浏览器存储会删除本地会话库。请保留原件，并按需要选择断网运行的离线副本。</p>
 <section class="sources"><h2>参考来源与核验依据</h2><ul><li><a href="https://code.claude.com/docs/en/claude-directory">Claude Code: application data, paths and retention</a></li><li><a href="https://code.claude.com/docs/en/sessions">Claude Code: resume and manage sessions</a></li><li><a href="https://jsonlines.org/">JSON Lines format</a></li><li><a href="https://github.com/howardz27/ccviewer">CCViewer source and license</a></li></ul></section>
