@@ -117,7 +117,7 @@
   "exportMd": "Exportar MD",
   "exportEmptyErr": "Carregue uma sessão primeiro.",
   "guideH": "Guias",
-  "tutorialCap": "Escolher arquivo → pressionar ⌘⇧. para mostrar pastas ocultas → abrir ~/.claude/projects/ → selecionar um .jsonl de sessão → estatísticas, blocos de raciocínio e ferramentas, filtros e exportação para Markdown.",
+  "tutorialCap": "Abrir arquivo → pressionar ⌘⇧. para mostrar pastas ocultas → abrir ~/.claude/projects/ → selecionar um .jsonl de sessão → estatísticas, blocos de raciocínio e ferramentas, filtros e exportação para Markdown.",
   "tutReplay": "Repetir",
   "tutS1": "Pressione ⌘ ⇧ . na caixa Abrir para mostrar pastas ocultas",
   "tutS2": "As pastas ocultas aparecem — abra ~/.claude",

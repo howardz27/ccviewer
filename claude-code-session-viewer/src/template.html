@@ -352,8 +352,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
         <p data-i18n-html="dropHint1">把 <b>.jsonl</b> 历史文件拖到这里，或点击选择</p>
         <p class="pathhint" data-i18n-html="dropHint2">例如 ~/.claude/projects/ 整个文件夹，或其中的 &lt;sessionId&gt;.jsonl</p>
         <div class="cta">
-          <button class="btn primary" id="btnPickDir" data-i18n="openFolder">打开文件夹</button>
-          <button class="btn" id="btnPick" data-i18n="chooseFile">选择文件</button>
+          <button class="btn primary" id="btnPick" data-i18n="openFile">打开文件</button>
           <button class="btn" id="btnPasteDrop" data-i18n="pasteText">粘贴文本</button>
         </div>
       </div>
@@ -1453,7 +1452,6 @@ $('#btnHome').onclick=()=>{
 $('#btnLibrary').onclick=showLibrary;
 $('#btnLibLanding').onclick=showLibrary;
 $('#btnLibClose').onclick=()=>showView(CUR?'viewer':'landing');
-$('#btnPickDir').onclick=pickDir;
 $('#btnImportFolder').onclick=pickDir;
 $('#btnImportFolder2').onclick=pickDir;
 $('#dirpicker').onchange=async e=>{

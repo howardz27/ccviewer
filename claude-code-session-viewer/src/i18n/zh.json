@@ -117,7 +117,7 @@
   "exportMd": "导出 MD",
   "exportEmptyErr": "请先加载会话再导出。",
   "guideH": "使用指南",
-  "tutorialCap": "选择文件 → 按 ⌘⇧. 显示隐藏文件夹 → 打开 ~/.claude/projects/ → 选中会话 .jsonl → 查看统计、thinking 与工具块、过滤开关和 Markdown 导出。",
+  "tutorialCap": "打开文件 → 按 ⌘⇧. 显示隐藏文件夹 → 打开 ~/.claude/projects/ → 选中会话 .jsonl → 查看统计、thinking 与工具块、过滤开关和 Markdown 导出。",
   "tutReplay": "重新播放",
   "tutS1": "在打开对话框中按 ⌘ ⇧ . 显示隐藏文件夹",
   "tutS2": "隐藏文件夹出现 —— 打开 ~/.claude",

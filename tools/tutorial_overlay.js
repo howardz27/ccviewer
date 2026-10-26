@@ -36,7 +36,7 @@
     #tut-cursor{position:fixed;left:0;top:0;width:26px;height:26px;will-change:transform;opacity:0}
     #tut-ripple{position:fixed;left:0;top:0;width:8px;height:8px;border-radius:50%;border:2.5px solid #ffb28c;will-change:transform;opacity:0}
     #tut-hl{position:fixed;border:2.5px solid #ff9d6b;border-radius:10px;box-shadow:0 0 0 4px rgba(255,157,107,.22),0 0 26px rgba(255,157,107,.35);opacity:0;will-change:transform}
-    #tut-label{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);max-width:86%;padding:9px 18px;border-radius:99px;background:rgba(13,17,23,.92);border:1px solid rgba(255,255,255,.16);color:#f0f6fc;font-size:14.5px;font-weight:600;letter-spacing:.2px;opacity:0;white-space:nowrap}
+    #tut-label{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);max-width:86%;padding:10px 20px;border-radius:99px;background:#d97757;border:1px solid rgba(255,255,255,.35);box-shadow:0 4px 18px rgba(217,119,87,.45);color:#fff;font-size:15.5px;font-weight:700;letter-spacing:.2px;opacity:0;white-space:nowrap}
     #tut-keys{position:fixed;display:flex;gap:8px;opacity:0;will-change:transform}
     #tut-keys b{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:8px;background:#fff;color:#1d1d1f;font-size:19px;font-weight:600;border:1px solid #d2d2d7;box-shadow:0 2px 0 #d2d2d7;transition:none}
     #tut-keys b.on{background:#0a84ff;color:#fff;border-color:#0a84ff;box-shadow:0 2px 0 #0060df;transform:translateY(2px)}

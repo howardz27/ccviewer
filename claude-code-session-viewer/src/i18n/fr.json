@@ -117,7 +117,7 @@
   "exportMd": "Exporter MD",
   "exportEmptyErr": "Chargez d'abord une session.",
   "guideH": "Guides",
-  "tutorialCap": "Choisir un fichier → appuyer sur ⌘⇧. pour afficher les dossiers cachés → ouvrir ~/.claude/projects/ → sélectionner un .jsonl de session → statistiques, blocs de réflexion et d'outils, filtres et export Markdown.",
+  "tutorialCap": "Ouvrir un fichier → appuyer sur ⌘⇧. pour afficher les dossiers cachés → ouvrir ~/.claude/projects/ → sélectionner un .jsonl de session → statistiques, blocs de réflexion et d'outils, filtres et export Markdown.",
   "tutReplay": "Rejouer",
   "tutS1": "Appuyez sur ⌘ ⇧ . dans la boîte Ouvrir pour afficher les dossiers cachés",
   "tutS2": "Les dossiers cachés apparaissent — ouvrez ~/.claude",

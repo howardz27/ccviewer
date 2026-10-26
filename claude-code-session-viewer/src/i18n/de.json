@@ -117,7 +117,7 @@
   "exportMd": "MD exportieren",
   "exportEmptyErr": "Lade zuerst eine Sitzung.",
   "guideH": "Anleitungen",
-  "tutorialCap": "Datei wählen → mit ⌘⇧. versteckte Ordner einblenden → ~/.claude/projects/ öffnen → eine Sitzungs-.jsonl auswählen → Statistiken, Thinking- und Tool-Blöcke, Filter und Markdown-Export.",
+  "tutorialCap": "Datei öffnen → mit ⌘⇧. versteckte Ordner einblenden → ~/.claude/projects/ öffnen → eine Sitzungs-.jsonl auswählen → Statistiken, Thinking- und Tool-Blöcke, Filter und Markdown-Export.",
   "tutReplay": "Wiederholen",
   "tutS1": "Drücke im Öffnen-Dialog ⌘ ⇧ ., um versteckte Ordner einzublenden",
   "tutS2": "Versteckte Ordner erscheinen — öffne ~/.claude",

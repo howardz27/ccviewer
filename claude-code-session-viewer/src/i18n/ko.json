@@ -117,7 +117,7 @@
   "exportMd": "MD 내보내기",
   "exportEmptyErr": "먼저 세션을 로드하세요.",
   "guideH": "사용 가이드",
-  "tutorialCap": "파일 선택 → ⌘⇧.로 숨김 폴더 표시 → ~/.claude/projects/ 열기 → 세션 .jsonl 선택 → 통계·thinking·도구 블록·필터·Markdown 내보내기.",
+  "tutorialCap": "파일 열기 → ⌘⇧.로 숨김 폴더 표시 → ~/.claude/projects/ 열기 → 세션 .jsonl 선택 → 통계·thinking·도구 블록·필터·Markdown 내보내기.",
   "tutReplay": "다시 재생",
   "tutS1": "열기 대화상자에서 ⌘ ⇧ .를 눌러 숨김 폴더 표시",
   "tutS2": "숨김 폴더가 나타납니다 — ~/.claude 열기",

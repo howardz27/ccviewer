@@ -117,7 +117,7 @@
   "exportMd": "Export MD",
   "exportEmptyErr": "Load a session first.",
   "guideH": "Guides",
-  "tutorialCap": "Choose File → press ⌘⇧. to show hidden folders → open ~/.claude/projects/ → pick a session .jsonl → stats, thinking & tool blocks, filters and Markdown export.",
+  "tutorialCap": "Open file → press ⌘⇧. to show hidden folders → open ~/.claude/projects/ → pick a session .jsonl → stats, thinking & tool blocks, filters and Markdown export.",
   "tutReplay": "Replay",
   "tutS1": "Press ⌘ ⇧ . to reveal hidden folders in the Open dialog",
   "tutS2": "Hidden folders appear — open ~/.claude",
