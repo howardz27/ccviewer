@@ -394,6 +394,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
         <div class="cta">
           <button class="btn primary" id="btnPick" data-i18n="openFile">Ouvrir un fichier</button>
           <button class="btn" id="btnPasteDrop" data-i18n="pasteText">Coller du texte</button>
+          <button class="btn" id="btnPickDir" data-i18n="openFolder">Ouvrir un dossier</button>
         </div>
       </div>
     </div>
@@ -1499,6 +1500,7 @@ $('#btnHome').onclick=()=>{
 $('#btnLibrary').onclick=showLibrary;
 $('#btnLibLanding').onclick=showLibrary;
 $('#btnLibClose').onclick=()=>showView(CUR?'viewer':'landing');
+$('#btnPickDir').onclick=pickDir;
 $('#btnImportFolder').onclick=pickDir;
 $('#btnImportFolder2').onclick=pickDir;
 $('#dirpicker').onchange=async e=>{
