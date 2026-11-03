@@ -297,19 +297,26 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .site-resources h2{font-size:16px}.site-resources ul{display:flex;flex-wrap:wrap;gap:10px 28px;padding-left:18px}.site-resources a,.site-languages a{color:var(--user)}
 @media(max-width:900px){#topbar{flex-wrap:wrap;gap:8px}#topbar .brand{max-width:100%;min-width:0}#fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#sidebar{width:220px}#content{padding:18px}}
 @media(max-width:600px){#sidebar,#nav.show,#btnNavToggle{display:none}}
-/* Private cloud backup panel */
-#cloudBackup{width:min(760px,calc(100vw - 24px));max-height:85vh;padding:24px;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:12px;overflow:auto}
+/* Backup actions follow the current reading or library selection. */
+#cloudBackup{width:min(680px,calc(100vw - 32px));max-height:85vh;box-sizing:border-box;padding:24px;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:12px;overflow:auto}
 #cloudBackup::backdrop{background:rgba(0,0,0,.72)}
-.cloud-header,.cloud-actions,.cloud-current,.cloud-row,.cloud-row-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cloud-header,.cloud-actions,.cloud-account,.cloud-row,.cloud-row-actions,.lib-selection{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .cloud-header{justify-content:space-between}.cloud-header h2{margin:0;font-size:20px}
-.cloud-note,#cloudAccount,#cloudCurrentName,.cloud-info small{color:var(--dim)}
-.cloud-note{font-size:13px;margin:14px 0}.cloud-actions{margin:16px 0}.cloud-current{margin:12px 0}
-#cloudCurrentName{max-width:100%;overflow-wrap:anywhere;font-size:12px}
-#cloudStatus{min-height:24px;margin:12px 0;color:var(--green)}#cloudStatus.cloud-error{color:var(--red)}
-#cloudList{display:flex;flex-direction:column;gap:10px}.cloud-row{padding:12px;border:1px solid var(--border);border-radius:8px;justify-content:space-between}
-.cloud-info{flex:1;min-width:180px;overflow-wrap:anywhere}.cloud-info strong,.cloud-info small{display:block}.cloud-row-actions .btn{font-size:12px;padding:5px 9px}
-#cloudBackup [hidden]{display:none!important}#cloudMore{margin-top:14px}
-@media(max-width:600px){#cloudBackup{padding:16px}.cloud-row-actions{width:100%}.lheader{flex-wrap:wrap}}
+.cloud-note,.cloud-info small,#cloudLoginHint,#cloudAccount{color:var(--dim);font-size:13px;line-height:1.6}
+.cloud-note{margin:8px 0 20px}.cloud-account{margin:12px 0}.cloud-account #cloudLogout{margin-left:auto}
+#cloudPlan{max-height:240px;overflow:auto;border:1px solid var(--border);border-radius:8px;padding:4px 14px;margin:16px 0}
+.cloud-target{display:flex;align-items:flex-start;gap:12px;padding:10px 0}.cloud-target+.cloud-target{border-top:1px solid var(--border)}
+.cloud-target span{flex:1;min-width:0;overflow-wrap:anywhere;font-size:13px}.cloud-target small{flex-shrink:0;color:var(--dim)}
+.cloud-target[data-state="done"] small{color:var(--green)}.cloud-target[data-state="error"] small{color:var(--red)}
+.cloud-target em{display:block;font-style:normal;color:var(--red);font-size:12px;margin-top:4px}
+#cloudStatus{margin:12px 0;color:var(--green);font-size:13px}#cloudStatus:empty{display:none}#cloudStatus.cloud-error{color:var(--red)}
+.cloud-actions{margin:16px 0}.cloud-actions h3{font-size:14px;margin:0 auto 0 0}#cloudSaved{border-top:1px solid var(--border);margin-top:24px;padding-top:4px}
+#cloudList{display:flex;flex-direction:column}.cloud-row{padding:12px 0;border-bottom:1px solid var(--border);justify-content:space-between}
+.cloud-info{flex:1;min-width:160px;overflow-wrap:anywhere}.cloud-info strong{display:block;font-size:13px;font-weight:500}.cloud-info small{display:block;font-size:12px}.cloud-row-actions .btn{font-size:12px;padding:5px 9px}
+#cloudEmpty{color:var(--dim);font-size:13px;padding:12px 0}#cloudBackup [hidden]{display:none!important}#cloudMore{margin-top:14px}
+.lib-selection{padding:12px 0;font-size:13px;color:var(--dim)}.lib-selection label{display:flex;align-items:center;gap:8px}.libpick{flex-shrink:0;align-self:center;accent-color:var(--accent)}.librow{position:relative;padding-left:44px}.librow>.libpick{position:absolute;left:14px;top:18px;width:16px;height:16px}.librow.selected{border-color:var(--accent)}
+#cloudBackup .btn:focus-visible,.libpick:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(max-width:600px){#cloudBackup{padding:18px}.cloud-row-actions{width:100%}.cloud-actions h3{width:100%}.cloud-target{gap:8px}.lheader{flex-wrap:wrap}}
 </style>
 {{analytics}}
 </head>
@@ -324,7 +331,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <label class="toggle"><input type="checkbox" id="tgMeta"><span data-i18n="sysInj">系统/注入</span></label>
     <label class="toggle"><input type="checkbox" id="tgExpand"><span data-i18n="expandAll">展开全部</span></label>
     <button class="btn" id="btnHome" data-i18n="home">首页</button>
-    <button class="btn" id="btnCloud" data-i18n="cloudTitle"></button>
+    <button class="btn" id="btnCloud" data-i18n="cloudUploadCurrent"></button>
     <button class="btn" id="btnLibrary" data-i18n="libraryBtn">会话库</button>
     <button class="btn primary" id="btnExportMd" data-i18n="exportMd" style="display:none">导出 MD</button>
     <select class="btn langsel" aria-label="Language"></select>
@@ -459,12 +466,14 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
         <option value="cost" data-i18n="sortCost">费用</option>
       </select>
       <span class="spacer"></span>
-      <button class="btn" id="btnCloudLibrary" data-i18n="cloudTitle"></button>
+      <button class="btn" id="btnCloudManageLibrary" data-i18n="cloudView"></button>
+      <button class="btn primary" id="btnCloudLibrary" data-i18n="cloudBackupSelected" disabled></button>
       <button class="btn" id="btnClearAll" data-i18n="clearAll">清空全部</button>
     </div>
-    <p class="dirhint" data-i18n="dirTip"></p>
+    <p class="dirhint" data-i18n-html="dirTip"></p>
     <div class="libwarn" id="libWarn" data-i18n="storageWarn"></div>
     <div id="libProgress"></div>
+    <div class="lib-selection"><label><input type="checkbox" id="libSelectAll"><span data-i18n="cloudSelectAll"></span></label><span id="libSelectedCount"></span></div>
     <div id="libList"></div>
     <div class="libempty" id="libEmpty">
       <p data-i18n="libraryEmpty"></p>
@@ -491,20 +500,21 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 <dialog id="cloudBackup" aria-labelledby="cloudTitle" data-clarity-mask="true">
   <div class="cloud-header"><h2 id="cloudTitle" data-i18n="cloudTitle"></h2><button class="btn" id="cloudClose" data-i18n="closeBtn"></button></div>
   <p class="cloud-note" data-i18n="cloudPrivacy"></p>
-  <p id="cloudAccount"></p>
-  <button class="btn primary" id="cloudLogin" data-i18n="cloudLogin" hidden></button>
-  <button class="btn" id="cloudLogout" data-i18n="cloudLogout" hidden></button>
-  <div class="cloud-actions" id="cloudActions" hidden>
-    <button class="btn primary" id="cloudPick" data-i18n="cloudPick"></button>
-    <button class="btn" id="cloudRefresh" data-i18n="refresh"></button>
-  </div>
-  <div class="cloud-current" id="cloudCurrent" hidden><button class="btn" id="cloudUploadCurrent" data-i18n="cloudUploadCurrent"></button><span id="cloudCurrentName"></span></div>
+  <div class="cloud-account"><span id="cloudAccount"></span><button class="btn" id="cloudLogout" data-i18n="cloudLogout" hidden></button></div>
+  <div id="cloudPlan" hidden></div>
+  <p id="cloudLoginHint" hidden></p>
+  <button class="btn primary" id="cloudLogin" hidden></button>
+  <button class="btn primary" id="cloudSubmit" hidden></button>
   <p id="cloudStatus" role="status" aria-live="polite"></p>
-  <p id="cloudEmpty" data-i18n="cloudEmpty" hidden></p>
-  <div id="cloudList"></div>
-  <button class="btn" id="cloudMore" data-i18n="cloudMore" hidden></button>
+  <button class="btn" id="cloudViewSaved" data-i18n="cloudView" hidden></button>
+  <div id="cloudSaved" hidden>
+    <div class="cloud-actions"><h3 data-i18n="cloudSaved"></h3><button class="btn" id="cloudPick" data-i18n="cloudPick"></button><button class="btn" id="cloudRefresh" data-i18n="refresh"></button></div>
+    <p id="cloudEmpty" data-i18n="cloudEmpty" hidden></p>
+    <div id="cloudList"></div>
+    <button class="btn" id="cloudMore" data-i18n="cloudMore" hidden></button>
+  </div>
 </dialog>
-<input type="file" id="cloudFile" accept=".jsonl" style="display:none">
+<input type="file" id="cloudFile" accept=".jsonl" multiple style="display:none">
 <input type="file" id="file" accept=".jsonl,.json,.txt" style="display:none">
 <input type="file" id="refreshFile" accept=".jsonl,.json,.txt" style="display:none">
 <input type="file" id="dirpicker" webkitdirectory multiple style="display:none">
@@ -1063,6 +1073,7 @@ function makeId(sum,name,size){
 // summarize() 返回的 models 是 Set，入库前转为可结构化克隆的数组
 function sumToJSON(sum){const c=Object.assign({},sum);c.models=Array.from(sum.models||[]);return c;}
 let LIB=[],LIB_FULL=new Map(),LIB_SORT='recent',LIB_WARNED=false;
+const LIB_SELECTED=new Set();
 function libMeta(rec){return {id:rec.id,name:rec.name,source:rec.source,addedAt:rec.addedAt,bad:rec.bad,noText:rec.noText,sum:rec.sum};}
 // 存原始文本 + 摘要；配额不足时降级为仅摘要（noText）
 async function putRec(rec){
@@ -1277,7 +1288,7 @@ function renderLibrary(){
   list.style.display=LIB.length?'flex':'none';
   list.innerHTML='';
   for(const m of LIB){
-    const row=el('div','librow');
+    const row=el('div','librow'+(LIB_SELECTED.has(m.id)?' selected':''));
     row.dataset.id=m.id;
     const title=(m.sum&&m.sum.title)||m.name||(m.sum&&m.sum.sessionId)||m.id;
     const meta=[];
@@ -1288,8 +1299,21 @@ function renderLibrary(){
     if(m.sum&&m.sum.tokens&&(m.sum.tokens.in||m.sum.tokens.out))meta.push('↑'+num(m.sum.tokens.in)+' ↓'+num(m.sum.tokens.out));
     if(m.sum&&m.sum.cost&&m.sum.cost.totalCostUSD!=null)meta.push('$'+m.sum.cost.totalCostUSD.toFixed(4));
     row.innerHTML='<div class="l1"><span class="lt">'+esc(title)+'</span><button class="libdel" title="'+esc(t('deleteBtn'))+'" aria-label="'+esc(t('deleteBtn'))+'">×</button></div><div class="l2">'+esc(meta.join(' · '))+'</div>';
+    const pick=el('input','libpick');pick.type='checkbox';pick.checked=LIB_SELECTED.has(m.id);pick.disabled=!LIB_FULL.get(m.id)?.text;
+    pick.setAttribute('aria-label',t('cloudSelectSession').replace('{name}',title));row.prepend(pick);
     list.appendChild(row);
   }
+  updateLibrarySelection();
+}
+function updateLibrarySelection(){
+  const available=LIB.filter(m=>LIB_FULL.get(m.id)?.text);
+  const availableIds=new Set(available.map(m=>m.id));
+  for(const id of LIB_SELECTED)if(!availableIds.has(id))LIB_SELECTED.delete(id);
+  const count=LIB_SELECTED.size,all=$('#libSelectAll');
+  all.checked=!!available.length&&count===available.length;all.indeterminate=count>0&&count<available.length;all.disabled=!available.length;
+  $('#libSelectedCount').textContent=count?t('cloudSelectedCount').replace('{n}',count):'';
+  const button=$('#btnCloudLibrary');button.disabled=!count;
+  button.textContent=t('cloudBackupSelected')+(count?' ('+count+')':'');
 }
 function openSession(id){
   const rec=LIB_FULL.get(id);
@@ -1507,7 +1531,18 @@ $('#btnClearAll').onclick=async()=>{
   SESSION_SOURCES.clear();
   updateLibBtn();renderLibrary();
 };
+$('#libSelectAll').onchange=e=>{
+  LIB_SELECTED.clear();if(e.target.checked)for(const m of LIB)if(LIB_FULL.get(m.id)?.text)LIB_SELECTED.add(m.id);
+  renderLibrary();
+};
+$('#libList').onchange=e=>{
+  if(!e.target.matches('.libpick'))return;
+  const row=e.target.closest('.librow'),id=row.dataset.id;
+  if(e.target.checked)LIB_SELECTED.add(id);else LIB_SELECTED.delete(id);
+  row.classList.toggle('selected',e.target.checked);updateLibrarySelection();
+};
 $('#libList').onclick=e=>{
+  if(e.target.closest('.libpick'))return;
   const row=e.target.closest('.librow');
   if(!row)return;
   const id=row.dataset.id;
@@ -1578,7 +1613,7 @@ applyGuides();
 applyLang();
 mountLogos();
 fillLangSel();
-initDB().then(db=>{DB=db;return loadLibrary();}).catch(()=>{});
+const libraryReady=initDB().then(db=>{DB=db;return loadLibrary();}).catch(()=>{});
 
 {{cloud_backup}}
 </script>

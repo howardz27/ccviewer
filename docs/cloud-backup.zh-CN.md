@@ -78,10 +78,17 @@ R2 默认使用本地模拟存储，不会读取线上备份。浏览器必须�
 - 线上 Cookie 为 `__Host-`、`Secure`、`HttpOnly`、`SameSite=Lax`；7 天到期，退出登录立即删除服务端会话。HTTP 本地开发使用不带 `__Host-` 的 Cookie。
 - 写操作要求同源 Origin 和自定义请求头；所有 API 响应均 `Cache-Control: no-store`，不开放 CORS。下载通过已登录接口流式返回，无公开文件 URL。
 - 面板中的账号、文件名和备份列表标记了 Clarity masking；不添加文件名或内容到统计事件。页面仍沿用项目已有的 Clarity 配置。
-- 本版本未实现用户总容量/文件数量配额、付费套餐、批量同步、端到端加密或找回已删除的云端文件。存储费用由部署账号承担；面向公众大规模开放前，可按业务需求增加配额与限流。
+- 本版本未实现用户总容量/文件数量配额、付费套餐、自动同步、端到端加密或找回已删除的云端文件。存储费用由部署账号承担；面向公众大规模开放前，可按业务需求增加配额与限流。
+
+## 使用交互
+
+- 阅读窗口点击「备份当前会话」直接备份正在阅读的原始 JSONL，不需要重新选择文件。未登录时点击「登录并备份」，登录成功后恢复当前会话、阅读位置，并自动执行原来的备份。
+- 会话库支持逐项勾选、全选和「备份所选」。仅保存了摘要、没有缓存原始内容的会话不可勾选。也可以在云端备份面板中点击「备份文件…」一次选择多个 JSONL。
+- 批量备份逐个上传并显示结果；失败不会阻塞其余会话。「重试未完成项」只重试失败或尚未执行的文件，不重复上传成功项。
+- 登录前的备份文件与阅读快照保存在浏览器 IndexedDB 独立暂存区，sessionStorage 仅保存本标签页的随机操作 ID。登录返回后消费并删除该暂存记录，防止刷新回调重复上传；登录取消或失败会恢复会话，但不自动上传。暂存失败时停止跳转，保留当前阅读内容。超出一小时的待执行操作恢复后需手动确认备份。
 
 ## 验证
 
-`tests/cloud-backup.mjs` 使用内存存储和模拟 GitHub 响应验证接口行为，不需要真实账号或线上存储；`tests/cloud-backup-ui.cjs` 验证前端按需请求、错误处理、上传、恢复和退出流程。真实 GitHub 授权回跳需要完成上述 OAuth 配置后验证。
+`tests/cloud-backup.mjs` 使用内存存储和模拟 GitHub 响应验证接口行为，不需要真实账号或线上存储；`tests/cloud-backup-ui.cjs` 验证前端按需请求、当前会话直接备份、OAuth 回跳恢复与自动续传、批量失败重试、过期登录、存储失败和回调防重放等流程。真实 GitHub 授权回跳需要完成上述 OAuth 配置后验证。
 
 参考：[GitHub OAuth 流程](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps)、[R2 Workers API](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/)、[R2 生命周期](https://developers.cloudflare.com/r2/buckets/object-lifecycles/)。
