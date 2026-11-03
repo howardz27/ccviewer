@@ -1,4 +1,11 @@
 .git/
+worker/
+.dev.vars*
+.env*
+node_modules/
+package*.json
+pnpm-lock.yaml
+worker-configuration.d.ts
 .github/
 .wrangler/
 .gitignore

@@ -297,6 +297,19 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .site-resources h2{font-size:16px}.site-resources ul{display:flex;flex-wrap:wrap;gap:10px 28px;padding-left:18px}.site-resources a,.site-languages a{color:var(--user)}
 @media(max-width:900px){#topbar{flex-wrap:wrap;gap:8px}#topbar .brand{max-width:100%;min-width:0}#fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#sidebar{width:220px}#content{padding:18px}}
 @media(max-width:600px){#sidebar,#nav.show,#btnNavToggle{display:none}}
+/* Private cloud backup panel */
+#cloudBackup{width:min(760px,calc(100vw - 24px));max-height:85vh;padding:24px;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:12px;overflow:auto}
+#cloudBackup::backdrop{background:rgba(0,0,0,.72)}
+.cloud-header,.cloud-actions,.cloud-current,.cloud-row,.cloud-row-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cloud-header{justify-content:space-between}.cloud-header h2{margin:0;font-size:20px}
+.cloud-note,#cloudAccount,#cloudCurrentName,.cloud-info small{color:var(--dim)}
+.cloud-note{font-size:13px;margin:14px 0}.cloud-actions{margin:16px 0}.cloud-current{margin:12px 0}
+#cloudCurrentName{max-width:100%;overflow-wrap:anywhere;font-size:12px}
+#cloudStatus{min-height:24px;margin:12px 0;color:var(--green)}#cloudStatus.cloud-error{color:var(--red)}
+#cloudList{display:flex;flex-direction:column;gap:10px}.cloud-row{padding:12px;border:1px solid var(--border);border-radius:8px;justify-content:space-between}
+.cloud-info{flex:1;min-width:180px;overflow-wrap:anywhere}.cloud-info strong,.cloud-info small{display:block}.cloud-row-actions .btn{font-size:12px;padding:5px 9px}
+#cloudBackup [hidden]{display:none!important}#cloudMore{margin-top:14px}
+@media(max-width:600px){#cloudBackup{padding:16px}.cloud-row-actions{width:100%}.lheader{flex-wrap:wrap}}
 </style>
 {{analytics}}
 </head>
@@ -311,6 +324,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <label class="toggle"><input type="checkbox" id="tgMeta"><span data-i18n="sysInj">系统/注入</span></label>
     <label class="toggle"><input type="checkbox" id="tgExpand"><span data-i18n="expandAll">展开全部</span></label>
     <button class="btn" id="btnHome" data-i18n="home">首页</button>
+    <button class="btn" id="btnCloud" data-i18n="cloudTitle"></button>
     <button class="btn" id="btnLibrary" data-i18n="libraryBtn">会话库</button>
     <button class="btn primary" id="btnExportMd" data-i18n="exportMd" style="display:none">导出 MD</button>
     <select class="btn langsel" aria-label="Language"></select>
@@ -340,6 +354,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
       <span>GitHub</span>
     </a>
+    <button class="btn" id="btnCloudLanding" data-i18n="cloudTitle"></button>
     <button class="btn" id="btnLibLanding" data-i18n="libraryBtn" style="display:none">会话库</button>
     <select class="btn langsel" aria-label="Language"></select>
   </header>
@@ -444,6 +459,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
         <option value="cost" data-i18n="sortCost">费用</option>
       </select>
       <span class="spacer"></span>
+      <button class="btn" id="btnCloudLibrary" data-i18n="cloudTitle"></button>
       <button class="btn" id="btnClearAll" data-i18n="clearAll">清空全部</button>
     </div>
     <p class="dirhint" data-i18n="dirTip"></p>
@@ -472,6 +488,23 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   <button class="btn" id="closeImagePreview" data-i18n="closeBtn">关闭</button>
   <img id="previewImage" alt="">
 </dialog>
+<dialog id="cloudBackup" aria-labelledby="cloudTitle" data-clarity-mask="true">
+  <div class="cloud-header"><h2 id="cloudTitle" data-i18n="cloudTitle"></h2><button class="btn" id="cloudClose" data-i18n="closeBtn"></button></div>
+  <p class="cloud-note" data-i18n="cloudPrivacy"></p>
+  <p id="cloudAccount"></p>
+  <button class="btn primary" id="cloudLogin" data-i18n="cloudLogin" hidden></button>
+  <button class="btn" id="cloudLogout" data-i18n="cloudLogout" hidden></button>
+  <div class="cloud-actions" id="cloudActions" hidden>
+    <button class="btn primary" id="cloudPick" data-i18n="cloudPick"></button>
+    <button class="btn" id="cloudRefresh" data-i18n="refresh"></button>
+  </div>
+  <div class="cloud-current" id="cloudCurrent" hidden><button class="btn" id="cloudUploadCurrent" data-i18n="cloudUploadCurrent"></button><span id="cloudCurrentName"></span></div>
+  <p id="cloudStatus" role="status" aria-live="polite"></p>
+  <p id="cloudEmpty" data-i18n="cloudEmpty" hidden></p>
+  <div id="cloudList"></div>
+  <button class="btn" id="cloudMore" data-i18n="cloudMore" hidden></button>
+</dialog>
+<input type="file" id="cloudFile" accept=".jsonl" style="display:none">
 <input type="file" id="file" accept=".jsonl,.json,.txt" style="display:none">
 <input type="file" id="refreshFile" accept=".jsonl,.json,.txt" style="display:none">
 <input type="file" id="dirpicker" webkitdirectory multiple style="display:none">
@@ -1547,6 +1580,7 @@ mountLogos();
 fillLangSel();
 initDB().then(db=>{DB=db;return loadLibrary();}).catch(()=>{});
 
+{{cloud_backup}}
 </script>
 </body>
 </html>

@@ -1,9 +1,19 @@
 {
   "name": "ccpeek",
+  "account_id": "6278c618c2116c56eaca62247e0b1871",
+  "main": "worker/index.mjs",
   "compatibility_date": "2026-10-09",
   "assets": {
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"],
     "directory": "./",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "none"
-  }
+  },
+  "r2_buckets": [{"binding": "BACKUPS", "bucket_name": "ccviewer"}],
+  "vars": {
+    "APP_ORIGIN": "https://ccviewer.top",
+    "GITHUB_CLIENT_ID": "Ov23litYKyQ5hkRWORs9"
+  },
+  "observability": {"enabled": true, "head_sampling_rate": 1}
 }

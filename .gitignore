@@ -1,6 +1,11 @@
 __pycache__/
 *.pyc
 .wrangler/
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+node_modules/
 docs/evidence/www-dns.png
 docs/evidence/domain-redirect-rule.png
 docs/evidence/production-deployment.png

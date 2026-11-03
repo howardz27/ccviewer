@@ -75,6 +75,7 @@ def build():
             '{{identity_ld}}':identity(url,loc['lang_tag'],loc['title'],loc['description']),
             '{{webapp_ld}}':webapp_ld,'{{faq_ld}}':faq_ld,
             '{{analytics}}':analytics(lang),
+            '{{cloud_backup}}':open(os.path.join(HERE,'src','cloud-backup.js'),encoding='utf-8').read(),
             '{{language_links}}':language_links(lang),
             '{{resources}}':resources(lang),
             "'{{lang}}':{{ui}}":f"'{lang}':"+json.dumps(ui,ensure_ascii=False),

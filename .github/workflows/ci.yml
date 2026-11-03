@@ -31,6 +31,8 @@ jobs:
           node tests/seo-runtime.cjs
           node tests/viewer-runtime.cjs
           node tests/export-md.cjs
+          node --test tests/cloud-backup.mjs
+          node tests/cloud-backup-ui.cjs
           python3 tests/check_pages.py
 
       - name: Ensure build is up to date

@@ -8,7 +8,7 @@
 
 一个免费开源的 [Claude Code](https://claude.com/claude-code) 会话文件查看器。把 `.jsonl` 历史文件（或整个项目文件夹）拖进浏览器，即可回放完整对话——Markdown、思考块、工具调用、Token 用量与费用，全部在本地渲染。
 
-> **客户端查看器。** 会话文件在浏览器中本地解析、渲染和存储。线上网站自动加载 Microsoft Clarity，进行页面统计和录屏；离线版本不加载统计。
+> **客户端查看器。** 会话文件在浏览器中本地解析、渲染和存储。可选的云端备份需要 GitHub 登录，仅上传你主动选择备份的 JSONL。线上网站自动加载 Microsoft Clarity，进行页面统计和录屏；离线版本不加载统计。
 
 **在线体验：** <https://ccviewer.top>（线上与仓库代码完全一致）
 
@@ -32,6 +32,8 @@
 ![文件夹模式：按项目聚类的会话列表](assets/screenshot-library.png)
 
 ## 功能
+
+- ☁️ **私有云端备份** — 使用 GitHub 登录，主动上传 JSONL（每个文件最多 20 MiB），支持恢复阅读、下载和删除。需配置 Cloudflare Worker、私有 R2 和 OAuth，见[部署指南](docs/cloud-backup.zh-CN.md)。本地查看无需登录。
 
 - 📁 **会话库** — 导入整个文件夹（如 `~/.claude/projects/`），会话持久化到 IndexedDB，按项目分组，支持按时间 / 消息数 / Token / 费用排序
 - 💬 **完整还原** — Markdown（代码块、表格、列表）、可折叠的思考块、工具调用参数与结果、图片
@@ -59,11 +61,13 @@ python3 -m http.server 8765 -d claude-code-session-viewer
 
 ### 自行部署
 
-纯静态文件，任意静态托管都可以：
+本地查看器可以使用任意静态托管。可选云端备份需要随附的 Cloudflare Worker、私有 R2 bucket 和 GitHub OAuth 凭据：
 
 - **Cloudflare Pages / Workers** — 仓库已含 `wrangler.jsonc`
 - **GitHub Pages** — 指向 `claude-code-session-viewer/` 目录
 - **其他** — 上传 `claude-code-session-viewer/` 文件夹即可
+
+云端备份的首次配置、本地开发与验证步骤见[云端备份指南](docs/cloud-backup.zh-CN.md)。
 
 ## 开发
 
@@ -77,13 +81,13 @@ CI 会在每个 PR 上自动跑构建，构建坏了会先显示红叉 ✗，避
 
 ### 贡献
 
-欢迎提 PR。如新增或修改界面文案，请同步更新**全部 10 个**语言文件（构建时逐键烘焙，缺失的键会直接显示键名）。请保持零依赖，并在浏览器中解析、渲染和存储会话。统计配置由全部生成页面共用。
+欢迎提 PR。如新增或修改界面文案，请同步更新**全部 10 个**语言文件（构建时逐键烘焙，缺失的键会直接显示键名）。请保持查看器零依赖，在浏览器中解析与渲染会话；云端上传必须由用户主动操作并经过登录验证。统计配置由全部生成页面共用。
 
 ## 常见问题
 
 **我的会话文件在哪？** Claude Code 把它们存在 `~/.claude/projects/<项目>/<sessionId>.jsonl`（每行一个 JSON 对象）。
 
-**数据如何处理？** 解析、渲染、存储（IndexedDB）在浏览器中完成。线上网站同时向 Microsoft Clarity 发送页面统计和录屏数据。
+**数据如何处理？** 解析、渲染和本地存储（IndexedDB）在浏览器中完成。登录后主动备份的 JSONL 还会存入你的私有云端备份库。线上网站同时向 Microsoft Clarity 发送页面统计和录屏数据。
 
 ## 声明
 

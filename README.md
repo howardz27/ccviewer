@@ -8,7 +8,7 @@
 
 A free, open-source viewer for [Claude Code](https://claude.com/claude-code) session files. Drop a `.jsonl` history file (or a whole project folder) into your browser and replay any conversation — Markdown, thinking blocks, tool calls, token usage and cost, all rendered locally.
 
-> **Client-side viewer.** Session files are parsed, rendered and stored locally in the browser. The hosted site automatically loads Microsoft Clarity for page analytics and recordings. Offline copies do not load analytics.
+> **Client-side viewer.** Session files are parsed, rendered and stored locally in the browser. Optional cloud backups upload only the JSONL files you explicitly choose after signing in with GitHub. The hosted site automatically loads Microsoft Clarity for page analytics and recordings. Offline copies do not load analytics.
 
 **Try it online:** [CCViewer](https://ccviewer.top/claude-code-session-viewer/)
 
@@ -32,6 +32,8 @@ A free, open-source viewer for [Claude Code](https://claude.com/claude-code) ses
 ![Folder mode: sessions grouped by project](assets/screenshot-library.png)
 
 ## Features
+
+- ☁️ **Private cloud backups** — sign in with GitHub, upload JSONL files (up to 20 MiB each), reopen, download or delete your backups. Requires the Cloudflare Worker and private R2 setup in [the deployment guide](docs/cloud-backup.zh-CN.md); local viewing remains available without login.
 
 - 📁 **Session library** — import an entire folder (e.g. `~/.claude/projects/`), sessions persist in IndexedDB, grouped by project, sortable by recency / messages / tokens / cost
 - 💬 **Full-fidelity rendering** — Markdown (code blocks, tables, lists), collapsible extended thinking, tool-call inputs & results, images
@@ -59,7 +61,7 @@ Open the local source file or folder in a browser with file access support (such
 
 ### Deploy your own
 
-The site is a set of static files — any static host works:
+The local viewer works on any static host. Optional cloud backups require the included Cloudflare Worker, a private R2 bucket and GitHub OAuth credentials; see [cloud backup setup](docs/cloud-backup.zh-CN.md).
 
 - **Cloudflare Pages / Workers** — a `wrangler.jsonc` is included
 - **GitHub Pages** — point it at the `claude-code-session-viewer/` directory
@@ -81,13 +83,13 @@ The Cloudflare deployment uses extensionless guide URLs. `build.py` also regener
 
 ### Contributing
 
-PRs are welcome. If you add or change UI text, update **all 10** language files (the build bakes every key; a missing key falls back to its raw name). Keep session parsing, rendering and storage in the browser, and keep the app dependency-free. Analytics configuration is shared across all generated pages.
+PRs are welcome. If you add or change UI text, update **all 10** language files (the build bakes every key; a missing key falls back to its raw name). Keep local session parsing and rendering in the browser, make cloud uploads explicit and authenticated, and keep the viewer dependency-free. Analytics configuration is shared across all generated pages.
 
 ## FAQ
 
 **Where are my session files?** Claude Code stores them at `~/.claude/projects/<project>/<sessionId>.jsonl` (one JSON object per line).
 
-**How is data processed?** Parsing, rendering and storage (IndexedDB) happen in your browser. The hosted site also sends page analytics and recordings to Microsoft Clarity.
+**How is data processed?** Parsing, rendering and local storage (IndexedDB) happen in your browser. If you sign in and explicitly back up a JSONL file, it is also stored in your private cloud backup library. The hosted site also sends page analytics and recordings to Microsoft Clarity.
 
 ## Disclaimer
 
