@@ -15,8 +15,9 @@ function sharedStorage(){
       if(shared.fail){request.error=new Error('quota');request.onerror();return;}
       request.result={close(){},transaction(){
         const tx={objectStore(){return {
-          put(value){records.set(value.id,structuredClone(value));return {result:value.id};},
-          get(id){return {result:structuredClone(records.get(id))};},delete(id){records.delete(id);return {};}
+          // structuredClone strips File names on Node 22; snapshots are plain data plus File instances.
+          put(value){records.set(value.id,{...value,files:[...(value.files||[])]});return {result:value.id};},
+          get(id){const record=records.get(id);return {result:record?{...record,files:[...(record.files||[])]}:record};},delete(id){records.delete(id);return {};}
         };}};setImmediate(()=>tx.oncomplete());return tx;
       }};request.onsuccess();
     });return request;
