@@ -26,7 +26,6 @@ function cloudRender(){
   $('#cloudLoginHint').hidden=!CLOUD.enabled||!!CLOUD.user;
   $('#cloudLoginHint').textContent=queued?t('cloudLoginContinue'):t('cloudLoginRequired');
   $('#cloudLogout').hidden=!CLOUD.user;
-  $('#cloudSaved').hidden=!CLOUD.user||queued;
   $('#cloudViewSaved').hidden=!CLOUD.user||!queued||CLOUD.busy;
   $('#cloudPlan').hidden=!queued;
   $('#cloudPlan').innerHTML='';
@@ -41,6 +40,9 @@ function cloudRender(){
   $('#cloudSubmit').textContent=CLOUD.queue.some(item=>item.state==='error')?t('cloudRetry'):t('cloudStart');
   $('#cloudStatus').textContent=CLOUD.message||(CLOUD.busy?t('cloudWorking'):'');
   $('#cloudStatus').classList.toggle('cloud-error',CLOUD.error);
+  const pageStatus=$('#cloudStatusPage');
+  if(pageStatus){pageStatus.textContent=$('#cloudStatus').textContent;pageStatus.classList.toggle('cloud-error',CLOUD.error);}
+  $('#cloudCount').textContent=CLOUD.user&&CLOUD.backups.length?String(CLOUD.backups.length):'';
   $('#cloudEmpty').hidden=!CLOUD.user||!!CLOUD.backups.length||CLOUD.busy;
   $('#cloudMore').hidden=!CLOUD.user||!CLOUD.cursor;
   const list=$('#cloudList');list.innerHTML='';
@@ -48,7 +50,8 @@ function cloudRender(){
     const row=el('div','cloud-row');row.dataset.id=backup.id;
     const info=el('div','cloud-info'),name=el('strong'),meta=el('small');
     name.textContent=backup.name;
-    meta.textContent=(backup.size/1024).toLocaleString(LANG,{maximumFractionDigits:1})+' KiB · '+new Date(backup.uploaded).toLocaleString(LANG);
+    meta.textContent=(backup.size/1024).toLocaleString(LANG,{maximumFractionDigits:1})+' KiB · '+new Date(backup.uploaded).toLocaleString(LANG)
+      +(backup.records?' · '+t('cloudRecords').replace('{n}',backup.records):'');
     info.append(name,meta);row.appendChild(info);
     const actions=el('div','cloud-row-actions');
     for(const [action,key] of [['restore','cloudRestore'],['download','cloudDownload'],['delete','deleteBtn']]){
@@ -58,6 +61,8 @@ function cloudRender(){
   }
   cloudDialog.setAttribute('aria-busy',String(CLOUD.busy));
   cloudDialog.querySelectorAll('button').forEach(button=>{if(button.id!=='cloudClose')button.disabled=CLOUD.busy;});
+  const cloudPageEl=$('#cloudPage');
+  if(cloudPageEl&&cloudPageEl.querySelectorAll)cloudPageEl.querySelectorAll('button').forEach(button=>{if(button.id!=='btnCloudClose')button.disabled=CLOUD.busy;});
 }
 async function cloudTask(action){
   if(CLOUD.busy)return;
@@ -127,11 +132,11 @@ async function cloudPendingStore(mode,action){
 function cloudReadingSnapshot(){
   return CUR?{text:CUR.text,name:CUR.name,pasted:CUR.pasted,id:CUR_ID,scroll:$('#content').scrollTop}:null;
 }
-async function cloudLogin(){
+async function cloudLogin(intent){
   await cloudTask(async()=>{
     let id;try{id=sessionStorage.getItem(CLOUD_PENDING_KEY);}catch(e){}
     id=id||crypto.randomUUID();
-    const snapshot={id,createdAt:Date.now(),reading:cloudReadingSnapshot(),library:!$('#library').classList.contains('hide'),
+    const snapshot={id,createdAt:Date.now(),intent:intent||'',reading:cloudReadingSnapshot(),library:!$('#library').classList.contains('hide'),
       selected:[...LIB_SELECTED],files:CLOUD.queue.filter(item=>item.state!=='done').map(item=>item.file)};
     try{
       await cloudPendingStore('readwrite',store=>store.put(snapshot));
@@ -163,21 +168,94 @@ async function cloudResume(result){
   // Consume the intent before uploading; reloading the callback must not duplicate backups.
   try{await cloudPendingStore('readwrite',store=>store.delete(id));sessionStorage.removeItem(CLOUD_PENDING_KEY);}
   catch(e){await openCloud(snapshot.files,false);CLOUD.message=t('cloudPreserveFailed');CLOUD.error=true;cloudRender();return;}
+  if(snapshot.intent==='page'&&!snapshot.files.length){
+    await openCloudPage();
+    if(result==='login_failed'){CLOUD.message=t('cloudLoginFailed');CLOUD.error=true;cloudRender();}
+    return;
+  }
   await openCloud(snapshot.files,result==='ready'&&Date.now()-snapshot.createdAt<60*60*1000);
   if(result==='login_failed'){CLOUD.message=t('cloudLoginFailed');CLOUD.error=true;cloudRender();}
 }
-$('#btnCloudLanding').onclick=()=>openCloud();
+/* Full-page cloud session list, reachable from anywhere once signed in. */
+async function openCloudPage(){
+  let shown=false;
+  await cloudTask(async()=>{
+    CLOUD.enabled=false;
+    if(location.protocol==='file:'){CLOUD.message=t('cloudOnlineOnly');return;}
+    const data=await (await cloudApi('auth/session')).json();
+    CLOUD.enabled=data.enabled;CLOUD.user=data.user;CLOUD.maxFileBytes=data.maxFileBytes;
+    renderAvatar();
+    if(!CLOUD.enabled){CLOUD.message=t('cloudUnavailable');CLOUD.error=true;return;}
+    if(!CLOUD.user)return;
+    $('#cloudPage').classList.toggle('hide',false);shown=true;
+    await cloudList();
+  });
+  if(!shown&&!cloudDialog.open)cloudDialog.showModal();
+  cloudRender();
+}
+function hideCloudPage(){$('#cloudPage').classList.toggle('hide',true);}
+/* Avatar chip (topbar + landing header) with cloud page / sign-out menu. */
+const GITHUB_MARK='<svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>';
+function closeAvatarMenus(){
+  for(const id of ['#avatarTop','#avatarLanding']){const wrap=$(id);if(wrap)wrap.classList.toggle('open',false);}
+}
+function renderAvatar(){
+  for(const id of ['#avatarTop','#avatarLanding']){
+    const wrap=$(id);if(!wrap)continue;
+    wrap.classList.toggle('open',false);
+    if(!CLOUD.enabled){wrap.hidden=true;continue;}
+    wrap.innerHTML='';wrap.textContent='';
+    if(CLOUD.user){
+      wrap.hidden=false;
+      const btn=el('button','avatar-btn');btn.type='button';
+      btn.setAttribute('aria-label','@'+CLOUD.user.login);btn.title='@'+CLOUD.user.login;
+      if(CLOUD.user.id&&/^\d+$/.test(CLOUD.user.id)){
+        const img=document.createElement('img');
+        img.src='https://avatars.githubusercontent.com/u/'+CLOUD.user.id+'?s=64&v=4';img.alt='';
+        img.referrerPolicy='no-referrer';img.loading='lazy';
+        img.onerror=()=>{btn.textContent=(CLOUD.user.login[0]||'?').toUpperCase();};
+        btn.appendChild(img);
+      }else btn.textContent=(CLOUD.user.login[0]||'?').toUpperCase();
+      const menu=el('div','avatar-menu');
+      const who=el('span','avatar-who');who.textContent='@'+CLOUD.user.login;
+      const pageBtn=el('button','btn');pageBtn.type='button';pageBtn.textContent=t('cloudPageTitle');
+      const logoutBtn=el('button','btn');logoutBtn.type='button';logoutBtn.textContent=t('cloudLogout');
+      menu.append(who,pageBtn,logoutBtn);
+      btn.onclick=e=>{if(e&&e.stopPropagation)e.stopPropagation();const open=wrap.classList.contains('open');closeAvatarMenus();wrap.classList.toggle('open',!open);};
+      pageBtn.onclick=()=>{closeAvatarMenus();openCloudPage();};
+      logoutBtn.onclick=()=>{closeAvatarMenus();cloudLogoutAction();};
+      wrap.append(btn,menu);
+    }else{
+      if(id!=='#avatarLanding'){wrap.hidden=true;continue;}
+      wrap.hidden=false;
+      const login=el('button','btn');login.type='button';
+      login.innerHTML=GITHUB_MARK;
+      const label=el('span');label.textContent=t('loginBtn');login.appendChild(label);
+      login.onclick=()=>cloudLogin('page');
+      wrap.appendChild(login);
+    }
+  }
+}
+if(typeof document.addEventListener==='function'){
+  document.addEventListener('click',e=>{if(!(e.target&&e.target.closest&&e.target.closest('.avatar-wrap')))closeAvatarMenus();});
+}
+async function cloudLogoutAction(){
+  return cloudTask(async()=>{
+    await cloudApi('auth/logout',{method:'POST'});CLOUD.user=null;CLOUD.backups=[];CLOUD.cursor=null;CLOUD.message=t('cloudLoggedOut');
+    renderAvatar();
+  });
+}
+$('#btnCloudLanding').onclick=openCloudPage;
 $('#btnCloud').onclick=()=>openCloud(CUR?[cloudFile(CUR.text,CUR.name||CUR.sum?.sessionId)]:[]);
-$('#btnCloudManageLibrary').onclick=()=>openCloud();
-$('#cloudViewSaved').onclick=()=>openCloud();
+$('#btnCloudManageLibrary').onclick=openCloudPage;
+$('#cloudViewSaved').onclick=()=>{cloudDialog.close();openCloudPage();};
+$('#btnCloudClose').onclick=hideCloudPage;
 $('#btnCloudLibrary').onclick=()=>openCloud([...LIB_SELECTED].map(id=>LIB_FULL.get(id)).filter(rec=>rec?.text).map(rec=>cloudFile(rec.text,rec.name||rec.sum?.sessionId)));
 $('#cloudClose').onclick=()=>cloudDialog.close();
 cloudDialog.addEventListener('click',e=>{if(e.target===cloudDialog)cloudDialog.close();});
-$('#cloudLogin').onclick=cloudLogin;
+$('#cloudLogin').onclick=()=>cloudLogin();
 $('#cloudSubmit').onclick=()=>cloudTask(cloudRunQueue);
-$('#cloudLogout').onclick=()=>cloudTask(async()=>{
-  await cloudApi('auth/logout',{method:'POST'});CLOUD.user=null;CLOUD.backups=[];CLOUD.cursor=null;CLOUD.message=t('cloudLoggedOut');
-});
+$('#cloudLogout').onclick=cloudLogoutAction;
 $('#cloudRefresh').onclick=()=>cloudTask(()=>cloudList());
 $('#cloudMore').onclick=()=>cloudTask(()=>cloudList(true));
 $('#cloudPick').onclick=()=>$('#cloudFile').click();
@@ -202,7 +280,7 @@ $('#cloudList').onclick=e=>{
       const text=await response.text();
       if(!parse(text).entries.length)throw new Error(t('cloudInvalidJsonl'));
       const id=await saveToLibrary(text,backup.name,'cloud');
-      load(text,backup.name,false,null);CUR_ID=id;showView('viewer');renderNav();cloudDialog.close();
+      load(text,backup.name,false,null);CUR_ID=id;showView('viewer');renderNav();cloudDialog.close();hideCloudPage();
     }
   });
 };
@@ -214,4 +292,12 @@ if(cloudResult==='ready'||cloudResult==='login_failed'){
   // Returning with the browser Back button restores the session without uploading.
   let pending=false;try{pending=!!sessionStorage.getItem(CLOUD_PENDING_KEY);}catch(e){}
   if(pending)cloudResume(null).catch(()=>{if(!cloudDialog.open)cloudDialog.showModal();CLOUD.message=t('cloudPreserveFailed');CLOUD.error=true;cloudRender();});
+}
+/* Know the signed-in state up front so the avatar can render without a click.
+   This only reads the session; nothing about local files is ever sent. */
+if(location.protocol!=='file:'){
+  const cloudBoot=()=>cloudApi('auth/session').then(response=>response.json())
+    .then(data=>{CLOUD.enabled=data.enabled;CLOUD.user=data.user;CLOUD.maxFileBytes=data.maxFileBytes;renderAvatar();})
+    .catch(()=>{});
+  if(typeof setTimeout==='function')setTimeout(cloudBoot,0);else cloudBoot();
 }

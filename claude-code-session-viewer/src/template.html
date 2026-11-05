@@ -46,18 +46,27 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 code,pre,.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace}
 #app{display:flex;flex-direction:column;height:100vh}
 /* top bar */
-#topbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--border);flex-shrink:0}
+#topbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--border);flex-shrink:0}
+#topbar .btn{padding:5px 10px}
 #topbar .brand{font-weight:600;color:var(--accent);font-size:15px;white-space:nowrap;display:flex;align-items:center;gap:9px;min-width:0;overflow:hidden}
 #topbar .brand .logo svg{display:block}
 .logo{display:inline-block;line-height:0}
 .logo.lg{display:inline-block;margin-bottom:6px}
 #topbar .brand small{color:var(--dim);font-weight:400;margin-left:6px;overflow:hidden;text-overflow:ellipsis}
 #topbar .spacer{flex:1}
-.btn{background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:13px}
+.btn{background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn svg{flex-shrink:0}
 .btn:hover{border-color:var(--accent);color:var(--accent)}
 select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 14px) 55%,calc(100% - 9px) 55%;background-size:5px 5px;background-repeat:no-repeat;cursor:pointer}
 .toggle{display:inline-flex;align-items:center;gap:5px;color:var(--dim);font-size:12px;cursor:pointer;user-select:none}
 .toggle input{accent-color:var(--accent)}
+/* topbar segmented display pills */
+.seg{display:inline-flex;align-items:center;gap:2px;background:var(--code-bg);border:1px solid var(--border);border-radius:99px;padding:2px}
+.seg .toggle{padding:3px 9px;border-radius:99px;font-size:11.5px;color:var(--faint);gap:0}
+.seg .toggle:hover{color:var(--text)}
+.seg .toggle:has(input:checked){background:rgba(217,119,87,.18);color:var(--accent)}
+.seg .toggle input{display:none}
+.seg .toggle:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:1px}
 #refreshbar{display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:8px 16px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0}
 #refreshbar.hidden{display:none}
 #refreshStatus{font-size:12px;color:var(--dim);overflow-wrap:anywhere}
@@ -149,6 +158,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .note .hd{cursor:pointer;color:var(--dim)}
 .note pre{white-space:pre-wrap;word-break:break-word;margin:6px 0 0;font-size:11px;color:var(--faint)}
 .hidden{display:none}
+[hidden]{display:none!important}
 /* markdown */
 .md p{margin:6px 0}
 .md h1,.md h2,.md h3,.md h4{margin:12px 0 6px;line-height:1.3}
@@ -230,7 +240,8 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .libwrap{max-width:860px;margin:0 auto}
 .libwrap .spacer{flex:1}
 .libhead{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.libhead h2{margin:0;font-size:20px;color:var(--accent);font-family:'Nunito','PingFang SC','Microsoft YaHei',sans-serif}
+.libhead h2{margin:0;font-size:20px;color:var(--accent);font-family:'Nunito','PingFang SC','Microsoft YaHei',sans-serif;display:inline-flex;align-items:center;gap:9px}
+.libhead h2 svg{flex-shrink:0}
 .libhead .cnt{color:var(--faint);font-size:13px}
 .libtools{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
 #libProgress{color:var(--accent2);font-size:12px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;margin-bottom:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:none}
@@ -300,8 +311,26 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 /* Backup actions follow the current reading or library selection. */
 #cloudBackup{width:min(680px,calc(100vw - 32px));max-height:85vh;box-sizing:border-box;padding:24px;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:12px;overflow:auto}
 #cloudBackup::backdrop{background:rgba(0,0,0,.72)}
-.cloud-header,.cloud-actions,.cloud-account,.cloud-row,.cloud-row-actions,.lib-selection{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cloud-header,.cloud-account,.cloud-row,.cloud-row-actions,.lib-selection{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .cloud-header{justify-content:space-between}.cloud-header h2{margin:0;font-size:20px}
+.cloud-header .cloud-hicon{color:var(--accent);display:inline-flex;align-items:center}
+/* avatar chip + dropdown (topbar & landing header) */
+.avatar-wrap{position:relative;display:inline-flex;align-items:center}
+.avatar-wrap[hidden]{display:none}
+.avatar-btn{background:var(--panel2);border:1px solid var(--border);border-radius:50%;width:30px;height:30px;padding:2px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:var(--dim);font-size:12px;font-weight:600;line-height:1}
+.avatar-btn:hover{border-color:var(--accent);color:var(--accent)}
+.avatar-btn img{width:100%;height:100%;border-radius:50%;display:block}
+.avatar-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:60;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px;display:none;flex-direction:column;gap:6px;min-width:176px;box-shadow:0 16px 40px rgba(0,0,0,.45)}
+.avatar-wrap.open .avatar-menu{display:flex}
+.avatar-menu .avatar-who{color:var(--faint);font-size:11.5px;padding:2px 8px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.avatar-menu .btn{justify-content:flex-start}
+/* cloud sessions full page */
+#cloudPage{position:absolute;inset:0;z-index:11;overflow-y:auto;background:radial-gradient(1000px 480px at 78% -8%,rgba(217,119,87,.14),transparent 62%),#0d1117;padding:26px 20px 64px}
+#cloudPage.hide{display:none}
+#cloudPage #cloudEmpty{color:var(--dim);font-size:13px;padding:44px 0;text-align:center}
+#cloudPage #cloudStatusPage{color:var(--green);font-size:12.5px}
+#cloudPage #cloudStatusPage.cloud-error{color:var(--red)}
+#cloudPage #cloudList{margin-top:6px}
 .cloud-note,.cloud-info small,#cloudLoginHint,#cloudAccount{color:var(--dim);font-size:13px;line-height:1.6}
 .cloud-note{margin:8px 0 20px}.cloud-account{margin:12px 0}.cloud-account #cloudLogout{margin-left:auto}
 #cloudPlan{max-height:240px;overflow:auto;border:1px solid var(--border);border-radius:8px;padding:4px 14px;margin:16px 0}
@@ -310,13 +339,14 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .cloud-target[data-state="done"] small{color:var(--green)}.cloud-target[data-state="error"] small{color:var(--red)}
 .cloud-target em{display:block;font-style:normal;color:var(--red);font-size:12px;margin-top:4px}
 #cloudStatus{margin:12px 0;color:var(--green);font-size:13px}#cloudStatus:empty{display:none}#cloudStatus.cloud-error{color:var(--red)}
-.cloud-actions{margin:16px 0}.cloud-actions h3{font-size:14px;margin:0 auto 0 0}#cloudSaved{border-top:1px solid var(--border);margin-top:24px;padding-top:4px}
 #cloudList{display:flex;flex-direction:column}.cloud-row{padding:12px 0;border-bottom:1px solid var(--border);justify-content:space-between}
 .cloud-info{flex:1;min-width:160px;overflow-wrap:anywhere}.cloud-info strong{display:block;font-size:13px;font-weight:500}.cloud-info small{display:block;font-size:12px}.cloud-row-actions .btn{font-size:12px;padding:5px 9px}
-#cloudEmpty{color:var(--dim);font-size:13px;padding:12px 0}#cloudBackup [hidden]{display:none!important}#cloudMore{margin-top:14px}
+#cloudMore{margin-top:14px}
+#cloudPage .cloud-row{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:10px;transition:border-color .15s}
+#cloudPage .cloud-row:hover{border-color:var(--accent)}
 .lib-selection{padding:12px 0;font-size:13px;color:var(--dim)}.lib-selection label{display:flex;align-items:center;gap:8px}.libpick{flex-shrink:0;align-self:center;accent-color:var(--accent)}.librow{position:relative;padding-left:44px}.librow>.libpick{position:absolute;left:14px;top:18px;width:16px;height:16px}.librow.selected{border-color:var(--accent)}
 #cloudBackup .btn:focus-visible,.libpick:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-@media(max-width:600px){#cloudBackup{padding:18px}.cloud-row-actions{width:100%}.cloud-actions h3{width:100%}.cloud-target{gap:8px}.lheader{flex-wrap:wrap}}
+@media(max-width:600px){#cloudBackup{padding:18px}.cloud-row-actions{width:100%}.cloud-target{gap:8px}.lheader{flex-wrap:wrap}}
 </style>
 {{analytics}}
 </head>
@@ -326,17 +356,20 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <span class="brand"><span class="logo"></span> <span data-i18n="brand">CCViewer</span><small id="fname"></small></span>
     <button class="btn icon" id="btnNavToggle" title=""></button>
     <span class="spacer"></span>
-    <label class="toggle"><input type="checkbox" id="tgThink" checked><span data-i18n="thinking">思考</span></label>
-    <label class="toggle"><input type="checkbox" id="tgTool" checked><span data-i18n="tools">工具</span></label>
-    <label class="toggle"><input type="checkbox" id="tgMeta"><span data-i18n="sysInj">系统/注入</span></label>
-    <label class="toggle"><input type="checkbox" id="tgExpand"><span data-i18n="expandAll">展开全部</span></label>
-    <button class="btn" id="btnHome" data-i18n="home">首页</button>
-    <button class="btn" id="btnCloud" data-i18n="cloudUploadCurrent"></button>
-    <button class="btn" id="btnLibrary" data-i18n="libraryBtn">会话库</button>
-    <button class="btn primary" id="btnExportMd" data-i18n="exportMd" style="display:none">导出 MD</button>
+    <div class="seg" role="group" aria-label="Display">
+      <label class="toggle"><input type="checkbox" id="tgThink" checked><span data-i18n="thinking">思考</span></label>
+      <label class="toggle"><input type="checkbox" id="tgTool" checked><span data-i18n="tools">工具</span></label>
+      <label class="toggle"><input type="checkbox" id="tgMeta"><span data-i18n="sysInj">系统/注入</span></label>
+      <label class="toggle"><input type="checkbox" id="tgExpand"><span data-i18n="expandAll">展开全部</span></label>
+    </div>
+    <button class="btn" id="btnHome"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg><span data-i18n="home">首页</span></button>
+    <button class="btn" id="btnCloud"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg><span data-i18n="cloudUploadCurrent">备份当前会话</span></button>
+    <button class="btn" id="btnLibrary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16"/><path d="M8 8v12"/><path d="M12 6v14"/><path d="m16 6 4 14"/></svg><span data-i18n="libraryBtn">会话库</span></button>
+    <button class="btn primary" id="btnExportMd" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span data-i18n="exportMd">导出 MD</span></button>
     <select class="btn langsel" aria-label="Language"></select>
-    <button class="btn" id="btnPasteTop" data-i18n="pasteText">粘贴文本</button>
-    <button class="btn" id="btnOpen" data-i18n="openFile">打开文件</button>
+    <button class="btn" id="btnPasteTop"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg><span data-i18n="pasteText">粘贴文本</span></button>
+    <button class="btn" id="btnOpen"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-i18n="openFile">打开文件</span></button>
+    <div class="avatar-wrap" id="avatarTop" hidden></div>
   </div>
   <div id="refreshbar" class="hidden">
     <button class="btn" id="btnRefresh" data-i18n="refresh">刷新</button>
@@ -361,9 +394,10 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
       <span>GitHub</span>
     </a>
-    <button class="btn" id="btnCloudLanding" data-i18n="cloudTitle"></button>
+    <button class="btn" id="btnCloudLanding"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg><span data-i18n="cloudTitle">云端备份</span></button>
     <button class="btn" id="btnLibLanding" data-i18n="libraryBtn" style="display:none">会话库</button>
     <select class="btn langsel" aria-label="Language"></select>
+    <div class="avatar-wrap" id="avatarLanding" hidden></div>
   </header>
   <main class="hero">
     <div class="hero-l">
@@ -430,6 +464,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15v-4"/><path d="M12 15V7"/><path d="M17 15v-7"/></svg><span data-i18n="featCost"></span></b><span data-i18n="featCostD"></span></div>
       <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></svg><span data-i18n="featI18n"></span></b><span data-i18n="featI18nD"></span></div>
       <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span data-i18n="featPrivacy"></span></b><span data-i18n="featPrivacyD"></span></div>
+      <div class="feat"><b><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 7 7 0 0 0-13.36 2.2A4.5 4.5 0 0 0 6.5 19z"/><path d="M12 12v5"/><path d="m9.5 14.5 2.5-2.5 2.5 2.5"/></svg><span data-i18n="featCloud"></span></b><span data-i18n="featCloudD"></span></div>
     </div>
     <h2 data-i18n="faqTitle"></h2>
     <div class="faqs">
@@ -466,8 +501,8 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
         <option value="cost" data-i18n="sortCost">费用</option>
       </select>
       <span class="spacer"></span>
-      <button class="btn" id="btnCloudManageLibrary" data-i18n="cloudView"></button>
-      <button class="btn primary" id="btnCloudLibrary" data-i18n="cloudBackupSelected" disabled></button>
+      <button class="btn" id="btnCloudManageLibrary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 7 7 0 0 0-13.36 2.2A4.5 4.5 0 0 0 6.5 19z"/></svg><span data-i18n="cloudView">查看云端备份</span></button>
+      <button class="btn primary" id="btnCloudLibrary" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg><span data-i18n="cloudBackupSelected">备份所选</span></button>
       <button class="btn" id="btnClearAll" data-i18n="clearAll">清空全部</button>
     </div>
     <p class="dirhint" data-i18n-html="dirTip"></p>
@@ -479,6 +514,25 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <p data-i18n="libraryEmpty"></p>
       <button class="btn primary" id="btnImportFolder2" data-i18n="openFolder">打开文件夹</button>
     </div>
+  </div>
+</div>
+<div id="cloudPage" class="hide" data-clarity-mask="true">
+  <div class="libwrap">
+    <div class="libhead">
+      <h2><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 7 7 0 0 0-13.36 2.2A4.5 4.5 0 0 0 6.5 19z"/></svg><span data-i18n="cloudPageTitle">云端会话</span></h2>
+      <span class="cnt" id="cloudCount"></span>
+      <span class="spacer"></span>
+      <button class="btn" id="btnCloudClose" data-i18n="closeBtn">关闭</button>
+    </div>
+    <div class="libtools">
+      <button class="btn" id="cloudPick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/></svg><span data-i18n="cloudPick">备份文件…</span></button>
+      <button class="btn" id="cloudRefresh"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8"/><path d="M21 3v5h-5"/></svg><span data-i18n="refresh">刷新</span></button>
+      <span class="spacer"></span>
+      <span id="cloudStatusPage" role="status" aria-live="polite"></span>
+    </div>
+    <p id="cloudEmpty" data-i18n="cloudEmpty" hidden></p>
+    <div id="cloudList"></div>
+    <button class="btn" id="cloudMore" data-i18n="cloudMore" hidden></button>
   </div>
 </div>
 <div id="paste">
@@ -498,7 +552,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   <img id="previewImage" alt="">
 </dialog>
 <dialog id="cloudBackup" aria-labelledby="cloudTitle" data-clarity-mask="true">
-  <div class="cloud-header"><h2 id="cloudTitle" data-i18n="cloudTitle"></h2><button class="btn" id="cloudClose" data-i18n="closeBtn"></button></div>
+  <div class="cloud-header"><span class="cloud-hicon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 7 7 0 0 0-13.36 2.2A4.5 4.5 0 0 0 6.5 19z"/><path d="M12 12v5"/><path d="m9.5 14.5 2.5-2.5 2.5 2.5"/></svg></span><h2 id="cloudTitle" data-i18n="cloudTitle"></h2><button class="btn" id="cloudClose" data-i18n="closeBtn"></button></div>
   <p class="cloud-note" data-i18n="cloudPrivacy"></p>
   <div class="cloud-account"><span id="cloudAccount"></span><button class="btn" id="cloudLogout" data-i18n="cloudLogout" hidden></button></div>
   <div id="cloudPlan" hidden></div>
@@ -506,13 +560,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   <button class="btn primary" id="cloudLogin" hidden></button>
   <button class="btn primary" id="cloudSubmit" hidden></button>
   <p id="cloudStatus" role="status" aria-live="polite"></p>
-  <button class="btn" id="cloudViewSaved" data-i18n="cloudView" hidden></button>
-  <div id="cloudSaved" hidden>
-    <div class="cloud-actions"><h3 data-i18n="cloudSaved"></h3><button class="btn" id="cloudPick" data-i18n="cloudPick"></button><button class="btn" id="cloudRefresh" data-i18n="refresh"></button></div>
-    <p id="cloudEmpty" data-i18n="cloudEmpty" hidden></p>
-    <div id="cloudList"></div>
-    <button class="btn" id="cloudMore" data-i18n="cloudMore" hidden></button>
-  </div>
+  <button class="btn" id="cloudViewSaved" hidden><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 7 7 0 0 0-13.36 2.2A4.5 4.5 0 0 0 6.5 19z"/></svg><span data-i18n="cloudView"></span></button>
 </dialog>
 <input type="file" id="cloudFile" accept=".jsonl" multiple style="display:none">
 <input type="file" id="file" accept=".jsonl,.json,.txt" style="display:none">
@@ -1110,9 +1158,10 @@ async function loadLibrary(){
   for(const rec of (all||[])){LIB.push(libMeta(rec));LIB_FULL.set(rec.id,rec);}
   updateLibBtn();
 }
+function setBtnLabel(id,label){const b=$(id);if(b){const s=b.querySelector('span');(s||b).textContent=label;}}
 function updateLibBtn(){
   const label=t('libraryBtn')+(LIB.length?' ('+LIB.length+')':'');
-  const b=$('#btnLibrary');if(b)b.textContent=label;
+  setBtnLabel('#btnLibrary',label);
   const bl=$('#btnLibLanding');if(bl){bl.textContent=label;bl.style.display=LIB.length?'':'none';}
   updateNav();
 }
@@ -1313,7 +1362,7 @@ function updateLibrarySelection(){
   all.checked=!!available.length&&count===available.length;all.indeterminate=count>0&&count<available.length;all.disabled=!available.length;
   $('#libSelectedCount').textContent=count?t('cloudSelectedCount').replace('{n}',count):'';
   const button=$('#btnCloudLibrary');button.disabled=!count;
-  button.textContent=t('cloudBackupSelected')+(count?' ('+count+')':'');
+  setBtnLabel('#btnCloudLibrary',t('cloudBackupSelected')+(count?' ('+count+')':''));
 }
 function openSession(id){
   const rec=LIB_FULL.get(id);

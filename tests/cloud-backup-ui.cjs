@@ -59,7 +59,9 @@ const text='{"type":"user","message":{"content":"private session"}}\n';
 const posts=p=>p.calls.filter(call=>call.options.method==='POST'&&call.path.startsWith('/api/backups'));
 const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,uploaded:new Date().toISOString()};
 (async()=>{
-  const p=page();assert.equal(p.calls.length,0,'local viewing must not contact cloud APIs');
+  const p=page();
+  assert.equal(p.calls.filter(call=>call.path!=='/api/auth/session').length,0,'local viewing must not contact cloud APIs');
+  assert.ok(p.calls.length<=1,'the boot check may only read the session endpoint');
   p.context.CUR={text,name:'example.jsonl'};
   await p.$('#btnCloud').onclick();
   assert.equal(posts(p).length,1,'reading action backs up the current session directly');
