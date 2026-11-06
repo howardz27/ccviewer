@@ -5,10 +5,11 @@ const CLOUD_PENDING_KEY='ccviewer_backup_return:'+location.pathname;
 const CLOUD_ERRORS={login_required:'cloudLoginRequired',cloud_unavailable:'cloudUnavailable',file_too_large:'cloudTooLarge',
   invalid_jsonl:'cloudInvalidJsonl',invalid_filename:'cloudInvalidName',not_found:'cloudNotFound',invalid_origin:'cloudOriginError'};
 async function cloudApi(path,options={}){
-  let response;
+  let response;const timer=cloudTimeoutSignal();
   try{response=await fetch('/api/'+path,{...options,credentials:'same-origin',cache:'no-store',
-    headers:{'X-CCViewer-Request':'1',...options.headers}});}
+    headers:{'X-CCViewer-Request':'1',...options.headers},...(timer?{signal:timer.signal}:{})});}
   catch(e){throw new Error(t('cloudNetworkError'));}
+  finally{if(timer)timer.clear();}
   if(!response.ok){
     let code='';try{code=(await response.json()).error||'';}catch(e){}
     if(response.status===401){CLOUD.user=null;CLOUD.backups=[];CLOUD.cursor=null;}
@@ -16,6 +17,26 @@ async function cloudApi(path,options={}){
     error.status=response.status;throw error;
   }
   return response;
+}
+/* A single hung request must never freeze CLOUD.busy and deaden every cloud button. */
+function cloudTimeoutSignal(){
+  if(typeof AbortController!=='function')return null;
+  const controller=new AbortController();
+  let timer=-1;
+  if(typeof setTimeout==='function')timer=setTimeout(()=>controller.abort(),10000);
+  return {signal:controller.signal,clear(){if(timer!==-1&&typeof clearTimeout==='function')clearTimeout(timer);}};
+}
+/* Single-session uploads can be renamed in the dialog before submitting. */
+let cloudNameItem=null;
+function cloudNameSync(){
+  const row=$('#cloudNameRow'),input=$('#cloudName');
+  if(!row||!input)return;
+  row.hidden=CLOUD.queue.length!==1;
+  input.disabled=CLOUD.busy;
+  if(CLOUD.queue.length===1&&cloudNameItem!==CLOUD.queue[0]){
+    cloudNameItem=CLOUD.queue[0];
+    input.value=CLOUD.queue[0].file.name.replace(/\.jsonl$/i,'');
+  }
 }
 function cloudRender(){
   const queued=CLOUD.queue.length>0,pending=CLOUD.queue.some(item=>item.state!=='done');
@@ -38,6 +59,7 @@ function cloudRender(){
   }
   $('#cloudSubmit').hidden=!CLOUD.user||!queued||!pending||CLOUD.busy;
   $('#cloudSubmit').textContent=CLOUD.queue.some(item=>item.state==='error')?t('cloudRetry'):t('cloudStart');
+  cloudNameSync();
   $('#cloudStatus').textContent=CLOUD.message||(CLOUD.busy?t('cloudWorking'):'');
   $('#cloudStatus').classList.toggle('cloud-error',CLOUD.error);
   const pageStatus=$('#cloudStatusPage');
@@ -102,7 +124,8 @@ async function cloudRunQueue(){
   // Listing errors must never turn completed uploads into retryable uploads.
   if(CLOUD.user){try{await cloudList();}catch(e){CLOUD.message+=' '+e.message;CLOUD.error=true;}}
 }
-async function openCloud(files=[],auto=true){
+/* Nothing uploads until the user confirms the plan in the dialog. */
+async function openCloud(files=[]){
   if(CLOUD.busy){if(!cloudDialog.open)cloudDialog.showModal();return;}
   CLOUD.queue=files.map(file=>({file,state:'waiting',error:''}));
   if(!cloudDialog.open)cloudDialog.showModal();
@@ -112,7 +135,7 @@ async function openCloud(files=[],auto=true){
     const data=await (await cloudApi('auth/session')).json();
     CLOUD.enabled=data.enabled;CLOUD.user=data.user;CLOUD.maxFileBytes=data.maxFileBytes;
     if(!CLOUD.enabled){CLOUD.message=t('cloudUnavailable');return;}
-    if(CLOUD.user){if(files.length&&auto)await cloudRunQueue();else await cloudList();}
+    if(CLOUD.user)await cloudList();
   });
 }
 /* Save exact transcript/File bytes before leaving the page for OAuth. This store
@@ -173,11 +196,30 @@ async function cloudResume(result){
     if(result==='login_failed'){CLOUD.message=t('cloudLoginFailed');CLOUD.error=true;cloudRender();}
     return;
   }
-  await openCloud(snapshot.files,result==='ready'&&Date.now()-snapshot.createdAt<60*60*1000);
+  await openCloud(snapshot.files);
   if(result==='login_failed'){CLOUD.message=t('cloudLoginFailed');CLOUD.error=true;cloudRender();}
 }
-/* Full-page cloud session list, reachable from anywhere once signed in. */
+/* Full-page cloud session list, reachable from anywhere once signed in.
+   It behaves like a real page: a #cloud entry is pushed to history so the
+   browser Back button closes it, and reload or a direct link reopens it. */
+function cloudPageActive(){return !$('#cloudPage').classList.contains('hide');}
+function showCloudOverlay(){
+  $('#cloudPage').classList.toggle('hide',false);
+  CLOUD.message=t('cloudWorking');CLOUD.error=false;cloudRender();
+}
+function cloudPushHistory(){
+  if(history.pushState&&!(history.state&&history.state.ccvCloud))
+    history.pushState({ccvCloud:true},'',location.pathname+location.search+'#cloud');
+}
 async function openCloudPage(){
+  if(CLOUD.busy){
+    // Never swallow the click silently: tell the user why nothing happens yet.
+    CLOUD.message=t('cloudWorking');
+    if(!cloudPageActive()&&!cloudDialog.open)cloudDialog.showModal();
+    cloudRender();return;
+  }
+  cloudPushHistory();
+  if(CLOUD.user){showCloudOverlay();await cloudTask(async()=>{await cloudList();CLOUD.message='';});return;}
   let shown=false;
   await cloudTask(async()=>{
     CLOUD.enabled=false;
@@ -188,12 +230,28 @@ async function openCloudPage(){
     if(!CLOUD.enabled){CLOUD.message=t('cloudUnavailable');CLOUD.error=true;return;}
     if(!CLOUD.user)return;
     $('#cloudPage').classList.toggle('hide',false);shown=true;
-    await cloudList();
+    await cloudList();CLOUD.message='';
   });
-  if(!shown&&!cloudDialog.open)cloudDialog.showModal();
+  if(!shown&&!cloudPageActive()&&!cloudDialog.open)cloudDialog.showModal();
   cloudRender();
 }
-function hideCloudPage(){$('#cloudPage').classList.toggle('hide',true);}
+function hideCloudPage(){
+  if(history.state&&history.state.ccvCloud){if(history.back)history.back();return;}
+  $('#cloudPage').classList.toggle('hide',true);
+}
+if(typeof addEventListener==='function'){
+  addEventListener('popstate',e=>{
+    const entry=e.state&&e.state.ccvCloud;
+    if(entry&&!cloudPageActive())showCloudOverlay();
+    else if(!entry&&cloudPageActive())$('#cloudPage').classList.toggle('hide',true);
+    // A same-document jump to #cloud (e.g. a bookmark) also opens the page.
+    else if(!entry&&!cloudPageActive()&&location.hash==='#cloud'&&CLOUD.user)showCloudOverlay();
+  });
+  addEventListener('keydown',e=>{
+    if(e.key!=='Escape'||cloudDialog.open||!cloudPageActive())return;
+    hideCloudPage();
+  });
+}
 /* Avatar chip (topbar + landing header) with cloud page / sign-out menu. */
 const GITHUB_MARK='<svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>';
 function closeAvatarMenus(){
@@ -231,7 +289,7 @@ function renderAvatar(){
       const login=el('button','btn');login.type='button';
       login.innerHTML=GITHUB_MARK;
       const label=el('span');label.textContent=t('loginBtn');login.appendChild(label);
-      login.onclick=()=>cloudLogin('page');
+      login.onclick=()=>{login.disabled=true;label.textContent=t('cloudWorking');cloudLogin('page');};
       wrap.appendChild(login);
     }
   }
@@ -254,7 +312,16 @@ $('#btnCloudLibrary').onclick=()=>openCloud([...LIB_SELECTED].map(id=>LIB_FULL.g
 $('#cloudClose').onclick=()=>cloudDialog.close();
 cloudDialog.addEventListener('click',e=>{if(e.target===cloudDialog)cloudDialog.close();});
 $('#cloudLogin').onclick=()=>cloudLogin();
-$('#cloudSubmit').onclick=()=>cloudTask(cloudRunQueue);
+$('#cloudSubmit').onclick=()=>{
+  if(CLOUD.queue.length===1){
+    const input=$('#cloudName'),value=((input&&input.value)||'').trim().replace(/\.jsonl$/i,'');
+    if(!value||/[\x00-\x1f\x7f/\\]/.test(value)||new TextEncoder().encode(value).length>240){
+      CLOUD.message=t('cloudInvalidName');CLOUD.error=true;cloudRender();return;
+    }
+    CLOUD.queue[0].file=new File([CLOUD.queue[0].file],value+'.jsonl',{type:CLOUD.queue[0].file.type||'application/x-ndjson'});
+  }
+  return cloudTask(cloudRunQueue);
+};
 $('#cloudLogout').onclick=cloudLogoutAction;
 $('#cloudRefresh').onclick=()=>cloudTask(()=>cloudList());
 $('#cloudMore').onclick=()=>cloudTask(()=>cloudList(true));
@@ -297,7 +364,14 @@ if(cloudResult==='ready'||cloudResult==='login_failed'){
    This only reads the session; nothing about local files is ever sent. */
 if(location.protocol!=='file:'){
   const cloudBoot=()=>cloudApi('auth/session').then(response=>response.json())
-    .then(data=>{CLOUD.enabled=data.enabled;CLOUD.user=data.user;CLOUD.maxFileBytes=data.maxFileBytes;renderAvatar();})
+    .then(data=>{
+      CLOUD.enabled=data.enabled;CLOUD.user=data.user;CLOUD.maxFileBytes=data.maxFileBytes;renderAvatar();
+      // A reload or direct link to the cloud page reopens it without a new entry.
+      if(location.hash==='#cloud'){
+        if(CLOUD.user){if(history.replaceState)history.replaceState({ccvCloud:true},'',location.href);openCloudPage();}
+        else if(history.replaceState)history.replaceState(null,'',location.pathname+location.search);
+      }
+    })
     .catch(()=>{});
   if(typeof setTimeout==='function')setTimeout(cloudBoot,0);else cloudBoot();
 }

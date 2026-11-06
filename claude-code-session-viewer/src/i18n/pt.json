@@ -184,6 +184,7 @@
   "cloudFailed": "Falha",
   "cloudRetry": "Tentar novamente os pendentes",
   "cloudStart": "Fazer backup",
+  "cloudNameLabel": "Nome da sessão",
   "cloudProgress": "Salvando {n} de {m}…",
   "cloudPartial": "{n} salvos. Restam {m}; tente novamente.",
   "cloudComplete": "Backup de {n} sessões concluído.",

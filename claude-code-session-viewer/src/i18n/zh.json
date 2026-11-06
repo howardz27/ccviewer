@@ -184,6 +184,7 @@
   "cloudFailed": "失败",
   "cloudRetry": "重试未完成项",
   "cloudStart": "开始备份",
+  "cloudNameLabel": "会话名称",
   "cloudProgress": "正在备份 {n}/{m}…",
   "cloudPartial": "已备份 {n} 个，还有 {m} 个未完成，可重试。",
   "cloudComplete": "已备份 {n} 个会话。",

@@ -184,6 +184,7 @@
   "cloudFailed": "Échec",
   "cloudRetry": "Réessayer les éléments restants",
   "cloudStart": "Sauvegarder",
+  "cloudNameLabel": "Nom de la session",
   "cloudProgress": "Sauvegarde {n}/{m}…",
   "cloudPartial": "{n} sauvegardées. Il en reste {m} à réessayer.",
   "cloudComplete": "{n} sessions sauvegardées.",

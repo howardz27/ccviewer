@@ -184,6 +184,7 @@
   "cloudFailed": "Fehlgeschlagen",
   "cloudRetry": "Offene Sicherungen wiederholen",
   "cloudStart": "Sichern",
+  "cloudNameLabel": "Sitzungsname",
   "cloudProgress": "Sicherung {n}/{m}…",
   "cloudPartial": "{n} gesichert. {m} verbleibend; erneut versuchen.",
   "cloudComplete": "{n} Sitzungen gesichert.",

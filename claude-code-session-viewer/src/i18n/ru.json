@@ -184,6 +184,7 @@
   "cloudFailed": "Ошибка",
   "cloudRetry": "Повторить незавершённые",
   "cloudStart": "Сохранить копию",
+  "cloudNameLabel": "Название сессии",
   "cloudProgress": "Сохранение {n}/{m}…",
   "cloudPartial": "Сохранено: {n}. Осталось: {m}; повторите попытку.",
   "cloudComplete": "Сеансов сохранено: {n}.",

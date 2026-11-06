@@ -24,10 +24,12 @@ function sharedStorage(){
   }};return shared;
 }
 function page({protocol='https:',shared=sharedStorage(),result='',user={id:'101',login:'alice'},ready=Promise.resolve()}={}){
-  const elements=new Map(),calls=[],saved=[],opened=[],views=[];
+  const elements=new Map(),calls=[],saved=[],opened=[],views=[],listeners={},historyUrls=[];
+  const history={state:null,replaceState(state){history.state=state;},pushState(state,title,url){history.state=state;historyUrls.push(url);},
+    back(){history.state=null;if(listeners.popstate)listeners.popstate({state:null});}};
   function element(tag='div'){
     const classes=new Set();let html='';
-    return {tag,dataset:{},children:[],style:{},textContent:'',hidden:false,disabled:false,open:false,scrollTop:0,
+    return {tag,dataset:{},children:[],style:{},textContent:'',value:'',hidden:false,disabled:false,open:false,scrollTop:0,
       classList:{toggle(name,value){if(value)classes.add(name);else classes.delete(name);},contains:name=>classes.has(name)},
       set innerHTML(value){html=value;this.children=[];},get innerHTML(){return html;},
       setAttribute(){},addEventListener(){},append(...nodes){this.children.push(...nodes);},appendChild(node){this.children.push(node);},
@@ -45,14 +47,14 @@ function page({protocol='https:',shared=sharedStorage(),result='',user={id:'101'
   const context={$,el:element,t:key=>strings[key]||key,LANG:'en',CUR:null,CUR_ID:null,LIB_SELECTED:new Set(),LIB_FULL:new Map(),libraryReady:ready,
     URL,URLSearchParams,File,Blob,TextEncoder,crypto:webcrypto,indexedDB:shared.indexedDB,sessionStorage:shared.sessionStorage,
     location:{protocol,search:result?'?cloud='+result:'',pathname:'/claude-code-session-viewer/',href:'https://ccviewer.test/claude-code-session-viewer/'+(result?'?cloud='+result:'')},
-    document:{createElement:element},history:{replaceState(){}},setTimeout(){},confirm:()=>true,
+    document:{createElement:element},history,addEventListener:(name,handler)=>{listeners[name]=handler;},setTimeout(){},confirm:()=>true,
     fetch:async(path,options)=>{calls.push({path,options});return answer(path,options);},
     parse:text=>({entries:text.trim()?text.trim().split('\n').map(JSON.parse):[]}),
     saveToLibrary:async(...args)=>{saved.push(args);return args[3]||'restored-id';},
     load:(...args)=>{opened.push(args);context.CUR={text:args[0],name:args[1],pasted:args[2]};},
     showView:view=>views.push(view),showLibrary:()=>views.push('library'),renderNav(){}};
   vm.createContext(context);vm.runInContext(source,context);
-  const p={$,context,calls,saved,opened,views,shared,run:code=>vm.runInContext(code,context),respond:fn=>{answer=fn;}};
+  const p={$,context,calls,saved,opened,views,shared,listeners,historyUrls,run:code=>vm.runInContext(code,context),respond:fn=>{answer=fn;}};
   p.settle=async()=>{for(let i=0;i<100;i++){await tick();if(!p.run('CLOUD.busy')&&(!result||calls.length))return;}throw Error('task did not finish');};
   return p;
 }
@@ -65,8 +67,13 @@ const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,upload
   assert.ok(p.calls.length<=1,'the boot check may only read the session endpoint');
   p.context.CUR={text,name:'example.jsonl'};
   await p.$('#btnCloud').onclick();
-  assert.equal(posts(p).length,1,'reading action backs up the current session directly');
-  assert.equal(posts(p)[0].path,'/api/backups?name=example.jsonl');assert.equal(await posts(p)[0].options.body.text(),text);
+  assert.equal(posts(p).length,0,'nothing uploads before the user confirms');
+  assert.equal(p.$('#cloudNameRow').hidden,false,'single-session backup asks for the name');
+  assert.equal(p.$('#cloudName').value,'example');
+  p.$('#cloudName').value='renamed session';
+  await p.$('#cloudSubmit').onclick();
+  assert.equal(posts(p).length,1,'the confirm click uploads the current session');
+  assert.equal(posts(p)[0].path,'/api/backups?name=renamed%20session.jsonl');assert.equal(await posts(p)[0].options.body.text(),text);
   assert.equal(posts(p)[0].options.headers['X-CCViewer-Request'],'1');
   assert.equal(posts(p)[0].options.credentials,'same-origin');assert.equal(posts(p)[0].options.cache,'no-store');
   // Logging in must keep exact raw text, current identity, pasted name, and scroll.
@@ -80,6 +87,8 @@ const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,upload
   const callback=page({shared,result:'ready'});await callback.settle();
   assert.deepEqual(callback.opened[0],[text,'example.jsonl',true,null]);assert.equal(callback.context.CUR_ID,'reading-id');
   assert.equal(callback.$('#content').scrollTop,712);assert.equal(callback.views[0],'viewer');
+  assert.equal(posts(callback).length,0,'the return waits for a confirm click');
+  await callback.$('#cloudSubmit').onclick();
   assert.equal(await posts(callback)[0].options.body.text(),text);assert.equal(posts(callback).length,1);
   assert.equal(shared.records.size,0);assert.equal(shared.session.size,0);
   const reload=page({shared,result:'ready'});await reload.settle();assert.equal(posts(reload).length,0,'callback reload cannot replay an upload');
@@ -99,6 +108,8 @@ const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,upload
   batch.$('#library').classList.toggle('hide',false);
   await batch.$('#btnCloudLibrary').onclick();await batch.$('#cloudLogin').onclick();
   const batchReturn=page({shared:batch.shared,result:'ready'});batchReturn.context.LIB_FULL=batch.context.LIB_FULL;await batchReturn.settle();
+  assert.equal(batchReturn.$('#cloudNameRow').hidden,true,'batch uploads keep their filenames');
+  await batchReturn.$('#cloudSubmit').onclick();
   assert.equal(posts(batchReturn).length,2);assert.equal(batchReturn.views.at(-1),'library');
   assert.equal(batchReturn.context.LIB_SELECTED.size,2);assert.equal(await posts(batchReturn)[1].options.body.text(),text+'\n');
   // Mixed results continue past a failed item. Retry must never reupload successes.
@@ -112,6 +123,8 @@ const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,upload
     return Response.json({backups:[backup],cursor:'next'});
   });
   await mixed.run('openCloud([cloudFile('+JSON.stringify(text)+',"one"),cloudFile('+JSON.stringify(text)+',"two"),cloudFile('+JSON.stringify(text)+',"three")])');
+  assert.equal(posts(mixed).length,0,'a batch also waits for the confirm click');
+  await mixed.$('#cloudSubmit').onclick();
   assert.equal(posts(mixed).length,3);assert.equal(mixed.run('CLOUD.queue.filter(item=>item.state==="done").length'),2);
   assert.equal(mixed.$('#cloudSubmit').textContent,strings.cloudRetry);
   await mixed.$('#cloudSubmit').onclick();assert.equal(posts(mixed).length,4);assert.ok(posts(mixed)[3].path.includes('two'));
@@ -129,14 +142,18 @@ const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,upload
     return Response.json(options.method==='POST'?{ok:true}:{backups:[]});
   });
   await expiry.run('openCloud([cloudFile('+JSON.stringify(text)+',"one"),cloudFile('+JSON.stringify(text)+',"two"),cloudFile('+JSON.stringify(text)+',"three")])');
+  await expiry.$('#cloudSubmit').onclick();
   assert.equal(posts(expiry).length,2);assert.equal(expiry.run('CLOUD.user'),null);
   await expiry.$('#cloudLogin').onclick();const afterExpiry=page({shared:expiry.shared,result:'ready'});await afterExpiry.settle();
+  assert.equal(posts(afterExpiry).length,0);
+  await afterExpiry.$('#cloudSubmit').onclick();
   assert.equal(posts(afterExpiry).length,2);assert.ok(posts(afterExpiry).every(call=>!call.path.includes('one')));
   // File validation is per item; bad files do not block valid siblings.
   const validation=page();await validation.run('openCloud([new File(["bad"],"a.txt"),new File([],"empty.jsonl"),cloudFile('+JSON.stringify(text)+',"valid")])');
+  await validation.$('#cloudSubmit').onclick();
   assert.equal(posts(validation).length,1);assert.equal(validation.run('CLOUD.queue.filter(item=>item.state==="error").length'),2);
   // Batch file picker accepts multiple files without needing to reopen a reading session.
-  const picker=page();await picker.$('#cloudFile').onchange({target:{files:[new File([text],'one.jsonl'),new File([text],'two.jsonl')],value:'files'}});await picker.settle();assert.equal(posts(picker).length,2);
+  const picker=page();await picker.$('#cloudFile').onchange({target:{files:[new File([text],'one.jsonl'),new File([text],'two.jsonl')],value:'files'}});await picker.settle();await picker.$('#cloudSubmit').onclick();assert.equal(posts(picker).length,2);
   // Duplicate actions cannot replace an in-flight queue or send duplicate requests.
   const busy=page();await busy.run('openCloud()');
   const pending=busy.run('cloudTask(()=>new Promise(resolve=>globalThis.releaseTask=resolve))');
@@ -152,9 +169,35 @@ const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,upload
   const disabled=page();disabled.respond(async()=>Response.json({enabled:false,user:null}));await disabled.run('openCloud()');assert.equal(disabled.$('#cloudLogin').hidden,true);
   const staticHost=page();staticHost.respond(async()=>new Response('Not found',{status:404}));await staticHost.run('openCloud()');assert.equal(staticHost.$('#cloudStatus').textContent,strings.cloudUnavailable);
   const logout=page();await logout.run('openCloud()');await logout.$('#cloudLogout').onclick();assert.equal(logout.run('CLOUD.user'),null);assert.equal(logout.$('#cloudStatus').textContent,strings.cloudLoggedOut);
+  // A busy cloud must answer further clicks with visible feedback, not silence.
+  const busyPage=page();await busyPage.run('openCloud()');
+  const held=busyPage.run('cloudTask(()=>new Promise(resolve=>globalThis.releaseTask2=resolve))');
+  await busyPage.run('openCloudPage()');
+  assert.equal(busyPage.$('#cloudStatus').textContent,strings.cloudWorking);
+  busyPage.run('releaseTask2()');await held;
+  // The cloud page behaves like a route: pushed to history, closed by Back, reopened by Forward.
+  const route=page();
+  await route.run('openCloudPage()');
+  assert.equal(route.$('#cloudPage').classList.contains('hide'),false,'cloud page shows');
+  assert.ok(route.historyUrls.at(-1).endsWith('#cloud'),'a #cloud history entry is pushed');
+  assert.equal(route.run('history.state.ccvCloud'),true);
+  route.listeners.popstate({state:null});
+  assert.equal(route.$('#cloudPage').classList.contains('hide'),true,'Back closes the cloud page');
+  route.listeners.popstate({state:{ccvCloud:true}});
+  assert.equal(route.$('#cloudPage').classList.contains('hide'),false,'Forward reopens it');
+  route.run('history.state={ccvCloud:true}');route.$('#btnCloudClose').onclick();
+  assert.equal(route.$('#cloudPage').classList.contains('hide'),true,'the close button pops the history entry');
+  assert.equal(route.run('history.state'),null);
+  // Invalid session names never upload.
+  const invalid=page();invalid.context.CUR={text,name:'example.jsonl'};
+  await invalid.$('#btnCloud').onclick();
+  invalid.$('#cloudName').value='a/b';await invalid.$('#cloudSubmit').onclick();
+  assert.equal(posts(invalid).length,0);assert.equal(invalid.$('#cloudStatus').textContent,strings.cloudInvalidName);
+  invalid.$('#cloudName').value='   ';await invalid.$('#cloudSubmit').onclick();
+  assert.equal(posts(invalid).length,0,'empty names are rejected too');
   for(const file of fs.readdirSync('claude-code-session-viewer/src/i18n')){
     const ui=JSON.parse(fs.readFileSync('claude-code-session-viewer/src/i18n/'+file,'utf8')).ui;
     for(const key of Object.keys(strings).filter(key=>key.startsWith('cloud')))assert.ok(ui[key],file+': '+key);
   }
-  console.log('Cloud UI: current-session backup, durable OAuth intent/scroll restore, cancellation, quota failure, batch selection/files, partial retry, expiry, replay prevention, XSS, duplicate actions, restore, offline and 10 locales passed.');
+  console.log('Cloud UI: name-confirm backup, OAuth intent/scroll restore, cancellation, quota failure, batch selection/files, partial retry, expiry, replay prevention, XSS, duplicate actions, busy feedback, history routing, restore, offline and 10 locales passed.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

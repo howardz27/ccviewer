@@ -184,6 +184,7 @@
   "cloudFailed": "Error",
   "cloudRetry": "Reintentar pendientes",
   "cloudStart": "Guardar copia",
+  "cloudNameLabel": "Nombre de la sesión",
   "cloudProgress": "Guardando {n} de {m}…",
   "cloudPartial": "{n} guardadas. Quedan {m}; vuelve a intentarlo.",
   "cloudComplete": "{n} sesiones guardadas.",

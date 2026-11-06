@@ -184,6 +184,7 @@
   "cloudFailed": "विफल",
   "cloudRetry": "अधूरे बैकअप फिर आज़माएँ",
   "cloudStart": "बैकअप लें",
+  "cloudNameLabel": "सेशन नाम",
   "cloudProgress": "बैकअप {n}/{m}…",
   "cloudPartial": "{n} पूरे। {m} बाकी हैं; फिर कोशिश करें।",
   "cloudComplete": "{n} सत्रों का बैकअप पूरा।",

@@ -184,6 +184,7 @@
   "cloudFailed": "失敗",
   "cloudRetry": "未完了を再試行",
   "cloudStart": "バックアップ",
+  "cloudNameLabel": "セッション名",
   "cloudProgress": "バックアップ中 {n}/{m}…",
   "cloudPartial": "{n} 件保存済み、残り {m} 件。再試行できます。",
   "cloudComplete": "{n} 件をバックアップしました。",

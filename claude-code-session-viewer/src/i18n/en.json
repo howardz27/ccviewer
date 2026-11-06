@@ -184,6 +184,7 @@
   "cloudFailed": "Failed",
   "cloudRetry": "Retry failed backups",
   "cloudStart": "Back up",
+  "cloudNameLabel": "Session name",
   "cloudProgress": "Backing up {n} of {m}…",
   "cloudPartial": "{n} backed up. {m} remaining; retry below.",
   "cloudComplete": "{n} backed up.",

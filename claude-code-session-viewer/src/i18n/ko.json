@@ -184,6 +184,7 @@
   "cloudFailed": "실패",
   "cloudRetry": "미완료 항목 재시도",
   "cloudStart": "백업 시작",
+  "cloudNameLabel": "세션 이름",
   "cloudProgress": "백업 중 {n}/{m}…",
   "cloudPartial": "{n}개 완료, {m}개 남음. 다시 시도할 수 있습니다.",
   "cloudComplete": "세션 {n}개 백업 완료.",
