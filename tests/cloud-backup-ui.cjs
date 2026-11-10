@@ -32,8 +32,9 @@ function page({protocol='https:',shared=sharedStorage(),result='',user={id:'101'
     return {tag,dataset:{},children:[],style:{},textContent:'',value:'',hidden:false,disabled:false,open:false,scrollTop:0,
       classList:{toggle(name,value){if(value)classes.add(name);else classes.delete(name);},contains:name=>classes.has(name)},
       set innerHTML(value){html=value;this.children=[];},get innerHTML(){return html;},
-      setAttribute(){},addEventListener(){},append(...nodes){this.children.push(...nodes);},appendChild(node){this.children.push(node);},
-      click(){this.clicked=true;},showModal(){this.open=true;},close(){this.open=false;},
+      setAttribute(){},addEventListener(name,handler){this['on'+name]=handler;},append(...nodes){this.children.push(...nodes);},appendChild(node){this.children.push(node);},
+      click(){this.clicked=true;},blur(){this.onblur?.();},showModal(){this.open=true;},close(){this.open=false;},
+      getBoundingClientRect(){return {left:100,right:500,top:100,bottom:500};},
       querySelectorAll(){return [...elements.values()].filter(e=>e.tag==='button');}};
   }
   const $=id=>{if(!elements.has(id)){const e=element(id.includes('cloudList')?'div':'button');e.id=id.slice(1);elements.set(id,e);}return elements.get(id);};
@@ -53,33 +54,57 @@ function page({protocol='https:',shared=sharedStorage(),result='',user={id:'101'
     saveToLibrary:async(...args)=>{saved.push(args);return args[3]||'restored-id';},
     load:(...args)=>{opened.push(args);context.CUR={text:args[0],name:args[1],pasted:args[2]};},
     showView:view=>views.push(view),showLibrary:()=>views.push('library'),renderNav(){}};
-  vm.createContext(context);vm.runInContext(source,context);
+  const template=fs.readFileSync('claude-code-session-viewer/src/template.html','utf8');
+  const sessionName=template.slice(template.indexOf('function sessionDisplayName('),template.indexOf('function renderNav('));
+  vm.createContext(context);vm.runInContext(sessionName+source,context);
   const p={$,context,calls,saved,opened,views,shared,listeners,historyUrls,run:code=>vm.runInContext(code,context),respond:fn=>{answer=fn;}};
   p.settle=async()=>{for(let i=0;i<100;i++){await tick();if(!p.run('CLOUD.busy')&&(!result||calls.length))return;}throw Error('task did not finish');};
   return p;
 }
 const text='{"type":"user","message":{"content":"private session"}}\n';
 const posts=p=>p.calls.filter(call=>call.options.method==='POST'&&call.path.startsWith('/api/backups'));
-const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,uploaded:new Date().toISOString()};
+const description='优化说明 💡\n<img src=x onerror=alert(1)>';
+const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,uploaded:new Date().toISOString(),description};
 (async()=>{
   const p=page();
   assert.equal(p.calls.filter(call=>call.path!=='/api/auth/session').length,0,'local viewing must not contact cloud APIs');
   assert.ok(p.calls.length<=1,'the boot check may only read the session endpoint');
-  p.context.CUR={text,name:'example.jsonl'};
+  p.context.CUR={text,name:'example.jsonl',sum:{title:'项目/排查'}};
   await p.$('#btnCloud').onclick();
   assert.equal(posts(p).length,0,'nothing uploads before the user confirms');
   assert.equal(p.$('#cloudNameRow').hidden,false,'single-session backup asks for the name');
-  assert.equal(p.$('#cloudName').value,'example');
-  p.$('#cloudName').value='renamed session';
+  assert.equal(p.$('#cloudName').value,'项目-排查');
+  const preview=()=>p.$('#cloudPlan').children[0].children[0].textContent;
+  assert.equal(preview(),'项目-排查.jsonl');
+  p.$('#cloudName').value='  preview name.jsonl ';
+  p.$('#cloudName').oninput();
+  assert.equal(preview(),'preview name.jsonl');
+  p.$('#cloudName').onkeydown({key:'Enter',isComposing:true,preventDefault(){assert.fail('Enter must still confirm IME composition');}});
+  let enterHandled=false;
+  p.$('#cloudName').onkeydown({key:'Enter',preventDefault(){enterHandled=true;}});
+  assert.equal(enterHandled,true);
+  assert.equal(p.$('#cloudName').value,'preview name');
+  p.$('#cloudName').value='  renamed session.jsonl ';
+  p.$('#cloudName').onblur();
+  const dialog=p.$('#cloudBackup');
+  dialog.onclick({target:dialog,clientX:120,clientY:120});
+  assert.equal(dialog.open,true,'clicking dialog padding keeps the draft open');
+  assert.equal(preview(),'renamed session.jsonl');
+  assert.equal(posts(p).length,0,'Enter and blur only apply the name');
+  p.$('#cloudDescription').value=description;
   await p.$('#cloudSubmit').onclick();
   assert.equal(posts(p).length,1,'the confirm click uploads the current session');
   assert.equal(posts(p)[0].path,'/api/backups?name=renamed%20session.jsonl');assert.equal(await posts(p)[0].options.body.text(),text);
   assert.equal(posts(p)[0].options.headers['X-CCViewer-Request'],'1');
+  assert.equal(decodeURIComponent(posts(p)[0].options.headers['X-CCViewer-Description']),description);
   assert.equal(posts(p)[0].options.credentials,'same-origin');assert.equal(posts(p)[0].options.cache,'no-store');
   // Logging in must keep exact raw text, current identity, pasted name, and scroll.
   const shared=sharedStorage(),anonymous=page({shared,user:null});
   anonymous.context.CUR={text,name:'example.jsonl',pasted:true};anonymous.context.CUR_ID='reading-id';anonymous.$('#content').scrollTop=712;
   await anonymous.$('#btnCloud').onclick();assert.equal(posts(anonymous).length,0);
+  assert.equal(anonymous.$('#cloudName').value,'example','the original filename is used without a session title');
+  anonymous.$('#cloudName').value='name after login';
+  anonymous.$('#cloudDescription').value=description;
   assert.equal(anonymous.$('#cloudLogin').textContent,strings.cloudLoginBackup);
   await anonymous.$('#cloudLogin').onclick();
   assert.ok(anonymous.context.location.href.startsWith('/api/auth/github?returnTo='));
@@ -87,9 +112,13 @@ const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,upload
   const callback=page({shared,result:'ready'});await callback.settle();
   assert.deepEqual(callback.opened[0],[text,'example.jsonl',true,null]);assert.equal(callback.context.CUR_ID,'reading-id');
   assert.equal(callback.$('#content').scrollTop,712);assert.equal(callback.views[0],'viewer');
+  assert.equal(callback.$('#cloudName').value,'name after login');
+  assert.equal(callback.$('#cloudDescription').value,description);
   assert.equal(posts(callback).length,0,'the return waits for a confirm click');
   await callback.$('#cloudSubmit').onclick();
   assert.equal(await posts(callback)[0].options.body.text(),text);assert.equal(posts(callback).length,1);
+  assert.equal(posts(callback)[0].path,'/api/backups?name=name%20after%20login.jsonl');
+  assert.equal(decodeURIComponent(posts(callback)[0].options.headers['X-CCViewer-Description']),description);
   assert.equal(shared.records.size,0);assert.equal(shared.session.size,0);
   const reload=page({shared,result:'ready'});await reload.settle();assert.equal(posts(reload).length,0,'callback reload cannot replay an upload');
   // Snapshot failures must stop navigation instead of losing the active transcript.
@@ -104,14 +133,19 @@ const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,upload
   assert.equal(cancelled.$('#cloudStatus').textContent,strings.cloudLoginFailed);
   // Library batch selection snapshots the selected transcripts, including a visible current session.
   const batch=page({user:null});batch.context.CUR={text,name:'reading.jsonl'};
-  batch.context.LIB_SELECTED=new Set(['one','two']);batch.context.LIB_FULL=new Map([['one',{text,name:'one.jsonl'}],['two',{text:text+'\n',name:'two.jsonl'}]]);
+  const longTitle='中'.repeat(77)+'💡结束';
+  batch.context.LIB_SELECTED=new Set(['one','two']);batch.context.LIB_FULL=new Map([
+    ['one',{text,name:'one.jsonl',sum:{title:longTitle}}],['two',{text:text+'\n',name:'two.jsonl',sum:{title:'第二个会话'}}]
+  ]);
   batch.$('#library').classList.toggle('hide',false);
-  await batch.$('#btnCloudLibrary').onclick();await batch.$('#cloudLogin').onclick();
+  await batch.$('#btnCloudLibrary').onclick();batch.$('#cloudDescription').value=description;await batch.$('#cloudLogin').onclick();
   const batchReturn=page({shared:batch.shared,result:'ready'});batchReturn.context.LIB_FULL=batch.context.LIB_FULL;await batchReturn.settle();
-  assert.equal(batchReturn.$('#cloudNameRow').hidden,true,'batch uploads keep their filenames');
+  assert.equal(batchReturn.$('#cloudNameRow').hidden,true,'batch uploads do not show a single-name editor');
   await batchReturn.$('#cloudSubmit').onclick();
   assert.equal(posts(batchReturn).length,2);assert.equal(batchReturn.views.at(-1),'library');
   assert.equal(batchReturn.context.LIB_SELECTED.size,2);assert.equal(await posts(batchReturn)[1].options.body.text(),text+'\n');
+  assert.deepEqual(posts(batchReturn).map(call=>new URL(call.path,'https://ccviewer.test').searchParams.get('name')),['中'.repeat(77)+'.jsonl','第二个会话.jsonl']);
+  assert.ok(posts(batchReturn).every(call=>decodeURIComponent(call.options.headers['X-CCViewer-Description'])===description));
   // Mixed results continue past a failed item. Retry must never reupload successes.
   const mixed=page();let failedOnce=false;
   mixed.respond(async(path,options)=>{
@@ -130,6 +164,7 @@ const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,upload
   await mixed.$('#cloudSubmit').onclick();assert.equal(posts(mixed).length,4);assert.ok(posts(mixed)[3].path.includes('two'));
   assert.equal(mixed.run('CLOUD.queue.every(item=>item.state==="done")'),true);
   assert.equal(mixed.$('#cloudList').children[0].children[0].children[0].textContent,backup.name,'filenames render as text');
+  assert.equal(mixed.$('#cloudList').children[0].children[0].children[2].textContent,description,'descriptions render as text');
   assert.equal(mixed.$('#cloudMore').hidden,false);
   // A listing failure after upload does not mark successful uploads as failed.
   mixed.respond(async(path,options)=>options.method==='POST'?Response.json({ok:true}):Response.json({error:'bad'},{status:500}));

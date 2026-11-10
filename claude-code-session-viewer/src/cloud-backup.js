@@ -1,9 +1,11 @@
 /* Nothing is uploaded until a reader explicitly requests a backup. */
 const CLOUD={enabled:false,user:null,busy:false,backups:[],cursor:null,maxFileBytes:20*1024*1024,message:'',error:false,queue:[]};
 const cloudDialog=$('#cloudBackup');
+const cloudName=$('#cloudName'),cloudDescription=$('#cloudDescription');
 const CLOUD_PENDING_KEY='ccviewer_backup_return:'+location.pathname;
 const CLOUD_ERRORS={login_required:'cloudLoginRequired',cloud_unavailable:'cloudUnavailable',file_too_large:'cloudTooLarge',
-  invalid_jsonl:'cloudInvalidJsonl',invalid_filename:'cloudInvalidName',not_found:'cloudNotFound',invalid_origin:'cloudOriginError'};
+  invalid_jsonl:'cloudInvalidJsonl',invalid_filename:'cloudInvalidName',invalid_description:'cloudInvalidDescription',
+  not_found:'cloudNotFound',invalid_origin:'cloudOriginError'};
 async function cloudApi(path,options={}){
   let response;const timer=cloudTimeoutSignal();
   try{response=await fetch('/api/'+path,{...options,credentials:'same-origin',cache:'no-store',
@@ -26,16 +28,21 @@ function cloudTimeoutSignal(){
   if(typeof setTimeout==='function')timer=setTimeout(()=>controller.abort(),10000);
   return {signal:controller.signal,clear(){if(timer!==-1&&typeof clearTimeout==='function')clearTimeout(timer);}};
 }
-/* Single-session uploads can be renamed in the dialog before submitting. */
-let cloudNameItem=null;
-function cloudNameSync(){
-  const row=$('#cloudNameRow'),input=$('#cloudName');
-  if(!row||!input)return;
-  row.hidden=CLOUD.queue.length!==1;
-  input.disabled=CLOUD.busy;
-  if(CLOUD.queue.length===1&&cloudNameItem!==CLOUD.queue[0]){
-    cloudNameItem=CLOUD.queue[0];
-    input.value=CLOUD.queue[0].file.name.replace(/\.jsonl$/i,'');
+function cloudNameValue(){
+  return cloudName.value.trim().replace(/(?:\s*\.jsonl)+$/i,'').trimEnd();
+}
+function cloudRenderPlan(){
+  const plan=$('#cloudPlan');
+  plan.hidden=!CLOUD.queue.length;
+  plan.innerHTML='';
+  const stem=cloudNameValue();
+  for(const item of CLOUD.queue){
+    const row=el('div','cloud-target');row.dataset.state=item.state;
+    const name=el('span'),state=el('small');
+    name.textContent=CLOUD.queue.length===1?(stem?stem+'.jsonl':'—'):item.file.name;
+    state.textContent=t({waiting:'cloudWaiting',uploading:'cloudUploading',done:'cloudDone',error:'cloudFailed'}[item.state]);
+    if(item.error){const error=el('em');error.textContent=item.error;name.appendChild(error);}
+    row.append(name,state);plan.appendChild(row);
   }
 }
 function cloudRender(){
@@ -48,18 +55,12 @@ function cloudRender(){
   $('#cloudLoginHint').textContent=queued?t('cloudLoginContinue'):t('cloudLoginRequired');
   $('#cloudLogout').hidden=!CLOUD.user;
   $('#cloudViewSaved').hidden=!CLOUD.user||!queued||CLOUD.busy;
-  $('#cloudPlan').hidden=!queued;
-  $('#cloudPlan').innerHTML='';
-  for(const item of CLOUD.queue){
-    const row=el('div','cloud-target');row.dataset.state=item.state;
-    const name=el('span'),state=el('small');name.textContent=item.file.name;
-    state.textContent=t({waiting:'cloudWaiting',uploading:'cloudUploading',done:'cloudDone',error:'cloudFailed'}[item.state]);
-    if(item.error){const error=el('em');error.textContent=item.error;name.appendChild(error);}
-    row.append(name,state);$('#cloudPlan').appendChild(row);
-  }
+  cloudRenderPlan();
+  $('#cloudNameRow').hidden=CLOUD.queue.length!==1;
+  $('#cloudDescriptionRow').hidden=!queued;
+  cloudName.disabled=cloudDescription.disabled=CLOUD.busy||!pending;
   $('#cloudSubmit').hidden=!CLOUD.user||!queued||!pending||CLOUD.busy;
   $('#cloudSubmit').textContent=CLOUD.queue.some(item=>item.state==='error')?t('cloudRetry'):t('cloudStart');
-  cloudNameSync();
   $('#cloudStatus').textContent=CLOUD.message||(CLOUD.busy?t('cloudWorking'):'');
   $('#cloudStatus').classList.toggle('cloud-error',CLOUD.error);
   const pageStatus=$('#cloudStatusPage');
@@ -74,7 +75,12 @@ function cloudRender(){
     name.textContent=backup.name;
     meta.textContent=(backup.size/1024).toLocaleString(LANG,{maximumFractionDigits:1})+' KiB · '+new Date(backup.uploaded).toLocaleString(LANG)
       +(backup.records?' · '+t('cloudRecords').replace('{n}',backup.records):'');
-    info.append(name,meta);row.appendChild(info);
+    info.append(name,meta);
+    if(backup.description){
+      const description=el('p','cloud-description');
+      description.textContent=backup.description;info.appendChild(description);
+    }
+    row.appendChild(info);
     const actions=el('div','cloud-row-actions');
     for(const [action,key] of [['restore','cloudRestore'],['download','cloudDownload'],['delete','deleteBtn']]){
       const button=el('button','btn');button.type='button';button.dataset.action=action;button.textContent=t(key);actions.appendChild(button);
@@ -100,21 +106,40 @@ async function cloudList(append=false){
 function cloudFile(text,name){
   return new File([text],(name||'session').replace(/\.(jsonl|json|txt)$/i,'')+'.jsonl',{type:'application/x-ndjson'});
 }
-function cloudValidate(file){
-  if(!/\.jsonl$/i.test(file.name)||new TextEncoder().encode(file.name).length>240||/[\x00-\x1f\x7f/\\]/.test(file.name))throw new Error(t('cloudInvalidName'));
+function cloudSessionFile(session){
+  const name=String(sessionDisplayName(session));
+  if(!session.sum?.title)return cloudFile(session.text,name);
+  const title=name.replace(/\s+/g,' ').replace(/[\x00-\x1f\x7f<>:"/\\|?*]/g,'-').trim();
+  const encoder=new TextEncoder();
+  let stem='',bytes=0;
+  for(const character of title.replace(/\.(jsonl|json|txt)$/i,'')){
+    bytes+=encoder.encode(character).length;
+    if(bytes>234)break; // Leave six bytes for .jsonl.
+    stem+=character;
+  }
+  return cloudFile(session.text,stem.trimEnd()||session.name||session.sum.sessionId);
+}
+function cloudValidateName(name){
+  if(!/.+\.jsonl$/i.test(name)||new TextEncoder().encode(name).length>240||/[\x00-\x1f\x7f/\\]/.test(name))throw new Error(t('cloudInvalidName'));
+}
+async function cloudUpload(file,name,description){
+  cloudValidateName(name);
   if(!file.size)throw new Error(t('cloudInvalidJsonl'));
   if(file.size>CLOUD.maxFileBytes)throw new Error(t('cloudTooLarge'));
-}
-async function cloudUpload(file){
-  cloudValidate(file);
-  await cloudApi('backups?name='+encodeURIComponent(file.name),{method:'POST',headers:{'Content-Type':'application/x-ndjson'},body:file});
+  const headers={'Content-Type':'application/x-ndjson'};
+  if(description)headers['X-CCViewer-Description']=encodeURIComponent(description);
+  await cloudApi('backups?name='+encodeURIComponent(name),{method:'POST',headers,body:file});
 }
 async function cloudRunQueue(){
   const pending=CLOUD.queue.filter(item=>item.state!=='done');
+  const name=CLOUD.queue.length===1?cloudNameValue()+'.jsonl':null;
+  if(name)cloudValidateName(name);
+  const description=cloudDescription.value.trim();
+  if(description.length>500)throw new Error(t('cloudInvalidDescription'));
   for(let i=0;i<pending.length;i++){
     const item=pending[i];item.state='uploading';item.error='';
     CLOUD.message=t('cloudProgress').replace('{n}',i+1).replace('{m}',pending.length);cloudRender();
-    try{await cloudUpload(item.file);item.state='done';}
+    try{await cloudUpload(item.file,name||item.file.name,description);item.state='done';}
     catch(e){item.state='error';item.error=e.message;if(e.status===401)break;}
     cloudRender();
   }
@@ -125,9 +150,11 @@ async function cloudRunQueue(){
   if(CLOUD.user){try{await cloudList();}catch(e){CLOUD.message+=' '+e.message;CLOUD.error=true;}}
 }
 /* Nothing uploads until the user confirms the plan in the dialog. */
-async function openCloud(files=[]){
+async function openCloud(files=[],draft={}){
   if(CLOUD.busy){if(!cloudDialog.open)cloudDialog.showModal();return;}
   CLOUD.queue=files.map(file=>({file,state:'waiting',error:''}));
+  cloudName.value=files.length===1?(draft.name??files[0].name.replace(/\.jsonl$/i,'')):'';
+  cloudDescription.value=draft.description||'';
   if(!cloudDialog.open)cloudDialog.showModal();
   await cloudTask(async()=>{
     CLOUD.user=null;CLOUD.backups=[];CLOUD.cursor=null;CLOUD.enabled=false;
@@ -160,7 +187,8 @@ async function cloudLogin(intent){
     let id;try{id=sessionStorage.getItem(CLOUD_PENDING_KEY);}catch(e){}
     id=id||crypto.randomUUID();
     const snapshot={id,createdAt:Date.now(),intent:intent||'',reading:cloudReadingSnapshot(),library:!$('#library').classList.contains('hide'),
-      selected:[...LIB_SELECTED],files:CLOUD.queue.filter(item=>item.state!=='done').map(item=>item.file)};
+      selected:[...LIB_SELECTED],files:CLOUD.queue.filter(item=>item.state!=='done').map(item=>item.file),
+      draft:{name:CLOUD.queue.length===1?cloudName.value:undefined,description:cloudDescription.value}};
     try{
       await cloudPendingStore('readwrite',store=>store.put(snapshot));
       sessionStorage.setItem(CLOUD_PENDING_KEY,id);
@@ -190,13 +218,13 @@ async function cloudResume(result){
   if(snapshot.library)showLibrary();
   // Consume the intent before uploading; reloading the callback must not duplicate backups.
   try{await cloudPendingStore('readwrite',store=>store.delete(id));sessionStorage.removeItem(CLOUD_PENDING_KEY);}
-  catch(e){await openCloud(snapshot.files,false);CLOUD.message=t('cloudPreserveFailed');CLOUD.error=true;cloudRender();return;}
+  catch(e){await openCloud(snapshot.files,snapshot.draft);CLOUD.message=t('cloudPreserveFailed');CLOUD.error=true;cloudRender();return;}
   if(snapshot.intent==='page'&&!snapshot.files.length){
     await openCloudPage();
     if(result==='login_failed'){CLOUD.message=t('cloudLoginFailed');CLOUD.error=true;cloudRender();}
     return;
   }
-  await openCloud(snapshot.files);
+  await openCloud(snapshot.files,snapshot.draft);
   if(result==='login_failed'){CLOUD.message=t('cloudLoginFailed');CLOUD.error=true;cloudRender();}
 }
 /* Full-page cloud session list, reachable from anywhere once signed in.
@@ -304,24 +332,25 @@ async function cloudLogoutAction(){
   });
 }
 $('#btnCloudLanding').onclick=openCloudPage;
-$('#btnCloud').onclick=()=>openCloud(CUR?[cloudFile(CUR.text,CUR.name||CUR.sum?.sessionId)]:[]);
+$('#btnCloud').onclick=()=>openCloud(CUR?[cloudSessionFile(CUR)]:[]);
 $('#btnCloudManageLibrary').onclick=openCloudPage;
 $('#cloudViewSaved').onclick=()=>{cloudDialog.close();openCloudPage();};
 $('#btnCloudClose').onclick=hideCloudPage;
-$('#btnCloudLibrary').onclick=()=>openCloud([...LIB_SELECTED].map(id=>LIB_FULL.get(id)).filter(rec=>rec?.text).map(rec=>cloudFile(rec.text,rec.name||rec.sum?.sessionId)));
+$('#btnCloudLibrary').onclick=()=>openCloud([...LIB_SELECTED].map(id=>LIB_FULL.get(id)).filter(rec=>rec?.text).map(cloudSessionFile));
 $('#cloudClose').onclick=()=>cloudDialog.close();
-cloudDialog.addEventListener('click',e=>{if(e.target===cloudDialog)cloudDialog.close();});
-$('#cloudLogin').onclick=()=>cloudLogin();
-$('#cloudSubmit').onclick=()=>{
-  if(CLOUD.queue.length===1){
-    const input=$('#cloudName'),value=((input&&input.value)||'').trim().replace(/\.jsonl$/i,'');
-    if(!value||/[\x00-\x1f\x7f/\\]/.test(value)||new TextEncoder().encode(value).length>240){
-      CLOUD.message=t('cloudInvalidName');CLOUD.error=true;cloudRender();return;
-    }
-    CLOUD.queue[0].file=new File([CLOUD.queue[0].file],value+'.jsonl',{type:CLOUD.queue[0].file.type||'application/x-ndjson'});
-  }
-  return cloudTask(cloudRunQueue);
+cloudDialog.addEventListener('click',e=>{
+  if(e.target!==cloudDialog)return;
+  const {left,right,top,bottom}=cloudDialog.getBoundingClientRect();
+  if(e.clientX<left||e.clientX>right||e.clientY<top||e.clientY>bottom)cloudDialog.close();
+});
+cloudName.oninput=cloudRenderPlan;
+cloudName.onblur=()=>{cloudName.value=cloudNameValue();cloudRenderPlan();};
+cloudName.onkeydown=e=>{
+  if(e.key!=='Enter'||e.isComposing||e.keyCode===229)return;
+  e.preventDefault();cloudName.blur();
 };
+$('#cloudLogin').onclick=()=>cloudLogin();
+$('#cloudSubmit').onclick=()=>cloudTask(cloudRunQueue);
 $('#cloudLogout').onclick=cloudLogoutAction;
 $('#cloudRefresh').onclick=()=>cloudTask(()=>cloudList());
 $('#cloudMore').onclick=()=>cloudTask(()=>cloudList(true));

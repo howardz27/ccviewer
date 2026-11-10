@@ -345,10 +345,13 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .cloud-note,.cloud-info small,#cloudLoginHint,#cloudAccount{color:var(--dim);font-size:13px;line-height:1.6}
 .cloud-note{margin:8px 0 20px}.cloud-account{margin:12px 0}.cloud-account #cloudLogout{margin-left:auto}
 #cloudPlan{max-height:240px;overflow:auto;border:1px solid var(--border);border-radius:8px;padding:4px 14px;margin:16px 0}
-#cloudNameRow{display:flex;align-items:center;gap:10px;margin:16px 0 0}
-#cloudNameRow label{color:var(--dim);font-size:13px;flex-shrink:0}
-#cloudNameRow input{flex:1;min-width:0;background:var(--code-bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit}
-#cloudNameRow input:focus{outline:none;border-color:var(--accent)}
+#cloudNameRow,.cloud-description-field{display:flex;gap:10px;margin:16px 0 0}
+#cloudNameRow{align-items:center}
+.cloud-description-field{flex-direction:column;gap:6px}
+#cloudNameRow label,.cloud-description-field label{color:var(--dim);font-size:13px;flex-shrink:0}
+#cloudName,.cloud-description-field textarea{flex:1;min-width:0;background:var(--code-bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit}
+#cloudName:focus,.cloud-description-field textarea:focus{outline:none;border-color:var(--accent)}
+.cloud-description-field textarea{resize:vertical}
 #cloudNameRow code{color:var(--faint);font-size:12px;flex-shrink:0}
 .cloud-target{display:flex;align-items:flex-start;gap:12px;padding:10px 0}.cloud-target+.cloud-target{border-top:1px solid var(--border)}
 .cloud-target span{flex:1;min-width:0;overflow-wrap:anywhere;font-size:13px}.cloud-target small{flex-shrink:0;color:var(--dim)}
@@ -357,6 +360,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 #cloudStatus{margin:12px 0;color:var(--green);font-size:13px}#cloudStatus:empty{display:none}#cloudStatus.cloud-error{color:var(--red)}
 #cloudList{display:flex;flex-direction:column}.cloud-row{padding:12px 0;border-bottom:1px solid var(--border);justify-content:space-between}
 .cloud-info{flex:1;min-width:160px;overflow-wrap:anywhere}.cloud-info strong{display:block;font-size:13px;font-weight:500}.cloud-info small{display:block;font-size:12px}.cloud-row-actions .btn{font-size:12px;padding:5px 9px}
+.cloud-info .cloud-description{margin:4px 0;color:var(--text);font-size:13px;white-space:pre-wrap}
 #cloudMore{margin-top:14px}
 #cloudPage .cloud-row{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:10px;transition:border-color .15s}
 #cloudPage .cloud-row:hover{border-color:var(--accent)}
@@ -608,7 +612,11 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   <div class="cloud-header"><span class="cloud-hicon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 7 7 0 0 0-13.36 2.2A4.5 4.5 0 0 0 6.5 19z"/><path d="M12 12v5"/><path d="m9.5 14.5 2.5-2.5 2.5 2.5"/></svg></span><h2 id="cloudTitle" data-i18n="cloudTitle">Copias en la nube</h2><button class="btn" id="cloudClose" data-i18n="closeBtn">Cerrar</button></div>
   <p class="cloud-note" data-i18n="cloudPrivacy">Solo tú puedes acceder. Máximo 20 MiB por archivo.</p>
   <div class="cloud-account"><span id="cloudAccount"></span><button class="btn" id="cloudLogout" data-i18n="cloudLogout" hidden>Cerrar sesión</button></div>
-  <div id="cloudNameRow" hidden><label for="cloudName"><span data-i18n="cloudNameLabel">Nombre de la sesión</span></label><input id="cloudName" maxlength="80" autocomplete="off" spellcheck="false"><code>.jsonl</code></div>
+  <div id="cloudNameRow" hidden><label for="cloudName"><span data-i18n="cloudNameLabel">Nombre de la sesión</span></label><input id="cloudName" maxlength="234" autocomplete="off" spellcheck="false"><code>.jsonl</code></div>
+  <div id="cloudDescriptionRow" class="cloud-description-field" hidden>
+    <label for="cloudDescription" data-i18n="cloudDescriptionLabel">Descripción (opcional)</label>
+    <textarea id="cloudDescription" maxlength="500" rows="3"></textarea>
+  </div>
   <div id="cloudPlan" hidden></div>
   <p id="cloudLoginHint" hidden></p>
   <button class="btn primary" id="cloudLogin" hidden></button>
@@ -629,7 +637,7 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={'es':{"brand": "CCViewer", "thinking": "Razonamiento", "tools": "Herramientas", "sysInj": "Sistema/Inyectado", "expandAll": "Expandir todo", "pasteText": "Pegar texto", "openFile": "Abrir archivo", "noFile": "Ningún archivo cargado", "dropHint1": "Arrastra un archivo <b>.jsonl</b> <b>o una carpeta de proyecto completa</b> aquí, o haz clic para elegir", "dropHint2": "p. ej. toda la carpeta <code>~/.claude/projects/</code> o un solo <code>&lt;sessionId&gt;.jsonl</code> dentro", "chooseFile": "Elegir archivo", "pasteTitle": "Pegar texto JSONL", "pasteHint": "Pega aquí el contenido completo del archivo de historial, un objeto JSON por línea (también admite un único array / objeto JSON).", "cancel": "Cancelar", "loadBtn": "Cargar", "thinkLabel": "✻ Razonamiento", "you": "Tú", "reply": "Respuesta", "result": "Resultado", "error": "Error", "lines": "líneas", "images": "imágenes", "viewResult": "Ver resultado", "sysMsg": "Mensaje del sistema", "injCtx": "Contexto inyectado", "system": "Sistema", "sessionInfo": "Información de sesión", "stats": "Estadísticas", "costUsage": "Coste / Uso", "titleRow": "Título", "projectDir": "Directorio del proyecto", "gitBranch": "Rama de Git", "version": "Versión", "sessionId": "ID de sesión", "time": "Hora", "model": "Modelo", "userMsgs": "Mensajes del usuario", "replies": "Respuestas", "toolCalls": "Llamadas a herramientas", "thinkingStat": "Razonamiento", "imagesStat": "Imágenes", "parseFailed": "Error de análisis", "home": "Inicio", "inTokens": "Tokens de entrada", "outTokens": "Tokens de salida", "cacheRead": "Lecturas de caché", "cacheCreate": "Escrituras de caché", "totalCost": "Coste total", "linesPM": "Líneas +/-", "apiTime": "Tiempo de API", "toolTime": "Tiempo de herramientas", "viewerSuffix": "Visor de historial", "pasteEmptyErr": "No se ha analizado ningún registro válido. Revisa el contenido pegado.", "pastedContent": "Contenido pegado", "intro": "Lee sesiones JSONL de Claude Code localmente en tu navegador. Consulta mensajes y herramientas, importa carpetas y exporta Markdown. Gratis y de código abierto.", "featMd": "Renderizado Markdown", "featMdD": "Bloques de código, tablas, listas y citas", "featThink": "Proceso de razonamiento", "featThinkD": "Extended thinking plegable y consultable", "featTool": "Llamadas a herramientas", "featToolD": "Parámetros y resultados desplegables", "featCost": "Uso y coste", "featCostD": "Tokens, duración y gasto analizados", "featI18n": "Interfaz multilingüe", "featI18nD": "Cambia entre 10 idiomas con un clic", "featPrivacy": "Privacidad primero", "featPrivacyD": "100% en el cliente, cero subidas", "featCloud": "Copias permanentes en la nube", "featCloudD": "Inicia sesión con GitHub para subir sesiones a la nube: consérvalas para siempre, ábrelas o descárgalas desde cualquier dispositivo, solo visibles para ti.", "faqTitle": "Preguntas frecuentes", "tagline": "Renderiza archivos .jsonl localmente en tu navegador. Privado, gratuito y de código abierto", "heroTitle": "Lee el historial de sesiones de <em>Claude Code</em>", "pvUserQ": "Arregla el diseño roto de la página de login en móvil", "pvThink": "Primero inspeccionaré los estilos de la página de login…", "pvReply": "El problema era un <code>wrap</code> ausente en el diseño <code>flex</code>. Corregido y verificado a 375 px.", "footerPrivacy": "Los archivos de sesión se analizan y muestran localmente en el navegador. El sitio alojado carga Microsoft Clarity automáticamente para registrar las interacciones. Las copias sin conexión no cargan analítica. Solo se suben los archivos que eliges respaldar a un almacenamiento privado. Solo tu cuenta puede acceder. La lectura local no requiere iniciar sesión. Máximo 20 MiB por archivo JSONL.", "q1": "¿Cómo veo sesiones anteriores de Claude Code?", "a1": "La ruta predeterminada de las sesiones locales es ~/.claude/projects/. CLAUDE_CONFIG_DIR cambia el directorio base. La persistencia puede desactivarse y la retención puede eliminar archivos; no se conserva necesariamente todo para siempre. Comprueba el entorno de ejecución en sesiones remotas o en la nube.", "q2": "¿Se sube mi archivo de sesión a algún sitio?", "a2": "Los archivos de sesión se analizan y muestran localmente en el navegador. El sitio alojado carga Microsoft Clarity automáticamente para registrar las interacciones. Las copias sin conexión no cargan analítica. Solo se suben los archivos que eliges respaldar a un almacenamiento privado. Solo tu cuenta puede acceder. La lectura local no requiere iniciar sesión. Máximo 20 MiB por archivo JSONL.", "q3": "¿Qué admite el visor?", "a3": "Markdown para mensajes del usuario y del asistente, bloques de extended thinking, parámetros y resultados de herramientas, imágenes, uso de tokens y estadísticas de coste, con interfaz en 10 idiomas.", "q4": "¿Qué es el formato .jsonl?", "a4": "JSON Lines: un objeto JSON independiente por línea. Claude Code registra cada mensaje, llamada a herramienta y metadato como una línea.", "q5": "¿Es gratis CCViewer?", "a5": "Sí, es gratuito y de código abierto. No requiere registro.", "libraryBtn": "Sesiones", "libraryTitle": "Biblioteca de sesiones", "libraryEmpty": "Aún no hay sesiones. Abre una carpeta con archivos .jsonl para crear tu biblioteca.", "openFolder": "Abrir carpeta", "importing": "Importando… {n}/{m}", "importedN": "{n} sesiones", "sortRecent": "Más recientes", "sortOldest": "Más antiguas", "sortMsgs": "Mensajes", "sortTokens": "Tokens", "sortCost": "Coste", "deleteBtn": "Eliminar", "clearAll": "Borrar todo", "confirmDelete": "¿Eliminar esta sesión?", "confirmClear": "¿Eliminar TODAS las sesiones guardadas? No se puede deshacer.", "noTextErr": "Contenido no guardado en caché (almacenamiento lleno). Reimporta la carpeta para abrirlo.", "storageWarn": "El almacenamiento del navegador está lleno; algunas sesiones se guardaron solo como resumen.", "closeBtn": "Cerrar", "dirTip": "Consejo (macOS): pulsa <kbd>⌘⇧.</kbd> en el selector para mostrar carpetas ocultas, o usa <kbd>⌘⇧G</kbd> en Finder y escribe <code>~/.claude/projects</code>. El selector recuerda la última carpeta.", "navProjects": "Proyectos", "noProject": "(sin directorio de proyecto)", "toggleNav": "Mostrar/ocultar panel de proyectos", "dragResize": "Arrastra para redimensionar", "exportMd": "Exportar MD", "exportEmptyErr": "Carga primero una sesión.", "guideH": "Guías", "tutorialCap": "Abrir archivo → pulsar ⌘⇧. para mostrar carpetas ocultas → abrir ~/.claude/projects/ → seleccionar un .jsonl de sesión → estadísticas, bloques de pensamiento y herramientas, filtros y exportación a Markdown.", "tutReplay": "Repetir", "tutS1": "Pulsa ⌘ ⇧ . en el diálogo Abrir para mostrar carpetas ocultas", "tutS2": "Aparecen las carpetas ocultas — abre ~/.claude", "tutS3": "Abre ~/.claude/projects/", "tutS4": "Selecciona el archivo de sesión y haz clic en Abrir", "tutS5": "Estadísticas de la sesión — turnos, tokens, coste y metadatos de un vistazo", "tutS6": "Bloques de pensamiento, llamadas a herramientas y resultados en línea", "tutS7": "Alterna pensamiento, herramientas y metadatos con un clic", "tutS8": "Exporta toda la conversación a Markdown", "g1": "Cómo ver el historial completo de una sesión de Claude Code", "g2": "Cómo encontrar el archivo JSONL de una sesión", "g3": "¿Dónde se guarda el historial de sesiones de Claude Code?", "g4": "¿Cuál es el mejor visor de sesiones de Claude Code en 2026?", "helpCenter": "Centro de ayuda", "resourcesTitle": "Recursos oficiales", "resourcesDocs": "Documentación", "resourcesIssues": "Informar de un problema", "refresh": "Actualizar", "refreshReady": "Archivo conectado · se lee la versión local más reciente", "refreshReconnect": "Pulsa Actualizar para volver a seleccionar el archivo. La actualización automática requiere acceso continuo al archivo.", "refreshing": "Actualizando…", "refreshChecked": "Comprobado a las {time}", "refreshFailed": "No se puede leer el archivo. Pulsa Actualizar para reconectarlo.", "refreshWrongFile": "Selecciona el archivo de origen de esta sesión.", "imagePreview": "Vista previa de imagen", "cloudTitle": "Copias en la nube", "cloudLoginRequired": "Inicia sesión para acceder a tus copias privadas.", "cloudLogin": "Entrar con GitHub", "cloudLogout": "Cerrar sesión", "cloudPrivacy": "Solo tú puedes acceder. Máximo 20 MiB por archivo.", "cloudPick": "Guardar archivos…", "cloudUploadCurrent": "Respaldar", "cloudWorking": "Procesando…", "cloudEmpty": "Aún no hay copias en la nube.", "loginBtn": "Iniciar sesión", "cloudPageTitle": "Sesiones en la nube", "cloudRecords": "{n} registros", "cloudMore": "Cargar más", "cloudRestore": "Abrir sesión", "cloudDownload": "Descargar", "cloudUnavailable": "Las copias en la nube no están configuradas. La lectura local sigue disponible.", "cloudTooLarge": "El archivo supera el límite de 20 MiB.", "cloudInvalidJsonl": "Elige un JSONL UTF-8 no vacío con un objeto JSON por línea.", "cloudInvalidName": "Elige un archivo .jsonl con un nombre de hasta 240 bytes UTF-8, sin rutas ni caracteres de control.", "cloudNotFound": "Esta copia ya no está disponible.", "cloudOriginError": "Usa la dirección del sitio configurada para las copias en la nube.", "cloudNetworkError": "No se pudo conectar. Revisa tu conexión y vuelve a intentarlo.", "cloudRequestFailed": "La solicitud falló. Vuelve a intentarlo.", "cloudOnlineOnly": "Las copias en la nube requieren el sitio alojado. La copia sin conexión permite lectura local.", "cloudUploaded": "Copia subida.", "cloudLoggedOut": "Sesión cerrada.", "cloudConfirmDelete": "¿Eliminar la copia en la nube «{name}»? La copia local se conservará.", "cloudDeleted": "Copia en la nube eliminada.", "cloudLoginFailed": "El inicio de sesión con GitHub falló o caducó. Vuelve a intentarlo.", "cloudLoginBackup": "Iniciar sesión y guardar", "cloudLoginContinue": "Se conservarán la sesión y la posición de lectura. La copia continuará al iniciar sesión.", "cloudPreserveFailed": "No se pudo conservar la sesión. Libera espacio en el navegador e inténtalo de nuevo.", "cloudBatchTitle": "Guardar {n} sesiones", "cloudWaiting": "En espera", "cloudUploading": "Guardando…", "cloudDone": "Guardada", "cloudFailed": "Error", "cloudRetry": "Reintentar pendientes", "cloudStart": "Guardar copia", "cloudNameLabel": "Nombre de la sesión", "cloudProgress": "Guardando {n} de {m}…", "cloudPartial": "{n} guardadas. Quedan {m}; vuelve a intentarlo.", "cloudComplete": "{n} sesiones guardadas.", "cloudBackupSelected": "Guardar selección", "cloudSelectAll": "Seleccionar todo", "cloudSelectSession": "Seleccionar sesión: {name}", "cloudSelectedCount": "{n} seleccionadas", "cloudView": "Ver copias en la nube", "cloudSaved": "Copias guardadas"}};
+const I18N={'es':{"brand": "CCViewer", "thinking": "Razonamiento", "tools": "Herramientas", "sysInj": "Sistema/Inyectado", "expandAll": "Expandir todo", "pasteText": "Pegar texto", "openFile": "Abrir archivo", "noFile": "Ningún archivo cargado", "dropHint1": "Arrastra un archivo <b>.jsonl</b> <b>o una carpeta de proyecto completa</b> aquí, o haz clic para elegir", "dropHint2": "p. ej. toda la carpeta <code>~/.claude/projects/</code> o un solo <code>&lt;sessionId&gt;.jsonl</code> dentro", "chooseFile": "Elegir archivo", "pasteTitle": "Pegar texto JSONL", "pasteHint": "Pega aquí el contenido completo del archivo de historial, un objeto JSON por línea (también admite un único array / objeto JSON).", "cancel": "Cancelar", "loadBtn": "Cargar", "thinkLabel": "✻ Razonamiento", "you": "Tú", "reply": "Respuesta", "result": "Resultado", "error": "Error", "lines": "líneas", "images": "imágenes", "viewResult": "Ver resultado", "sysMsg": "Mensaje del sistema", "injCtx": "Contexto inyectado", "system": "Sistema", "sessionInfo": "Información de sesión", "stats": "Estadísticas", "costUsage": "Coste / Uso", "titleRow": "Título", "projectDir": "Directorio del proyecto", "gitBranch": "Rama de Git", "version": "Versión", "sessionId": "ID de sesión", "time": "Hora", "model": "Modelo", "userMsgs": "Mensajes del usuario", "replies": "Respuestas", "toolCalls": "Llamadas a herramientas", "thinkingStat": "Razonamiento", "imagesStat": "Imágenes", "parseFailed": "Error de análisis", "home": "Inicio", "inTokens": "Tokens de entrada", "outTokens": "Tokens de salida", "cacheRead": "Lecturas de caché", "cacheCreate": "Escrituras de caché", "totalCost": "Coste total", "linesPM": "Líneas +/-", "apiTime": "Tiempo de API", "toolTime": "Tiempo de herramientas", "viewerSuffix": "Visor de historial", "pasteEmptyErr": "No se ha analizado ningún registro válido. Revisa el contenido pegado.", "pastedContent": "Contenido pegado", "intro": "Lee sesiones JSONL de Claude Code localmente en tu navegador. Consulta mensajes y herramientas, importa carpetas y exporta Markdown. Gratis y de código abierto.", "featMd": "Renderizado Markdown", "featMdD": "Bloques de código, tablas, listas y citas", "featThink": "Proceso de razonamiento", "featThinkD": "Extended thinking plegable y consultable", "featTool": "Llamadas a herramientas", "featToolD": "Parámetros y resultados desplegables", "featCost": "Uso y coste", "featCostD": "Tokens, duración y gasto analizados", "featI18n": "Interfaz multilingüe", "featI18nD": "Cambia entre 10 idiomas con un clic", "featPrivacy": "Privacidad primero", "featPrivacyD": "100% en el cliente, cero subidas", "featCloud": "Copias permanentes en la nube", "featCloudD": "Inicia sesión con GitHub para subir sesiones a la nube: consérvalas para siempre, ábrelas o descárgalas desde cualquier dispositivo, solo visibles para ti.", "faqTitle": "Preguntas frecuentes", "tagline": "Renderiza archivos .jsonl localmente en tu navegador. Privado, gratuito y de código abierto", "heroTitle": "Lee el historial de sesiones de <em>Claude Code</em>", "pvUserQ": "Arregla el diseño roto de la página de login en móvil", "pvThink": "Primero inspeccionaré los estilos de la página de login…", "pvReply": "El problema era un <code>wrap</code> ausente en el diseño <code>flex</code>. Corregido y verificado a 375 px.", "footerPrivacy": "Los archivos de sesión se analizan y muestran localmente en el navegador. El sitio alojado carga Microsoft Clarity automáticamente para registrar las interacciones. Las copias sin conexión no cargan analítica. Solo se suben los archivos que eliges respaldar a un almacenamiento privado. Solo tu cuenta puede acceder. La lectura local no requiere iniciar sesión. Máximo 20 MiB por archivo JSONL.", "q1": "¿Cómo veo sesiones anteriores de Claude Code?", "a1": "La ruta predeterminada de las sesiones locales es ~/.claude/projects/. CLAUDE_CONFIG_DIR cambia el directorio base. La persistencia puede desactivarse y la retención puede eliminar archivos; no se conserva necesariamente todo para siempre. Comprueba el entorno de ejecución en sesiones remotas o en la nube.", "q2": "¿Se sube mi archivo de sesión a algún sitio?", "a2": "Los archivos de sesión se analizan y muestran localmente en el navegador. El sitio alojado carga Microsoft Clarity automáticamente para registrar las interacciones. Las copias sin conexión no cargan analítica. Solo se suben los archivos que eliges respaldar a un almacenamiento privado. Solo tu cuenta puede acceder. La lectura local no requiere iniciar sesión. Máximo 20 MiB por archivo JSONL.", "q3": "¿Qué admite el visor?", "a3": "Markdown para mensajes del usuario y del asistente, bloques de extended thinking, parámetros y resultados de herramientas, imágenes, uso de tokens y estadísticas de coste, con interfaz en 10 idiomas.", "q4": "¿Qué es el formato .jsonl?", "a4": "JSON Lines: un objeto JSON independiente por línea. Claude Code registra cada mensaje, llamada a herramienta y metadato como una línea.", "q5": "¿Es gratis CCViewer?", "a5": "Sí, es gratuito y de código abierto. No requiere registro.", "libraryBtn": "Sesiones", "libraryTitle": "Biblioteca de sesiones", "libraryEmpty": "Aún no hay sesiones. Abre una carpeta con archivos .jsonl para crear tu biblioteca.", "openFolder": "Abrir carpeta", "importing": "Importando… {n}/{m}", "importedN": "{n} sesiones", "sortRecent": "Más recientes", "sortOldest": "Más antiguas", "sortMsgs": "Mensajes", "sortTokens": "Tokens", "sortCost": "Coste", "deleteBtn": "Eliminar", "clearAll": "Borrar todo", "confirmDelete": "¿Eliminar esta sesión?", "confirmClear": "¿Eliminar TODAS las sesiones guardadas? No se puede deshacer.", "noTextErr": "Contenido no guardado en caché (almacenamiento lleno). Reimporta la carpeta para abrirlo.", "storageWarn": "El almacenamiento del navegador está lleno; algunas sesiones se guardaron solo como resumen.", "closeBtn": "Cerrar", "dirTip": "Consejo (macOS): pulsa <kbd>⌘⇧.</kbd> en el selector para mostrar carpetas ocultas, o usa <kbd>⌘⇧G</kbd> en Finder y escribe <code>~/.claude/projects</code>. El selector recuerda la última carpeta.", "navProjects": "Proyectos", "noProject": "(sin directorio de proyecto)", "toggleNav": "Mostrar/ocultar panel de proyectos", "dragResize": "Arrastra para redimensionar", "exportMd": "Exportar MD", "exportEmptyErr": "Carga primero una sesión.", "guideH": "Guías", "tutorialCap": "Abrir archivo → pulsar ⌘⇧. para mostrar carpetas ocultas → abrir ~/.claude/projects/ → seleccionar un .jsonl de sesión → estadísticas, bloques de pensamiento y herramientas, filtros y exportación a Markdown.", "tutReplay": "Repetir", "tutS1": "Pulsa ⌘ ⇧ . en el diálogo Abrir para mostrar carpetas ocultas", "tutS2": "Aparecen las carpetas ocultas — abre ~/.claude", "tutS3": "Abre ~/.claude/projects/", "tutS4": "Selecciona el archivo de sesión y haz clic en Abrir", "tutS5": "Estadísticas de la sesión — turnos, tokens, coste y metadatos de un vistazo", "tutS6": "Bloques de pensamiento, llamadas a herramientas y resultados en línea", "tutS7": "Alterna pensamiento, herramientas y metadatos con un clic", "tutS8": "Exporta toda la conversación a Markdown", "g1": "Cómo ver el historial completo de una sesión de Claude Code", "g2": "Cómo encontrar el archivo JSONL de una sesión", "g3": "¿Dónde se guarda el historial de sesiones de Claude Code?", "g4": "¿Cuál es el mejor visor de sesiones de Claude Code en 2026?", "helpCenter": "Centro de ayuda", "resourcesTitle": "Recursos oficiales", "resourcesDocs": "Documentación", "resourcesIssues": "Informar de un problema", "refresh": "Actualizar", "refreshReady": "Archivo conectado · se lee la versión local más reciente", "refreshReconnect": "Pulsa Actualizar para volver a seleccionar el archivo. La actualización automática requiere acceso continuo al archivo.", "refreshing": "Actualizando…", "refreshChecked": "Comprobado a las {time}", "refreshFailed": "No se puede leer el archivo. Pulsa Actualizar para reconectarlo.", "refreshWrongFile": "Selecciona el archivo de origen de esta sesión.", "imagePreview": "Vista previa de imagen", "cloudTitle": "Copias en la nube", "cloudLoginRequired": "Inicia sesión para acceder a tus copias privadas.", "cloudLogin": "Entrar con GitHub", "cloudLogout": "Cerrar sesión", "cloudPrivacy": "Solo tú puedes acceder. Máximo 20 MiB por archivo.", "cloudPick": "Guardar archivos…", "cloudUploadCurrent": "Respaldar", "cloudWorking": "Procesando…", "cloudEmpty": "Aún no hay copias en la nube.", "loginBtn": "Iniciar sesión", "cloudPageTitle": "Sesiones en la nube", "cloudRecords": "{n} registros", "cloudMore": "Cargar más", "cloudRestore": "Abrir sesión", "cloudDownload": "Descargar", "cloudUnavailable": "Las copias en la nube no están configuradas. La lectura local sigue disponible.", "cloudTooLarge": "El archivo supera el límite de 20 MiB.", "cloudInvalidJsonl": "Elige un JSONL UTF-8 no vacío con un objeto JSON por línea.", "cloudInvalidName": "Elige un archivo .jsonl con un nombre de hasta 240 bytes UTF-8, sin rutas ni caracteres de control.", "cloudInvalidDescription": "Introduce una descripción de hasta 500 caracteres sin caracteres de control.", "cloudNotFound": "Esta copia ya no está disponible.", "cloudOriginError": "Usa la dirección del sitio configurada para las copias en la nube.", "cloudNetworkError": "No se pudo conectar. Revisa tu conexión y vuelve a intentarlo.", "cloudRequestFailed": "La solicitud falló. Vuelve a intentarlo.", "cloudOnlineOnly": "Las copias en la nube requieren el sitio alojado. La copia sin conexión permite lectura local.", "cloudUploaded": "Copia subida.", "cloudLoggedOut": "Sesión cerrada.", "cloudConfirmDelete": "¿Eliminar la copia en la nube «{name}»? La copia local se conservará.", "cloudDeleted": "Copia en la nube eliminada.", "cloudLoginFailed": "El inicio de sesión con GitHub falló o caducó. Vuelve a intentarlo.", "cloudLoginBackup": "Iniciar sesión y guardar", "cloudLoginContinue": "Se conservarán la sesión y la posición de lectura. La copia continuará al iniciar sesión.", "cloudPreserveFailed": "No se pudo conservar la sesión. Libera espacio en el navegador e inténtalo de nuevo.", "cloudBatchTitle": "Guardar {n} sesiones", "cloudWaiting": "En espera", "cloudUploading": "Guardando…", "cloudDone": "Guardada", "cloudFailed": "Error", "cloudRetry": "Reintentar pendientes", "cloudStart": "Guardar copia", "cloudNameLabel": "Nombre de la sesión", "cloudDescriptionLabel": "Descripción (opcional)", "cloudProgress": "Guardando {n} de {m}…", "cloudPartial": "{n} guardadas. Quedan {m}; vuelve a intentarlo.", "cloudComplete": "{n} sesiones guardadas.", "cloudBackupSelected": "Guardar selección", "cloudSelectAll": "Seleccionar todo", "cloudSelectSession": "Seleccionar sesión: {name}", "cloudSelectedCount": "{n} seleccionadas", "cloudView": "Ver copias en la nube", "cloudSaved": "Copias guardadas"}};
 const LANG='es';
 const BASE_PATH='/claude-code-session-viewer';
 const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
@@ -1335,6 +1343,9 @@ $('#refreshFile').onchange=async e=>{
   finally{session.refreshing=false;if(CUR===session)$('#btnRefresh').disabled=false;}
 };
 const cwdBasename=p=>{p=String(p||'').replace(/\/+$/,'');const i=p.lastIndexOf('/');return i>=0?p.slice(i+1):p;};
+function sessionDisplayName(session){
+  return session.sum?.title||session.name||session.sum?.sessionId||session.id||'';
+}
 function renderNav(){
   const list=$('#navList');if(!list)return;
   list.innerHTML='';
@@ -1357,7 +1368,7 @@ function renderNav(){
     for(const m of items){
       const it=el('div','navitem'+(m.id===CUR_ID?' active':''));
       it.dataset.id=m.id;
-      it.textContent=(m.sum&&m.sum.title)||m.name||(m.sum&&m.sum.sessionId)||m.id;
+      it.textContent=sessionDisplayName(m);
       it.title=it.textContent+(cwd?('\n'+cwd):'');
       ul.appendChild(it);
     }
@@ -1393,7 +1404,7 @@ function renderLibrary(){
   for(const m of LIB){
     const row=el('div','librow'+(LIB_SELECTED.has(m.id)?' selected':''));
     row.dataset.id=m.id;
-    const title=(m.sum&&m.sum.title)||m.name||(m.sum&&m.sum.sessionId)||m.id;
+    const title=sessionDisplayName(m);
     const meta=[];
     if(m.sum&&m.sum.cwd)meta.push(m.sum.cwd);
     if(m.sum&&m.sum.firstTs&&m.sum.lastTs)meta.push(fmtTime(m.sum.firstTs)+' → '+fmtTime(m.sum.lastTs));
@@ -1721,9 +1732,11 @@ const libraryReady=initDB().then(db=>{DB=db;return loadLibrary();}).catch(()=>{}
 /* Nothing is uploaded until a reader explicitly requests a backup. */
 const CLOUD={enabled:false,user:null,busy:false,backups:[],cursor:null,maxFileBytes:20*1024*1024,message:'',error:false,queue:[]};
 const cloudDialog=$('#cloudBackup');
+const cloudName=$('#cloudName'),cloudDescription=$('#cloudDescription');
 const CLOUD_PENDING_KEY='ccviewer_backup_return:'+location.pathname;
 const CLOUD_ERRORS={login_required:'cloudLoginRequired',cloud_unavailable:'cloudUnavailable',file_too_large:'cloudTooLarge',
-  invalid_jsonl:'cloudInvalidJsonl',invalid_filename:'cloudInvalidName',not_found:'cloudNotFound',invalid_origin:'cloudOriginError'};
+  invalid_jsonl:'cloudInvalidJsonl',invalid_filename:'cloudInvalidName',invalid_description:'cloudInvalidDescription',
+  not_found:'cloudNotFound',invalid_origin:'cloudOriginError'};
 async function cloudApi(path,options={}){
   let response;const timer=cloudTimeoutSignal();
   try{response=await fetch('/api/'+path,{...options,credentials:'same-origin',cache:'no-store',
@@ -1746,16 +1759,21 @@ function cloudTimeoutSignal(){
   if(typeof setTimeout==='function')timer=setTimeout(()=>controller.abort(),10000);
   return {signal:controller.signal,clear(){if(timer!==-1&&typeof clearTimeout==='function')clearTimeout(timer);}};
 }
-/* Single-session uploads can be renamed in the dialog before submitting. */
-let cloudNameItem=null;
-function cloudNameSync(){
-  const row=$('#cloudNameRow'),input=$('#cloudName');
-  if(!row||!input)return;
-  row.hidden=CLOUD.queue.length!==1;
-  input.disabled=CLOUD.busy;
-  if(CLOUD.queue.length===1&&cloudNameItem!==CLOUD.queue[0]){
-    cloudNameItem=CLOUD.queue[0];
-    input.value=CLOUD.queue[0].file.name.replace(/\.jsonl$/i,'');
+function cloudNameValue(){
+  return cloudName.value.trim().replace(/(?:\s*\.jsonl)+$/i,'').trimEnd();
+}
+function cloudRenderPlan(){
+  const plan=$('#cloudPlan');
+  plan.hidden=!CLOUD.queue.length;
+  plan.innerHTML='';
+  const stem=cloudNameValue();
+  for(const item of CLOUD.queue){
+    const row=el('div','cloud-target');row.dataset.state=item.state;
+    const name=el('span'),state=el('small');
+    name.textContent=CLOUD.queue.length===1?(stem?stem+'.jsonl':'—'):item.file.name;
+    state.textContent=t({waiting:'cloudWaiting',uploading:'cloudUploading',done:'cloudDone',error:'cloudFailed'}[item.state]);
+    if(item.error){const error=el('em');error.textContent=item.error;name.appendChild(error);}
+    row.append(name,state);plan.appendChild(row);
   }
 }
 function cloudRender(){
@@ -1768,18 +1786,12 @@ function cloudRender(){
   $('#cloudLoginHint').textContent=queued?t('cloudLoginContinue'):t('cloudLoginRequired');
   $('#cloudLogout').hidden=!CLOUD.user;
   $('#cloudViewSaved').hidden=!CLOUD.user||!queued||CLOUD.busy;
-  $('#cloudPlan').hidden=!queued;
-  $('#cloudPlan').innerHTML='';
-  for(const item of CLOUD.queue){
-    const row=el('div','cloud-target');row.dataset.state=item.state;
-    const name=el('span'),state=el('small');name.textContent=item.file.name;
-    state.textContent=t({waiting:'cloudWaiting',uploading:'cloudUploading',done:'cloudDone',error:'cloudFailed'}[item.state]);
-    if(item.error){const error=el('em');error.textContent=item.error;name.appendChild(error);}
-    row.append(name,state);$('#cloudPlan').appendChild(row);
-  }
+  cloudRenderPlan();
+  $('#cloudNameRow').hidden=CLOUD.queue.length!==1;
+  $('#cloudDescriptionRow').hidden=!queued;
+  cloudName.disabled=cloudDescription.disabled=CLOUD.busy||!pending;
   $('#cloudSubmit').hidden=!CLOUD.user||!queued||!pending||CLOUD.busy;
   $('#cloudSubmit').textContent=CLOUD.queue.some(item=>item.state==='error')?t('cloudRetry'):t('cloudStart');
-  cloudNameSync();
   $('#cloudStatus').textContent=CLOUD.message||(CLOUD.busy?t('cloudWorking'):'');
   $('#cloudStatus').classList.toggle('cloud-error',CLOUD.error);
   const pageStatus=$('#cloudStatusPage');
@@ -1794,7 +1806,12 @@ function cloudRender(){
     name.textContent=backup.name;
     meta.textContent=(backup.size/1024).toLocaleString(LANG,{maximumFractionDigits:1})+' KiB · '+new Date(backup.uploaded).toLocaleString(LANG)
       +(backup.records?' · '+t('cloudRecords').replace('{n}',backup.records):'');
-    info.append(name,meta);row.appendChild(info);
+    info.append(name,meta);
+    if(backup.description){
+      const description=el('p','cloud-description');
+      description.textContent=backup.description;info.appendChild(description);
+    }
+    row.appendChild(info);
     const actions=el('div','cloud-row-actions');
     for(const [action,key] of [['restore','cloudRestore'],['download','cloudDownload'],['delete','deleteBtn']]){
       const button=el('button','btn');button.type='button';button.dataset.action=action;button.textContent=t(key);actions.appendChild(button);
@@ -1820,21 +1837,40 @@ async function cloudList(append=false){
 function cloudFile(text,name){
   return new File([text],(name||'session').replace(/\.(jsonl|json|txt)$/i,'')+'.jsonl',{type:'application/x-ndjson'});
 }
-function cloudValidate(file){
-  if(!/\.jsonl$/i.test(file.name)||new TextEncoder().encode(file.name).length>240||/[\x00-\x1f\x7f/\\]/.test(file.name))throw new Error(t('cloudInvalidName'));
+function cloudSessionFile(session){
+  const name=String(sessionDisplayName(session));
+  if(!session.sum?.title)return cloudFile(session.text,name);
+  const title=name.replace(/\s+/g,' ').replace(/[\x00-\x1f\x7f<>:"/\\|?*]/g,'-').trim();
+  const encoder=new TextEncoder();
+  let stem='',bytes=0;
+  for(const character of title.replace(/\.(jsonl|json|txt)$/i,'')){
+    bytes+=encoder.encode(character).length;
+    if(bytes>234)break; // Leave six bytes for .jsonl.
+    stem+=character;
+  }
+  return cloudFile(session.text,stem.trimEnd()||session.name||session.sum.sessionId);
+}
+function cloudValidateName(name){
+  if(!/.+\.jsonl$/i.test(name)||new TextEncoder().encode(name).length>240||/[\x00-\x1f\x7f/\\]/.test(name))throw new Error(t('cloudInvalidName'));
+}
+async function cloudUpload(file,name,description){
+  cloudValidateName(name);
   if(!file.size)throw new Error(t('cloudInvalidJsonl'));
   if(file.size>CLOUD.maxFileBytes)throw new Error(t('cloudTooLarge'));
-}
-async function cloudUpload(file){
-  cloudValidate(file);
-  await cloudApi('backups?name='+encodeURIComponent(file.name),{method:'POST',headers:{'Content-Type':'application/x-ndjson'},body:file});
+  const headers={'Content-Type':'application/x-ndjson'};
+  if(description)headers['X-CCViewer-Description']=encodeURIComponent(description);
+  await cloudApi('backups?name='+encodeURIComponent(name),{method:'POST',headers,body:file});
 }
 async function cloudRunQueue(){
   const pending=CLOUD.queue.filter(item=>item.state!=='done');
+  const name=CLOUD.queue.length===1?cloudNameValue()+'.jsonl':null;
+  if(name)cloudValidateName(name);
+  const description=cloudDescription.value.trim();
+  if(description.length>500)throw new Error(t('cloudInvalidDescription'));
   for(let i=0;i<pending.length;i++){
     const item=pending[i];item.state='uploading';item.error='';
     CLOUD.message=t('cloudProgress').replace('{n}',i+1).replace('{m}',pending.length);cloudRender();
-    try{await cloudUpload(item.file);item.state='done';}
+    try{await cloudUpload(item.file,name||item.file.name,description);item.state='done';}
     catch(e){item.state='error';item.error=e.message;if(e.status===401)break;}
     cloudRender();
   }
@@ -1845,9 +1881,11 @@ async function cloudRunQueue(){
   if(CLOUD.user){try{await cloudList();}catch(e){CLOUD.message+=' '+e.message;CLOUD.error=true;}}
 }
 /* Nothing uploads until the user confirms the plan in the dialog. */
-async function openCloud(files=[]){
+async function openCloud(files=[],draft={}){
   if(CLOUD.busy){if(!cloudDialog.open)cloudDialog.showModal();return;}
   CLOUD.queue=files.map(file=>({file,state:'waiting',error:''}));
+  cloudName.value=files.length===1?(draft.name??files[0].name.replace(/\.jsonl$/i,'')):'';
+  cloudDescription.value=draft.description||'';
   if(!cloudDialog.open)cloudDialog.showModal();
   await cloudTask(async()=>{
     CLOUD.user=null;CLOUD.backups=[];CLOUD.cursor=null;CLOUD.enabled=false;
@@ -1880,7 +1918,8 @@ async function cloudLogin(intent){
     let id;try{id=sessionStorage.getItem(CLOUD_PENDING_KEY);}catch(e){}
     id=id||crypto.randomUUID();
     const snapshot={id,createdAt:Date.now(),intent:intent||'',reading:cloudReadingSnapshot(),library:!$('#library').classList.contains('hide'),
-      selected:[...LIB_SELECTED],files:CLOUD.queue.filter(item=>item.state!=='done').map(item=>item.file)};
+      selected:[...LIB_SELECTED],files:CLOUD.queue.filter(item=>item.state!=='done').map(item=>item.file),
+      draft:{name:CLOUD.queue.length===1?cloudName.value:undefined,description:cloudDescription.value}};
     try{
       await cloudPendingStore('readwrite',store=>store.put(snapshot));
       sessionStorage.setItem(CLOUD_PENDING_KEY,id);
@@ -1910,13 +1949,13 @@ async function cloudResume(result){
   if(snapshot.library)showLibrary();
   // Consume the intent before uploading; reloading the callback must not duplicate backups.
   try{await cloudPendingStore('readwrite',store=>store.delete(id));sessionStorage.removeItem(CLOUD_PENDING_KEY);}
-  catch(e){await openCloud(snapshot.files,false);CLOUD.message=t('cloudPreserveFailed');CLOUD.error=true;cloudRender();return;}
+  catch(e){await openCloud(snapshot.files,snapshot.draft);CLOUD.message=t('cloudPreserveFailed');CLOUD.error=true;cloudRender();return;}
   if(snapshot.intent==='page'&&!snapshot.files.length){
     await openCloudPage();
     if(result==='login_failed'){CLOUD.message=t('cloudLoginFailed');CLOUD.error=true;cloudRender();}
     return;
   }
-  await openCloud(snapshot.files);
+  await openCloud(snapshot.files,snapshot.draft);
   if(result==='login_failed'){CLOUD.message=t('cloudLoginFailed');CLOUD.error=true;cloudRender();}
 }
 /* Full-page cloud session list, reachable from anywhere once signed in.
@@ -2024,24 +2063,25 @@ async function cloudLogoutAction(){
   });
 }
 $('#btnCloudLanding').onclick=openCloudPage;
-$('#btnCloud').onclick=()=>openCloud(CUR?[cloudFile(CUR.text,CUR.name||CUR.sum?.sessionId)]:[]);
+$('#btnCloud').onclick=()=>openCloud(CUR?[cloudSessionFile(CUR)]:[]);
 $('#btnCloudManageLibrary').onclick=openCloudPage;
 $('#cloudViewSaved').onclick=()=>{cloudDialog.close();openCloudPage();};
 $('#btnCloudClose').onclick=hideCloudPage;
-$('#btnCloudLibrary').onclick=()=>openCloud([...LIB_SELECTED].map(id=>LIB_FULL.get(id)).filter(rec=>rec?.text).map(rec=>cloudFile(rec.text,rec.name||rec.sum?.sessionId)));
+$('#btnCloudLibrary').onclick=()=>openCloud([...LIB_SELECTED].map(id=>LIB_FULL.get(id)).filter(rec=>rec?.text).map(cloudSessionFile));
 $('#cloudClose').onclick=()=>cloudDialog.close();
-cloudDialog.addEventListener('click',e=>{if(e.target===cloudDialog)cloudDialog.close();});
-$('#cloudLogin').onclick=()=>cloudLogin();
-$('#cloudSubmit').onclick=()=>{
-  if(CLOUD.queue.length===1){
-    const input=$('#cloudName'),value=((input&&input.value)||'').trim().replace(/\.jsonl$/i,'');
-    if(!value||/[\x00-\x1f\x7f/\\]/.test(value)||new TextEncoder().encode(value).length>240){
-      CLOUD.message=t('cloudInvalidName');CLOUD.error=true;cloudRender();return;
-    }
-    CLOUD.queue[0].file=new File([CLOUD.queue[0].file],value+'.jsonl',{type:CLOUD.queue[0].file.type||'application/x-ndjson'});
-  }
-  return cloudTask(cloudRunQueue);
+cloudDialog.addEventListener('click',e=>{
+  if(e.target!==cloudDialog)return;
+  const {left,right,top,bottom}=cloudDialog.getBoundingClientRect();
+  if(e.clientX<left||e.clientX>right||e.clientY<top||e.clientY>bottom)cloudDialog.close();
+});
+cloudName.oninput=cloudRenderPlan;
+cloudName.onblur=()=>{cloudName.value=cloudNameValue();cloudRenderPlan();};
+cloudName.onkeydown=e=>{
+  if(e.key!=='Enter'||e.isComposing||e.keyCode===229)return;
+  e.preventDefault();cloudName.blur();
 };
+$('#cloudLogin').onclick=()=>cloudLogin();
+$('#cloudSubmit').onclick=()=>cloudTask(cloudRunQueue);
 $('#cloudLogout').onclick=cloudLogoutAction;
 $('#cloudRefresh').onclick=()=>cloudTask(()=>cloudList());
 $('#cloudMore').onclick=()=>cloudTask(()=>cloudList(true));

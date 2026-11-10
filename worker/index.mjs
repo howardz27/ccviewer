@@ -1,5 +1,6 @@
 // Private backups and GitHub OAuth. Static/offline viewing never calls this API.
 const MAX_FILE_BYTES = 20 * 1024 * 1024;
+const MAX_DESCRIPTION_LENGTH = 500;
 const SESSION_SECONDS = 7 * 24 * 60 * 60;
 const FLOW_SECONDS = 10 * 60;
 const APP_PATH = '/claude-code-session-viewer/';
@@ -152,7 +153,19 @@ async function callback(request, env, url) {
 }
 function backupInfo(object) {
   return {id: object.key.split('/').pop().replace(/\.jsonl$/, ''), name: object.customMetadata?.name || 'session.jsonl',
-    size: object.size, uploaded: object.uploaded.toISOString(), records: Number(object.customMetadata?.records || 0)};
+    size: object.size, uploaded: object.uploaded.toISOString(), records: Number(object.customMetadata?.records || 0),
+    description: object.customMetadata?.description || ''};
+}
+function backupDescription(request) {
+  const encoded = request.headers.get('X-CCViewer-Description') || '';
+  if (encoded.length > MAX_DESCRIPTION_LENGTH * 9) fail(400, 'invalid_description');
+  let description;
+  try { description = decodeURIComponent(encoded).trim(); }
+  catch { fail(400, 'invalid_description'); }
+  if (description.length > MAX_DESCRIPTION_LENGTH || /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(description)) {
+    fail(400, 'invalid_description');
+  }
+  return description;
 }
 async function api(request, env, url) {
   if (env.APP_ORIGIN && url.origin !== env.APP_ORIGIN) fail(403, 'invalid_origin');
@@ -188,9 +201,11 @@ async function api(request, env, url) {
   if (url.pathname === '/api/backups') {
     const name = url.searchParams.get('name') || '';
     if (!/\.jsonl$/i.test(name) || /[\x00-\x1f\x7f/\\]/.test(name) || encoder.encode(name).length > 240) fail(400, 'invalid_filename');
+    const description = backupDescription(request);
     const {bytes, records} = await boundedBody(request);
     const key = prefix + crypto.randomUUID() + '.jsonl';
-    const object = await env.BACKUPS.put(key, bytes, {httpMetadata: {contentType: 'application/x-ndjson'}, customMetadata: {name, records: String(records)}});
+    const object = await env.BACKUPS.put(key, bytes, {httpMetadata: {contentType: 'application/x-ndjson'},
+      customMetadata: {name, records: String(records), ...(description ? {description} : {})}});
     if (!object) fail(503, 'cloud_unavailable');
     return json({backup: backupInfo(object)}, 201);
   }

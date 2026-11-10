@@ -335,10 +335,13 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .cloud-note,.cloud-info small,#cloudLoginHint,#cloudAccount{color:var(--dim);font-size:13px;line-height:1.6}
 .cloud-note{margin:8px 0 20px}.cloud-account{margin:12px 0}.cloud-account #cloudLogout{margin-left:auto}
 #cloudPlan{max-height:240px;overflow:auto;border:1px solid var(--border);border-radius:8px;padding:4px 14px;margin:16px 0}
-#cloudNameRow{display:flex;align-items:center;gap:10px;margin:16px 0 0}
-#cloudNameRow label{color:var(--dim);font-size:13px;flex-shrink:0}
-#cloudNameRow input{flex:1;min-width:0;background:var(--code-bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit}
-#cloudNameRow input:focus{outline:none;border-color:var(--accent)}
+#cloudNameRow,.cloud-description-field{display:flex;gap:10px;margin:16px 0 0}
+#cloudNameRow{align-items:center}
+.cloud-description-field{flex-direction:column;gap:6px}
+#cloudNameRow label,.cloud-description-field label{color:var(--dim);font-size:13px;flex-shrink:0}
+#cloudName,.cloud-description-field textarea{flex:1;min-width:0;background:var(--code-bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit}
+#cloudName:focus,.cloud-description-field textarea:focus{outline:none;border-color:var(--accent)}
+.cloud-description-field textarea{resize:vertical}
 #cloudNameRow code{color:var(--faint);font-size:12px;flex-shrink:0}
 .cloud-target{display:flex;align-items:flex-start;gap:12px;padding:10px 0}.cloud-target+.cloud-target{border-top:1px solid var(--border)}
 .cloud-target span{flex:1;min-width:0;overflow-wrap:anywhere;font-size:13px}.cloud-target small{flex-shrink:0;color:var(--dim)}
@@ -347,6 +350,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 #cloudStatus{margin:12px 0;color:var(--green);font-size:13px}#cloudStatus:empty{display:none}#cloudStatus.cloud-error{color:var(--red)}
 #cloudList{display:flex;flex-direction:column}.cloud-row{padding:12px 0;border-bottom:1px solid var(--border);justify-content:space-between}
 .cloud-info{flex:1;min-width:160px;overflow-wrap:anywhere}.cloud-info strong{display:block;font-size:13px;font-weight:500}.cloud-info small{display:block;font-size:12px}.cloud-row-actions .btn{font-size:12px;padding:5px 9px}
+.cloud-info .cloud-description{margin:4px 0;color:var(--text);font-size:13px;white-space:pre-wrap}
 #cloudMore{margin-top:14px}
 #cloudPage .cloud-row{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:10px;transition:border-color .15s}
 #cloudPage .cloud-row:hover{border-color:var(--accent)}
@@ -561,7 +565,11 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   <div class="cloud-header"><span class="cloud-hicon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 7 7 0 0 0-13.36 2.2A4.5 4.5 0 0 0 6.5 19z"/><path d="M12 12v5"/><path d="m9.5 14.5 2.5-2.5 2.5 2.5"/></svg></span><h2 id="cloudTitle" data-i18n="cloudTitle"></h2><button class="btn" id="cloudClose" data-i18n="closeBtn"></button></div>
   <p class="cloud-note" data-i18n="cloudPrivacy"></p>
   <div class="cloud-account"><span id="cloudAccount"></span><button class="btn" id="cloudLogout" data-i18n="cloudLogout" hidden></button></div>
-  <div id="cloudNameRow" hidden><label for="cloudName"><span data-i18n="cloudNameLabel">会话名称</span></label><input id="cloudName" maxlength="80" autocomplete="off" spellcheck="false"><code>.jsonl</code></div>
+  <div id="cloudNameRow" hidden><label for="cloudName"><span data-i18n="cloudNameLabel">会话名称</span></label><input id="cloudName" maxlength="234" autocomplete="off" spellcheck="false"><code>.jsonl</code></div>
+  <div id="cloudDescriptionRow" class="cloud-description-field" hidden>
+    <label for="cloudDescription" data-i18n="cloudDescriptionLabel">描述（选填）</label>
+    <textarea id="cloudDescription" maxlength="500" rows="3"></textarea>
+  </div>
   <div id="cloudPlan" hidden></div>
   <p id="cloudLoginHint" hidden></p>
   <button class="btn primary" id="cloudLogin" hidden></button>
@@ -1288,6 +1296,9 @@ $('#refreshFile').onchange=async e=>{
   finally{session.refreshing=false;if(CUR===session)$('#btnRefresh').disabled=false;}
 };
 const cwdBasename=p=>{p=String(p||'').replace(/\/+$/,'');const i=p.lastIndexOf('/');return i>=0?p.slice(i+1):p;};
+function sessionDisplayName(session){
+  return session.sum?.title||session.name||session.sum?.sessionId||session.id||'';
+}
 function renderNav(){
   const list=$('#navList');if(!list)return;
   list.innerHTML='';
@@ -1310,7 +1321,7 @@ function renderNav(){
     for(const m of items){
       const it=el('div','navitem'+(m.id===CUR_ID?' active':''));
       it.dataset.id=m.id;
-      it.textContent=(m.sum&&m.sum.title)||m.name||(m.sum&&m.sum.sessionId)||m.id;
+      it.textContent=sessionDisplayName(m);
       it.title=it.textContent+(cwd?('\n'+cwd):'');
       ul.appendChild(it);
     }
@@ -1346,7 +1357,7 @@ function renderLibrary(){
   for(const m of LIB){
     const row=el('div','librow'+(LIB_SELECTED.has(m.id)?' selected':''));
     row.dataset.id=m.id;
-    const title=(m.sum&&m.sum.title)||m.name||(m.sum&&m.sum.sessionId)||m.id;
+    const title=sessionDisplayName(m);
     const meta=[];
     if(m.sum&&m.sum.cwd)meta.push(m.sum.cwd);
     if(m.sum&&m.sum.firstTs&&m.sum.lastTs)meta.push(fmtTime(m.sum.firstTs)+' → '+fmtTime(m.sum.lastTs));

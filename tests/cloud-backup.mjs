@@ -43,8 +43,8 @@ async function signIn(env, id = '101', expires = Date.now() + 60000) {
   await env.BACKUPS.put('auth/sessions/' + await sha(token), JSON.stringify({user: {id, login: 'user-' + id}, expires}));
   return token;
 }
-async function upload(env, token, body = fixture, name = '会话.jsonl') {
-  return request(env, '/api/backups?name=' + encodeURIComponent(name), {token, method: 'POST', body});
+async function upload(env, token, body = fixture, name = '会话.jsonl', headers) {
+  return request(env, '/api/backups?name=' + encodeURIComponent(name), {token, method: 'POST', body, headers});
 }
 test('static viewer and disabled cloud remain usable without credentials', async () => {
   const env = environment(); delete env.GITHUB_CLIENT_SECRET;
@@ -63,12 +63,14 @@ test('all backup operations require authentication; tampered and expired session
 });
 test('round trip preserves original UTF-8 bytes, metadata, owner privacy and deletion', async () => {
   const env = environment(), alice = await signIn(env), bob = await signIn(env, '202');
-  const response = await upload(env, alice);
+  const description = '排查记录 💡\n第二行';
+  const response = await upload(env, alice, fixture, '会话.jsonl', {'X-CCViewer-Description': encodeURIComponent(description)});
   assert.equal(response.status, 201);
   const {backup} = await response.json();
   assert.equal(backup.name, '会话.jsonl'); assert.equal(backup.records, 2);
+  assert.equal(backup.description, description);
   assert.equal(backup.size, new TextEncoder().encode(fixture).length);
-  assert.equal((await (await request(env, '/api/backups', {token: alice})).json()).backups.length, 1);
+  assert.deepEqual((await (await request(env, '/api/backups', {token: alice})).json()).backups, [backup]);
   assert.equal((await (await request(env, '/api/backups', {token: bob})).json()).backups.length, 0);
   const file = await request(env, '/api/backups/' + backup.id, {token: alice});
   assert.equal(await file.text(), fixture);
@@ -89,13 +91,18 @@ test('mutations reject cross-origin requests and requests missing the custom hea
   }
   assert.equal((await request(env, '/api/backups', {token, headers: {'Sec-Fetch-Site': 'cross-site'}})).status, 403);
 });
-test('server validates JSONL, UTF-8 and filename before storing any file', async () => {
+test('server validates JSONL, UTF-8, filename and description before storing any file', async () => {
   const env = environment(), token = await signIn(env);
   for (const body of ['', ' \n ', '[]', '[{}]', 'null', 'true', '1', '{}\n{broken', new Uint8Array([0xff])]) {
     assert.equal((await upload(env, token, body)).status, 400);
   }
   for (const name of ['session.txt', '../session.jsonl', 'a\\b.jsonl', 'a\n.jsonl', '中'.repeat(80) + '.jsonl']) {
     assert.equal((await upload(env, token, fixture, name)).status, 400);
+  }
+  for (const encoded of ['%ZZ', 'a%00b', 'a'.repeat(501), encodeURIComponent('中'.repeat(501))]) {
+    const response = await upload(env, token, fixture, '会话.jsonl', {'X-CCViewer-Description': encoded});
+    assert.equal(response.status, 400);
+    assert.equal((await response.json()).error, 'invalid_description');
   }
   assert.equal((await env.BACKUPS.list({prefix: 'backups/', limit: 100})).objects.length, 0);
 });
@@ -114,6 +121,7 @@ test('pagination follows cursors and never returns another account’s objects',
   await env.BACKUPS.put('backups/github-202/' + crypto.randomUUID() + '.jsonl', '{}');
   const first = await (await request(env, '/api/backups', {token})).json();
   assert.equal(first.backups.length, 100); assert.ok(first.cursor);
+  assert.equal(first.backups[0].description, '', 'backups without a stored description still list normally');
   const next = await (await request(env, '/api/backups?cursor=' + first.cursor, {token})).json();
   assert.equal(next.backups.length, 5); assert.equal(next.cursor, null);
   assert.equal(new Set([...first.backups, ...next.backups].map(b => b.id)).size, 105);
