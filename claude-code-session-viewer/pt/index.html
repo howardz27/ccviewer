@@ -1730,7 +1730,7 @@ fillLangSel();
 const libraryReady=initDB().then(db=>{DB=db;return loadLibrary();}).catch(()=>{});
 
 /* Nothing is uploaded until a reader explicitly requests a backup. */
-const CLOUD={enabled:false,user:null,busy:false,backups:[],cursor:null,maxFileBytes:20*1024*1024,message:'',error:false,queue:[]};
+const CLOUD={enabled:false,user:null,busy:false,backups:[],cursor:null,maxFileBytes:20*1024*1024,message:'',error:false,queue:[],sessionChecked:false};
 const cloudDialog=$('#cloudBackup');
 const cloudName=$('#cloudName'),cloudDescription=$('#cloudDescription');
 const CLOUD_PENDING_KEY='ccviewer_backup_return:'+location.pathname;
@@ -1888,10 +1888,16 @@ async function openCloud(files=[],draft={}){
   cloudDescription.value=draft.description||'';
   if(!cloudDialog.open)cloudDialog.showModal();
   await cloudTask(async()=>{
+    if(CLOUD.sessionChecked){
+      /* The boot check already knows the answer; never make the dialog wait twice. */
+      if(!CLOUD.enabled){CLOUD.message=t('cloudUnavailable');return;}
+      if(CLOUD.user)await cloudList();
+      return;
+    }
     CLOUD.user=null;CLOUD.backups=[];CLOUD.cursor=null;CLOUD.enabled=false;
     if(location.protocol==='file:'){CLOUD.message=t('cloudOnlineOnly');return;}
     const data=await (await cloudApi('auth/session')).json();
-    CLOUD.enabled=data.enabled;CLOUD.user=data.user;CLOUD.maxFileBytes=data.maxFileBytes;
+    CLOUD.enabled=data.enabled;CLOUD.user=data.user;CLOUD.maxFileBytes=data.maxFileBytes;CLOUD.sessionChecked=true;
     if(!CLOUD.enabled){CLOUD.message=t('cloudUnavailable');return;}
     if(CLOUD.user)await cloudList();
   });
@@ -1980,11 +1986,20 @@ async function openCloudPage(){
   cloudPushHistory();
   if(CLOUD.user){showCloudOverlay();await cloudTask(async()=>{await cloudList();CLOUD.message='';});return;}
   let shown=false;
+  /* The click must never look dead while the session round-trip is in flight. */
+  if(!CLOUD.sessionChecked&&!cloudDialog.open){
+    CLOUD.message=t('cloudWorking');CLOUD.error=false;
+    cloudDialog.showModal();cloudRender();
+  }
   await cloudTask(async()=>{
+    if(CLOUD.sessionChecked){
+      if(!CLOUD.enabled){CLOUD.message=t('cloudUnavailable');CLOUD.error=true;return;}
+      return; /* Already known to be signed out: the login dialog is the answer. */
+    }
     CLOUD.enabled=false;
     if(location.protocol==='file:'){CLOUD.message=t('cloudOnlineOnly');return;}
     const data=await (await cloudApi('auth/session')).json();
-    CLOUD.enabled=data.enabled;CLOUD.user=data.user;CLOUD.maxFileBytes=data.maxFileBytes;
+    CLOUD.enabled=data.enabled;CLOUD.user=data.user;CLOUD.maxFileBytes=data.maxFileBytes;CLOUD.sessionChecked=true;
     renderAvatar();
     if(!CLOUD.enabled){CLOUD.message=t('cloudUnavailable');CLOUD.error=true;return;}
     if(!CLOUD.user)return;
@@ -1992,6 +2007,8 @@ async function openCloudPage(){
     await cloudList();CLOUD.message='';
   });
   if(!shown&&!cloudPageActive()&&!cloudDialog.open)cloudDialog.showModal();
+  /* The feedback dialog must not linger once the full cloud page takes over. */
+  if((shown||cloudPageActive())&&cloudDialog.open)cloudDialog.close();
   cloudRender();
 }
 function hideCloudPage(){
@@ -2125,7 +2142,7 @@ if(cloudResult==='ready'||cloudResult==='login_failed'){
 if(location.protocol!=='file:'){
   const cloudBoot=()=>cloudApi('auth/session').then(response=>response.json())
     .then(data=>{
-      CLOUD.enabled=data.enabled;CLOUD.user=data.user;CLOUD.maxFileBytes=data.maxFileBytes;renderAvatar();
+      CLOUD.enabled=data.enabled;CLOUD.user=data.user;CLOUD.maxFileBytes=data.maxFileBytes;CLOUD.sessionChecked=true;renderAvatar();
       // A reload or direct link to the cloud page reopens it without a new entry.
       if(location.hash==='#cloud'){
         if(CLOUD.user){if(history.replaceState)history.replaceState({ccvCloud:true},'',location.href);openCloudPage();}

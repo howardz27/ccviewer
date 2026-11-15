@@ -39,6 +39,7 @@ function page({protocol='https:',shared=sharedStorage(),result='',user={id:'101'
   }
   const $=id=>{if(!elements.has(id)){const e=element(id.includes('cloudList')?'div':'button');e.id=id.slice(1);elements.set(id,e);}return elements.get(id);};
   $('#library').classList.toggle('hide',true);
+  $('#cloudPage').classList.toggle('hide',true);
   let answer=async(path,options)=>{
     if(path==='/api/auth/session')return Response.json({enabled:true,user,maxFileBytes:20*1024*1024});
     if(options.method==='POST')return Response.json({backup:{id:'new'}});
@@ -223,6 +224,34 @@ const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,upload
   route.run('history.state={ccvCloud:true}');route.$('#btnCloudClose').onclick();
   assert.equal(route.$('#cloudPage').classList.contains('hide'),true,'the close button pops the history entry');
   assert.equal(route.run('history.state'),null);
+  // A click must never look dead: the dialog opens before the session round-trip finishes.
+  const dead=page({user:null});
+  let releaseSession;
+  dead.respond(path=>path==='/api/auth/session'
+    ?new Promise(resolve=>{releaseSession=()=>resolve(Response.json({enabled:true,user:null,maxFileBytes:20*1024*1024}));})
+    :Response.json({backups:[],cursor:null}));
+  const deadClick=dead.run('openCloudPage()');
+  assert.equal(dead.$('#cloudBackup').open,true,'feedback shows while the session request is in flight');
+  assert.equal(dead.$('#cloudStatus').textContent,strings.cloudWorking);
+  releaseSession();await deadClick;await dead.settle();
+  assert.equal(dead.$('#cloudLogin').hidden,false,'the signed-out dialog replaces the feedback');
+  // A known session is reused: no second fetch and no dead window on later clicks.
+  const known=page();
+  await known.run('openCloudPage()');
+  assert.equal(known.$('#cloudPage').classList.contains('hide'),false,'cloud page shows');
+  assert.equal(known.$('#cloudBackup').open,false,'the feedback dialog closes once the page takes over');
+  known.listeners.popstate({state:null});
+  await known.run('openCloudPage()');
+  assert.equal(known.calls.filter(call=>call.path==='/api/auth/session').length,1,'the fetched session is reused');
+  assert.equal(known.$('#cloudPage').classList.contains('hide'),false);
+  // Signed-out state is reused too: the login dialog appears without another request.
+  const signedOut=page({user:null});
+  await signedOut.run('openCloudPage()');
+  assert.equal(signedOut.$('#cloudBackup').open,true);
+  signedOut.$('#cloudBackup').close();
+  await signedOut.run('openCloudPage()');
+  assert.equal(signedOut.calls.filter(call=>call.path==='/api/auth/session').length,1);
+  assert.equal(signedOut.$('#cloudBackup').open,true,'reused sign-out opens the login dialog immediately');
   // Invalid session names never upload.
   const invalid=page();invalid.context.CUR={text,name:'example.jsonl'};
   await invalid.$('#btnCloud').onclick();
@@ -234,5 +263,5 @@ const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,upload
     const ui=JSON.parse(fs.readFileSync('claude-code-session-viewer/src/i18n/'+file,'utf8')).ui;
     for(const key of Object.keys(strings).filter(key=>key.startsWith('cloud')))assert.ok(ui[key],file+': '+key);
   }
-  console.log('Cloud UI: name-confirm backup, OAuth intent/scroll restore, cancellation, quota failure, batch selection/files, partial retry, expiry, replay prevention, XSS, duplicate actions, busy feedback, history routing, restore, offline and 10 locales passed.');
+  console.log('Cloud UI: name-confirm backup, OAuth intent/scroll restore, cancellation, quota failure, batch selection/files, partial retry, expiry, replay prevention, XSS, duplicate actions, busy feedback, immediate-click feedback with session reuse, history routing, restore, offline and 10 locales passed.');
 })().catch(error=>{console.error(error);process.exitCode=1;});
