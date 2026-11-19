@@ -6,18 +6,11 @@
 
 **[English](README.md)**
 
-一个免费开源的 [Claude Code](https://claude.com/claude-code) 会话文件查看器。把 `.jsonl` 历史文件（或整个项目文件夹）拖进浏览器，即可回放完整对话——Markdown、思考块、工具调用、Token 用量与费用，全部在本地渲染。
+一个免费开源的 [Claude Code](https://claude.com/claude-code) 会话文件查看器。把 `.jsonl` 历史文件（或整个项目文件夹）拖进浏览器，即可回放完整对话——Markdown、思考块、工具调用、Token 用量与费用，全部在本地渲染。还支持 GitHub 登录后把选定的会话备份到私有云端，随时随地跨设备重新打开。
 
 > **客户端查看器。** 会话文件在浏览器中本地解析、渲染和存储。可选的云端备份需要 GitHub 登录，仅上传你主动选择备份的 JSONL。线上网站自动加载 Microsoft Clarity，进行页面统计和录屏；离线版本不加载统计。
 
 **在线体验：** <https://ccviewer.top>（线上与仓库代码完全一致）
-
-## 指南与示例
-
-- [阅读与导出会话历史](https://ccviewer.top/claude-code-session-viewer/zh/how-to-view-claude-code-session-history)
-- [查找 JSONL 文件](https://ccviewer.top/claude-code-session-viewer/zh/find-claude-code-session-jsonl-file)
-- [存储位置与保留策略](https://ccviewer.top/claude-code-session-viewer/zh/where-claude-code-sessions-stored)
-- [虚构 JSONL 示例](assets/example-session.jsonl)：仅用于阅读验证，不能用于恢复会话
 
 ## 截图
 
@@ -33,7 +26,7 @@
 
 ## 功能
 
-- ☁️ **私有云端备份** — 使用 GitHub 登录，主动上传 JSONL（每个文件最多 20 MiB），支持恢复阅读、下载和删除。需配置 Cloudflare Worker、私有 R2 和 OAuth，见[部署指南](docs/cloud-backup.zh-CN.md)。本地查看无需登录。
+- ☁️ **私有云端备份** — 使用 GitHub 登录，主动上传 JSONL（每个文件最多 20 MiB），支持恢复阅读、下载和删除。直接使用 <www.ccviewer.top> 即开即用，无需任何配置；自行部署 Cloudflare Worker、私有 R2 和 OAuth 见[部署指南](docs/cloud-backup.zh-CN.md)。本地查看无需登录。
 
 - 📁 **会话库** — 导入整个文件夹（如 `~/.claude/projects/`），会话持久化到 IndexedDB，按项目分组，支持按时间 / 消息数 / Token / 费用排序
 - 💬 **完整还原** — Markdown（代码块、表格、列表）、可折叠的思考块、工具调用参数与结果、图片

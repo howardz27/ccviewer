@@ -6,18 +6,11 @@
 
 **[中文文档](README.zh-CN.md)**
 
-A free, open-source viewer for [Claude Code](https://claude.com/claude-code) session files. Drop a `.jsonl` history file (or a whole project folder) into your browser and replay any conversation — Markdown, thinking blocks, tool calls, token usage and cost, all rendered locally.
+A free, open-source viewer for [Claude Code](https://claude.com/claude-code) session files. Drop a `.jsonl` history file (or a whole project folder) into your browser and replay any conversation — Markdown, thinking blocks, tool calls, token usage and cost, all rendered locally. Sign in with GitHub to back up selected sessions to your private cloud library and reopen them from any device.
 
 > **Client-side viewer.** Session files are parsed, rendered and stored locally in the browser. Optional cloud backups upload only the JSONL files you explicitly choose after signing in with GitHub. The hosted site automatically loads Microsoft Clarity for page analytics and recordings. Offline copies do not load analytics.
 
 **Try it online:** [CCViewer](https://ccviewer.top/claude-code-session-viewer/)
-
-## Guides and sample
-
-- [Read and export session history](https://ccviewer.top/claude-code-session-viewer/how-to-view-claude-code-session-history)
-- [Find JSONL files on macOS, Linux and Windows](https://ccviewer.top/claude-code-session-viewer/find-claude-code-session-jsonl-file)
-- [Understand storage and retention](https://ccviewer.top/claude-code-session-viewer/where-claude-code-sessions-stored)
-- [Fictional JSONL sample](assets/example-session.jsonl) — reading fixture, not a resumable session
 
 ## Screenshots
 
@@ -33,7 +26,7 @@ A free, open-source viewer for [Claude Code](https://claude.com/claude-code) ses
 
 ## Features
 
-- ☁️ **Private cloud backups** — sign in with GitHub, upload JSONL files (up to 20 MiB each), reopen, download or delete your backups. Requires the Cloudflare Worker and private R2 setup in [the deployment guide](docs/cloud-backup.zh-CN.md); local viewing remains available without login.
+- ☁️ **Private cloud backups** — sign in with GitHub, upload JSONL files (up to 20 MiB each), reopen, download or delete your backups. Works out of the box on the hosted site at <www.ccviewer.top> — no setup needed; self-hosting the Cloudflare Worker and private R2 is covered in [the deployment guide](docs/cloud-backup.zh-CN.md). Local viewing remains available without login.
 
 - 📁 **Session library** — import an entire folder (e.g. `~/.claude/projects/`), sessions persist in IndexedDB, grouped by project, sortable by recency / messages / tokens / cost
 - 💬 **Full-fidelity rendering** — Markdown (code blocks, tables, lists), collapsible extended thinking, tool-call inputs & results, images
