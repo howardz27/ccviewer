@@ -52,7 +52,7 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;height:100%}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.6}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:14.5px;line-height:1.65}
 code,pre,.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace}
 #app{display:flex;flex-direction:column;height:100vh}
 /* top bar */
@@ -71,13 +71,25 @@ code,pre,.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,mon
 select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 14px) 55%,calc(100% - 9px) 55%;background-size:5px 5px;background-repeat:no-repeat;cursor:pointer}
 .toggle{display:inline-flex;align-items:center;gap:5px;color:var(--dim);font-size:12px;cursor:pointer;user-select:none}
 .toggle input{accent-color:var(--accent)}
-/* topbar segmented display pills */
-.seg{display:inline-flex;align-items:center;gap:2px;background:var(--code-bg);border:1px solid var(--border);border-radius:99px;padding:2px}
-.seg .toggle{padding:3px 9px;border-radius:99px;font-size:11.5px;color:var(--faint);gap:0}
-.seg .toggle:hover{color:var(--text)}
-.seg .toggle:has(input:checked){background:rgba(217,119,87,.18);color:var(--accent)}
-.seg .toggle input{display:none}
-.seg .toggle:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:1px}
+/* topbar dropdown menus (display options / open actions) */
+.menu-wrap{position:relative;display:inline-flex}
+.menu-wrap .mcaret{color:var(--faint);flex-shrink:0}
+.dropdown{position:absolute;right:0;top:calc(100% + 8px);z-index:70;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px;display:none;flex-direction:column;gap:2px;min-width:196px;box-shadow:0 16px 40px rgba(0,0,0,.45)}
+.menu-wrap.open .dropdown{display:flex}
+.dropdown .toggle{padding:7px 10px;border-radius:6px;font-size:13px;color:var(--text);gap:9px}
+.dropdown .toggle:hover{background:var(--panel2);color:var(--text)}
+.dropdown .toggle input{accent-color:var(--accent);width:14px;height:14px;flex-shrink:0}
+.dropdown .toggle:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:1px}
+.dropdown .menu-btn{justify-content:flex-start;background:none;border:none;padding:7px 10px;font-size:13px}
+.dropdown .menu-btn:hover{background:var(--panel2);border-color:transparent}
+.menu-sep{height:1px;background:var(--border);margin:6px 4px}
+.fs-row{display:flex;align-items:center;gap:8px;padding:4px 10px}
+.fs-row .fs-label{flex:1;color:var(--dim);font-size:12.5px}
+/* toasts */
+#toasts{position:fixed;right:18px;bottom:18px;z-index:1200;display:flex;flex-direction:column;gap:8px;max-width:min(380px,80vw)}
+.toast{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text);box-shadow:0 10px 30px rgba(0,0,0,.4);animation:fadeUp .25s ease;transition:opacity .3s}
+.toast.err{border-left-color:var(--red)}
+.toast.ok{border-left-color:var(--green)}
 #refreshbar{display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:8px 16px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0}
 #refreshbar.hidden{display:none}
 #refreshStatus{font-size:12px;color:var(--dim);overflow-wrap:anywhere}
@@ -121,62 +133,69 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .stat .n{font-size:16px;font-weight:600;color:var(--accent)}
 .stat .l{font-size:11px;color:var(--dim)}
 /* content */
-#content{flex:1;overflow-y:auto;padding:24px 32px;max-width:100%}
-#stream{max-width:900px;margin:0 auto}
-/* message blocks */
-.turn{margin-bottom:18px}
-.row{display:flex;gap:10px;align-items:flex-start}
-.gutter{flex-shrink:0;width:18px;text-align:center;font-size:14px;line-height:1.6;user-select:none}
+#content{flex:1;overflow-y:auto;padding:28px 36px;max-width:100%}
+#stream{max-width:880px;margin:0 auto;font-size:var(--read-fs,15.5px);line-height:1.68}
+/* compact stats line shown on small screens where the sidebar is hidden */
+#mstats{display:none;flex-basis:100%;font-size:12px;color:var(--dim)}
+@media (max-width:600px){#mstats{display:block}}
+/* message blocks — sizes in em so the reading width/font scale control works */
+.turn{margin-bottom:24px}
+.row{display:flex;gap:12px;align-items:flex-start}
+.gutter{flex-shrink:0;width:20px;text-align:center;font-size:.95em;line-height:1.6;user-select:none}
 .body{flex:1;min-width:0}
-.meta-line{font-size:11px;color:var(--faint);margin-bottom:2px;display:flex;gap:10px;flex-wrap:wrap}
-.badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:4px;border:1px solid var(--border);color:var(--dim)}
+.meta-line{font-size:.8em;color:var(--faint);margin-bottom:3px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-block;font-size:.72em;padding:2px 7px;border-radius:4px;border:1px solid var(--border);color:var(--dim)}
 .badge.side{color:var(--purple);border-color:var(--purple)}
+/* per-message copy button */
+.msgcopy{margin-left:auto;background:none;border:none;color:var(--faint);cursor:pointer;font-size:1em;line-height:1;padding:3px 5px;border-radius:5px;opacity:0;transition:opacity .15s}
+.turn:hover .msgcopy,.msgcopy:focus-visible{opacity:1}
+.msgcopy:hover{color:var(--accent);background:var(--panel2)}
 /* user */
 .user .gutter{color:var(--user)}
-.user .bubble{background:rgba(88,166,255,.08);border:1px solid var(--border);border-left:3px solid var(--user);border-radius:6px;padding:10px 14px;white-space:pre-wrap;word-break:break-word}
+.user .bubble{background:rgba(88,166,255,.1);border:1px solid var(--border);border-left:3px solid var(--user);border-radius:6px;padding:12px 16px;white-space:pre-wrap;word-break:break-word}
 .meta-line .who{color:var(--user);font-weight:600}
 /* assistant text */
 .assistant .gutter{color:var(--accent)}
 .assistant .text{word-break:break-word}
-.assistant .reply{background:rgba(217,119,87,.08);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:6px;padding:10px 14px;margin:2px 0;word-break:break-word}
+.assistant .reply{background:rgba(217,119,87,.1);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:6px;padding:12px 16px;margin:2px 0;word-break:break-word}
 .assistant .reply .md>:first-child{margin-top:0}
 .assistant .reply .md>:last-child{margin-bottom:0}
 .meta-line .who.ai{color:var(--accent)}
 /* thinking */
 .think{border-left:2px solid var(--border);padding:4px 0 4px 12px;margin:4px 0;color:var(--dim);font-style:italic}
-.think .hd{display:flex;align-items:center;gap:8px;font-style:normal;cursor:pointer;font-size:12px}
+.think .hd{display:flex;align-items:center;gap:8px;font-style:normal;cursor:pointer;font-size:.84em}
 .think .tk-label{color:var(--purple);flex-shrink:0}
 .think .tk-prev{flex:1;min-width:0;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.think .caret{color:var(--faint);font-size:11px;flex-shrink:0}
-.think .bd{white-space:pre-wrap;margin-top:4px;font-size:13px}
+.think .caret{color:var(--faint);font-size:1em;flex-shrink:0}
+.think .bd{white-space:pre-wrap;margin-top:4px;font-size:.92em}
 /* tool use */
 .tool{background:var(--panel);border:1px solid var(--border);border-radius:6px;margin:6px 0;overflow:hidden}
-.tool .hd{display:flex;align-items:center;gap:8px;padding:7px 12px;cursor:pointer;background:var(--panel2)}
-.tool .hd .tn{color:var(--green);font-weight:600}
-.tool .hd .ta{color:var(--dim);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-.tool .hd .caret{color:var(--faint);font-size:11px}
+.tool .hd{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;background:var(--panel2)}
+.tool .hd .tn{color:var(--green);font-weight:600;font-size:.9em}
+.tool .hd .ta{color:var(--dim);font-size:.84em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.tool .hd .caret{color:var(--faint);font-size:.84em}
 .tool .params{padding:8px 12px;border-top:1px solid var(--border)}
-.tool .params .p{margin:2px 0;font-size:12px}
+.tool .params .p{margin:2px 0;font-size:.88em}
 .tool .params .pk{color:var(--yellow)}
 /* tool result */
 .result{margin:4px 0 4px 0;border-left:2px solid var(--border);padding-left:10px}
-.result .hd{color:var(--faint);font-size:11px;cursor:pointer;display:flex;gap:6px;align-items:center}
+.result .hd{color:var(--faint);font-size:.8em;cursor:pointer;display:flex;gap:6px;align-items:center}
 .result.err .hd{color:var(--red)}
-.result pre{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:10px;overflow:auto;margin:4px 0;max-height:420px;font-size:12px}
+.result pre{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:10px;overflow:auto;margin:4px 0;max-height:520px;font-size:.88em}
 .result.err pre{border-color:var(--red)}
 /* system / meta note */
-.note{font-size:12px;color:var(--faint);border:1px dashed var(--border);border-radius:6px;padding:6px 10px;margin:4px 0;background:var(--panel)}
+.note{font-size:.85em;color:var(--faint);border:1px dashed var(--border);border-radius:6px;padding:6px 10px;margin:4px 0;background:var(--panel)}
 .note .hd{cursor:pointer;color:var(--dim)}
-.note pre{white-space:pre-wrap;word-break:break-word;margin:6px 0 0;font-size:11px;color:var(--faint)}
+.note pre{white-space:pre-wrap;word-break:break-word;margin:6px 0 0;font-size:1em;color:var(--faint)}
 .hidden{display:none}
 [hidden]{display:none!important}
 /* markdown */
 .md p{margin:6px 0}
 .md h1,.md h2,.md h3,.md h4{margin:12px 0 6px;line-height:1.3}
-.md h1{font-size:20px}.md h2{font-size:17px}.md h3{font-size:15px}.md h4{font-size:14px}
+.md h1{font-size:1.35em}.md h2{font-size:1.15em}.md h3{font-size:1.02em}.md h4{font-size:.95em}
 .md ul,.md ol{margin:6px 0;padding-left:22px}
 .md li{margin:2px 0}
-.md code{background:var(--code-bg);padding:1px 5px;border-radius:4px;font-size:12.5px;border:1px solid var(--border)}
+.md code{background:var(--code-bg);padding:1px 5px;border-radius:4px;font-size:.9em;border:1px solid var(--border)}
 .md pre{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:12px;overflow:auto;margin:8px 0}
 .md pre code{background:none;border:none;padding:0}
 .md a{color:var(--user)}
@@ -255,7 +274,11 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .libhead h2 svg{flex-shrink:0}
 .libhead .cnt{color:var(--faint);font-size:13px}
 .libtools{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
-#libProgress{color:var(--accent2);font-size:12px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;margin-bottom:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:none}
+#libProgress{margin-bottom:12px}
+#libProgress .libprog-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+#libProgText{flex:1;min-width:0;color:var(--accent2);font-size:12px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.libprog-bar{height:4px;border-radius:2px;background:var(--code-bg);overflow:hidden}
+#libProgFill{height:100%;width:0;background:var(--accent);border-radius:2px;transition:width .15s ease}
 .libwarn{background:rgba(210,153,34,.1);border:1px solid var(--yellow);border-radius:8px;padding:8px 12px;color:var(--yellow);font-size:12px;margin-bottom:12px;display:none}
 #libList{display:flex;flex-direction:column;gap:10px}
 .dirhint{color:var(--faint);font-size:11.5px;margin:0 0 12px;line-height:1.6}
@@ -303,9 +326,15 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px}
 ::-webkit-scrollbar-track{background:transparent}
-/* paste modal */
-#paste{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6)}
-#paste.show{display:flex}
+/* paste modal (native dialog) */
+#paste{border:none;background:transparent;padding:0;max-width:none;max-height:none}
+#paste::backdrop{background:rgba(0,0,0,.6)}
+#paste[open]{display:flex;align-items:center;justify-content:center}
+/* confirm dialog */
+#confirmDlg{border:none;border-radius:12px;background:var(--panel);color:var(--text);padding:20px;width:min(400px,calc(100vw - 40px));box-shadow:0 24px 70px rgba(0,0,0,.5)}
+#confirmDlg::backdrop{background:rgba(0,0,0,.6)}
+#confirmMsg{margin:0 0 16px;font-size:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+#confirmDlg .actions{display:flex;justify-content:flex-end;gap:10px}
 #paste .panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;width:min(820px,92vw);max-height:88vh;display:flex;flex-direction:column;padding:18px;gap:12px}
 #paste h2{margin:0;font-size:16px;color:var(--accent)}
 #paste .hint{color:var(--dim);font-size:12px;margin:0}
@@ -406,24 +435,36 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <span class="brand"><span class="logo"></span> <span data-i18n="brand">CCViewer</span><small id="fname"></small></span>
     <button class="btn icon" id="btnNavToggle" title=""></button>
     <span class="spacer"></span>
-    <div class="seg" role="group" aria-label="Display">
-      <label class="toggle"><input type="checkbox" id="tgThink" checked><span data-i18n="thinking">थिंकिंग</span></label>
-      <label class="toggle"><input type="checkbox" id="tgTool" checked><span data-i18n="tools">टूल्स</span></label>
-      <label class="toggle"><input type="checkbox" id="tgMeta"><span data-i18n="sysInj">सिस्टम/इंजेक्टेड</span></label>
-      <label class="toggle"><input type="checkbox" id="tgExpand"><span data-i18n="expandAll">सब खोलें</span></label>
+    <div class="menu-wrap" id="displayMenu">
+      <button class="btn" id="btnDisplay" aria-haspopup="menu" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/></svg><span data-i18n="displayBtn">प्रदर्शन</span><svg class="mcaret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="dropdown" role="menu">
+        <label class="toggle"><input type="checkbox" id="tgThink" checked><span data-i18n="thinking">थिंकिंग</span></label>
+        <label class="toggle"><input type="checkbox" id="tgTool" checked><span data-i18n="tools">टूल्स</span></label>
+        <label class="toggle"><input type="checkbox" id="tgMeta"><span data-i18n="sysInj">सिस्टम/इंजेक्टेड</span></label>
+        <label class="toggle"><input type="checkbox" id="tgExpand"><span data-i18n="expandAll">सब खोलें</span></label>
+        <div class="menu-sep"></div>
+        <div class="fs-row"><span class="fs-label" data-i18n="fsTitle">फ़ॉन्ट आकार</span><button class="btn icon" id="fsMinus" type="button" aria-label="A-">A−</button><button class="btn icon" id="fsPlus" type="button" aria-label="A+">A+</button></div>
+      </div>
     </div>
     <button class="btn" id="btnHome"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg><span data-i18n="home">होम</span></button>
     <button class="btn" id="btnCloud"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg><span data-i18n="cloudUploadCurrent">बैकअप</span></button>
     <button class="btn" id="btnLibrary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16"/><path d="M8 8v12"/><path d="M12 6v14"/><path d="m16 6 4 14"/></svg><span data-i18n="libraryBtn">सेशन</span></button>
     <button class="btn primary" id="btnExportMd" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span data-i18n="exportMd">MD निर्यात</span></button>
     <select class="btn langsel" aria-label="Language"></select>
-    <button class="btn" id="btnPasteTop"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg><span data-i18n="pasteText">टेक्स्ट पेस्ट करें</span></button>
-    <button class="btn" id="btnOpen"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-i18n="openFile">फ़ाइल खोलें</span></button>
+    <div class="menu-wrap" id="openMenuWrap">
+      <button class="btn" id="btnOpen" aria-haspopup="menu" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-i18n="openMenuBtn">खोलें</span><svg class="mcaret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="dropdown" role="menu">
+        <button class="btn menu-btn" id="btnOpenFile" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg><span data-i18n="openFile">फ़ाइल खोलें</span></button>
+        <button class="btn menu-btn" id="btnOpenFolder" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-i18n="openFolder">फ़ोल्डर खोलें</span></button>
+        <button class="btn menu-btn" id="btnPasteTop" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg><span data-i18n="pasteText">टेक्स्ट पेस्ट करें</span></button>
+      </div>
+    </div>
     <div class="avatar-wrap" id="avatarTop" hidden></div>
   </div>
   <div id="refreshbar" class="hidden">
     <button class="btn" id="btnRefresh" data-i18n="refresh">रीफ़्रेश करें</button>
     <span id="refreshStatus" role="status"></span>
+    <span id="mstats"></span>
   </div>
   <div id="main">
     <div id="nav"><h3 data-i18n="navProjects">प्रोजेक्ट</h3><div id="navList"></div><div id="navResizer" title=""></div></div>
@@ -564,7 +605,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     </div>
     <p class="dirhint" data-i18n-html="dirTip">सुझाव (macOS): पिकर में <kbd>⌘⇧.</kbd> दबाएं ताकि छिपे फ़ोल्डर दिखें, या Finder में <kbd>⌘⇧G</kbd> दबाकर <code>~/.claude/projects</code> टाइप करें। पिकर आपका अंतिम फ़ोल्डर याद रखता है।</p>
     <div class="libwarn" id="libWarn" data-i18n="storageWarn">ब्राउज़र स्टोरेज भर गया है; कुछ सेशन केवल सारांश के रूप में सहेजे गए हैं।</div>
-    <div id="libProgress"></div>
+    <div id="libProgress" hidden><div class="libprog-row"><span id="libProgText"></span><button class="btn" id="libCancel" type="button" data-i18n="importCancel">इंपोर्ट रद्द करें</button></div><div class="libprog-bar"><div id="libProgFill"></div></div></div>
     <div class="lib-selection"><label><input type="checkbox" id="libSelectAll"><span data-i18n="cloudSelectAll">सभी चुनें</span></label><span id="libSelectedCount"></span></div>
     <div id="libList"></div>
     <div class="libempty" id="libEmpty">
@@ -592,7 +633,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <button class="btn" id="cloudMore" data-i18n="cloudMore" hidden>और लोड करें</button>
   </div>
 </div>
-<div id="paste">
+<dialog id="paste">
   <div class="panel">
     <h2 data-i18n="pasteTitle">JSONL टेक्स्ट पेस्ट करें</h2>
     <p class="hint" data-i18n="pasteHint">पूरी हिस्ट्री फ़ाइल की सामग्री यहाँ पेस्ट करें, हर लाइन में एक JSON ऑब्जेक्ट (एकल JSON ऐरे / ऑब्जेक्ट भी चलेगा)।</p>
@@ -603,7 +644,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <button class="btn primary" id="pasteLoad" data-i18n="loadBtn">लोड करें</button>
     </div>
   </div>
-</div>
+</dialog>
 <dialog id="imagePreview" aria-label="Image preview">
   <button class="btn" id="closeImagePreview" data-i18n="closeBtn">बंद करें</button>
   <img id="previewImage" alt="">
@@ -624,6 +665,8 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
   <p id="cloudStatus" role="status" aria-live="polite"></p>
   <button class="btn" id="cloudViewSaved" hidden><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 7 7 0 0 0-13.36 2.2A4.5 4.5 0 0 0 6.5 19z"/></svg><span data-i18n="cloudView">क्लाउड बैकअप देखें</span></button>
 </dialog>
+<dialog id="confirmDlg" aria-modal="true"><p id="confirmMsg"></p><div class="actions"><button class="btn" id="confirmNo" data-i18n="cancel">रद्द करें</button><button class="btn primary" id="confirmYes" data-i18n="okBtn">ठीक है</button></div></dialog>
+<div id="toasts" aria-live="polite"></div>
 <input type="file" id="cloudFile" accept=".jsonl" multiple style="display:none">
 <input type="file" id="file" accept=".jsonl,.json,.txt" style="display:none">
 <input type="file" id="refreshFile" accept=".jsonl,.json,.txt" style="display:none">
@@ -637,10 +680,30 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={'hi':{"brand": "CCViewer", "thinking": "थिंकिंग", "tools": "टूल्स", "sysInj": "सिस्टम/इंजेक्टेड", "expandAll": "सब खोलें", "pasteText": "टेक्स्ट पेस्ट करें", "openFile": "फ़ाइल खोलें", "noFile": "कोई फ़ाइल लोड नहीं", "dropHint1": "कोई <b>.jsonl</b> फ़ाइल <b>या पूरा प्रोजेक्ट फ़ोल्डर</b> यहाँ खींचें, या चुनने के लिए क्लिक करें", "dropHint2": "जैसे पूरा <code>~/.claude/projects/</code> फ़ोल्डर, या उसमें से कोई एक <code>&lt;sessionId&gt;.jsonl</code>", "chooseFile": "फ़ाइल चुनें", "pasteTitle": "JSONL टेक्स्ट पेस्ट करें", "pasteHint": "पूरी हिस्ट्री फ़ाइल की सामग्री यहाँ पेस्ट करें, हर लाइन में एक JSON ऑब्जेक्ट (एकल JSON ऐरे / ऑब्जेक्ट भी चलेगा)।", "cancel": "रद्द करें", "loadBtn": "लोड करें", "thinkLabel": "✻ थिंकिंग", "you": "आप", "reply": "उत्तर", "result": "परिणाम", "error": "त्रुटि", "lines": "लाइनें", "images": "इमेज", "viewResult": "परिणाम देखें", "sysMsg": "सिस्टम संदेश", "injCtx": "इंजेक्टेड संदर्भ", "system": "सिस्टम", "sessionInfo": "सेशन जानकारी", "stats": "आँकड़े", "costUsage": "लागत / उपयोग", "titleRow": "शीर्षक", "projectDir": "प्रोजेक्ट डायरेक्टरी", "gitBranch": "Git ब्रांच", "version": "संस्करण", "sessionId": "सेशन ID", "time": "समय", "model": "मॉडल", "userMsgs": "उपयोगकर्ता संदेश", "replies": "उत्तर", "toolCalls": "टूल कॉल", "thinkingStat": "थिंकिंग", "imagesStat": "इमेज", "parseFailed": "पार्स विफल", "home": "होम", "inTokens": "इनपुट टोकन", "outTokens": "आउटपुट टोकन", "cacheRead": "कैश रीड", "cacheCreate": "कैश राइट", "totalCost": "कुल लागत", "linesPM": "कोड लाइनें +/-", "apiTime": "API समय", "toolTime": "टूल समय", "viewerSuffix": "हिस्ट्री व्यूअर", "pasteEmptyErr": "कोई वैध रिकॉर्ड पार्स नहीं हुआ। पेस्ट की गई सामग्री जाँचें।", "pastedContent": "पेस्ट की गई सामग्री", "intro": "ब्राउज़र में Claude Code JSONL सत्र स्थानीय रूप से पढ़ें। संदेश और टूल कॉल देखें, फ़ोल्डर आयात करें और Markdown निर्यात करें। निःशुल्क और ओपन सोर्स।", "featMd": "Markdown रेंडरिंग", "featMdD": "कोड ब्लॉक, टेबल, सूचियाँ और उद्धरण", "featThink": "थिंकिंग प्रोसेस", "featThinkD": "extended thinking को फोल्ड करके देखें", "featTool": "टूल कॉल", "featToolD": "पैरामीटर और परिणाम, खोलकर देखें", "featCost": "उपयोग और लागत", "featCostD": "टोकन उपयोग, अवधि और खर्च", "featI18n": "बहुभाषी इंटरफ़ेस", "featI18nD": "10 भाषाओं में एक क्लिक पर बदलें", "featPrivacy": "प्राइवेसी पहले", "featPrivacyD": "100% क्लाइंट-साइड, शून्य अपलोड", "featCloud": "क्लाउड पर स्थायी बैकअप", "featCloudD": "GitHub से लॉगिन करके .jsonl सेशन क्लाउड पर अपलोड करें — किसी भी डिवाइस से हमेशा के लिए सुरक्षित रखें, खोलें या डाउनलोड करें, केवल आपको दिखें।", "faqTitle": "सामान्य प्रश्न", "tagline": ".jsonl सेशन फ़ाइलों को ब्राउज़र में लोकल रेंडर करें। प्राइवेट, मुफ़्त और ओपन-सोर्स", "heroTitle": "<em>Claude Code</em> का सेशन इतिहास पढ़ें", "pvUserQ": "मोबाइल पर लॉगिन पेज का टूटा लेआउट ठीक करो", "pvThink": "पहले लॉगिन पेज के स्टाइल देखता हूँ…", "pvReply": "समस्या <code>flex</code> लेआउट में <code>wrap</code> के अभाव से थी। ठीक किया और 375px चौड़ाई पर जाँचा।", "footerPrivacy": "सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं। केवल वे फ़ाइलें निजी क्लाउड में अपलोड होती हैं जिन्हें आप बैकअप के लिए चुनते हैं। केवल आपका खाता उन्हें देख सकता है। स्थानीय रूप से देखने के लिए लॉगिन नहीं चाहिए। हर JSONL फ़ाइल अधिकतम 20 MiB।", "q1": "Claude Code की पुरानी सेशन कैसे देखें?", "a1": "लोकल सत्रों का डिफ़ॉल्ट स्थान ~/.claude/projects/ है। CLAUDE_CONFIG_DIR से आधार निर्देशिका बदलती है। सत्र सहेजना बंद हो सकता है और प्रतिधारण नियम फ़ाइलें हटा सकते हैं; पूरा इतिहास हमेशा नहीं रहता। क्लाउड या रिमोट सत्र के लिए निष्पादन परिवेश जाँचें।", "q2": "क्या मेरी सेशन फ़ाइल कहीं अपलोड होती है?", "a2": "सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं। केवल वे फ़ाइलें निजी क्लाउड में अपलोड होती हैं जिन्हें आप बैकअप के लिए चुनते हैं। केवल आपका खाता उन्हें देख सकता है। स्थानीय रूप से देखने के लिए लॉगिन नहीं चाहिए। हर JSONL फ़ाइल अधिकतम 20 MiB।", "q3": "व्यूअर क्या सबपोर्ट करता है?", "a3": "संदेशों की Markdown रेंडरिंग, extended thinking ब्लॉक, टूल कॉल के पैरामीटर और परिणाम, इमेज, टोकन उपयोग व लागत आँकड़े — 10 भाषाओं के इंटरफ़ेस के साथ।", "q4": ".jsonl क्या फॉर्मेट है?", "a4": "JSON Lines — हर लाइन में एक स्वतंत्र JSON ऑब्जेक्ट। Claude Code हर संदेश, टूल कॉल और मेटाडेटा को एक लाइन के रूप में लिखता है।", "q5": "क्या CCViewer मुफ़्त है?", "a5": "हाँ, मुफ़्त और ओपन-सोर्स। कोई रजिस्ट्रेशन ज़रूरी नहीं।", "libraryBtn": "सेशन", "libraryTitle": "सेशन लाइब्रेरी", "libraryEmpty": "अभी कोई सेशन नहीं है। अपनी लाइब्रेरी बनाने के लिए .jsonl फ़ाइलों वाला फ़ोल्डर खोलें।", "openFolder": "फ़ोल्डर खोलें", "importing": "इंपोर्ट हो रहा है… {n}/{m}", "importedN": "{n} सेशन", "sortRecent": "सबसे नए", "sortOldest": "सबसे पुराने", "sortMsgs": "संदेश", "sortTokens": "टोकन", "sortCost": "लागत", "deleteBtn": "हटाएं", "clearAll": "सब हटाएं", "confirmDelete": "यह सेशन हटाएं?", "confirmClear": "सभी सहेजे गए सेशन हटाएं? इसे पूर्ववत नहीं किया जा सकता।", "noTextErr": "सामग्री कैश नहीं है (स्टोरेज भरा हुआ है)। खोलने के लिए फ़ोल्डर दोबारा इंपोर्ट करें।", "storageWarn": "ब्राउज़र स्टोरेज भर गया है; कुछ सेशन केवल सारांश के रूप में सहेजे गए हैं।", "closeBtn": "बंद करें", "dirTip": "सुझाव (macOS): पिकर में <kbd>⌘⇧.</kbd> दबाएं ताकि छिपे फ़ोल्डर दिखें, या Finder में <kbd>⌘⇧G</kbd> दबाकर <code>~/.claude/projects</code> टाइप करें। पिकर आपका अंतिम फ़ोल्डर याद रखता है।", "navProjects": "प्रोजेक्ट", "noProject": "(कोई प्रोजेक्ट डायरेक्टरी नहीं)", "toggleNav": "प्रोजेक्ट पैनल टॉगल करें", "dragResize": "चौड़ाई बदलने के लिए खींचें", "exportMd": "MD निर्यात", "exportEmptyErr": "पहले एक सत्र लोड करें।", "guideH": "गाइड", "tutorialCap": "फ़ाइल खोलें → छिपे फ़ोल्डर दिखाने के लिए ⌘⇧. दबाएँ → ~/.claude/projects/ खोलें → सेशन .jsonl चुनें → आँकड़े, thinking और टूल ब्लॉक, फ़िल्टर और Markdown निर्यात।", "tutReplay": "फिर से चलाएँ", "tutS1": "खोलें डायलॉग में ⌘ ⇧ . दबाकर छिपे फ़ोल्डर दिखाएँ", "tutS2": "छिपे फ़ोल्डर दिखाई देते हैं — ~/.claude खोलें", "tutS3": "~/.claude/projects/ खोलें", "tutS4": "सेशन फ़ाइल चुनें और Open पर क्लिक करें", "tutS5": "सेशन आँकड़े — टर्न, टोकन, लागत और मेटाडेटा एक नज़र में", "tutS6": "thinking ब्लॉक, टूल कॉल और परिणाम इनलाइन दिखते हैं", "tutS7": "एक क्लिक में thinking, टूल और मेटाडेटा टॉगल करें", "tutS8": "पूरी बातचीत Markdown में निर्यात करें", "g1": "Claude Code सत्र का पूरा इतिहास कैसे देखें", "g2": "सत्र की JSONL फ़ाइल कैसे खोजें", "g3": "Claude Code सत्र इतिहास कहाँ सेव होता है?", "g4": "2026 में Claude Code सत्र का सबसे अच्छा व्यूअर कौन?", "helpCenter": "सहायता", "resourcesTitle": "आधिकारिक संसाधन", "resourcesDocs": "दस्तावेज़", "resourcesIssues": "समस्या की रिपोर्ट करें", "refresh": "रीफ़्रेश करें", "refreshReady": "स्रोत फ़ाइल जुड़ी है · नवीनतम स्थानीय सामग्री पढ़ी जाएगी", "refreshReconnect": "स्रोत फ़ाइल फिर से चुनने के लिए रीफ़्रेश करें। अपने आप रीफ़्रेश करने के लिए फ़ाइल का निरंतर एक्सेस चाहिए।", "refreshing": "रीफ़्रेश हो रहा है…", "refreshChecked": "{time} पर जाँचा गया", "refreshFailed": "स्रोत फ़ाइल पढ़ी नहीं जा सकी। फिर से जोड़ने के लिए रीफ़्रेश करें।", "refreshWrongFile": "इस सत्र की स्रोत फ़ाइल चुनें।", "imagePreview": "छवि पूर्वावलोकन", "cloudTitle": "क्लाउड बैकअप", "cloudLoginRequired": "अपने निजी बैकअप देखने के लिए लॉगिन करें।", "cloudLogin": "GitHub से लॉगिन करें", "cloudLogout": "लॉग आउट", "cloudPrivacy": "बैकअप केवल आप देख सकते हैं। हर फ़ाइल अधिकतम 20 MiB।", "cloudPick": "फ़ाइलों का बैकअप…", "cloudUploadCurrent": "बैकअप", "cloudWorking": "प्रक्रिया जारी है…", "cloudEmpty": "अभी कोई क्लाउड बैकअप नहीं है।", "loginBtn": "लॉगिन", "cloudPageTitle": "क्लाउड सेशन", "cloudRecords": "{n} रिकॉर्ड", "cloudMore": "और लोड करें", "cloudRestore": "सत्र खोलें", "cloudDownload": "डाउनलोड करें", "cloudUnavailable": "इस साइट पर क्लाउड बैकअप सेट नहीं है। स्थानीय रूप से देखना उपलब्ध है।", "cloudTooLarge": "फ़ाइल 20 MiB की सीमा से बड़ी है।", "cloudInvalidJsonl": "खाली न होने वाली UTF-8 JSONL फ़ाइल चुनें, जिसमें हर पंक्ति में एक JSON ऑब्जेक्ट हो।", "cloudInvalidName": "बिना पथ या नियंत्रण अक्षरों वाला .jsonl चुनें, जिसका नाम अधिकतम 240 UTF-8 बाइट हो।", "cloudInvalidDescription": "बिना नियंत्रण अक्षरों के अधिकतम 500 अक्षरों का विवरण दर्ज करें।", "cloudNotFound": "यह बैकअप अब उपलब्ध नहीं है।", "cloudOriginError": "क्लाउड बैकअप के लिए कॉन्फ़िगर किए गए साइट पते का उपयोग करें।", "cloudNetworkError": "कनेक्ट नहीं हो सका। नेटवर्क जाँचकर फिर कोशिश करें।", "cloudRequestFailed": "क्लाउड अनुरोध विफल हुआ। फिर कोशिश करें।", "cloudOnlineOnly": "क्लाउड बैकअप के लिए होस्ट की गई साइट चाहिए। ऑफ़लाइन प्रति में स्थानीय रूप से देख सकते हैं।", "cloudUploaded": "बैकअप अपलोड हो गया।", "cloudLoggedOut": "लॉग आउट हो गया।", "cloudConfirmDelete": "क्लाउड बैकअप “{name}” हटाएँ? स्थानीय प्रति बनी रहेगी।", "cloudDeleted": "क्लाउड बैकअप हटा दिया गया।", "cloudLoginFailed": "GitHub लॉगिन विफल या समाप्त हो गया। फिर कोशिश करें।", "cloudLoginBackup": "साइन इन करके बैकअप लें", "cloudLoginContinue": "सत्र और पढ़ने की स्थिति सुरक्षित रहेगी। साइन इन के बाद बैकअप जारी रहेगा।", "cloudPreserveFailed": "साइन इन से पहले सत्र सहेजा नहीं जा सका। ब्राउज़र में जगह खाली करके फिर कोशिश करें।", "cloudBatchTitle": "{n} सत्रों का बैकअप", "cloudWaiting": "प्रतीक्षा में", "cloudUploading": "बैकअप जारी…", "cloudDone": "बैकअप पूरा", "cloudFailed": "विफल", "cloudRetry": "अधूरे बैकअप फिर आज़माएँ", "cloudStart": "बैकअप लें", "cloudNameLabel": "सेशन नाम", "cloudDescriptionLabel": "विवरण (वैकल्पिक)", "cloudProgress": "बैकअप {n}/{m}…", "cloudPartial": "{n} पूरे। {m} बाकी हैं; फिर कोशिश करें।", "cloudComplete": "{n} सत्रों का बैकअप पूरा।", "cloudBackupSelected": "चुने गए सत्रों का बैकअप", "cloudSelectAll": "सभी चुनें", "cloudSelectSession": "सत्र चुनें: {name}", "cloudSelectedCount": "{n} चुने गए", "cloudView": "क्लाउड बैकअप देखें", "cloudSaved": "सहेजे गए बैकअप"}};
+const I18N={'hi':{"brand": "CCViewer", "thinking": "थिंकिंग", "tools": "टूल्स", "sysInj": "सिस्टम/इंजेक्टेड", "expandAll": "सब खोलें", "pasteText": "टेक्स्ट पेस्ट करें", "openFile": "फ़ाइल खोलें", "noFile": "कोई फ़ाइल लोड नहीं", "dropHint1": "कोई <b>.jsonl</b> फ़ाइल <b>या पूरा प्रोजेक्ट फ़ोल्डर</b> यहाँ खींचें, या चुनने के लिए क्लिक करें", "dropHint2": "जैसे पूरा <code>~/.claude/projects/</code> फ़ोल्डर, या उसमें से कोई एक <code>&lt;sessionId&gt;.jsonl</code>", "chooseFile": "फ़ाइल चुनें", "pasteTitle": "JSONL टेक्स्ट पेस्ट करें", "pasteHint": "पूरी हिस्ट्री फ़ाइल की सामग्री यहाँ पेस्ट करें, हर लाइन में एक JSON ऑब्जेक्ट (एकल JSON ऐरे / ऑब्जेक्ट भी चलेगा)।", "cancel": "रद्द करें", "loadBtn": "लोड करें", "thinkLabel": "✻ थिंकिंग", "you": "आप", "reply": "उत्तर", "result": "परिणाम", "error": "त्रुटि", "lines": "लाइनें", "images": "इमेज", "viewResult": "परिणाम देखें", "sysMsg": "सिस्टम संदेश", "injCtx": "इंजेक्टेड संदर्भ", "system": "सिस्टम", "sessionInfo": "सेशन जानकारी", "stats": "आँकड़े", "costUsage": "लागत / उपयोग", "titleRow": "शीर्षक", "projectDir": "प्रोजेक्ट डायरेक्टरी", "gitBranch": "Git ब्रांच", "version": "संस्करण", "sessionId": "सेशन ID", "time": "समय", "model": "मॉडल", "userMsgs": "उपयोगकर्ता संदेश", "replies": "उत्तर", "toolCalls": "टूल कॉल", "thinkingStat": "थिंकिंग", "imagesStat": "इमेज", "parseFailed": "पार्स विफल", "home": "होम", "inTokens": "इनपुट टोकन", "outTokens": "आउटपुट टोकन", "cacheRead": "कैश रीड", "cacheCreate": "कैश राइट", "totalCost": "कुल लागत", "linesPM": "कोड लाइनें +/-", "apiTime": "API समय", "toolTime": "टूल समय", "viewerSuffix": "हिस्ट्री व्यूअर", "pasteEmptyErr": "कोई वैध रिकॉर्ड पार्स नहीं हुआ। पेस्ट की गई सामग्री जाँचें।", "pastedContent": "पेस्ट की गई सामग्री", "intro": "ब्राउज़र में Claude Code JSONL सत्र स्थानीय रूप से पढ़ें। संदेश और टूल कॉल देखें, फ़ोल्डर आयात करें और Markdown निर्यात करें। निःशुल्क और ओपन सोर्स।", "featMd": "Markdown रेंडरिंग", "featMdD": "कोड ब्लॉक, टेबल, सूचियाँ और उद्धरण", "featThink": "थिंकिंग प्रोसेस", "featThinkD": "extended thinking को फोल्ड करके देखें", "featTool": "टूल कॉल", "featToolD": "पैरामीटर और परिणाम, खोलकर देखें", "featCost": "उपयोग और लागत", "featCostD": "टोकन उपयोग, अवधि और खर्च", "featI18n": "बहुभाषी इंटरफ़ेस", "featI18nD": "10 भाषाओं में एक क्लिक पर बदलें", "featPrivacy": "प्राइवेसी पहले", "featPrivacyD": "100% क्लाइंट-साइड, शून्य अपलोड", "featCloud": "क्लाउड पर स्थायी बैकअप", "featCloudD": "GitHub से लॉगिन करके .jsonl सेशन क्लाउड पर अपलोड करें — किसी भी डिवाइस से हमेशा के लिए सुरक्षित रखें, खोलें या डाउनलोड करें, केवल आपको दिखें।", "faqTitle": "सामान्य प्रश्न", "tagline": ".jsonl सेशन फ़ाइलों को ब्राउज़र में लोकल रेंडर करें। प्राइवेट, मुफ़्त और ओपन-सोर्स", "heroTitle": "<em>Claude Code</em> का सेशन इतिहास पढ़ें", "pvUserQ": "मोबाइल पर लॉगिन पेज का टूटा लेआउट ठीक करो", "pvThink": "पहले लॉगिन पेज के स्टाइल देखता हूँ…", "pvReply": "समस्या <code>flex</code> लेआउट में <code>wrap</code> के अभाव से थी। ठीक किया और 375px चौड़ाई पर जाँचा।", "footerPrivacy": "सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं। केवल वे फ़ाइलें निजी क्लाउड में अपलोड होती हैं जिन्हें आप बैकअप के लिए चुनते हैं। केवल आपका खाता उन्हें देख सकता है। स्थानीय रूप से देखने के लिए लॉगिन नहीं चाहिए। हर JSONL फ़ाइल अधिकतम 20 MiB।", "q1": "Claude Code की पुरानी सेशन कैसे देखें?", "a1": "लोकल सत्रों का डिफ़ॉल्ट स्थान ~/.claude/projects/ है। CLAUDE_CONFIG_DIR से आधार निर्देशिका बदलती है। सत्र सहेजना बंद हो सकता है और प्रतिधारण नियम फ़ाइलें हटा सकते हैं; पूरा इतिहास हमेशा नहीं रहता। क्लाउड या रिमोट सत्र के लिए निष्पादन परिवेश जाँचें।", "q2": "क्या मेरी सेशन फ़ाइल कहीं अपलोड होती है?", "a2": "सेशन फ़ाइलें ब्राउज़र में स्थानीय रूप से पार्स और प्रदर्शित होती हैं। ऑनलाइन साइट पेज इंटरैक्शन रिकॉर्ड करने के लिए Microsoft Clarity अपने आप लोड करती है। ऑफलाइन प्रतियां एनालिटिक्स लोड नहीं करतीं। केवल वे फ़ाइलें निजी क्लाउड में अपलोड होती हैं जिन्हें आप बैकअप के लिए चुनते हैं। केवल आपका खाता उन्हें देख सकता है। स्थानीय रूप से देखने के लिए लॉगिन नहीं चाहिए। हर JSONL फ़ाइल अधिकतम 20 MiB।", "q3": "व्यूअर क्या सबपोर्ट करता है?", "a3": "संदेशों की Markdown रेंडरिंग, extended thinking ब्लॉक, टूल कॉल के पैरामीटर और परिणाम, इमेज, टोकन उपयोग व लागत आँकड़े — 10 भाषाओं के इंटरफ़ेस के साथ।", "q4": ".jsonl क्या फॉर्मेट है?", "a4": "JSON Lines — हर लाइन में एक स्वतंत्र JSON ऑब्जेक्ट। Claude Code हर संदेश, टूल कॉल और मेटाडेटा को एक लाइन के रूप में लिखता है।", "q5": "क्या CCViewer मुफ़्त है?", "a5": "हाँ, मुफ़्त और ओपन-सोर्स। कोई रजिस्ट्रेशन ज़रूरी नहीं।", "libraryBtn": "सेशन", "libraryTitle": "सेशन लाइब्रेरी", "libraryEmpty": "अभी कोई सेशन नहीं है। अपनी लाइब्रेरी बनाने के लिए .jsonl फ़ाइलों वाला फ़ोल्डर खोलें।", "openFolder": "फ़ोल्डर खोलें", "importing": "इंपोर्ट हो रहा है… {n}/{m}", "importCancel": "इंपोर्ट रद्द करें", "parsingSession": "सेशन पार्स हो रहा है…", "handleReadErr": "यह फ़ाइल पढ़ी नहीं जा सकी। एक्सेस दोबारा दें या फ़ोल्डर दोबारा इंपोर्ट करें।", "deletedOk": "हटा दिया गया", "displayBtn": "प्रदर्शन", "openMenuBtn": "खोलें", "fsTitle": "फ़ॉन्ट आकार", "copyBtn": "कॉपी", "copied": "कॉपी हो गया", "copyFailed": "कॉपी विफल", "okBtn": "ठीक है", "importedN": "{n} सेशन", "sortRecent": "सबसे नए", "sortOldest": "सबसे पुराने", "sortMsgs": "संदेश", "sortTokens": "टोकन", "sortCost": "लागत", "deleteBtn": "हटाएं", "clearAll": "सब हटाएं", "confirmDelete": "यह सेशन हटाएं?", "confirmClear": "सभी सहेजे गए सेशन हटाएं? इसे पूर्ववत नहीं किया जा सकता।", "noTextErr": "सामग्री कैश नहीं है (स्टोरेज भरा हुआ है)। खोलने के लिए फ़ोल्डर दोबारा इंपोर्ट करें।", "storageWarn": "ब्राउज़र स्टोरेज भर गया है; कुछ सेशन केवल सारांश के रूप में सहेजे गए हैं।", "closeBtn": "बंद करें", "dirTip": "सुझाव (macOS): पिकर में <kbd>⌘⇧.</kbd> दबाएं ताकि छिपे फ़ोल्डर दिखें, या Finder में <kbd>⌘⇧G</kbd> दबाकर <code>~/.claude/projects</code> टाइप करें। पिकर आपका अंतिम फ़ोल्डर याद रखता है।", "navProjects": "प्रोजेक्ट", "noProject": "(कोई प्रोजेक्ट डायरेक्टरी नहीं)", "toggleNav": "प्रोजेक्ट पैनल टॉगल करें", "dragResize": "चौड़ाई बदलने के लिए खींचें", "exportMd": "MD निर्यात", "exportEmptyErr": "पहले एक सत्र लोड करें।", "guideH": "गाइड", "tutorialCap": "फ़ाइल खोलें → छिपे फ़ोल्डर दिखाने के लिए ⌘⇧. दबाएँ → ~/.claude/projects/ खोलें → सेशन .jsonl चुनें → आँकड़े, thinking और टूल ब्लॉक, फ़िल्टर और Markdown निर्यात।", "tutReplay": "फिर से चलाएँ", "tutS1": "खोलें डायलॉग में ⌘ ⇧ . दबाकर छिपे फ़ोल्डर दिखाएँ", "tutS2": "छिपे फ़ोल्डर दिखाई देते हैं — ~/.claude खोलें", "tutS3": "~/.claude/projects/ खोलें", "tutS4": "सेशन फ़ाइल चुनें और Open पर क्लिक करें", "tutS5": "सेशन आँकड़े — टर्न, टोकन, लागत और मेटाडेटा एक नज़र में", "tutS6": "thinking ब्लॉक, टूल कॉल और परिणाम इनलाइन दिखते हैं", "tutS7": "एक क्लिक में thinking, टूल और मेटाडेटा टॉगल करें", "tutS8": "पूरी बातचीत Markdown में निर्यात करें", "g1": "Claude Code सत्र का पूरा इतिहास कैसे देखें", "g2": "सत्र की JSONL फ़ाइल कैसे खोजें", "g3": "Claude Code सत्र इतिहास कहाँ सेव होता है?", "g4": "2026 में Claude Code सत्र का सबसे अच्छा व्यूअर कौन?", "helpCenter": "सहायता", "resourcesTitle": "आधिकारिक संसाधन", "resourcesDocs": "दस्तावेज़", "resourcesIssues": "समस्या की रिपोर्ट करें", "refresh": "रीफ़्रेश करें", "refreshReady": "स्रोत फ़ाइल जुड़ी है · नवीनतम स्थानीय सामग्री पढ़ी जाएगी", "refreshReconnect": "स्रोत फ़ाइल फिर से चुनने के लिए रीफ़्रेश करें। अपने आप रीफ़्रेश करने के लिए फ़ाइल का निरंतर एक्सेस चाहिए।", "refreshing": "रीफ़्रेश हो रहा है…", "refreshChecked": "{time} पर जाँचा गया", "refreshFailed": "स्रोत फ़ाइल पढ़ी नहीं जा सकी। फिर से जोड़ने के लिए रीफ़्रेश करें।", "refreshWrongFile": "इस सत्र की स्रोत फ़ाइल चुनें।", "imagePreview": "छवि पूर्वावलोकन", "cloudTitle": "क्लाउड बैकअप", "cloudLoginRequired": "अपने निजी बैकअप देखने के लिए लॉगिन करें।", "cloudLogin": "GitHub से लॉगिन करें", "cloudLogout": "लॉग आउट", "cloudPrivacy": "बैकअप केवल आप देख सकते हैं। हर फ़ाइल अधिकतम 20 MiB।", "cloudPick": "फ़ाइलों का बैकअप…", "cloudUploadCurrent": "बैकअप", "cloudWorking": "प्रक्रिया जारी है…", "cloudEmpty": "अभी कोई क्लाउड बैकअप नहीं है।", "loginBtn": "लॉगिन", "cloudPageTitle": "क्लाउड सेशन", "cloudRecords": "{n} रिकॉर्ड", "cloudMore": "और लोड करें", "cloudRestore": "सत्र खोलें", "cloudDownload": "डाउनलोड करें", "cloudUnavailable": "इस साइट पर क्लाउड बैकअप सेट नहीं है। स्थानीय रूप से देखना उपलब्ध है।", "cloudTooLarge": "फ़ाइल 20 MiB की सीमा से बड़ी है।", "cloudInvalidJsonl": "खाली न होने वाली UTF-8 JSONL फ़ाइल चुनें, जिसमें हर पंक्ति में एक JSON ऑब्जेक्ट हो।", "cloudInvalidName": "बिना पथ या नियंत्रण अक्षरों वाला .jsonl चुनें, जिसका नाम अधिकतम 240 UTF-8 बाइट हो।", "cloudInvalidDescription": "बिना नियंत्रण अक्षरों के अधिकतम 500 अक्षरों का विवरण दर्ज करें।", "cloudNotFound": "यह बैकअप अब उपलब्ध नहीं है।", "cloudOriginError": "क्लाउड बैकअप के लिए कॉन्फ़िगर किए गए साइट पते का उपयोग करें।", "cloudNetworkError": "कनेक्ट नहीं हो सका। नेटवर्क जाँचकर फिर कोशिश करें।", "cloudRequestFailed": "क्लाउड अनुरोध विफल हुआ। फिर कोशिश करें।", "cloudOnlineOnly": "क्लाउड बैकअप के लिए होस्ट की गई साइट चाहिए। ऑफ़लाइन प्रति में स्थानीय रूप से देख सकते हैं।", "cloudUploaded": "बैकअप अपलोड हो गया।", "cloudLoggedOut": "लॉग आउट हो गया।", "cloudConfirmDelete": "क्लाउड बैकअप “{name}” हटाएँ? स्थानीय प्रति बनी रहेगी।", "cloudDeleted": "क्लाउड बैकअप हटा दिया गया।", "cloudLoginFailed": "GitHub लॉगिन विफल या समाप्त हो गया। फिर कोशिश करें।", "cloudLoginBackup": "साइन इन करके बैकअप लें", "cloudLoginContinue": "सत्र और पढ़ने की स्थिति सुरक्षित रहेगी। साइन इन के बाद बैकअप जारी रहेगा।", "cloudPreserveFailed": "साइन इन से पहले सत्र सहेजा नहीं जा सका। ब्राउज़र में जगह खाली करके फिर कोशिश करें।", "cloudBatchTitle": "{n} सत्रों का बैकअप", "cloudWaiting": "प्रतीक्षा में", "cloudUploading": "बैकअप जारी…", "cloudDone": "बैकअप पूरा", "cloudFailed": "विफल", "cloudRetry": "अधूरे बैकअप फिर आज़माएँ", "cloudStart": "बैकअप लें", "cloudNameLabel": "सेशन नाम", "cloudDescriptionLabel": "विवरण (वैकल्पिक)", "cloudProgress": "बैकअप {n}/{m}…", "cloudPartial": "{n} पूरे। {m} बाकी हैं; फिर कोशिश करें।", "cloudComplete": "{n} सत्रों का बैकअप पूरा।", "cloudBackupSelected": "चुने गए सत्रों का बैकअप", "cloudSelectAll": "सभी चुनें", "cloudSelectSession": "सत्र चुनें: {name}", "cloudSelectedCount": "{n} चुने गए", "cloudView": "क्लाउड बैकअप देखें", "cloudSaved": "सहेजे गए बैकअप"}};
 const LANG='hi';
 const BASE_PATH='/claude-code-session-viewer';
 const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
+/* ---------- toast / 自定义确认框（替代原生 alert/confirm）---------- */
+function toast(msg,type){
+  const wrap=$('#toasts');if(!wrap)return;
+  const item=el('div','toast'+(type?' '+type:''));item.textContent=msg;
+  wrap.appendChild(item);
+  setTimeout(()=>{item.style.opacity='0';setTimeout(()=>item.remove(),320);},3400);
+}
+function uiConfirm(message){
+  return new Promise(resolve=>{
+    const dlg=$('#confirmDlg');
+    if(!dlg||!dlg.showModal){resolve(typeof confirm==='function'?confirm(message):true);return;}
+    let settled=false;
+    const done=v=>{if(settled)return;settled=true;try{dlg.close();}catch(e){}resolve(v);};
+    $('#confirmYes').onclick=()=>done(true);
+    $('#confirmNo').onclick=()=>done(false);
+    dlg.oncancel=()=>done(false);
+    $('#confirmMsg').textContent=message;
+    if(!dlg.open)dlg.showModal();
+  });
+}
 function applyLang(){
   document.querySelectorAll('[data-i18n]').forEach(e=>{e.textContent=t(e.getAttribute('data-i18n'));});
   document.querySelectorAll('[data-i18n-html]').forEach(e=>{e.innerHTML=t(e.getAttribute('data-i18n-html'));});
@@ -897,6 +960,13 @@ function renderToolResult(b){
 }
 const PLACEHOLDER_RENDER2=1;
 /* ---------- 行容器 ---------- */
+// 单条消息 hover 复制按钮：挂在 meta 行右端
+function attachCopy(node,getText){
+  const meta=node.querySelector('.meta-line');if(!meta)return;
+  const btn=el('button','msgcopy');btn.type='button';btn.title=t('copyBtn');btn.textContent='⎘';btn.setAttribute('aria-label',t('copyBtn'));
+  btn.onclick=async()=>{try{await navigator.clipboard.writeText(getText()||'');toast(t('copied'),'ok');}catch(e){toast(t('copyFailed'),'err');}};
+  meta.appendChild(btn);
+}
 function turn(gutterChar,gutterCls,metaHtml,bodyNode,kindCls){
   const t=el('div','turn '+(kindCls||''));
   const row=el('div','row');
@@ -930,7 +1000,10 @@ function renderEntry(o,stream){
         else if(b.type==='image'&&b.source)box.appendChild(imgEl(imageSource(b.source)));
       }
       const meta='<span class="who">'+esc(t('you'))+'</span> '+metaLine(o);
-      stream.appendChild(turn('&gt;','',meta,box,'user'));
+      const raw=typeof content==='string'?content:(Array.isArray(content)?content.map(b=>b.type==='text'?b.text:(b.type==='image'?'[image]':'')).filter(Boolean).join('\n\n'):'');
+      const un=turn('&gt;','',meta,box,'user');
+      attachCopy(un,()=>raw);
+      stream.appendChild(un);
       return;
     }
     // 工具结果
@@ -950,13 +1023,15 @@ function renderEntry(o,stream){
   }
   if(ty==='assistant'&&typeof content==='string'&&content.trim()){
     const bub=el('div','reply');const d=el('div','md');d.innerHTML=md(content);bub.appendChild(d);
-    stream.appendChild(turn('⏺','','<span class="who ai">'+esc(t('reply'))+'</span> '+metaLine(o),bub,'assistant'));
+    const an=turn('⏺','','<span class="who ai">'+esc(t('reply'))+'</span> '+metaLine(o),bub,'assistant');
+    attachCopy(an,()=>content);
+    stream.appendChild(an);
     return;
   }
   if(ty==='assistant'&&Array.isArray(content)){
-    const body=el('div');let printed=false,hasSolid=false,hasThink=false,hasTool=false;
+    const body=el('div');let printed=false,hasSolid=false,hasThink=false,hasTool=false;const texts=[];
     for(const b of content){
-      if(b.type==='text'&&b.text.trim()){const bub=el('div','reply');const d=el('div','md');d.innerHTML=md(b.text);bub.appendChild(d);body.appendChild(bub);printed=true;hasSolid=true;}
+      if(b.type==='text'&&b.text.trim()){const bub=el('div','reply');const d=el('div','md');d.innerHTML=md(b.text);bub.appendChild(d);body.appendChild(bub);printed=true;hasSolid=true;texts.push(b.text);}
       else if(b.type==='thinking'){
         const tk=renderThinking(b.thinking);
         tk.dataset.think='1';tk.classList.toggle('hidden',!SHOW_THINK);body.appendChild(tk);printed=true;hasThink=true;
@@ -967,6 +1042,7 @@ function renderEntry(o,stream){
     if(printed){
       const meta=hasSolid?('<span class="who ai">'+esc(t('reply'))+'</span> '+metaLine(o)):metaLine(o);
       const tn=turn('⏺','',meta,body,'assistant');
+      if(texts.length)attachCopy(tn,()=>texts.join('\n\n'));
       tn.dataset.aturn='1';
       if(hasSolid)tn.dataset.solid='1';
       if(hasThink)tn.dataset.hasThink='1';
@@ -1012,6 +1088,15 @@ function renderSidebar(sum,bad){
     const crows=[[t('linesPM'),(c.totalLinesAdded||0)+' / -'+(c.totalLinesRemoved||0)],[t('apiTime'),fmtDur(c.totalAPIDuration)],[t('toolTime'),fmtDur(c.totalToolDuration)]];
     for(const [k,v] of crows){if(!v)continue;const d=el('div','kv');d.innerHTML='<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>';sb.appendChild(d);}
     if(c.modelUsage)for(const [m,u] of Object.entries(c.modelUsage)){const d=el('div','kv');d.innerHTML='<div class="k">'+esc(m)+'</div><div class="v">in '+num(u.inputTokens)+' · out '+num(u.outputTokens)+'</div>';sb.appendChild(d);}
+  }
+  // 小屏（侧栏隐藏）时在刷新栏显示一行摘要统计
+  const ms=$('#mstats');
+  if(ms){
+    const bits=[],c=sum.counts||{},tk=sum.tokens||{};
+    if(c.user||c.assistant)bits.push((c.user||0)+' '+t('userMsgs')+' · '+(c.assistant||0)+' '+t('replies'));
+    if(tk.in||tk.out)bits.push('↑'+num(tk.in)+' ↓'+num(tk.out));
+    if(sum.cost&&sum.cost.totalCostUSD!=null)bits.push('$'+sum.cost.totalCostUSD.toFixed(4));
+    ms.textContent=bits.join(' · ');
   }
 }
 function renderAll(){
@@ -1118,7 +1203,7 @@ function zipFiles(files){
 function exportMd(){
   const images=[];
   const md=buildMd(images);
-  if(!md){alert(t('exportEmptyErr'));return;}
+  if(!md){toast(t('exportEmptyErr'),'err');return;}
   const a=document.createElement('a');
   const base=((CUR.sum.title||CUR.name||CUR.sum.sessionId||'session').replace(/\.jsonl?$/i,'').replace(/[^\w\u4e00-\u9fa5.-]+/g,'_').slice(0,80))||'session';
   const blob=images.length?zipFiles([{name:base+'.md',data:new TextEncoder().encode(md)},...images]):new Blob([md],{type:'text/markdown;charset=utf-8'});
@@ -1184,7 +1269,8 @@ function makeId(sum,name,size){
 function sumToJSON(sum){const c=Object.assign({},sum);c.models=Array.from(sum.models||[]);return c;}
 let LIB=[],LIB_FULL=new Map(),LIB_SORT='recent',LIB_WARNED=false;
 const LIB_SELECTED=new Set();
-function libMeta(rec){return {id:rec.id,name:rec.name,source:rec.source,addedAt:rec.addedAt,bad:rec.bad,noText:rec.noText,sum:rec.sum};}
+let IMPORTING=false,IMPORT_CANCEL=false;
+function libMeta(rec){return {id:rec.id,name:rec.name,source:rec.source,addedAt:rec.addedAt,bad:rec.bad,noText:rec.noText,lazy:!!rec.lazy,size:rec.size,sum:rec.sum};}
 // 存原始文本 + 摘要；配额不足时降级为仅摘要（noText）
 async function putRec(rec){
   try{await dbPut(rec);}
@@ -1199,11 +1285,17 @@ async function putRec(rec){
   }
   LIB_FULL.set(rec.id,rec);upsertLib(rec);
 }
-async function saveToLibrary(text,name,source,id){
-  const {entries,bad}=parse(text);
+// pre：调用方已解析过时复用结果，避免重复 parse；同 id 旧记录的句柄与 addedAt 保留
+async function saveToLibrary(text,name,source,id,pre){
+  let entries,bad;
+  if(pre){entries=pre.entries;bad=pre.bad;}
+  else{const p=parse(text);entries=p.entries;bad=p.bad;}
   if(!entries.length)return null;
-  const sum=sumToJSON(summarize(entries));
-  const rec={id:id||makeId(sum,name,text.length),name:name||'',source:source||'file',size:text.length,addedAt:Date.now(),bad,noText:false,sum,text};
+  const sum=sumToJSON(pre?pre.sum:summarize(entries));
+  const rid=id||makeId(sum,name,text.length);
+  const prev=LIB_FULL.get(rid);
+  const rec={id:rid,name:name||'',source:source||'file',size:text.length,addedAt:(prev&&prev.addedAt)||Date.now(),bad,noText:false,lazy:false,sum,text};
+  if(prev&&prev.handle)rec.handle=prev.handle;
   await putRec(rec);
   return rec.id;
 }
@@ -1212,7 +1304,7 @@ function upsertLib(rec){
   const i=LIB.findIndex(x=>x.id===rec.id);
   if(i>=0)LIB[i]=meta;else LIB.push(meta);
   updateLibBtn();
-  if(!$('#library').classList.contains('hide'))renderLibrary();
+  if(!IMPORTING&&!$('#library').classList.contains('hide'))renderLibrary();
 }
 async function loadLibrary(){
   const all=await dbGetAll();
@@ -1255,7 +1347,8 @@ async function openLocalFile(file,source){
   load(text,file.name,false,source);
   const session=CUR;
   showView('viewer');
-  const id=await saveToLibrary(text,file.name,'file');
+  // 复用 load() 的解析结果，避免每次打开重复整文件 parse
+  const id=await saveToLibrary(text,file.name,'file',null,{entries:session.entries,bad:session.bad,sum:session.sum});
   if(id&&source)SESSION_SOURCES.set(id,source);
   if(CUR===session){CUR_ID=id;renderNav();}
 }
@@ -1288,7 +1381,7 @@ async function applyRefresh(session,file,source){
       img.dataset.scrollBound='1';
       img.addEventListener('load',()=>{if(atBottom&&CUR===session&&content.scrollHeight-content.clientHeight-content.scrollTop<img.offsetHeight+60)restoreScroll();},{once:true});
     });
-    const id=await saveToLibrary(text,session.name,session.pasted?'paste':'file',CUR_ID);
+    const id=await saveToLibrary(text,session.name,session.pasted?'paste':'file',CUR_ID,{entries,bad,sum});
     if(id&&source)SESSION_SOURCES.set(id,source);
     if(CUR!==session)return;
     CUR_ID=id;renderNav();
@@ -1404,14 +1497,17 @@ function renderLibrary(){
   for(const m of LIB){
     const row=el('div','librow'+(LIB_SELECTED.has(m.id)?' selected':''));
     row.dataset.id=m.id;
-    const title=sessionDisplayName(m);
+    const title=m.lazy?String(sessionDisplayName(m)).replace(/\.jsonl$/i,''):sessionDisplayName(m);
     const meta=[];
     if(m.sum&&m.sum.cwd)meta.push(m.sum.cwd);
     if(m.sum&&m.sum.firstTs&&m.sum.lastTs)meta.push(fmtTime(m.sum.firstTs)+' → '+fmtTime(m.sum.lastTs));
     else if(m.sum&&m.sum.lastTs)meta.push(fmtTime(m.sum.lastTs));
-    if(m.sum&&m.sum.counts)meta.push(((m.sum.counts.user||0)+(m.sum.counts.assistant||0))+' msgs');
-    if(m.sum&&m.sum.tokens&&(m.sum.tokens.in||m.sum.tokens.out))meta.push('↑'+num(m.sum.tokens.in)+' ↓'+num(m.sum.tokens.out));
-    if(m.sum&&m.sum.cost&&m.sum.cost.totalCostUSD!=null)meta.push('$'+m.sum.cost.totalCostUSD.toFixed(4));
+    if(m.lazy){if(m.size)meta.push((m.size/1024).toLocaleString('en-US',{maximumFractionDigits:0})+' KB');}
+    else{
+      if(m.sum&&m.sum.counts)meta.push(((m.sum.counts.user||0)+(m.sum.counts.assistant||0))+' msgs');
+      if(m.sum&&m.sum.tokens&&(m.sum.tokens.in||m.sum.tokens.out))meta.push('↑'+num(m.sum.tokens.in)+' ↓'+num(m.sum.tokens.out));
+      if(m.sum&&m.sum.cost&&m.sum.cost.totalCostUSD!=null)meta.push('$'+m.sum.cost.totalCostUSD.toFixed(4));
+    }
     row.innerHTML='<div class="l1"><span class="lt">'+esc(title)+'</span><button class="libdel" title="'+esc(t('deleteBtn'))+'" aria-label="'+esc(t('deleteBtn'))+'">×</button></div><div class="l2">'+esc(meta.join(' · '))+'</div>';
     const pick=el('input','libpick');pick.type='checkbox';pick.checked=LIB_SELECTED.has(m.id);pick.disabled=!LIB_FULL.get(m.id)?.text;
     pick.setAttribute('aria-label',t('cloudSelectSession').replace('{name}',title));row.prepend(pick);
@@ -1429,23 +1525,65 @@ function updateLibrarySelection(){
   const button=$('#btnCloudLibrary');button.disabled=!count;
   setBtnLabel('#btnCloudLibrary',t('cloudBackupSelected')+(count?' ('+count+')':''));
 }
-function openSession(id){
+async function openSession(id){
   const rec=LIB_FULL.get(id);
   if(!rec)return;
-  if(!rec.text){alert(t('noTextErr'));return;}
-  load(rec.text,rec.name,rec.source==='paste',SESSION_SOURCES.get(id));
+  if(!rec.text&&rec.handle){
+    // 懒加载记录：首次打开时才读取并解析全文
+    toast(t('parsingSession'));
+    if(!await ensureSessionText(id))return;
+  }
+  const ready=LIB_FULL.get(id);
+  if(!ready||!ready.text){toast(t('noTextErr'),'err');return;}
+  load(ready.text,ready.name,ready.source==='paste',SESSION_SOURCES.get(id)||ready.handle);
   CUR_ID=id;
   renderNav();
   showView('viewer');
 }
-// 逐个解析目录中的 .jsonl 文件（顺序 await，保持 UI 响应）；也是未来 File System Access API 的接入点
+// 懒加载会话按需取全文：句柄可能因页面重载失去授权，点击视为用户手势可重新申请
+async function ensureSessionText(id){
+  const rec=LIB_FULL.get(id);
+  if(!rec||rec.text||!rec.handle)return true;
+  let file=null;
+  try{file=await rec.handle.getFile();}
+  catch(e){
+    try{
+      if(rec.handle.requestPermission){
+        const perm=await rec.handle.requestPermission({mode:'read'});
+        if(perm==='granted')file=await rec.handle.getFile();
+      }
+    }catch(e2){}
+  }
+  if(!file){toast(t('handleReadErr'),'err');return false;}
+  const text=await file.text();
+  const p=parse(text);
+  if(!p.entries.length){toast(t('noTextErr'),'err');return false;}
+  Object.assign(rec,{text,size:file.size,bad:p.bad,lazy:false,noText:false,sum:sumToJSON(summarize(p.entries))});
+  SESSION_SOURCES.set(id,rec.handle);
+  await putRec(rec);
+  return true;
+}
+// 导入完成后：右侧直接展示第一个（按当前排序）会话
+function afterImport(){
+  if(LIB.length){
+    showView('viewer');
+    if(!CUR){
+      const first=[...LIB].sort(LIB_SORTERS[LIB_SORT]||LIB_SORTERS.recent)[0];
+      if(first)openSession(first.id);
+    }
+  }
+}
+// 全量导入（拖拽 / webkitdirectory 等拿不到可持久化句柄的降级路径）：
+// 逐个解析 .jsonl 文件（顺序 await，保持 UI 响应）；进度条可取消；列表只渲染一次
 async function importFiles(files){
   const list=[...files].filter(f=>/\.jsonl$/i.test(f.name));
   if(!list.length)return;
-  const prog=$('#libProgress');
-  prog.style.display='block';
+  const prog=$('#libProgress'),ptext=$('#libProgText'),pfill=$('#libProgFill');
+  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;
   for(let i=0;i<list.length;i++){
-    prog.textContent=t('importing').replace('{n}',i+1).replace('{m}',list.length)+'  '+list[i].name;
+    if(IMPORT_CANCEL)break;
+    ptext.textContent=t('importing').replace('{n}',i+1).replace('{m}',list.length)+'  '+list[i].name;
+    pfill.style.width=Math.round(i/list.length*100)+'%';
     let text='';
     try{text=await list[i].text();}catch(e){continue;}
     const id=await saveToLibrary(text,list[i].name,'dir');
@@ -1456,32 +1594,71 @@ async function importFiles(files){
     }
     await new Promise(r=>setTimeout(r,0));
   }
-  prog.style.display='none';
+  IMPORTING=false;prog.hidden=true;
   renderLibrary();
   updateNav();
-  // 导入完成后：右侧直接展示第一个（按当前排序）会话
-  if(LIB.length){
-    showView('viewer');
-    if(!CUR){
-      const first=[...LIB].sort(LIB_SORTERS[LIB_SORT]||LIB_SORTERS.recent)[0];
-      if(first)openSession(first.id);
-    }
+  afterImport();
+}
+/* 懒加载导入（showDirectoryPicker 主路径）：只登记 文件名/大小/句柄 + 头尾快速扫描的摘要，
+   不复制全文入库；首次打开某会话时才解析（ensureSessionText）。
+   FileSystemFileHandle 可结构化克隆，能随记录存入 IndexedDB，重载后仍可按需读取。 */
+const LAZY_HEAD=262144,LAZY_TAIL=65536;
+async function lazyScan(file){
+  let lines;
+  const head=await file.slice(0,LAZY_HEAD).text();
+  if(file.size<=LAZY_HEAD)lines=head;
+  else{
+    const headLines=head.split(/\r?\n/);headLines.pop(); // 末行可能被截断
+    const tail=await file.slice(Math.max(0,file.size-LAZY_TAIL)).text();
+    const tailLines=tail.split(/\r?\n/);tailLines.shift(); // 首行可能被截断
+    lines=headLines.concat(tailLines).join('\n');
   }
+  const p=parse(lines);
+  return {sum:summarize(p.entries),bad:p.bad,n:p.entries.length};
+}
+async function registerLazyFiles(items){
+  if(!items.length)return;
+  const prog=$('#libProgress'),ptext=$('#libProgText'),pfill=$('#libProgFill');
+  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;
+  for(let i=0;i<items.length;i++){
+    if(IMPORT_CANCEL)break;
+    const name=items[i].name,handle=items[i].handle;
+    ptext.textContent=t('importing').replace('{n}',i+1).replace('{m}',items.length)+'  '+name;
+    pfill.style.width=Math.round(i/items.length*100)+'%';
+    try{
+      const file=await handle.getFile();
+      const scan=await lazyScan(file);
+      if(!scan.n)continue; // 全部行都解析失败：与全量导入一致，不入库
+      const sum=sumToJSON(scan.sum);
+      const id=makeId(sum,name,file.size);
+      const prev=LIB_FULL.get(id);
+      const rec={id,name,source:'dir',size:file.size,addedAt:(prev&&prev.addedAt)||Date.now(),bad:scan.bad,noText:true,lazy:true,sum,handle};
+      LIB_FULL.set(id,rec);
+      try{await dbPut(rec);}
+      catch(e){try{const noh=Object.assign({},rec);delete noh.handle;await dbPut(noh);}catch(e2){/* 内存中仍保留句柄 */}}
+      upsertLib(rec);
+    }catch(e){/* 单文件失败跳过 */}
+    await new Promise(r=>setTimeout(r,0));
+  }
+  IMPORTING=false;prog.hidden=true;
+  renderLibrary();
+  updateNav();
+  afterImport();
 }
 // File System Access API：递归扫描目录句柄下的 .jsonl（深度上限 4，跳过 node_modules）
-// 授权提示每个目录每次会话只弹一次（浏览器记住），并保留句柄供自动刷新使用
+// 授权提示每个目录每次会话只弹一次（浏览器记住）；只收集句柄，不读全文
 async function importDirHandle(dir){
-  const files=[];
+  const items=[];
   async function walk(d,depth){
     if(depth>4)return;
     for await(const [name,h] of d.entries()){
-      if(h.kind==='file'&&/\.jsonl$/i.test(name)){try{const file=await h.getFile();FILE_SOURCES.set(file,h);files.push(file);}catch(e){}}
+      if(h.kind==='file'&&/\.jsonl$/i.test(name))items.push({name,handle:h});
       else if(h.kind==='directory'&&name!=='node_modules')await walk(h,depth+1);
     }
   }
   await walk(dir,0);
   showLibrary();
-  await importFiles(files);
+  await registerLazyFiles(items);
 }
 const pickDir=async()=>{
   window.ccviewerAnalytics.event('folder_picker_open');
@@ -1510,6 +1687,23 @@ $('#tgThink').onchange=e=>{SHOW_THINK=e.target.checked;applyToggles();};
 $('#tgTool').onchange=e=>{SHOW_TOOL=e.target.checked;applyToggles();};
 $('#tgMeta').onchange=e=>{SHOW_META=e.target.checked;applyToggles();};
 $('#tgExpand').onchange=e=>{EXPAND_ALL=e.target.checked;renderAll();applyToggles();};
+/* ---------- 顶栏下拉菜单（显示选项 / 打开动作）---------- */
+function closeMenus(){document.querySelectorAll('.menu-wrap.open').forEach(m=>{m.classList.remove('open');const b=m.querySelector('button[aria-haspopup]');if(b)b.setAttribute('aria-expanded','false');});}
+function bindMenu(wrapId,btnId){
+  const wrap=$(wrapId),btn=$(btnId);if(!wrap||!btn)return;
+  btn.onclick=e=>{e.stopPropagation();const open=wrap.classList.contains('open');closeMenus();if(!open){wrap.classList.add('open');btn.setAttribute('aria-expanded','true');}};
+  const dd=wrap.querySelector('.dropdown');
+  if(dd)dd.addEventListener('click',e=>{const b=e.target.closest('button');if(b&&!b.closest('.fs-row'))closeMenus();}); // 字号步进按钮不收起菜单，便于连续调节
+}
+document.addEventListener('click',e=>{if(!(e.target&&e.target.closest&&e.target.closest('.menu-wrap')))closeMenus();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenus();});
+bindMenu('#displayMenu','#btnDisplay');
+bindMenu('#openMenuWrap','#btnOpen');
+/* ---------- 正文字号调节（A− / A+，localStorage 持久化）---------- */
+function applyReadFs(px){document.documentElement.style.setProperty('--read-fs',px+'px');try{localStorage.setItem('ccviewer_readfs',String(px));}catch(e){}}
+(function(){let px=15.5;try{px=Math.min(20,Math.max(12.5,parseFloat(localStorage.getItem('ccviewer_readfs'))||15.5));}catch(e){}applyReadFs(px);})();
+$('#fsMinus').onclick=()=>{const cur=parseFloat(getComputedStyle($('#stream')).fontSize)||15.5;applyReadFs(Math.max(12.5,Math.round((cur-0.5)*2)/2));};
+$('#fsPlus').onclick=()=>{const cur=parseFloat(getComputedStyle($('#stream')).fontSize)||15.5;applyReadFs(Math.min(20,Math.round((cur+0.5)*2)/2));};
 async function pick(){
   window.ccviewerAnalytics.event('file_picker_open');
   if(!(window.showOpenFilePicker&&self.isSecureContext)){$('#file').click();return;}
@@ -1518,7 +1712,7 @@ async function pick(){
     await openLocalFile(await source.getFile(),source);
   }catch(e){if(e.name!=='AbortError')$('#file').click();}
 }
-$('#btnOpen').onclick=pick;$('#btnPick').onclick=pick;
+$('#btnOpenFile').onclick=pick;$('#btnPick').onclick=pick;
 $('#file').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(f)await openLocalFile(f,null);};
 /* Image previews stay in the page, including base64 tool results and Markdown. */
 const imagePreview=$('#imagePreview');
@@ -1547,8 +1741,8 @@ imagePreview.addEventListener('close',()=>$('#previewImage').removeAttribute('sr
 })();
 /* 粘贴文本 */
 const pasteModal=$('#paste');
-function openPaste(){window.ccviewerAnalytics.event('paste_open');$('#pasteErr').textContent='';pasteModal.classList.add('show');const ta=$('#pasteText');ta.focus();ta.select();}
-function closePaste(){pasteModal.classList.remove('show');}
+function openPaste(){window.ccviewerAnalytics.event('paste_open');$('#pasteErr').textContent='';if(!pasteModal.open)pasteModal.showModal();const ta=$('#pasteText');ta.focus();ta.select();}
+function closePaste(){if(pasteModal.open)pasteModal.close();}
 $('#btnPasteTop').onclick=openPaste;$('#btnPasteDrop').onclick=openPaste;
 $('#pasteCancel').onclick=closePaste;
 pasteModal.onclick=e=>{if(e.target===pasteModal)closePaste();};
@@ -1561,7 +1755,6 @@ $('#pasteLoad').onclick=()=>{
   saveToLibrary(txt,'','paste');
 };
 $('#pasteText').onkeydown=e=>{if((e.metaKey||e.ctrlKey)&&e.key==='Enter')$('#pasteLoad').onclick();};
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pasteModal.classList.contains('show'))closePaste();});
 const drop=$('#drop');
 ['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('hide');drop.classList.add('drag');}));
 ['dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();if(ev==='dragleave'&&e.relatedTarget)return;drop.classList.remove('drag');if(CUR&&ev==='dragleave')drop.classList.add('hide');}));
@@ -1625,6 +1818,7 @@ $('#btnLibrary').onclick=showLibrary;
 $('#btnLibLanding').onclick=showLibrary;
 $('#btnLibClose').onclick=()=>showView(CUR?'viewer':'landing');
 $('#btnPickDir').onclick=pickDir;
+$('#btnOpenFolder').onclick=pickDir;
 $('#btnImportFolder').onclick=pickDir;
 $('#btnImportFolder2').onclick=pickDir;
 $('#dirpicker').onchange=async e=>{
@@ -1639,11 +1833,12 @@ $('#dirpicker').onchange=async e=>{
 };
 $('#libSort').onchange=e=>{LIB_SORT=e.target.value;renderLibrary();};
 $('#btnClearAll').onclick=async()=>{
-  if(!confirm(t('confirmClear')))return;
+  if(!await uiConfirm(t('confirmClear')))return;
   await dbClear();
   LIB=[];LIB_FULL=new Map();CUR_ID=null;
   SESSION_SOURCES.clear();
   updateLibBtn();renderLibrary();
+  toast(t('deletedOk'),'ok');
 };
 $('#libSelectAll').onchange=e=>{
   LIB_SELECTED.clear();if(e.target.checked)for(const m of LIB)if(LIB_FULL.get(m.id)?.text)LIB_SELECTED.add(m.id);
@@ -1655,19 +1850,21 @@ $('#libList').onchange=e=>{
   if(e.target.checked)LIB_SELECTED.add(id);else LIB_SELECTED.delete(id);
   row.classList.toggle('selected',e.target.checked);updateLibrarySelection();
 };
-$('#libList').onclick=e=>{
+$('#libCancel').onclick=()=>{IMPORT_CANCEL=true;};
+$('#libList').onclick=async e=>{
   if(e.target.closest('.libpick'))return;
   const row=e.target.closest('.librow');
   if(!row)return;
   const id=row.dataset.id;
   if(e.target.closest('.libdel')){
-    if(!confirm(t('confirmDelete')))return;
+    if(!await uiConfirm(t('confirmDelete')))return;
     LIB_FULL.delete(id);
     SESSION_SOURCES.delete(id);
     LIB=LIB.filter(x=>x.id!==id);
     if(CUR_ID===id)CUR_ID=null;
     dbDelete(id);
     updateLibBtn();renderLibrary();
+    toast(t('deletedOk'),'ok');
   }else openSession(id);
 };
 /* 导览栏：分组折叠 + 切换会话 */
@@ -1762,9 +1959,11 @@ function cloudTimeoutSignal(){
 function cloudNameValue(){
   return cloudName.value.trim().replace(/(?:\s*\.jsonl)+$/i,'').trimEnd();
 }
+/* 登录前置门禁：未登录（或登录态未知）时不展示命名/描述表单，弹窗只做登录引导 */
+function cloudGated(){return !CLOUD.user&&(CLOUD.enabled||!CLOUD.sessionChecked);}
 function cloudRenderPlan(){
   const plan=$('#cloudPlan');
-  plan.hidden=!CLOUD.queue.length;
+  plan.hidden=cloudGated()||!CLOUD.queue.length;
   plan.innerHTML='';
   const stem=cloudNameValue();
   for(const item of CLOUD.queue){
@@ -1777,7 +1976,7 @@ function cloudRenderPlan(){
   }
 }
 function cloudRender(){
-  const queued=CLOUD.queue.length>0,pending=CLOUD.queue.some(item=>item.state!=='done');
+  const queued=CLOUD.queue.length>0,pending=CLOUD.queue.some(item=>item.state!=='done'),gate=cloudGated();
   $('#cloudTitle').textContent=queued?(CLOUD.queue.length===1?t('cloudTitle'):t('cloudBatchTitle').replace('{n}',CLOUD.queue.length)):t('cloudTitle');
   $('#cloudAccount').textContent=CLOUD.user?'GitHub · @'+CLOUD.user.login:'';
   $('#cloudLogin').hidden=!CLOUD.enabled||!!CLOUD.user;
@@ -1787,10 +1986,10 @@ function cloudRender(){
   $('#cloudLogout').hidden=!CLOUD.user;
   $('#cloudViewSaved').hidden=!CLOUD.user||!queued||CLOUD.busy;
   cloudRenderPlan();
-  $('#cloudNameRow').hidden=CLOUD.queue.length!==1;
-  $('#cloudDescriptionRow').hidden=!queued;
-  cloudName.disabled=cloudDescription.disabled=CLOUD.busy||!pending;
-  $('#cloudSubmit').hidden=!CLOUD.user||!queued||!pending||CLOUD.busy;
+  $('#cloudNameRow').hidden=gate||CLOUD.queue.length!==1;
+  $('#cloudDescriptionRow').hidden=gate||!queued;
+  cloudName.disabled=cloudDescription.disabled=gate||CLOUD.busy||!pending;
+  $('#cloudSubmit').hidden=gate||!CLOUD.user||!queued||!pending||CLOUD.busy;
   $('#cloudSubmit').textContent=CLOUD.queue.some(item=>item.state==='error')?t('cloudRetry'):t('cloudStart');
   $('#cloudStatus').textContent=CLOUD.message||(CLOUD.busy?t('cloudWorking'):'');
   $('#cloudStatus').classList.toggle('cloud-error',CLOUD.error);
@@ -2104,12 +2303,14 @@ $('#cloudRefresh').onclick=()=>cloudTask(()=>cloudList());
 $('#cloudMore').onclick=()=>cloudTask(()=>cloudList(true));
 $('#cloudPick').onclick=()=>$('#cloudFile').click();
 $('#cloudFile').onchange=e=>{const files=[...e.target.files];e.target.value='';if(files.length)openCloud(files);};
-$('#cloudList').onclick=e=>{
+/* 自定义确认框优先；脱离模板运行（回归测试）时退回原生 confirm */
+const cloudConfirm=message=>(typeof uiConfirm==='function')?uiConfirm(message):Promise.resolve(typeof confirm==='function'?confirm(message):true);
+$('#cloudList').onclick=async e=>{
   const button=e.target.closest('button[data-action]'),row=e.target.closest('.cloud-row');
   if(!button||!row||CLOUD.busy)return;
   const backup=CLOUD.backups.find(item=>item.id===row.dataset.id);if(!backup)return;
   const action=button.dataset.action;
-  if(action==='delete'&&!confirm(t('cloudConfirmDelete').replace('{name}',backup.name)))return;
+  if(action==='delete'&&!(await cloudConfirm(t('cloudConfirmDelete').replace('{name}',backup.name))))return;
   return cloudTask(async()=>{
     const path='backups/'+encodeURIComponent(backup.id);
     if(action==='delete'){

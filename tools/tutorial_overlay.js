@@ -146,7 +146,7 @@
     { f: 76, s: '#td-open' },
     { f: 92, s: '#sidebar' },
     { f: 107, s: '#stream .turn.assistant' },
-    { f: 122, s: '#topbar label.toggle' },
+    { f: 122, s: '#btnDisplay' },
     { f: 137, s: '#btnExportMd' },
     { f: 148, p: { x: 480, y: 545 } }
   ];
@@ -156,7 +156,8 @@
     { f: 58, r: () => $t('td-claude').querySelector('.td-row').getBoundingClientRect() },
     { f: 61, r: () => $t('td-claude').querySelector('.td-row').getBoundingClientRect() },
     { f: 68, r: () => $t('td-projects').querySelector('.td-row').getBoundingClientRect() },
-    { f: 76, s: '#td-open' }
+    { f: 76, s: '#td-open' },
+    { f: 122, s: '#btnDisplay' }
   ];
   const LABELS = [
     { a: 20, b: 32, t: 'Press  ⌘ ⇧ .  to reveal hidden folders in the Open dialog' },
@@ -178,6 +179,10 @@
 
   window.__seek = function (raw) {
     const f = raw / SCALE; /* logical frame */
+
+    /* keep the Display dropdown open across its tutorial beat */
+    const displayMenu = document.querySelector('#displayMenu');
+    if (displayMenu) displayMenu.classList.toggle('open', f >= 113 && f < 131);
 
     /* stage fade: intro only — the GIF plays once and rests on the final viewer */
     fade.style.opacity = f < 7 ? String(1 - ease(seg(f, 0, 7))) : '0';
@@ -225,7 +230,7 @@
     const beats = [
       { a: 85, b: 100, s: '#sidebar' },
       { a: 101, b: 114, s: '#stream .turn.assistant' },
-      { a: 115, b: 128, s: '#topbar label.toggle' },
+      { a: 115, b: 128, s: '#displayMenu.open .dropdown' },
       { a: 130, b: 144, s: '#btnExportMd' }
     ];
     const bt = beats.find(b => f >= b.a && f <= b.b);

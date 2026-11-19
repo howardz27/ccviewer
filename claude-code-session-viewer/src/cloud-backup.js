@@ -31,9 +31,11 @@ function cloudTimeoutSignal(){
 function cloudNameValue(){
   return cloudName.value.trim().replace(/(?:\s*\.jsonl)+$/i,'').trimEnd();
 }
+/* 登录前置门禁：未登录（或登录态未知）时不展示命名/描述表单，弹窗只做登录引导 */
+function cloudGated(){return !CLOUD.user&&(CLOUD.enabled||!CLOUD.sessionChecked);}
 function cloudRenderPlan(){
   const plan=$('#cloudPlan');
-  plan.hidden=!CLOUD.queue.length;
+  plan.hidden=cloudGated()||!CLOUD.queue.length;
   plan.innerHTML='';
   const stem=cloudNameValue();
   for(const item of CLOUD.queue){
@@ -46,7 +48,7 @@ function cloudRenderPlan(){
   }
 }
 function cloudRender(){
-  const queued=CLOUD.queue.length>0,pending=CLOUD.queue.some(item=>item.state!=='done');
+  const queued=CLOUD.queue.length>0,pending=CLOUD.queue.some(item=>item.state!=='done'),gate=cloudGated();
   $('#cloudTitle').textContent=queued?(CLOUD.queue.length===1?t('cloudTitle'):t('cloudBatchTitle').replace('{n}',CLOUD.queue.length)):t('cloudTitle');
   $('#cloudAccount').textContent=CLOUD.user?'GitHub · @'+CLOUD.user.login:'';
   $('#cloudLogin').hidden=!CLOUD.enabled||!!CLOUD.user;
@@ -56,10 +58,10 @@ function cloudRender(){
   $('#cloudLogout').hidden=!CLOUD.user;
   $('#cloudViewSaved').hidden=!CLOUD.user||!queued||CLOUD.busy;
   cloudRenderPlan();
-  $('#cloudNameRow').hidden=CLOUD.queue.length!==1;
-  $('#cloudDescriptionRow').hidden=!queued;
-  cloudName.disabled=cloudDescription.disabled=CLOUD.busy||!pending;
-  $('#cloudSubmit').hidden=!CLOUD.user||!queued||!pending||CLOUD.busy;
+  $('#cloudNameRow').hidden=gate||CLOUD.queue.length!==1;
+  $('#cloudDescriptionRow').hidden=gate||!queued;
+  cloudName.disabled=cloudDescription.disabled=gate||CLOUD.busy||!pending;
+  $('#cloudSubmit').hidden=gate||!CLOUD.user||!queued||!pending||CLOUD.busy;
   $('#cloudSubmit').textContent=CLOUD.queue.some(item=>item.state==='error')?t('cloudRetry'):t('cloudStart');
   $('#cloudStatus').textContent=CLOUD.message||(CLOUD.busy?t('cloudWorking'):'');
   $('#cloudStatus').classList.toggle('cloud-error',CLOUD.error);
@@ -373,12 +375,14 @@ $('#cloudRefresh').onclick=()=>cloudTask(()=>cloudList());
 $('#cloudMore').onclick=()=>cloudTask(()=>cloudList(true));
 $('#cloudPick').onclick=()=>$('#cloudFile').click();
 $('#cloudFile').onchange=e=>{const files=[...e.target.files];e.target.value='';if(files.length)openCloud(files);};
-$('#cloudList').onclick=e=>{
+/* 自定义确认框优先；脱离模板运行（回归测试）时退回原生 confirm */
+const cloudConfirm=message=>(typeof uiConfirm==='function')?uiConfirm(message):Promise.resolve(typeof confirm==='function'?confirm(message):true);
+$('#cloudList').onclick=async e=>{
   const button=e.target.closest('button[data-action]'),row=e.target.closest('.cloud-row');
   if(!button||!row||CLOUD.busy)return;
   const backup=CLOUD.backups.find(item=>item.id===row.dataset.id);if(!backup)return;
   const action=button.dataset.action;
-  if(action==='delete'&&!confirm(t('cloudConfirmDelete').replace('{name}',backup.name)))return;
+  if(action==='delete'&&!(await cloudConfirm(t('cloudConfirmDelete').replace('{name}',backup.name))))return;
   return cloudTask(async()=>{
     const path='backups/'+encodeURIComponent(backup.id);
     if(action==='delete'){
