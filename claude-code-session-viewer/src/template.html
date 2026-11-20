@@ -48,6 +48,11 @@ code,pre,.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,mon
 /* top bar */
 #topbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--border);flex-shrink:0}
 #topbar .btn{padding:5px 10px}
+#topbar .iconbtn{padding:5px 6px;min-width:30px;position:relative}
+#topbar .iconbtn:hover{color:var(--accent)}
+.tsep{width:1px;height:20px;background:var(--border);margin:0 3px;flex-shrink:0}
+.ibadge{position:absolute;top:-6px;right:-6px;min-width:16px;height:16px;padding:0 4px;border-radius:9px;background:var(--accent);color:#1a1109;font-size:10px;font-weight:700;line-height:16px;text-align:center;pointer-events:none}
+.dropdown .menu-btn[aria-current="true"]{color:var(--accent);font-weight:600}
 #topbar .brand{font-weight:600;color:var(--accent);font-size:15px;white-space:nowrap;display:flex;align-items:center;gap:9px;min-width:0;overflow:hidden}
 #topbar .brand .logo svg{display:block}
 .logo{display:inline-block;line-height:0}
@@ -272,7 +277,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .libwarn{background:rgba(210,153,34,.1);border:1px solid var(--yellow);border-radius:8px;padding:8px 12px;color:var(--yellow);font-size:12px;margin-bottom:12px;display:none}
 #libList{display:flex;flex-direction:column;gap:10px}
 .dirhint{color:var(--faint);font-size:11.5px;margin:0 0 12px;line-height:1.6}
-.dirhint kbd{font-family:"SFMono-Regular",Consolas,Menlo,monospace;background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:0 4px;font-size:10.5px}
+.dirhint kbd,.pathhint kbd{font-family:"SFMono-Regular",Consolas,Menlo,monospace;background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:0 4px;font-size:10.5px}
 .librow{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;transition:border-color .15s}
 .librow:hover{border-color:var(--accent)}
 .librow .l1{display:flex;align-items:center;gap:10px}
@@ -395,8 +400,13 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <span class="brand"><span class="logo"></span> <span data-i18n="brand">CCViewer</span><small id="fname"></small></span>
     <button class="btn icon" id="btnNavToggle" title=""></button>
     <span class="spacer"></span>
+    <button class="btn iconbtn" id="btnHome" data-tip="home" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg></button>
+    <button class="btn iconbtn" id="btnLibrary" data-tip="libraryBtn" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16"/><path d="M8 8v12"/><path d="M12 6v14"/><path d="m16 6 4 14"/></svg><span class="ibadge" id="libBadge" hidden></span></button>
+    <button class="btn iconbtn" id="btnCloud" data-tip="cloudUploadCurrent" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg></button>
+    <button class="btn iconbtn" id="btnExportMd" data-tip="exportMd" title="" style="display:none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></button>
+    <span class="tsep" aria-hidden="true"></span>
     <div class="menu-wrap" id="displayMenu">
-      <button class="btn" id="btnDisplay" aria-haspopup="menu" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/></svg><span data-i18n="displayBtn">显示</span><svg class="mcaret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+      <button class="btn iconbtn" id="btnDisplay" aria-haspopup="menu" aria-expanded="false" data-tip="displayBtn" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/></svg><svg class="mcaret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
       <div class="dropdown" role="menu">
         <label class="toggle"><input type="checkbox" id="tgThink" checked><span data-i18n="thinking">思考</span></label>
         <label class="toggle"><input type="checkbox" id="tgTool" checked><span data-i18n="tools">工具</span></label>
@@ -406,13 +416,12 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
         <div class="fs-row"><span class="fs-label" data-i18n="fsTitle">字号</span><button class="btn icon" id="fsMinus" type="button" aria-label="A-">A−</button><button class="btn icon" id="fsPlus" type="button" aria-label="A+">A+</button></div>
       </div>
     </div>
-    <button class="btn" id="btnHome"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg><span data-i18n="home">首页</span></button>
-    <button class="btn" id="btnCloud"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg><span data-i18n="cloudUploadCurrent">备份当前会话</span></button>
-    <button class="btn" id="btnLibrary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16"/><path d="M8 8v12"/><path d="M12 6v14"/><path d="m16 6 4 14"/></svg><span data-i18n="libraryBtn">会话库</span></button>
-    <button class="btn primary" id="btnExportMd" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span data-i18n="exportMd">导出 MD</span></button>
-    <select class="btn langsel" aria-label="Language"></select>
+    <div class="menu-wrap" id="langMenuWrap">
+      <button class="btn iconbtn" id="btnLang" aria-haspopup="menu" aria-expanded="false" data-tip="langBtn" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a13.5 13.5 0 0 1 3.6 9 13.5 13.5 0 0 1-3.6 9 13.5 13.5 0 0 1-3.6-9A13.5 13.5 0 0 1 12 3z"/></svg><svg class="mcaret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="dropdown" role="menu" id="langList" aria-label="Language"></div>
+    </div>
     <div class="menu-wrap" id="openMenuWrap">
-      <button class="btn" id="btnOpen" aria-haspopup="menu" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-i18n="openMenuBtn">打开</span><svg class="mcaret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+      <button class="btn primary" id="btnOpen" aria-haspopup="menu" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-i18n="openMenuBtn">打开</span><svg class="mcaret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
       <div class="dropdown" role="menu">
         <button class="btn menu-btn" id="btnOpenFile" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg><span data-i18n="openFile">打开文件</span></button>
         <button class="btn menu-btn" id="btnOpenFolder" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-i18n="openFolder">打开文件夹</span></button>
@@ -458,6 +467,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <div class="box">
         <p data-i18n-html="dropHint1">把 <b>.jsonl</b> 历史文件拖到这里，或点击选择</p>
         <p class="pathhint" data-i18n-html="dropHint2">例如 ~/.claude/projects/ 整个文件夹，或其中的 &lt;sessionId&gt;.jsonl</p>
+        <p class="pathhint" data-i18n-html="revealTip">看不到 .claude 文件夹？它是隐藏的：macOS 按 <kbd>⌘⇧.</kbd>，Windows 在文件名框输入 <kbd>%USERPROFILE%\.claude\projects</kbd></p>
         <div class="cta">
           <button class="btn primary" id="btnPick" data-i18n="openFile">打开文件</button>
           <button class="btn" id="btnPasteDrop" data-i18n="pasteText">粘贴文本</button>
@@ -660,6 +670,7 @@ function uiConfirm(message){
 function applyLang(){
   document.querySelectorAll('[data-i18n]').forEach(e=>{e.textContent=t(e.getAttribute('data-i18n'));});
   document.querySelectorAll('[data-i18n-html]').forEach(e=>{e.innerHTML=t(e.getAttribute('data-i18n-html'));});
+  document.querySelectorAll('[data-tip]').forEach(e=>{e.title=t(e.getAttribute('data-tip'));}); // 图标按钮 tooltip
   applyFname();
 }
 const LANG_NAMES=[['en','English'],['zh','中文'],['ja','日本語'],['ko','한국어'],['es','Español'],['fr','Français'],['de','Deutsch'],['pt','Português'],['ru','Русский'],['hi','हिन्दी']];
@@ -669,6 +680,16 @@ function fillLangSel(){
     for(const [c,n] of LANG_NAMES){const o=document.createElement('option');o.value=c;o.textContent=n;if(c===LANG)o.selected=true;sel.appendChild(o);}
     sel.onchange=()=>{try{localStorage.setItem('ccviewer_pref',sel.value);}catch(e){}location.href=BASE_PATH+(sel.value==='en'?'/':'/'+sel.value+'/');};
   });
+  const list=$('#langList'); // 顶栏地球图标自定义下拉（与菜单风格统一）
+  if(list){
+    list.innerHTML='';
+    for(const [c,n] of LANG_NAMES){
+      const b=document.createElement('button');b.type='button';b.className='btn menu-btn';b.textContent=n;
+      if(c===LANG)b.setAttribute('aria-current','true');
+      b.onclick=()=>{try{localStorage.setItem('ccviewer_pref',c);}catch(e){}location.href=BASE_PATH+(c==='en'?'/':'/'+c+'/');};
+      list.appendChild(b);
+    }
+  }
 }
 
 /* ---------- 像素风 Logo（基于 Claude Code 衍生：橙色生物 + 眼镜，体现"查看器"）---------- */
@@ -798,6 +819,9 @@ function summarize(entries){
   }
   return s;
 }
+// 有效会话 = 至少含有一条可识别记录（用户消息 / 回复 / 工具调用 / 思考）；
+// 用于拦截"能解析成 JSON 但不是 Claude Code 会话"的文件，避免空查看器与脏库记录
+function sessionHasRecords(sum){const c=sum.counts;return !!(c.user||c.assistant||c.tool||c.thinking);}
 function isInjectedText(t){
   if(!t)return false;
   const s=String(t).trimStart();
@@ -1057,8 +1081,8 @@ function renderAll(){
   const stream=$('#stream');stream.innerHTML='';
   for(const o of CUR.entries)renderEntry(o,stream);
 }
-function load(text,name,pasted,source){
-  const {entries,bad}=parse(text);
+function load(text,name,pasted,source,pre){
+  const {entries,bad}=pre||parse(text);
   const sum=summarize(entries);
   CUR_ID=null;
   CUR={entries,bad,sum,text,name:name||'',pasted:!!pasted,source:source||null};
@@ -1244,7 +1268,9 @@ async function saveToLibrary(text,name,source,id,pre){
   if(pre){entries=pre.entries;bad=pre.bad;}
   else{const p=parse(text);entries=p.entries;bad=p.bad;}
   if(!entries.length)return null;
-  const sum=sumToJSON(pre?pre.sum:summarize(entries));
+  const rawSum=pre&&pre.sum?pre.sum:summarize(entries);
+  if(!sessionHasRecords(rawSum))return null; // 无可识别记录：不入库
+  const sum=sumToJSON(rawSum);
   const rid=id||makeId(sum,name,text.length);
   const prev=LIB_FULL.get(rid);
   const rec={id:rid,name:name||'',source:source||'file',size:text.length,addedAt:(prev&&prev.addedAt)||Date.now(),bad,noText:false,lazy:false,sum,text};
@@ -1267,9 +1293,8 @@ async function loadLibrary(){
 }
 function setBtnLabel(id,label){const b=$(id);if(b){const s=b.querySelector('span');(s||b).textContent=label;}}
 function updateLibBtn(){
-  const label=t('libraryBtn')+(LIB.length?' ('+LIB.length+')':'');
-  setBtnLabel('#btnLibrary',label);
-  const bl=$('#btnLibLanding');if(bl){bl.textContent=label;bl.style.display=LIB.length?'':'none';}
+  const bd=$('#libBadge');if(bd){bd.textContent=LIB.length;bd.hidden=!LIB.length;} // 顶栏图标徽章
+  const bl=$('#btnLibLanding');if(bl){bl.textContent=t('libraryBtn')+(LIB.length?' ('+LIB.length+')':'');bl.style.display=LIB.length?'':'none';}
   updateNav();
 }
 /* ---------- 左侧导览：按项目目录聚类 ---------- */
@@ -1286,7 +1311,7 @@ function refreshStatus(key,error){
   status.classList.toggle('error',!!error);
 }
 function updateRefreshControls(){
-  $('#refreshbar').classList.toggle('hidden',!CUR);
+  $('#refreshbar').classList.toggle('hidden',!CUR||CUR.pasted); // 粘贴内容没有本地文件，不显示刷新条
   $('#btnRefresh').disabled=!!(CUR&&CUR.refreshing);
   if(CUR)refreshStatus(CUR.source?'refreshReady':'refreshReconnect');
 }
@@ -1297,7 +1322,9 @@ function scheduleRefresh(){
 }
 async function openLocalFile(file,source){
   const text=await file.text();
-  load(text,file.name,false,source);
+  const pre=parse(text);
+  if(!sessionHasRecords(summarize(pre.entries))){toast(t('notSessionFile'),'err');return;} // 非会话文件：不进入空查看器，留在当前页提示
+  load(text,file.name,false,source,pre);
   const session=CUR;
   showView('viewer');
   // 复用 load() 的解析结果，避免每次打开重复整文件 parse
@@ -1530,9 +1557,10 @@ function afterImport(){
 // 逐个解析 .jsonl 文件（顺序 await，保持 UI 响应）；进度条可取消；列表只渲染一次
 async function importFiles(files){
   const list=[...files].filter(f=>/\.jsonl$/i.test(f.name));
-  if(!list.length)return;
+  if(!list.length){toast(t('noJsonlFound'),'err');return;}
   const prog=$('#libProgress'),ptext=$('#libProgText'),pfill=$('#libProgFill');
   IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;
+  let ok=0;
   for(let i=0;i<list.length;i++){
     if(IMPORT_CANCEL)break;
     ptext.textContent=t('importing').replace('{n}',i+1).replace('{m}',list.length)+'  '+list[i].name;
@@ -1540,6 +1568,7 @@ async function importFiles(files){
     let text='';
     try{text=await list[i].text();}catch(e){continue;}
     const id=await saveToLibrary(text,list[i].name,'dir');
+    if(id)ok++;
     const source=FILE_SOURCES.get(list[i]);
     if(id&&source){
       SESSION_SOURCES.set(id,source);
@@ -1548,6 +1577,7 @@ async function importFiles(files){
     await new Promise(r=>setTimeout(r,0));
   }
   IMPORTING=false;prog.hidden=true;
+  if(!ok){toast(t('notSessionFile'),'err');} // 文件都在但没有可识别的会话记录
   renderLibrary();
   updateNav();
   afterImport();
@@ -1567,12 +1597,14 @@ async function lazyScan(file){
     lines=headLines.concat(tailLines).join('\n');
   }
   const p=parse(lines);
-  return {sum:summarize(p.entries),bad:p.bad,n:p.entries.length};
+  const sum=summarize(p.entries);
+  return {sum,bad:p.bad,n:p.entries.length,valid:sessionHasRecords(sum)};
 }
 async function registerLazyFiles(items){
   if(!items.length)return;
   const prog=$('#libProgress'),ptext=$('#libProgText'),pfill=$('#libProgFill');
   IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;
+  let ok=0;
   for(let i=0;i<items.length;i++){
     if(IMPORT_CANCEL)break;
     const name=items[i].name,handle=items[i].handle;
@@ -1581,7 +1613,8 @@ async function registerLazyFiles(items){
     try{
       const file=await handle.getFile();
       const scan=await lazyScan(file);
-      if(!scan.n)continue; // 全部行都解析失败：与全量导入一致，不入库
+      if(!scan.valid)continue; // 无可识别会话记录：与全量导入一致，不入库
+      ok++;
       const sum=sumToJSON(scan.sum);
       const id=makeId(sum,name,file.size);
       const prev=LIB_FULL.get(id);
@@ -1594,6 +1627,7 @@ async function registerLazyFiles(items){
     await new Promise(r=>setTimeout(r,0));
   }
   IMPORTING=false;prog.hidden=true;
+  if(!ok){toast(t('notSessionFile'),'err');} // 有 .jsonl 但没有可识别的会话记录
   renderLibrary();
   updateNav();
   afterImport();
@@ -1610,6 +1644,7 @@ async function importDirHandle(dir){
     }
   }
   await walk(dir,0);
+  if(!items.length){toast(t('noJsonlFound'),'err');return;} // 选错文件夹：直接提示，不打开空会话库
   showLibrary();
   await registerLazyFiles(items);
 }
@@ -1652,6 +1687,7 @@ document.addEventListener('click',e=>{if(!(e.target&&e.target.closest&&e.target.
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenus();});
 bindMenu('#displayMenu','#btnDisplay');
 bindMenu('#openMenuWrap','#btnOpen');
+bindMenu('#langMenuWrap','#btnLang');
 /* ---------- 正文字号调节（A− / A+，localStorage 持久化）---------- */
 function applyReadFs(px){document.documentElement.style.setProperty('--read-fs',px+'px');try{localStorage.setItem('ccviewer_readfs',String(px));}catch(e){}}
 (function(){let px=15.5;try{px=Math.min(20,Math.max(12.5,parseFloat(localStorage.getItem('ccviewer_readfs'))||15.5));}catch(e){}applyReadFs(px);})();
@@ -1701,8 +1737,9 @@ $('#pasteCancel').onclick=closePaste;
 pasteModal.onclick=e=>{if(e.target===pasteModal)closePaste();};
 $('#pasteLoad').onclick=()=>{
   const txt=$('#pasteText').value;
-  const {entries}=parse(txt);
-  if(!entries.length){$('#pasteErr').textContent=t('pasteEmptyErr');return;}
+  const p=parse(txt);
+  if(!p.entries.length){$('#pasteErr').textContent=t('pasteEmptyErr');return;}
+  if(!sessionHasRecords(summarize(p.entries))){$('#pasteErr').textContent=t('notSessionFile');return;} // 粘贴的不是会话内容：就地报错，不进空查看器
   closePaste();
   load(txt,'',true);
   saveToLibrary(txt,'','paste');
@@ -1782,7 +1819,8 @@ $('#dirpicker').onchange=async e=>{
     return !parts.slice(0,-1).includes('node_modules')&&parts.length<=6;
   });
   e.target.value=''; // 允许重复选择同一目录
-  if(fs.length){showLibrary();await importFiles(fs);}
+  if(!fs.length){toast(t('noJsonlFound'),'err');return;}
+  showLibrary();await importFiles(fs);
 };
 $('#libSort').onchange=e=>{LIB_SORT=e.target.value;renderLibrary();};
 $('#btnClearAll').onclick=async()=>{
