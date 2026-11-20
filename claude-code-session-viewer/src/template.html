@@ -1236,6 +1236,7 @@ function makeId(sum,name,size){
 function sumToJSON(sum){const c=Object.assign({},sum);c.models=Array.from(sum.models||[]);return c;}
 let LIB=[],LIB_FULL=new Map(),LIB_SORT='recent',LIB_WARNED=false;
 let IMPORTING=false,IMPORT_CANCEL=false;
+let NAV_SHOWN=false; // 文件夹导入后才显示左侧会话栏；单文件/粘贴 = 纯阅读页
 function libMeta(rec){return {id:rec.id,name:rec.name,source:rec.source,addedAt:rec.addedAt,bad:rec.bad,noText:rec.noText,lazy:!!rec.lazy,size:rec.size,sum:rec.sum};}
 // 存原始文本 + 摘要；配额不足时降级为仅摘要（noText）
 async function putRec(rec){
@@ -1312,6 +1313,7 @@ async function openLocalFile(file,source){
   if(!sessionHasRecords(summarize(pre.entries))){toast(t('notSessionFile'),'err');return;} // 非会话文件：不进入空查看器，留在当前页提示
   load(text,file.name,false,source,pre);
   const session=CUR;
+  NAV_SHOWN=false;saveUIPref();updateNav(); // 单文件：纯阅读页，不显示左侧栏
   showView('viewer');
   // 复用 load() 的解析结果，避免每次打开重复整文件 parse
   const id=await saveToLibrary(text,file.name,'file',null,{entries:session.entries,bad:session.bad,sum:session.sum});
@@ -1436,7 +1438,7 @@ function renderNav(){
 }
 function updateNav(){
   const n=$('#nav');
-  if(n)n.classList.toggle('show',LIB.length>0||IMPORTING); // 导入进行中也显示左侧栏，让进度可见
+  if(n)n.classList.toggle('show',NAV_SHOWN||IMPORTING); // 导入进行中也显示左侧栏，让进度可见
   renderNav();
 }
 // 视图切换：landing（落地页）/ viewer（阅读视图）
@@ -1558,7 +1560,7 @@ async function importFiles(files){
   const list=[...files].filter(f=>/\.jsonl$/i.test(f.name));
   if(!list.length){toast(t('noJsonlFound'),'err');return;}
   const prog=$('#navProg'),ptext=$('#navProgText'),pfill=$('#navProgFill');
-  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;updateNav();
+  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;NAV_SHOWN=true;saveUIPref();updateNav();
   let ok=0;
   for(let i=0;i<list.length;i++){
     if(IMPORT_CANCEL)break;
@@ -1601,7 +1603,7 @@ async function lazyScan(file){
 async function registerLazyFiles(items){
   if(!items.length)return;
   const prog=$('#navProg'),ptext=$('#navProgText'),pfill=$('#navProgFill');
-  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;updateNav();
+  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;NAV_SHOWN=true;saveUIPref();updateNav();
   let ok=0;
   for(let i=0;i<items.length;i++){
     if(IMPORT_CANCEL)break;
@@ -1738,6 +1740,7 @@ $('#pasteLoad').onclick=()=>{
   if(!sessionHasRecords(summarize(p.entries))){$('#pasteErr').textContent=t('notSessionFile');return;} // 粘贴的不是会话内容：就地报错，不进空查看器
   closePaste();
   load(txt,'',true);
+  NAV_SHOWN=false;saveUIPref();updateNav(); // 粘贴：纯阅读页，不显示左侧栏
   saveToLibrary(txt,'','paste');
 };
 $('#pasteText').onkeydown=e=>{if((e.metaKey||e.ctrlKey)&&e.key==='Enter')$('#pasteLoad').onclick();};
@@ -1856,8 +1859,9 @@ try{
   const pref=JSON.parse(localStorage.getItem('ccviewer_ui')||'{}');
   UI_NAV_COLLAPSED=!!pref.nav;
   if(pref.navW)NAV_W=Math.min(480,Math.max(180,+pref.navW||250));
+  if(typeof pref.navShown==='boolean')NAV_SHOWN=pref.navShown; // 记住上次是否处于文件夹模式
 }catch(e){}
-function saveUIPref(){try{localStorage.setItem('ccviewer_ui',JSON.stringify({nav:UI_NAV_COLLAPSED,navW:NAV_W}));}catch(e){}}
+function saveUIPref(){try{localStorage.setItem('ccviewer_ui',JSON.stringify({nav:UI_NAV_COLLAPSED,navW:NAV_W,navShown:NAV_SHOWN}));}catch(e){}}
 function applyUIPanels(){
   const nav=$('#nav');
   if(nav){nav.classList.toggle('collapsedui',UI_NAV_COLLAPSED);nav.style.width=NAV_W+'px';}
