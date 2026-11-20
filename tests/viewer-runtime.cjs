@@ -72,10 +72,10 @@ function resetSession() {
   run('scheduleRefresh()');
   assert.equal(timer, null);
   context.document.hidden = false;
-  elements.get('#library').classList.toggle('hide', false);
+  elements.get('#drop').classList.toggle('hide', false);
   run('scheduleRefresh()');
-  assert.equal(timer, null);
-  elements.get('#library').classList.toggle('hide', true);
+  assert.equal(timer, null, 'polling stops when the viewer is not shown');
+  elements.get('#drop').classList.toggle('hide', true);
   // A lost permission stops polling and allows the user to reconnect.
   context.CUR.source = {getFile: async () => { throw new Error('permission revoked'); }};
   await run('refreshSession(true)');

@@ -117,7 +117,11 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 #navResizer:hover,#navResizer.on{background:rgba(217,119,87,.45)}
 .btn.icon{padding:5px 7px;font-size:13px;line-height:0;min-width:30px;display:inline-flex;align-items:center;justify-content:center}
 .btn.icon svg{display:block}
-#nav h3{margin:2px 6px 8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--faint)}
+#nav .navhead{display:flex;align-items:center;gap:6px;margin:2px 6px 8px}
+#nav .navhead h3{margin:0;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--faint)}
+#nav .navsort{margin-left:auto;background:var(--panel2);color:var(--dim);border:1px solid var(--border);border-radius:6px;font-size:11px;padding:2px 4px;max-width:86px;cursor:pointer}
+#nav .navsort:hover{color:var(--text)}
+#nav .btn.icon{padding:3px 5px;min-width:26px}
 .navghead{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;cursor:pointer;color:var(--dim);font-size:12px;user-select:none}
 .navghead:hover{background:var(--panel2);color:var(--text)}
 .navghead .gc{flex-shrink:0;width:10px;color:var(--faint);font-size:10px;text-align:center}
@@ -270,8 +274,6 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 @media (prefers-reduced-motion:reduce){.lheader,.hero-l .kicker,#drop h1,#drop .tagline,#drop .box,.hero-r,.seo,.lfooter,.lbrand .logo,.cursor,.pxd{animation:none}.preview{transform:none}}
 #drop.hide{display:none}
 /* session library */
-#library{position:absolute;inset:0;z-index:11;overflow-y:auto;background:radial-gradient(1000px 480px at 78% -8%,rgba(217,119,87,.14),transparent 62%),#0d1117;padding:26px 20px 64px}
-#library.hide{display:none}
 .libwrap{max-width:860px;margin:0 auto}
 .libwrap .spacer{flex:1}
 .libhead{display:flex;align-items:center;gap:12px;margin-bottom:18px}
@@ -279,24 +281,20 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .libhead h2 svg{flex-shrink:0}
 .libhead .cnt{color:var(--faint);font-size:13px}
 .libtools{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
-#libProgress{margin-bottom:12px}
-#libProgress .libprog-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-#libProgText{flex:1;min-width:0;color:var(--accent2);font-size:12px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.libprog-bar{height:4px;border-radius:2px;background:var(--code-bg);overflow:hidden}
-#libProgFill{height:100%;width:0;background:var(--accent);border-radius:2px;transition:width .15s ease}
-.libwarn{background:rgba(210,153,34,.1);border:1px solid var(--yellow);border-radius:8px;padding:8px 12px;color:var(--yellow);font-size:12px;margin-bottom:12px;display:none}
-#libList{display:flex;flex-direction:column;gap:10px}
-.dirhint{color:var(--faint);font-size:11.5px;margin:0 0 12px;line-height:1.6}
-.dirhint kbd,.pathhint kbd{font-family:"SFMono-Regular",Consolas,Menlo,monospace;background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:0 4px;font-size:10.5px}
+#navProg{margin:4px 2px 10px}
+#navProg .navprog-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+#navProgText{flex:1;min-width:0;color:var(--accent2);font-size:11.5px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.navprog-bar{height:4px;border-radius:2px;background:var(--code-bg);overflow:hidden}
+#navProgFill{height:100%;width:0;background:var(--accent);border-radius:2px;transition:width .15s ease}
+.pathhint kbd{font-family:"SFMono-Regular",Consolas,Menlo,monospace;background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:0 4px;font-size:10.5px}
 .librow{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;transition:border-color .15s}
 .librow:hover{border-color:var(--accent)}
 .librow .l1{display:flex;align-items:center;gap:10px}
 .librow .lt{font-weight:600;font-size:14px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .librow .l2{color:var(--faint);font-size:12px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.libdel{background:none;border:none;color:var(--faint);font-size:16px;cursor:pointer;padding:0 4px;line-height:1;flex-shrink:0}
-.libdel:hover{color:var(--red)}
-.libempty{text-align:center;color:var(--faint);padding:70px 0;font-size:14px}
-.libempty .btn{margin-top:14px}
+#localPickList{display:flex;flex-direction:column;gap:10px;max-height:52vh;overflow-y:auto}
+#localPickList:empty{display:none}
+.libempty{color:var(--dim);font-size:13px;padding:8px 2px}
 /* landing seo content */
 .seo{width:100%;max-width:1160px;text-align:left;margin:110px auto 0;border-top:1px solid var(--border);padding-top:56px}
 #drop .seo .intro{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:20px 28px 22px;color:var(--dim);font-size:14px;line-height:1.95;margin:0 0 60px;max-width:none;text-align:left}
@@ -340,7 +338,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 #confirmDlg::backdrop{background:rgba(0,0,0,.6)}
 #confirmMsg{margin:0 0 16px;font-size:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
 #confirmDlg .actions{display:flex;justify-content:flex-end;gap:10px}
-#paste .panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;width:min(820px,92vw);max-height:88vh;display:flex;flex-direction:column;padding:18px;gap:12px}
+#paste .panel,#localPick .panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;width:min(820px,92vw);max-height:88vh;display:flex;flex-direction:column;padding:18px;gap:12px}
 #paste h2{margin:0;font-size:16px;color:var(--accent)}
 #paste .hint{color:var(--dim);font-size:12px;margin:0}
 #paste textarea{flex:1;min-height:48vh;resize:vertical;background:var(--code-bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:12px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;font-size:12.5px;line-height:1.5}
@@ -441,7 +439,6 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <button class="btn icon" id="btnNavToggle" title=""></button>
     <span class="spacer"></span>
     <button class="btn iconbtn" id="btnHome" data-tip="home" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg></button>
-    <button class="btn iconbtn" id="btnLibrary" data-tip="libraryBtn" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16"/><path d="M8 8v12"/><path d="M12 6v14"/><path d="m16 6 4 14"/></svg><span class="ibadge" id="libBadge" hidden></span></button>
     <button class="btn iconbtn" id="btnCloud" data-tip="cloudUploadCurrent" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg></button>
     <button class="btn iconbtn" id="btnExportMd" data-tip="exportMd" title="" style="display:none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></button>
     <span class="tsep" aria-hidden="true"></span>
@@ -476,7 +473,22 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <span id="mstats"></span>
   </div>
   <div id="main">
-    <div id="nav"><h3 data-i18n="navProjects">프로젝트</h3><div id="navList"></div><div id="navResizer" title=""></div></div>
+    <div id="nav">
+      <div class="navhead">
+        <h3 data-i18n="navProjects">프로젝트</h3>
+        <select class="navsort" id="navSort" aria-label="Sort">
+          <option value="recent" data-i18n="sortRecent">최근 순</option>
+          <option value="oldest" data-i18n="sortOldest">오래된 순</option>
+          <option value="msgs" data-i18n="sortMsgs">메시지 수</option>
+          <option value="tokens" data-i18n="sortTokens">토큰</option>
+          <option value="cost" data-i18n="sortCost">비용</option>
+        </select>
+        <button class="btn icon" id="btnNavCloud" data-tip="cloudPageTitle" title="" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 7 7 0 0 0-13.36 2.2A4.5 4.5 0 0 0 6.5 19z"/></svg></button>
+      </div>
+      <div id="navList"></div>
+      <div id="navResizer" title=""></div>
+      <div id="navProg" hidden><div class="navprog-row"><span id="navProgText"></span><button class="btn" id="navCancel" type="button" data-i18n="importCancel">가져오기 취소</button></div><div class="navprog-bar"><div id="navProgFill"></div></div></div>
+    </div>
     <div id="sidebar"><div class="phd" style="color:var(--faint);font-size:12px" data-i18n="noFile">파일 미로딩</div></div>
     <div id="content"><div id="stream"></div></div>
   </div>
@@ -495,7 +507,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <span>GitHub</span>
     </a>
     <button class="btn" id="btnCloudLanding"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg><span data-i18n="cloudTitle">클라우드 백업</span></button>
-    <button class="btn" id="btnLibLanding" data-i18n="libraryBtn" style="display:none">세션</button>
+    <button class="btn" id="btnLibLanding" data-i18n="recentBtn" style="display:none">마지막 세션 이어 보기</button>
     <select class="btn langsel" aria-label="Language"></select>
     <div class="avatar-wrap" id="avatarLanding" hidden></div>
   </header>
@@ -591,39 +603,6 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <span data-i18n="footerPrivacy">세션 파일은 브라우저에서 처리되며 자동으로 업로드되지 않습니다. 직접 백업한 파일만 클라우드에 저장되며 본인만 접근할 수 있습니다.</span>
   </footer>
 </div>
-<div id="library" class="hide">
-  <div class="libwrap">
-    <div class="libhead">
-      <h2 data-i18n="libraryTitle">세션 라이브러리</h2>
-      <span class="cnt" id="libCount"></span>
-      <span class="spacer"></span>
-      <button class="btn" id="btnLibClose" data-i18n="closeBtn">닫기</button>
-    </div>
-    <div class="libtools">
-      <button class="btn primary" id="btnImportFolder" data-i18n="openFolder">폴더 열기</button>
-      <select class="btn" id="libSort" aria-label="Sort">
-        <option value="recent" data-i18n="sortRecent">최근 순</option>
-        <option value="oldest" data-i18n="sortOldest">오래된 순</option>
-        <option value="msgs" data-i18n="sortMsgs">메시지 수</option>
-        <option value="tokens" data-i18n="sortTokens">토큰</option>
-        <option value="cost" data-i18n="sortCost">비용</option>
-      </select>
-      <span class="spacer"></span>
-      <button class="btn" id="btnCloudManageLibrary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 7 7 0 0 0-13.36 2.2A4.5 4.5 0 0 0 6.5 19z"/></svg><span data-i18n="cloudView">클라우드 백업 보기</span></button>
-      <button class="btn primary" id="btnCloudLibrary" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg><span data-i18n="cloudBackupSelected">선택 항목 백업</span></button>
-      <button class="btn" id="btnClearAll" data-i18n="clearAll">모두 지우기</button>
-    </div>
-    <p class="dirhint" data-i18n-html="dirTip">폴더를 찾을 수 없나요? macOS는 선택 창에서 <kbd>⌘⇧.</kbd>를 눌러 숨김 폴더를 표시하거나, Finder에서 <kbd>⌘⇧G</kbd>를 누르고 <code>~/.claude/projects</code>를 입력하세요. Windows는 파일 이름 칸에 <code>%USERPROFILE%\.claude\projects</code>를 입력하세요.</p>
-    <div class="libwarn" id="libWarn" data-i18n="storageWarn">브라우저 저장 공간이 가득 찼습니다. 일부 세션은 요약만 저장되었습니다.</div>
-    <div id="libProgress" hidden><div class="libprog-row"><span id="libProgText"></span><button class="btn" id="libCancel" type="button" data-i18n="importCancel">가져오기 취소</button></div><div class="libprog-bar"><div id="libProgFill"></div></div></div>
-    <div class="lib-selection"><label><input type="checkbox" id="libSelectAll"><span data-i18n="cloudSelectAll">모두 선택</span></label><span id="libSelectedCount"></span></div>
-    <div id="libList"></div>
-    <div class="libempty" id="libEmpty">
-      <p data-i18n="libraryEmpty">아직 세션이 없습니다. .jsonl 파일이 있는 폴더를 열어 라이브러리를 만들어 보세요.</p>
-      <button class="btn primary" id="btnImportFolder2" data-i18n="openFolder">폴더 열기</button>
-    </div>
-  </div>
-</div>
 <div id="cloudPage" class="hide" data-clarity-mask="true">
   <div class="libwrap">
     <div class="libhead">
@@ -634,6 +613,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     </div>
     <div class="libtools">
       <button class="btn" id="cloudPick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/></svg><span data-i18n="cloudPick">파일 백업…</span></button>
+      <button class="btn primary" id="cloudLocalBtn" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16"/><path d="M8 8v12"/><path d="M12 6v14"/><path d="m16 6 4 14"/></svg><span data-i18n="localUploadBtn">로컬 세션 백업…</span></button>
       <button class="btn" id="cloudRefresh"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8"/><path d="M21 3v5h-5"/></svg><span data-i18n="refresh">새로고침</span></button>
       <span class="spacer"></span>
       <span id="cloudStatusPage" role="status" aria-live="polite"></span>
@@ -652,6 +632,18 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <span class="err" id="pasteErr"></span>
       <button class="btn" id="pasteCancel" data-i18n="cancel">취소</button>
       <button class="btn primary" id="pasteLoad" data-i18n="loadBtn">불러오기</button>
+    </div>
+  </div>
+</dialog>
+<dialog id="localPick" aria-labelledby="localPickTitle">
+  <div class="panel">
+    <h2 id="localPickTitle" data-i18n="localPickTitle">백업할 세션 선택</h2>
+    <div class="lib-selection"><label><input type="checkbox" id="localPickAll"><span data-i18n="cloudSelectAll">모두 선택</span></label><span id="localPickCount"></span></div>
+    <div id="localPickList"></div>
+    <div class="actions">
+      <span class="err" id="localPickErr"></span>
+      <button class="btn" id="localPickCancel" data-i18n="cancel">취소</button>
+      <button class="btn primary" id="localPickStart" data-i18n="cloudStart">백업 시작</button>
     </div>
   </div>
 </dialog>
@@ -690,7 +682,7 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={'ko':{"brand": "CCViewer", "thinking": "사고", "tools": "도구", "sysInj": "시스템 / 컨텍스트", "expandAll": "모두 펼치기", "pasteText": "텍스트 붙여넣기", "openFile": "파일 열기", "noFile": "파일 미로딩", "dropHint1": "<b>.jsonl</b> 세션 파일<b> 또는 폴더 전체</b>를 여기로 드래그하거나 클릭해서 선택하세요", "dropHint2": "예: <code>~/.claude/projects/</code> 폴더 전체 또는 그 안의 <code>&lt;sessionId&gt;.jsonl</code>", "revealTip": ".claude 폴더가 안 보이나요? 숨김 폴더예요 — macOS는 <kbd>⌘⇧.</kbd>, Windows는 파일 이름 칸에 <kbd>%USERPROFILE%\\.claude\\projects</kbd> 입력", "chooseFile": "파일 선택", "pasteTitle": "JSONL 텍스트 붙여넣기", "pasteHint": "기록 파일 내용 전체를 붙여넣으세요. 한 줄에 하나의 JSON 객체(단일 JSON 배열 / 객체도 지원).", "cancel": "취소", "loadBtn": "불러오기", "thinkLabel": "✻ 사고", "you": "사용자", "reply": "응답", "result": "결과", "error": "오류", "lines": "줄", "images": "이미지", "viewResult": "결과 보기", "sysMsg": "시스템 메시지", "injCtx": "주입된 컨텍스트", "system": "시스템", "sessionInfo": "세션 정보", "stats": "통계", "costUsage": "비용 / 사용량", "titleRow": "제목", "projectDir": "프로젝트 디렉토리", "gitBranch": "Git 브랜치", "version": "버전", "sessionId": "세션 ID", "time": "시간", "model": "모델", "userMsgs": "사용자 메시지", "replies": "응답", "toolCalls": "도구 호출", "thinkingStat": "사고", "imagesStat": "이미지", "parseFailed": "파싱 실패", "home": "홈", "inTokens": "입력 토큰", "outTokens": "출력 토큰", "cacheRead": "캐시 읽기", "cacheCreate": "캐시 쓰기", "totalCost": "총 비용", "linesPM": "코드 줄 +/-", "apiTime": "API 시간", "toolTime": "도구 시간", "viewerSuffix": "기록 뷰어", "pasteEmptyErr": "유효한 레코드가 없습니다. 붙여넣은 내용을 확인하세요.", "pastedContent": "붙여넣은 내용", "intro": "브라우저에서 Claude Code JSONL 세션을 로컬로 읽으세요. 메시지와 도구 호출 확인, 폴더 가져오기, Markdown 내보내기를 지원하는 무료 오픈 소스 도구입니다.", "featMd": "Markdown 렌더링", "featMdD": "코드 블록, 표, 목록, 인용 완전 재현", "featThink": "사고 과정", "featThinkD": "extended thinking 전문을 접거나 펼쳐 보기", "featTool": "도구 호출", "featToolD": "파라미터와 결과를 하나씩 펼쳐 보기", "featCost": "사용량과 비용", "featCostD": "토큰 사용량, 시간, 비용 분석", "featI18n": "다국어 지원", "featI18nD": "10개 언어 인터페이스를 원클릭 전환", "featPrivacy": "프라이버시 보호", "featPrivacyD": "100% 클라이언트 처리, 업로드 없음", "featCloud": "클라우드 영구 백업", "featCloudD": "GitHub에 로그인하면 .jsonl 세션을 클라우드에 백업하세요. 어떤 기기에서나 영구 보관하고 열거나 다운로드할 수 있으며, 나에게만 보입니다.", "faqTitle": "자주 묻는 질문", "tagline": ".jsonl 세션 파일을 브라우저에서 로컬로 렌더링. 프라이빗, 무료, 오픈소스", "heroTitle": "<em>Claude Code</em> 세션 기록 읽기", "pvUserQ": "모바일에서 로그인 페이지 레이아웃이 깨지는 문제를 수정해줘", "pvThink": "먼저 로그인 페이지 컴포넌트의 스타일을 확인해야겠다…", "pvReply": "원인은 <code>flex</code> 레이아웃에 <code>wrap</code>이 없었던 것입니다. 수정했고 375px 너비에서 검증했습니다.", "footerPrivacy": "세션 파일은 브라우저에서 처리되며 자동으로 업로드되지 않습니다. 직접 백업한 파일만 클라우드에 저장되며 본인만 접근할 수 있습니다.", "q1": "Claude Code의 이전 세션을 어떻게 확인하나요?", "a1": "로컬 세션의 기본 위치는 ~/.claude/projects/입니다. CLAUDE_CONFIG_DIR를 설정하면 기본 디렉터리가 바뀝니다. 저장 비활성화나 보존 기간에 따른 정리로 모든 기록이 영구 보관되지는 않습니다. 클라우드나 원격 세션은 실행 환경을 확인하세요.", "q2": "세션 파일이 업로드되나요?", "a2": "세션 파일은 브라우저에서 로컬로 분석하고 표시합니다. 온라인 사이트는 Microsoft Clarity를 자동으로 로드하여 페이지 상호작용을 기록합니다. 오프라인 사본은 분석을 로드하지 않습니다. 직접 백업을 선택한 파일만 비공개 클라우드에 업로드됩니다. 본인 계정만 접근할 수 있습니다. 로컬 열람에는 로그인이 필요 없습니다. JSONL 파일당 최대 20 MiB입니다.", "q3": "뷰어는 무엇을 지원하나요?", "a3": "사용자 및 어시스턴트 메시지의 Markdown 렌더링, extended thinking 블록, 도구 호출 파라미터와 결과, 이미지, 토큰 사용량과 비용 통계를 지원하며 다국어 인터페이스도 제공합니다.", "q4": ".jsonl은 어떤 형식인가요?", "a4": "JSON Lines — 한 줄에 하나의 독립된 JSON 객체가 들어가는 형식입니다. Claude Code는 메시지, 도구 호출, 메타데이터를 한 줄씩 기록합니다.", "q5": "CCViewer는 무료인가요?", "a5": "무료이며 오픈소스입니다. 가입이나 로그인 없이 브라우저에서 바로 사용할 수 있습니다.", "libraryBtn": "세션", "libraryTitle": "세션 라이브러리", "libraryEmpty": "아직 세션이 없습니다. .jsonl 파일이 있는 폴더를 열어 라이브러리를 만들어 보세요.", "openFolder": "폴더 열기", "importing": "가져오는 중… {n}/{m}", "importCancel": "가져오기 취소", "parsingSession": "세션 분석 중…", "handleReadErr": "이 파일을 읽을 수 없습니다. 액세스를 다시 허용하거나 폴더를 다시 가져오세요.", "notSessionFile": "Claude Code 세션 파일이 아닙니다. ~/.claude/projects/의 .jsonl 파일을 선택하세요.", "noJsonlFound": "이 폴더에 .jsonl 세션 파일이 없습니다. ~/.claude/projects 폴더를 선택하세요.", "deletedOk": "삭제됨", "displayBtn": "표시", "openMenuBtn": "열기", "langBtn": "언어", "fsTitle": "글자 크기", "copyBtn": "복사", "copied": "복사됨", "copyFailed": "복사 실패", "okBtn": "확인", "importedN": "세션 {n}개", "sortRecent": "최근 순", "sortOldest": "오래된 순", "sortMsgs": "메시지 수", "sortTokens": "토큰", "sortCost": "비용", "deleteBtn": "삭제", "clearAll": "모두 지우기", "confirmDelete": "이 세션을 삭제할까요?", "confirmClear": "저장된 모든 세션을 삭제할까요? 되돌릴 수 없습니다.", "noTextErr": "내용이 캐시되지 않았습니다(저장 공간 부족). 폴더를 다시 가져와 주세요.", "storageWarn": "브라우저 저장 공간이 가득 찼습니다. 일부 세션은 요약만 저장되었습니다.", "closeBtn": "닫기", "dirTip": "폴더를 찾을 수 없나요? macOS는 선택 창에서 <kbd>⌘⇧.</kbd>를 눌러 숨김 폴더를 표시하거나, Finder에서 <kbd>⌘⇧G</kbd>를 누르고 <code>~/.claude/projects</code>를 입력하세요. Windows는 파일 이름 칸에 <code>%USERPROFILE%\\.claude\\projects</code>를 입력하세요.", "navProjects": "프로젝트", "noProject": "(프로젝트 디렉터리 없음)", "toggleNav": "프로젝트 패널 토글", "dragResize": "드래그하여 너비 조절", "exportMd": "MD 내보내기", "exportEmptyErr": "먼저 세션을 로드하세요.", "guideH": "사용 가이드", "tutorialCap": "파일 열기 → ⌘⇧.로 숨김 폴더 표시 → ~/.claude/projects/ 열기 → 세션 .jsonl 선택 → 통계·thinking·도구 블록·필터·Markdown 내보내기.", "tutReplay": "다시 재생", "tutS1": "열기 대화상자에서 ⌘ ⇧ .를 눌러 숨김 폴더 표시", "tutS2": "숨김 폴더가 나타납니다 — ~/.claude 열기", "tutS3": "~/.claude/projects/ 열기", "tutS4": "세션 파일을 선택하고 Open 클릭", "tutS5": "세션 통계 — 턴 수·토큰·비용·메타데이터 한눈에", "tutS6": "thinking 블록, 도구 호출과 결과 인라인 표시", "tutS7": "한 번의 클릭으로 thinking·도구·메타데이터 전환", "tutS8": "대화 전체를 Markdown으로 내보내기", "g1": "Claude Code 세션의 전체 기록을 보는 방법", "g2": "세션의 JSONL 파일 위치를 찾는 방법", "g3": "Claude Code 세션 기록은 어디에 저장되나?", "g4": "2026년 최고의 Claude Code 세션 뷰어는?", "helpCenter": "도움말", "resourcesTitle": "공식 자료", "resourcesDocs": "문서", "resourcesIssues": "문제 신고", "refresh": "새로고침", "refreshReady": "로컬 파일 연결됨 · 항상 최신 상태 유지", "refreshReconnect": "'새로 고침'을 눌러 파일에 다시 연결하면 자동으로 업데이트됩니다.", "refreshing": "새로고침 중…", "refreshChecked": "동기화됨 · {time}", "refreshFailed": "파일을 읽지 못했습니다. '새로 고침'을 눌러 다시 연결하세요.", "refreshWrongFile": "이 세션의 .jsonl 파일을 선택하세요.", "imagePreview": "이미지 미리보기", "cloudTitle": "클라우드 백업", "cloudLoginRequired": "로그인하여 비공개 백업에 접근하세요.", "cloudLogin": "GitHub로 로그인", "cloudLogout": "로그아웃", "cloudPrivacy": "백업은 본인만 접근할 수 있습니다. 파일당 최대 20 MiB.", "cloudPick": "파일 백업…", "cloudUploadCurrent": "백업", "cloudWorking": "처리 중…", "cloudEmpty": "아직 클라우드 백업이 없습니다.", "loginBtn": "로그인", "cloudPageTitle": "클라우드 세션", "cloudRecords": "{n}개 레코드", "cloudMore": "더 보기", "cloudRestore": "세션 열기", "cloudDownload": "다운로드", "cloudUnavailable": "이 사이트는 클라우드 백업이 설정되지 않았습니다. 로컬 열람은 가능합니다.", "cloudTooLarge": "파일이 20 MiB 제한을 초과합니다.", "cloudInvalidJsonl": "올바른 세션 파일이 아닌 것 같습니다.", "cloudInvalidName": "파일 이름이 너무 길거나 사용할 수 없는 문자가 포함되어 있습니다. 이름을 바꾼 후 다시 시도하세요.", "cloudInvalidDescription": "설명이 너무 깁니다(최대 500자).", "cloudNotFound": "백업이 더 이상 존재하지 않습니다.", "cloudOriginError": "설정된 사이트 주소를 사용하세요.", "cloudNetworkError": "연결할 수 없습니다. 네트워크를 확인하고 다시 시도하세요.", "cloudRequestFailed": "클라우드 요청에 실패했습니다. 다시 시도하세요.", "cloudOnlineOnly": "클라우드 백업은 배포된 사이트에서 사용하세요. 오프라인 사본에서도 로컬 열람은 가능합니다.", "cloudUploaded": "백업을 업로드했습니다.", "cloudLoggedOut": "로그아웃했습니다.", "cloudConfirmDelete": "클라우드 백업 “{name}”을 삭제할까요? 로컬 사본은 유지됩니다.", "cloudDeleted": "클라우드 백업을 삭제했습니다.", "cloudLoginFailed": "GitHub 로그인에 실패했거나 만료되었습니다. 다시 시도하세요.", "cloudLoginBackup": "로그인하고 백업", "cloudLoginContinue": "세션과 읽던 위치가 유지됩니다. 로그인 후 백업을 계속합니다.", "cloudPreserveFailed": "로그인 전 세션을 저장하지 못했습니다. 브라우저 저장 공간을 확보한 후 다시 시도하세요.", "cloudBatchTitle": "세션 {n}개 백업", "cloudWaiting": "대기 중", "cloudUploading": "백업 중…", "cloudDone": "백업 완료", "cloudFailed": "실패", "cloudRetry": "미완료 항목 재시도", "cloudStart": "백업 시작", "cloudNameLabel": "세션 이름", "cloudDescriptionLabel": "설명 (선택 사항)", "cloudProgress": "백업 중 {n}/{m}…", "cloudPartial": "{n}개 완료, {m}개 남음. 다시 시도할 수 있습니다.", "cloudComplete": "세션 {n}개 백업 완료.", "cloudBackupSelected": "선택 항목 백업", "cloudSelectAll": "모두 선택", "cloudSelectSession": "세션 선택: {name}", "cloudSelectedCount": "{n}개 선택됨", "cloudView": "클라우드 백업 보기", "cloudSaved": "저장된 백업"}};
+const I18N={'ko':{"brand": "CCViewer", "thinking": "사고", "tools": "도구", "sysInj": "시스템 / 컨텍스트", "expandAll": "모두 펼치기", "pasteText": "텍스트 붙여넣기", "openFile": "파일 열기", "noFile": "파일 미로딩", "dropHint1": "<b>.jsonl</b> 세션 파일<b> 또는 폴더 전체</b>를 여기로 드래그하거나 클릭해서 선택하세요", "dropHint2": "예: <code>~/.claude/projects/</code> 폴더 전체 또는 그 안의 <code>&lt;sessionId&gt;.jsonl</code>", "revealTip": ".claude 폴더가 안 보이나요? 숨김 폴더예요 — macOS는 <kbd>⌘⇧.</kbd>, Windows는 파일 이름 칸에 <kbd>%USERPROFILE%\\.claude\\projects</kbd> 입력", "chooseFile": "파일 선택", "pasteTitle": "JSONL 텍스트 붙여넣기", "pasteHint": "기록 파일 내용 전체를 붙여넣으세요. 한 줄에 하나의 JSON 객체(단일 JSON 배열 / 객체도 지원).", "cancel": "취소", "loadBtn": "불러오기", "thinkLabel": "✻ 사고", "you": "사용자", "reply": "응답", "result": "결과", "error": "오류", "lines": "줄", "images": "이미지", "viewResult": "결과 보기", "sysMsg": "시스템 메시지", "injCtx": "주입된 컨텍스트", "system": "시스템", "sessionInfo": "세션 정보", "stats": "통계", "costUsage": "비용 / 사용량", "titleRow": "제목", "projectDir": "프로젝트 디렉토리", "gitBranch": "Git 브랜치", "version": "버전", "sessionId": "세션 ID", "time": "시간", "model": "모델", "userMsgs": "사용자 메시지", "replies": "응답", "toolCalls": "도구 호출", "thinkingStat": "사고", "imagesStat": "이미지", "parseFailed": "파싱 실패", "home": "홈", "inTokens": "입력 토큰", "outTokens": "출력 토큰", "cacheRead": "캐시 읽기", "cacheCreate": "캐시 쓰기", "totalCost": "총 비용", "linesPM": "코드 줄 +/-", "apiTime": "API 시간", "toolTime": "도구 시간", "viewerSuffix": "기록 뷰어", "pasteEmptyErr": "유효한 레코드가 없습니다. 붙여넣은 내용을 확인하세요.", "pastedContent": "붙여넣은 내용", "intro": "브라우저에서 Claude Code JSONL 세션을 로컬로 읽으세요. 메시지와 도구 호출 확인, 폴더 가져오기, Markdown 내보내기를 지원하는 무료 오픈 소스 도구입니다.", "featMd": "Markdown 렌더링", "featMdD": "코드 블록, 표, 목록, 인용 완전 재현", "featThink": "사고 과정", "featThinkD": "extended thinking 전문을 접거나 펼쳐 보기", "featTool": "도구 호출", "featToolD": "파라미터와 결과를 하나씩 펼쳐 보기", "featCost": "사용량과 비용", "featCostD": "토큰 사용량, 시간, 비용 분석", "featI18n": "다국어 지원", "featI18nD": "10개 언어 인터페이스를 원클릭 전환", "featPrivacy": "프라이버시 보호", "featPrivacyD": "100% 클라이언트 처리, 업로드 없음", "featCloud": "클라우드 영구 백업", "featCloudD": "GitHub에 로그인하면 .jsonl 세션을 클라우드에 백업하세요. 어떤 기기에서나 영구 보관하고 열거나 다운로드할 수 있으며, 나에게만 보입니다.", "faqTitle": "자주 묻는 질문", "tagline": ".jsonl 세션 파일을 브라우저에서 로컬로 렌더링. 프라이빗, 무료, 오픈소스", "heroTitle": "<em>Claude Code</em> 세션 기록 읽기", "pvUserQ": "모바일에서 로그인 페이지 레이아웃이 깨지는 문제를 수정해줘", "pvThink": "먼저 로그인 페이지 컴포넌트의 스타일을 확인해야겠다…", "pvReply": "원인은 <code>flex</code> 레이아웃에 <code>wrap</code>이 없었던 것입니다. 수정했고 375px 너비에서 검증했습니다.", "footerPrivacy": "세션 파일은 브라우저에서 처리되며 자동으로 업로드되지 않습니다. 직접 백업한 파일만 클라우드에 저장되며 본인만 접근할 수 있습니다.", "q1": "Claude Code의 이전 세션을 어떻게 확인하나요?", "a1": "로컬 세션의 기본 위치는 ~/.claude/projects/입니다. CLAUDE_CONFIG_DIR를 설정하면 기본 디렉터리가 바뀝니다. 저장 비활성화나 보존 기간에 따른 정리로 모든 기록이 영구 보관되지는 않습니다. 클라우드나 원격 세션은 실행 환경을 확인하세요.", "q2": "세션 파일이 업로드되나요?", "a2": "세션 파일은 브라우저에서 로컬로 분석하고 표시합니다. 온라인 사이트는 Microsoft Clarity를 자동으로 로드하여 페이지 상호작용을 기록합니다. 오프라인 사본은 분석을 로드하지 않습니다. 직접 백업을 선택한 파일만 비공개 클라우드에 업로드됩니다. 본인 계정만 접근할 수 있습니다. 로컬 열람에는 로그인이 필요 없습니다. JSONL 파일당 최대 20 MiB입니다.", "q3": "뷰어는 무엇을 지원하나요?", "a3": "사용자 및 어시스턴트 메시지의 Markdown 렌더링, extended thinking 블록, 도구 호출 파라미터와 결과, 이미지, 토큰 사용량과 비용 통계를 지원하며 다국어 인터페이스도 제공합니다.", "q4": ".jsonl은 어떤 형식인가요?", "a4": "JSON Lines — 한 줄에 하나의 독립된 JSON 객체가 들어가는 형식입니다. Claude Code는 메시지, 도구 호출, 메타데이터를 한 줄씩 기록합니다.", "q5": "CCViewer는 무료인가요?", "a5": "무료이며 오픈소스입니다. 가입이나 로그인 없이 브라우저에서 바로 사용할 수 있습니다.", "libraryEmpty": "아직 로컬 세션이 없어요. .jsonl 파일이나 프로젝트 폴더를 열어 보세요.", "recentBtn": "마지막 세션 이어 보기", "localUploadBtn": "로컬 세션 백업…", "localPickTitle": "백업할 세션 선택", "localPickSkipped": "{n}개 세션을 건너뛰었어요(파일을 읽을 수 없음)", "openFolder": "폴더 열기", "importing": "가져오는 중… {n}/{m}", "importCancel": "가져오기 취소", "parsingSession": "세션 분석 중…", "handleReadErr": "이 파일을 읽을 수 없습니다. 액세스를 다시 허용하거나 폴더를 다시 가져오세요.", "notSessionFile": "Claude Code 세션 파일이 아닙니다. ~/.claude/projects/의 .jsonl 파일을 선택하세요.", "noJsonlFound": "이 폴더에 .jsonl 세션 파일이 없습니다. ~/.claude/projects 폴더를 선택하세요.", "deletedOk": "삭제됨", "displayBtn": "표시", "openMenuBtn": "열기", "langBtn": "언어", "fsTitle": "글자 크기", "copyBtn": "복사", "copied": "복사됨", "copyFailed": "복사 실패", "okBtn": "확인", "sortRecent": "최근 순", "sortOldest": "오래된 순", "sortMsgs": "메시지 수", "sortTokens": "토큰", "sortCost": "비용", "deleteBtn": "삭제", "noTextErr": "내용이 캐시되지 않았습니다(저장 공간 부족). 폴더를 다시 가져와 주세요.", "storageWarn": "브라우저 저장 공간이 가득 찼습니다. 일부 세션은 요약만 저장되었습니다.", "closeBtn": "닫기", "navProjects": "프로젝트", "noProject": "(프로젝트 디렉터리 없음)", "toggleNav": "프로젝트 패널 토글", "dragResize": "드래그하여 너비 조절", "exportMd": "MD 내보내기", "exportEmptyErr": "먼저 세션을 로드하세요.", "guideH": "사용 가이드", "tutorialCap": "파일 열기 → ⌘⇧.로 숨김 폴더 표시 → ~/.claude/projects/ 열기 → 세션 .jsonl 선택 → 통계·thinking·도구 블록·필터·Markdown 내보내기.", "tutReplay": "다시 재생", "tutS1": "열기 대화상자에서 ⌘ ⇧ .를 눌러 숨김 폴더 표시", "tutS2": "숨김 폴더가 나타납니다 — ~/.claude 열기", "tutS3": "~/.claude/projects/ 열기", "tutS4": "세션 파일을 선택하고 Open 클릭", "tutS5": "세션 통계 — 턴 수·토큰·비용·메타데이터 한눈에", "tutS6": "thinking 블록, 도구 호출과 결과 인라인 표시", "tutS7": "한 번의 클릭으로 thinking·도구·메타데이터 전환", "tutS8": "대화 전체를 Markdown으로 내보내기", "g1": "Claude Code 세션의 전체 기록을 보는 방법", "g2": "세션의 JSONL 파일 위치를 찾는 방법", "g3": "Claude Code 세션 기록은 어디에 저장되나?", "g4": "2026년 최고의 Claude Code 세션 뷰어는?", "helpCenter": "도움말", "resourcesTitle": "공식 자료", "resourcesDocs": "문서", "resourcesIssues": "문제 신고", "refresh": "새로고침", "refreshReady": "로컬 파일 연결됨 · 항상 최신 상태 유지", "refreshReconnect": "'새로 고침'을 눌러 파일에 다시 연결하면 자동으로 업데이트됩니다.", "refreshing": "새로고침 중…", "refreshChecked": "동기화됨 · {time}", "refreshFailed": "파일을 읽지 못했습니다. '새로 고침'을 눌러 다시 연결하세요.", "refreshWrongFile": "이 세션의 .jsonl 파일을 선택하세요.", "imagePreview": "이미지 미리보기", "cloudTitle": "클라우드 백업", "cloudLoginRequired": "로그인하여 비공개 백업에 접근하세요.", "cloudLogin": "GitHub로 로그인", "cloudLogout": "로그아웃", "cloudPrivacy": "백업은 본인만 접근할 수 있습니다. 파일당 최대 20 MiB.", "cloudPick": "파일 백업…", "cloudUploadCurrent": "백업", "cloudWorking": "처리 중…", "cloudEmpty": "아직 클라우드 백업이 없습니다.", "loginBtn": "로그인", "cloudPageTitle": "클라우드 세션", "cloudRecords": "{n}개 레코드", "cloudMore": "더 보기", "cloudRestore": "세션 열기", "cloudDownload": "다운로드", "cloudUnavailable": "이 사이트는 클라우드 백업이 설정되지 않았습니다. 로컬 열람은 가능합니다.", "cloudTooLarge": "파일이 20 MiB 제한을 초과합니다.", "cloudInvalidJsonl": "올바른 세션 파일이 아닌 것 같습니다.", "cloudInvalidName": "파일 이름이 너무 길거나 사용할 수 없는 문자가 포함되어 있습니다. 이름을 바꾼 후 다시 시도하세요.", "cloudInvalidDescription": "설명이 너무 깁니다(최대 500자).", "cloudNotFound": "백업이 더 이상 존재하지 않습니다.", "cloudOriginError": "설정된 사이트 주소를 사용하세요.", "cloudNetworkError": "연결할 수 없습니다. 네트워크를 확인하고 다시 시도하세요.", "cloudRequestFailed": "클라우드 요청에 실패했습니다. 다시 시도하세요.", "cloudOnlineOnly": "클라우드 백업은 배포된 사이트에서 사용하세요. 오프라인 사본에서도 로컬 열람은 가능합니다.", "cloudUploaded": "백업을 업로드했습니다.", "cloudLoggedOut": "로그아웃했습니다.", "cloudConfirmDelete": "클라우드 백업 “{name}”을 삭제할까요? 로컬 사본은 유지됩니다.", "cloudDeleted": "클라우드 백업을 삭제했습니다.", "cloudLoginFailed": "GitHub 로그인에 실패했거나 만료되었습니다. 다시 시도하세요.", "cloudLoginBackup": "로그인하고 백업", "cloudLoginContinue": "세션과 읽던 위치가 유지됩니다. 로그인 후 백업을 계속합니다.", "cloudPreserveFailed": "로그인 전 세션을 저장하지 못했습니다. 브라우저 저장 공간을 확보한 후 다시 시도하세요.", "cloudBatchTitle": "세션 {n}개 백업", "cloudWaiting": "대기 중", "cloudUploading": "백업 중…", "cloudDone": "백업 완료", "cloudFailed": "실패", "cloudRetry": "미완료 항목 재시도", "cloudStart": "백업 시작", "cloudNameLabel": "세션 이름", "cloudDescriptionLabel": "설명 (선택 사항)", "cloudProgress": "백업 중 {n}/{m}…", "cloudPartial": "{n}개 완료, {m}개 남음. 다시 시도할 수 있습니다.", "cloudComplete": "세션 {n}개 백업 완료.", "cloudSelectAll": "모두 선택", "cloudSelectSession": "세션 선택: {name}", "cloudSelectedCount": "{n}개 선택됨", "cloudView": "클라우드 백업 보기", "cloudSaved": "저장된 백업"}};
 const LANG='ko';
 const BASE_PATH='/claude-code-session-viewer';
 const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
@@ -1277,8 +1269,6 @@ function dbTx(mode,fn,store){
   });
 }
 const dbPut=rec=>dbTx('readwrite',st=>st.put(rec));
-const dbDelete=id=>dbTx('readwrite',st=>st.delete(id)).catch(()=>{});
-const dbClear=()=>dbTx('readwrite',st=>st.clear()).catch(()=>{});
 const dbGetAll=()=>dbTx('readonly',st=>st.getAll()).catch(()=>[]);
 function hashStr(s){let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=(h*0x01000193)>>>0;}return h.toString(36);}
 const UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -1292,7 +1282,6 @@ function makeId(sum,name,size){
 // summarize() 返回的 models 是 Set，入库前转为可结构化克隆的数组
 function sumToJSON(sum){const c=Object.assign({},sum);c.models=Array.from(sum.models||[]);return c;}
 let LIB=[],LIB_FULL=new Map(),LIB_SORT='recent',LIB_WARNED=false;
-const LIB_SELECTED=new Set();
 let IMPORTING=false,IMPORT_CANCEL=false;
 function libMeta(rec){return {id:rec.id,name:rec.name,source:rec.source,addedAt:rec.addedAt,bad:rec.bad,noText:rec.noText,lazy:!!rec.lazy,size:rec.size,sum:rec.sum};}
 // 存原始文本 + 摘要；配额不足时降级为仅摘要（noText）
@@ -1303,7 +1292,7 @@ async function putRec(rec){
       const light=Object.assign({},rec);delete light.text;light.noText=true;
       await dbPut(light);
       LIB_FULL.set(rec.id,light);upsertLib(light);
-      if(!LIB_WARNED){LIB_WARNED=true;$('#libWarn').style.display='block';}
+      if(!LIB_WARNED){LIB_WARNED=true;toast(t('storageWarn'),'err');}
       return;
     }catch(e2){/* IDB 不可用：仅保存在内存 */}
   }
@@ -1330,7 +1319,6 @@ function upsertLib(rec){
   const i=LIB.findIndex(x=>x.id===rec.id);
   if(i>=0)LIB[i]=meta;else LIB.push(meta);
   updateLibBtn();
-  if(!IMPORTING&&!$('#library').classList.contains('hide'))renderLibrary();
 }
 async function loadLibrary(){
   const all=await dbGetAll();
@@ -1338,10 +1326,8 @@ async function loadLibrary(){
   for(const rec of (all||[])){LIB.push(libMeta(rec));LIB_FULL.set(rec.id,rec);}
   updateLibBtn();
 }
-function setBtnLabel(id,label){const b=$(id);if(b){const s=b.querySelector('span');(s||b).textContent=label;}}
 function updateLibBtn(){
-  const bd=$('#libBadge');if(bd){bd.textContent=LIB.length;bd.hidden=!LIB.length;} // 顶栏图标徽章
-  const bl=$('#btnLibLanding');if(bl){bl.textContent=t('libraryBtn')+(LIB.length?' ('+LIB.length+')':'');bl.style.display=LIB.length?'':'none';}
+  const bl=$('#btnLibLanding');if(bl){bl.textContent=t('recentBtn');bl.style.display=LIB.length?'':'none';}
   updateNav();
 }
 /* ---------- 左侧导览：按项目目录聚类 ---------- */
@@ -1351,7 +1337,7 @@ const SESSION_SOURCES=new Map(),FILE_SOURCES=new WeakMap();
 const AUTO_REFRESH_SECONDS=5; // 后台自动轮询间隔，无需用户设置
 let REFRESH_TIMER=null;
 function stopRefreshTimer(){clearTimeout(REFRESH_TIMER);REFRESH_TIMER=null;}
-function viewerVisible(){return CUR&&$('#drop').classList.contains('hide')&&$('#library').classList.contains('hide');}
+function viewerVisible(){return CUR&&$('#drop').classList.contains('hide');}
 function refreshStatus(key,error){
   const status=$('#refreshStatus');
   status.textContent=t(key);
@@ -1497,16 +1483,14 @@ function renderNav(){
 }
 function updateNav(){
   const n=$('#nav');
-  if(n)n.classList.toggle('show',LIB.length>0);
+  if(n)n.classList.toggle('show',LIB.length>0||IMPORTING); // 导入进行中也显示左侧栏，让进度可见
   renderNav();
 }
-// 视图切换：landing（落地页）/ library（会话库）/ viewer（两者都隐藏）
+// 视图切换：landing（落地页）/ viewer（阅读视图）
 function showView(v){
   $('#drop').classList.toggle('hide',v!=='landing');
-  $('#library').classList.toggle('hide',v!=='library');
   scheduleRefresh();
 }
-function showLibrary(){showView('library');renderLibrary();}
 const LIB_SORTERS={
   recent:(a,b)=>(b.sum.lastTs?Date.parse(b.sum.lastTs):b.addedAt||0)-(a.sum.lastTs?Date.parse(a.sum.lastTs):a.addedAt||0),
   oldest:(a,b)=>(a.sum.lastTs?Date.parse(a.sum.lastTs):a.addedAt||0)-(b.sum.lastTs?Date.parse(b.sum.lastTs):b.addedAt||0),
@@ -1514,43 +1498,58 @@ const LIB_SORTERS={
   tokens:(a,b)=>((b.sum.tokens.in||0)+(b.sum.tokens.out||0))-((a.sum.tokens.in||0)+(a.sum.tokens.out||0)),
   cost:(a,b)=>(((b.sum.cost||{}).totalCostUSD)||0)-(((a.sum.cost||{}).totalCostUSD)||0)
 };
-function renderLibrary(){
-  const list=$('#libList');
+/* ---------- 本地会话批量备份到云端（#localPick 对话框）---------- */
+const LOCAL_PICKED=new Set();
+function localPickMeta(m){
+  const meta=[];
+  if(m.sum&&m.sum.cwd)meta.push(m.sum.cwd);
+  if(m.sum&&m.sum.firstTs&&m.sum.lastTs)meta.push(fmtTime(m.sum.firstTs)+' → '+fmtTime(m.sum.lastTs));
+  else if(m.sum&&m.sum.lastTs)meta.push(fmtTime(m.sum.lastTs));
+  if(m.sum&&m.sum.counts)meta.push(((m.sum.counts.user||0)+(m.sum.counts.assistant||0))+' msgs');
+  if(m.sum&&m.sum.tokens&&(m.sum.tokens.in||m.sum.tokens.out))meta.push('↑'+num(m.sum.tokens.in)+' ↓'+num(m.sum.tokens.out));
+  return meta.join(' · ');
+}
+function renderLocalPick(){
+  const list=$('#localPickList');
   LIB.sort(LIB_SORTERS[LIB_SORT]||LIB_SORTERS.recent);
-  $('#libCount').textContent=LIB.length?t('importedN').replace('{n}',LIB.length):'';
-  $('#libEmpty').style.display=LIB.length?'none':'block';
-  list.style.display=LIB.length?'flex':'none';
-  list.innerHTML='';
+  list.innerHTML=LIB.length?'':'<p class="libempty">'+esc(t('libraryEmpty'))+'</p>';
   for(const m of LIB){
-    const row=el('div','librow'+(LIB_SELECTED.has(m.id)?' selected':''));
+    const row=el('div','librow'+(LOCAL_PICKED.has(m.id)?' selected':''));
     row.dataset.id=m.id;
-    const title=m.lazy?String(sessionDisplayName(m)).replace(/\.jsonl$/i,''):sessionDisplayName(m);
-    const meta=[];
-    if(m.sum&&m.sum.cwd)meta.push(m.sum.cwd);
-    if(m.sum&&m.sum.firstTs&&m.sum.lastTs)meta.push(fmtTime(m.sum.firstTs)+' → '+fmtTime(m.sum.lastTs));
-    else if(m.sum&&m.sum.lastTs)meta.push(fmtTime(m.sum.lastTs));
-    if(m.lazy){if(m.size)meta.push((m.size/1024).toLocaleString('en-US',{maximumFractionDigits:0})+' KB');}
-    else{
-      if(m.sum&&m.sum.counts)meta.push(((m.sum.counts.user||0)+(m.sum.counts.assistant||0))+' msgs');
-      if(m.sum&&m.sum.tokens&&(m.sum.tokens.in||m.sum.tokens.out))meta.push('↑'+num(m.sum.tokens.in)+' ↓'+num(m.sum.tokens.out));
-      if(m.sum&&m.sum.cost&&m.sum.cost.totalCostUSD!=null)meta.push('$'+m.sum.cost.totalCostUSD.toFixed(4));
-    }
-    row.innerHTML='<div class="l1"><span class="lt">'+esc(title)+'</span><button class="libdel" title="'+esc(t('deleteBtn'))+'" aria-label="'+esc(t('deleteBtn'))+'">×</button></div><div class="l2">'+esc(meta.join(' · '))+'</div>';
-    const pick=el('input','libpick');pick.type='checkbox';pick.checked=LIB_SELECTED.has(m.id);pick.disabled=!LIB_FULL.get(m.id)?.text;
+    const title=sessionDisplayName(m);
+    row.innerHTML='<div class="l1"><span class="lt">'+esc(title)+'</span></div><div class="l2">'+esc(localPickMeta(m))+'</div>';
+    const pick=el('input','libpick');pick.type='checkbox';pick.checked=LOCAL_PICKED.has(m.id);
     pick.setAttribute('aria-label',t('cloudSelectSession').replace('{name}',title));row.prepend(pick);
     list.appendChild(row);
   }
-  updateLibrarySelection();
+  updateLocalPickSel();
 }
-function updateLibrarySelection(){
-  const available=LIB.filter(m=>LIB_FULL.get(m.id)?.text);
-  const availableIds=new Set(available.map(m=>m.id));
-  for(const id of LIB_SELECTED)if(!availableIds.has(id))LIB_SELECTED.delete(id);
-  const count=LIB_SELECTED.size,all=$('#libSelectAll');
-  all.checked=!!available.length&&count===available.length;all.indeterminate=count>0&&count<available.length;all.disabled=!available.length;
-  $('#libSelectedCount').textContent=count?t('cloudSelectedCount').replace('{n}',count):'';
-  const button=$('#btnCloudLibrary');button.disabled=!count;
-  setBtnLabel('#btnCloudLibrary',t('cloudBackupSelected')+(count?' ('+count+')':''));
+function updateLocalPickSel(){
+  const ids=new Set(LIB.map(m=>m.id));
+  for(const id of [...LOCAL_PICKED])if(!ids.has(id))LOCAL_PICKED.delete(id);
+  const count=LOCAL_PICKED.size,all=$('#localPickAll');
+  all.checked=!!LIB.length&&count===LIB.length;all.indeterminate=count>0&&count<LIB.length;
+  $('#localPickCount').textContent=count?t('cloudSelectedCount').replace('{n}',count):'';
+  $('#localPickStart').disabled=!count;
+}
+// 懒加载记录先补全文（点击视为用户手势，可重新申请句柄权限）；读取失败的单条跳过
+async function localPickStart(){
+  const ids=[...LOCAL_PICKED];
+  if(!ids.length)return;
+  const files=[];let skipped=0;
+  for(const id of ids){
+    const ok=await ensureSessionText(id);
+    const rec=ok?LIB_FULL.get(id):null;
+    if(rec&&rec.text&&typeof cloudSessionFile==='function'){
+      try{files.push(cloudSessionFile(rec));continue;}catch(e){}
+    }
+    LOCAL_PICKED.delete(id);skipped++;
+  }
+  renderLocalPick();
+  if(!files.length){$('#localPickErr').textContent=t('noTextErr');return;}
+  $('#localPick').close();
+  openCloud(files);
+  if(skipped)toast(t('localPickSkipped').replace('{n}',skipped),'err');
 }
 async function openSession(id){
   const rec=LIB_FULL.get(id);
@@ -1605,8 +1604,8 @@ function afterImport(){
 async function importFiles(files){
   const list=[...files].filter(f=>/\.jsonl$/i.test(f.name));
   if(!list.length){toast(t('noJsonlFound'),'err');return;}
-  const prog=$('#libProgress'),ptext=$('#libProgText'),pfill=$('#libProgFill');
-  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;
+  const prog=$('#navProg'),ptext=$('#navProgText'),pfill=$('#navProgFill');
+  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;updateNav();
   let ok=0;
   for(let i=0;i<list.length;i++){
     if(IMPORT_CANCEL)break;
@@ -1625,7 +1624,6 @@ async function importFiles(files){
   }
   IMPORTING=false;prog.hidden=true;
   if(!ok){toast(t('notSessionFile'),'err');} // 文件都在但没有可识别的会话记录
-  renderLibrary();
   updateNav();
   afterImport();
 }
@@ -1649,8 +1647,8 @@ async function lazyScan(file){
 }
 async function registerLazyFiles(items){
   if(!items.length)return;
-  const prog=$('#libProgress'),ptext=$('#libProgText'),pfill=$('#libProgFill');
-  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;
+  const prog=$('#navProg'),ptext=$('#navProgText'),pfill=$('#navProgFill');
+  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;updateNav();
   let ok=0;
   for(let i=0;i<items.length;i++){
     if(IMPORT_CANCEL)break;
@@ -1675,7 +1673,6 @@ async function registerLazyFiles(items){
   }
   IMPORTING=false;prog.hidden=true;
   if(!ok){toast(t('notSessionFile'),'err');} // 有 .jsonl 但没有可识别的会话记录
-  renderLibrary();
   updateNav();
   afterImport();
 }
@@ -1691,8 +1688,7 @@ async function importDirHandle(dir){
     }
   }
   await walk(dir,0);
-  if(!items.length){toast(t('noJsonlFound'),'err');return;} // 选错文件夹：直接提示，不打开空会话库
-  showLibrary();
+  if(!items.length){toast(t('noJsonlFound'),'err');return;} // 选错文件夹：直接提示，不进入导入
   await registerLazyFiles(items);
 }
 const pickDir=async()=>{
@@ -1836,7 +1832,6 @@ document.addEventListener('drop',e=>{
     return;
   }
   const p=filesFromDataTransfer(dt); // 同步启动，先取 entries
-  showLibrary();
   p.then(fls=>importFiles(fls));
 });
 const HOME_TITLE=document.title;
@@ -1850,14 +1845,13 @@ $('#btnHome').onclick=()=>{
   $('#btnExportMd').style.display='none';
   showView('landing');
 };
-/* 会话库交互 */
-$('#btnLibrary').onclick=showLibrary;
-$('#btnLibLanding').onclick=showLibrary;
-$('#btnLibClose').onclick=()=>showView(CUR?'viewer':'landing');
+/* 交互 */
+$('#btnLibLanding').onclick=()=>{ // 落地页「继续上次会话」：直达最近一条
+  const first=[...LIB].sort(LIB_SORTERS.recent)[0];
+  if(first)openSession(first.id);
+};
 $('#btnPickDir').onclick=pickDir;
 $('#btnOpenFolder').onclick=pickDir;
-$('#btnImportFolder').onclick=pickDir;
-$('#btnImportFolder2').onclick=pickDir;
 $('#dirpicker').onchange=async e=>{
   // 与原 showDirectoryPicker 扫描保持一致：跳过 node_modules，目录深度上限 4
   const fs=[...e.target.files].filter(f=>{
@@ -1867,44 +1861,30 @@ $('#dirpicker').onchange=async e=>{
   });
   e.target.value=''; // 允许重复选择同一目录
   if(!fs.length){toast(t('noJsonlFound'),'err');return;}
-  showLibrary();await importFiles(fs);
+  await importFiles(fs);
 };
-$('#libSort').onchange=e=>{LIB_SORT=e.target.value;renderLibrary();};
-$('#btnClearAll').onclick=async()=>{
-  if(!await uiConfirm(t('confirmClear')))return;
-  await dbClear();
-  LIB=[];LIB_FULL=new Map();CUR_ID=null;
-  SESSION_SOURCES.clear();
-  updateLibBtn();renderLibrary();
-  toast(t('deletedOk'),'ok');
+$('#navSort').value=LIB_SORT;
+$('#navSort').onchange=e=>{LIB_SORT=e.target.value;renderNav();};
+$('#navCancel').onclick=()=>{IMPORT_CANCEL=true;};
+$('#cloudLocalBtn').onclick=()=>{
+  LOCAL_PICKED.clear();
+  $('#localPickErr').textContent='';
+  renderLocalPick();
+  $('#localPick').showModal();
 };
-$('#libSelectAll').onchange=e=>{
-  LIB_SELECTED.clear();if(e.target.checked)for(const m of LIB)if(LIB_FULL.get(m.id)?.text)LIB_SELECTED.add(m.id);
-  renderLibrary();
+$('#localPickAll').onchange=e=>{
+  LOCAL_PICKED.clear();
+  if(e.target.checked)for(const m of LIB)LOCAL_PICKED.add(m.id);
+  renderLocalPick();
 };
-$('#libList').onchange=e=>{
+$('#localPickList').onchange=e=>{
   if(!e.target.matches('.libpick'))return;
   const row=e.target.closest('.librow'),id=row.dataset.id;
-  if(e.target.checked)LIB_SELECTED.add(id);else LIB_SELECTED.delete(id);
-  row.classList.toggle('selected',e.target.checked);updateLibrarySelection();
+  if(e.target.checked)LOCAL_PICKED.add(id);else LOCAL_PICKED.delete(id);
+  row.classList.toggle('selected',e.target.checked);updateLocalPickSel();
 };
-$('#libCancel').onclick=()=>{IMPORT_CANCEL=true;};
-$('#libList').onclick=async e=>{
-  if(e.target.closest('.libpick'))return;
-  const row=e.target.closest('.librow');
-  if(!row)return;
-  const id=row.dataset.id;
-  if(e.target.closest('.libdel')){
-    if(!await uiConfirm(t('confirmDelete')))return;
-    LIB_FULL.delete(id);
-    SESSION_SOURCES.delete(id);
-    LIB=LIB.filter(x=>x.id!==id);
-    if(CUR_ID===id)CUR_ID=null;
-    dbDelete(id);
-    updateLibBtn();renderLibrary();
-    toast(t('deletedOk'),'ok');
-  }else openSession(id);
-};
+$('#localPickCancel').onclick=()=>{$('#localPick').close();};
+$('#localPickStart').onclick=localPickStart;
 /* 导览栏：分组折叠 + 切换会话 */
 $('#navList').onclick=e=>{
   const gh=e.target.closest('.navghead');
@@ -2160,8 +2140,8 @@ async function cloudLogin(intent){
   await cloudTask(async()=>{
     let id;try{id=sessionStorage.getItem(CLOUD_PENDING_KEY);}catch(e){}
     id=id||crypto.randomUUID();
-    const snapshot={id,createdAt:Date.now(),intent:intent||'',reading:cloudReadingSnapshot(),library:!$('#library').classList.contains('hide'),
-      selected:[...LIB_SELECTED],files:CLOUD.queue.filter(item=>item.state!=='done').map(item=>item.file),
+    const snapshot={id,createdAt:Date.now(),intent:intent||'',reading:cloudReadingSnapshot(),
+      files:CLOUD.queue.filter(item=>item.state!=='done').map(item=>item.file),
       draft:{name:CLOUD.queue.length===1?cloudName.value:undefined,description:cloudDescription.value}};
     try{
       await cloudPendingStore('readwrite',store=>store.put(snapshot));
@@ -2188,8 +2168,6 @@ async function cloudResume(result){
     const restored=await saveToLibrary(reading.text,reading.name,reading.pasted?'paste':'file',reading.id);
     load(reading.text,reading.name,reading.pasted,null);CUR_ID=restored;showView('viewer');renderNav();$('#content').scrollTop=reading.scroll||0;
   }
-  LIB_SELECTED.clear();for(const selected of snapshot.selected||[])if(LIB_FULL.has(selected))LIB_SELECTED.add(selected);
-  if(snapshot.library)showLibrary();
   // Consume the intent before uploading; reloading the callback must not duplicate backups.
   try{await cloudPendingStore('readwrite',store=>store.delete(id));sessionStorage.removeItem(CLOUD_PENDING_KEY);}
   catch(e){await openCloud(snapshot.files,snapshot.draft);CLOUD.message=t('cloudPreserveFailed');CLOUD.error=true;cloudRender();return;}
@@ -2318,10 +2296,9 @@ async function cloudLogoutAction(){
 }
 $('#btnCloudLanding').onclick=openCloudPage;
 $('#btnCloud').onclick=()=>openCloud(CUR?[cloudSessionFile(CUR)]:[]);
-$('#btnCloudManageLibrary').onclick=openCloudPage;
+$('#btnNavCloud').onclick=openCloudPage;
 $('#cloudViewSaved').onclick=()=>{cloudDialog.close();openCloudPage();};
 $('#btnCloudClose').onclick=hideCloudPage;
-$('#btnCloudLibrary').onclick=()=>openCloud([...LIB_SELECTED].map(id=>LIB_FULL.get(id)).filter(rec=>rec?.text).map(cloudSessionFile));
 $('#cloudClose').onclick=()=>cloudDialog.close();
 cloudDialog.addEventListener('click',e=>{
   if(e.target!==cloudDialog)return;

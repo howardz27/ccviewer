@@ -38,7 +38,6 @@ function page({protocol='https:',shared=sharedStorage(),result='',user={id:'101'
       querySelectorAll(){return [...elements.values()].filter(e=>e.tag==='button');}};
   }
   const $=id=>{if(!elements.has(id)){const e=element(id.includes('cloudList')?'div':'button');e.id=id.slice(1);elements.set(id,e);}return elements.get(id);};
-  $('#library').classList.toggle('hide',true);
   $('#cloudPage').classList.toggle('hide',true);
   let answer=async(path,options)=>{
     if(path==='/api/auth/session')return Response.json({enabled:true,user,maxFileBytes:20*1024*1024});
@@ -46,7 +45,7 @@ function page({protocol='https:',shared=sharedStorage(),result='',user={id:'101'
     if(path.startsWith('/api/backups'))return Response.json({backups:[],cursor:null});
     return Response.json({ok:true});
   };
-  const context={$,el:element,t:key=>strings[key]||key,LANG:'en',CUR:null,CUR_ID:null,LIB_SELECTED:new Set(),LIB_FULL:new Map(),libraryReady:ready,
+  const context={$,el:element,t:key=>strings[key]||key,LANG:'en',CUR:null,CUR_ID:null,LIB_FULL:new Map(),libraryReady:ready,
     URL,URLSearchParams,File,Blob,TextEncoder,crypto:webcrypto,indexedDB:shared.indexedDB,sessionStorage:shared.sessionStorage,
     location:{protocol,search:result?'?cloud='+result:'',pathname:'/claude-code-session-viewer/',href:'https://ccviewer.test/claude-code-session-viewer/'+(result?'?cloud='+result:'')},
     document:{createElement:element},history,addEventListener:(name,handler)=>{listeners[name]=handler;},setTimeout(){},confirm:()=>true,
@@ -54,7 +53,7 @@ function page({protocol='https:',shared=sharedStorage(),result='',user={id:'101'
     parse:text=>({entries:text.trim()?text.trim().split('\n').map(JSON.parse):[]}),
     saveToLibrary:async(...args)=>{saved.push(args);return args[3]||'restored-id';},
     load:(...args)=>{opened.push(args);context.CUR={text:args[0],name:args[1],pasted:args[2]};},
-    showView:view=>views.push(view),showLibrary:()=>views.push('library'),renderNav(){}};
+    showView:view=>views.push(view),renderNav(){}};
   const template=fs.readFileSync('claude-code-session-viewer/src/template.html','utf8');
   const sessionName=template.slice(template.indexOf('function sessionDisplayName('),template.indexOf('function renderNav('));
   vm.createContext(context);vm.runInContext(sessionName+source,context);
@@ -132,19 +131,18 @@ const backup={id:'new',name:'<img src=x onerror=alert(1)>.jsonl',size:123,upload
   const cancelled=page({shared:cancelledStorage,result:'login_failed',user:null});await cancelled.settle();
   assert.equal(cancelled.opened[0][0],text);assert.equal(posts(cancelled).length,0);assert.equal(cancelled.run('CLOUD.queue.length'),1);
   assert.equal(cancelled.$('#cloudStatus').textContent,strings.cloudLoginFailed);
-  // Library batch selection snapshots the selected transcripts, including a visible current session.
+  // Local batch backup queues several transcripts; the OAuth round-trip preserves them all.
   const batch=page({user:null});batch.context.CUR={text,name:'reading.jsonl'};
   const longTitle='中'.repeat(77)+'💡结束';
-  batch.context.LIB_SELECTED=new Set(['one','two']);batch.context.LIB_FULL=new Map([
-    ['one',{text,name:'one.jsonl',sum:{title:longTitle}}],['two',{text:text+'\n',name:'two.jsonl',sum:{title:'第二个会话'}}]
-  ]);
-  batch.$('#library').classList.toggle('hide',false);
-  await batch.$('#btnCloudLibrary').onclick();batch.$('#cloudDescription').value=description;await batch.$('#cloudLogin').onclick();
-  const batchReturn=page({shared:batch.shared,result:'ready'});batchReturn.context.LIB_FULL=batch.context.LIB_FULL;await batchReturn.settle();
+  const one={text,name:'one.jsonl',sum:{title:longTitle}},two={text:text+'\n',name:'two.jsonl',sum:{title:'第二个会话'}};
+  await batch.run('openCloud([cloudSessionFile('+JSON.stringify(one)+'),cloudSessionFile('+JSON.stringify(two)+')])');
+  assert.equal(batch.$('#cloudNameRow').hidden,true,'batch uploads do not show a single-name editor');
+  batch.$('#cloudDescription').value=description;await batch.$('#cloudLogin').onclick();
+  const batchReturn=page({shared:batch.shared,result:'ready'});await batchReturn.settle();
   assert.equal(batchReturn.$('#cloudNameRow').hidden,true,'batch uploads do not show a single-name editor');
   await batchReturn.$('#cloudSubmit').onclick();
-  assert.equal(posts(batchReturn).length,2);assert.equal(batchReturn.views.at(-1),'library');
-  assert.equal(batchReturn.context.LIB_SELECTED.size,2);assert.equal(await posts(batchReturn)[1].options.body.text(),text+'\n');
+  assert.equal(posts(batchReturn).length,2);
+  assert.equal(await posts(batchReturn)[1].options.body.text(),text+'\n');
   assert.deepEqual(posts(batchReturn).map(call=>new URL(call.path,'https://ccviewer.test').searchParams.get('name')),['中'.repeat(77)+'.jsonl','第二个会话.jsonl']);
   assert.ok(posts(batchReturn).every(call=>decodeURIComponent(call.options.headers['X-CCViewer-Description'])===description));
   // Mixed results continue past a failed item. Retry must never reupload successes.

@@ -117,7 +117,11 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 #navResizer:hover,#navResizer.on{background:rgba(217,119,87,.45)}
 .btn.icon{padding:5px 7px;font-size:13px;line-height:0;min-width:30px;display:inline-flex;align-items:center;justify-content:center}
 .btn.icon svg{display:block}
-#nav h3{margin:2px 6px 8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--faint)}
+#nav .navhead{display:flex;align-items:center;gap:6px;margin:2px 6px 8px}
+#nav .navhead h3{margin:0;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--faint)}
+#nav .navsort{margin-left:auto;background:var(--panel2);color:var(--dim);border:1px solid var(--border);border-radius:6px;font-size:11px;padding:2px 4px;max-width:86px;cursor:pointer}
+#nav .navsort:hover{color:var(--text)}
+#nav .btn.icon{padding:3px 5px;min-width:26px}
 .navghead{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;cursor:pointer;color:var(--dim);font-size:12px;user-select:none}
 .navghead:hover{background:var(--panel2);color:var(--text)}
 .navghead .gc{flex-shrink:0;width:10px;color:var(--faint);font-size:10px;text-align:center}
@@ -270,8 +274,6 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 @media (prefers-reduced-motion:reduce){.lheader,.hero-l .kicker,#drop h1,#drop .tagline,#drop .box,.hero-r,.seo,.lfooter,.lbrand .logo,.cursor,.pxd{animation:none}.preview{transform:none}}
 #drop.hide{display:none}
 /* session library */
-#library{position:absolute;inset:0;z-index:11;overflow-y:auto;background:radial-gradient(1000px 480px at 78% -8%,rgba(217,119,87,.14),transparent 62%),#0d1117;padding:26px 20px 64px}
-#library.hide{display:none}
 .libwrap{max-width:860px;margin:0 auto}
 .libwrap .spacer{flex:1}
 .libhead{display:flex;align-items:center;gap:12px;margin-bottom:18px}
@@ -279,24 +281,20 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .libhead h2 svg{flex-shrink:0}
 .libhead .cnt{color:var(--faint);font-size:13px}
 .libtools{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
-#libProgress{margin-bottom:12px}
-#libProgress .libprog-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-#libProgText{flex:1;min-width:0;color:var(--accent2);font-size:12px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.libprog-bar{height:4px;border-radius:2px;background:var(--code-bg);overflow:hidden}
-#libProgFill{height:100%;width:0;background:var(--accent);border-radius:2px;transition:width .15s ease}
-.libwarn{background:rgba(210,153,34,.1);border:1px solid var(--yellow);border-radius:8px;padding:8px 12px;color:var(--yellow);font-size:12px;margin-bottom:12px;display:none}
-#libList{display:flex;flex-direction:column;gap:10px}
-.dirhint{color:var(--faint);font-size:11.5px;margin:0 0 12px;line-height:1.6}
-.dirhint kbd,.pathhint kbd{font-family:"SFMono-Regular",Consolas,Menlo,monospace;background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:0 4px;font-size:10.5px}
+#navProg{margin:4px 2px 10px}
+#navProg .navprog-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+#navProgText{flex:1;min-width:0;color:var(--accent2);font-size:11.5px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.navprog-bar{height:4px;border-radius:2px;background:var(--code-bg);overflow:hidden}
+#navProgFill{height:100%;width:0;background:var(--accent);border-radius:2px;transition:width .15s ease}
+.pathhint kbd{font-family:"SFMono-Regular",Consolas,Menlo,monospace;background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:0 4px;font-size:10.5px}
 .librow{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;transition:border-color .15s}
 .librow:hover{border-color:var(--accent)}
 .librow .l1{display:flex;align-items:center;gap:10px}
 .librow .lt{font-weight:600;font-size:14px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .librow .l2{color:var(--faint);font-size:12px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.libdel{background:none;border:none;color:var(--faint);font-size:16px;cursor:pointer;padding:0 4px;line-height:1;flex-shrink:0}
-.libdel:hover{color:var(--red)}
-.libempty{text-align:center;color:var(--faint);padding:70px 0;font-size:14px}
-.libempty .btn{margin-top:14px}
+#localPickList{display:flex;flex-direction:column;gap:10px;max-height:52vh;overflow-y:auto}
+#localPickList:empty{display:none}
+.libempty{color:var(--dim);font-size:13px;padding:8px 2px}
 /* landing seo content */
 .seo{width:100%;max-width:1160px;text-align:left;margin:110px auto 0;border-top:1px solid var(--border);padding-top:56px}
 #drop .seo .intro{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:20px 28px 22px;color:var(--dim);font-size:14px;line-height:1.95;margin:0 0 60px;max-width:none;text-align:left}
@@ -340,7 +338,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 #confirmDlg::backdrop{background:rgba(0,0,0,.6)}
 #confirmMsg{margin:0 0 16px;font-size:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
 #confirmDlg .actions{display:flex;justify-content:flex-end;gap:10px}
-#paste .panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;width:min(820px,92vw);max-height:88vh;display:flex;flex-direction:column;padding:18px;gap:12px}
+#paste .panel,#localPick .panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;width:min(820px,92vw);max-height:88vh;display:flex;flex-direction:column;padding:18px;gap:12px}
 #paste h2{margin:0;font-size:16px;color:var(--accent)}
 #paste .hint{color:var(--dim);font-size:12px;margin:0}
 #paste textarea{flex:1;min-height:48vh;resize:vertical;background:var(--code-bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:12px;font-family:"SFMono-Regular",Consolas,Menlo,monospace;font-size:12.5px;line-height:1.5}
@@ -441,7 +439,6 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <button class="btn icon" id="btnNavToggle" title=""></button>
     <span class="spacer"></span>
     <button class="btn iconbtn" id="btnHome" data-tip="home" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg></button>
-    <button class="btn iconbtn" id="btnLibrary" data-tip="libraryBtn" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16"/><path d="M8 8v12"/><path d="M12 6v14"/><path d="m16 6 4 14"/></svg><span class="ibadge" id="libBadge" hidden></span></button>
     <button class="btn iconbtn" id="btnCloud" data-tip="cloudUploadCurrent" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg></button>
     <button class="btn iconbtn" id="btnExportMd" data-tip="exportMd" title="" style="display:none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></button>
     <span class="tsep" aria-hidden="true"></span>
@@ -476,7 +473,22 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <span id="mstats"></span>
   </div>
   <div id="main">
-    <div id="nav"><h3 data-i18n="navProjects">Projets</h3><div id="navList"></div><div id="navResizer" title=""></div></div>
+    <div id="nav">
+      <div class="navhead">
+        <h3 data-i18n="navProjects">Projets</h3>
+        <select class="navsort" id="navSort" aria-label="Sort">
+          <option value="recent" data-i18n="sortRecent">Plus récentes</option>
+          <option value="oldest" data-i18n="sortOldest">Plus anciennes</option>
+          <option value="msgs" data-i18n="sortMsgs">Messages</option>
+          <option value="tokens" data-i18n="sortTokens">Tokens</option>
+          <option value="cost" data-i18n="sortCost">Coût</option>
+        </select>
+        <button class="btn icon" id="btnNavCloud" data-tip="cloudPageTitle" title="" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 7 7 0 0 0-13.36 2.2A4.5 4.5 0 0 0 6.5 19z"/></svg></button>
+      </div>
+      <div id="navList"></div>
+      <div id="navResizer" title=""></div>
+      <div id="navProg" hidden><div class="navprog-row"><span id="navProgText"></span><button class="btn" id="navCancel" type="button" data-i18n="importCancel">Annuler l'importation</button></div><div class="navprog-bar"><div id="navProgFill"></div></div></div>
+    </div>
     <div id="sidebar"><div class="phd" style="color:var(--faint);font-size:12px" data-i18n="noFile">Aucun fichier chargé</div></div>
     <div id="content"><div id="stream"></div></div>
   </div>
@@ -495,7 +507,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <span>GitHub</span>
     </a>
     <button class="btn" id="btnCloudLanding"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg><span data-i18n="cloudTitle">Sauvegardes cloud</span></button>
-    <button class="btn" id="btnLibLanding" data-i18n="libraryBtn" style="display:none">Sessions</button>
+    <button class="btn" id="btnLibLanding" data-i18n="recentBtn" style="display:none">Reprendre la dernière session</button>
     <select class="btn langsel" aria-label="Language"></select>
     <div class="avatar-wrap" id="avatarLanding" hidden></div>
   </header>
@@ -591,39 +603,6 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     <span data-i18n="footerPrivacy">Les fichiers de session sont analysés dans votre navigateur et ne sont jamais envoyés automatiquement. Seuls les fichiers que vous sauvegardez vont dans le cloud, et vous seul pouvez y accéder.</span>
   </footer>
 </div>
-<div id="library" class="hide">
-  <div class="libwrap">
-    <div class="libhead">
-      <h2 data-i18n="libraryTitle">Bibliothèque de sessions</h2>
-      <span class="cnt" id="libCount"></span>
-      <span class="spacer"></span>
-      <button class="btn" id="btnLibClose" data-i18n="closeBtn">Fermer</button>
-    </div>
-    <div class="libtools">
-      <button class="btn primary" id="btnImportFolder" data-i18n="openFolder">Ouvrir un dossier</button>
-      <select class="btn" id="libSort" aria-label="Sort">
-        <option value="recent" data-i18n="sortRecent">Plus récentes</option>
-        <option value="oldest" data-i18n="sortOldest">Plus anciennes</option>
-        <option value="msgs" data-i18n="sortMsgs">Messages</option>
-        <option value="tokens" data-i18n="sortTokens">Tokens</option>
-        <option value="cost" data-i18n="sortCost">Coût</option>
-      </select>
-      <span class="spacer"></span>
-      <button class="btn" id="btnCloudManageLibrary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 7 7 0 0 0-13.36 2.2A4.5 4.5 0 0 0 6.5 19z"/></svg><span data-i18n="cloudView">Voir les sauvegardes cloud</span></button>
-      <button class="btn primary" id="btnCloudLibrary" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg><span data-i18n="cloudBackupSelected">Sauvegarder la sélection</span></button>
-      <button class="btn" id="btnClearAll" data-i18n="clearAll">Tout effacer</button>
-    </div>
-    <p class="dirhint" data-i18n-html="dirTip">Vous ne trouvez pas le dossier ? Sur macOS, appuyez sur <kbd>⌘⇧.</kbd> dans la fenêtre de sélection pour afficher les dossiers masqués, ou sur <kbd>⌘⇧G</kbd> dans Finder et saisissez <code>~/.claude/projects</code>. Sur Windows, saisissez <code>%USERPROFILE%\.claude\projects</code> dans le champ du nom.</p>
-    <div class="libwarn" id="libWarn" data-i18n="storageWarn">Le stockage du navigateur est plein ; certaines sessions n'ont été sauvegardées que sous forme de résumé.</div>
-    <div id="libProgress" hidden><div class="libprog-row"><span id="libProgText"></span><button class="btn" id="libCancel" type="button" data-i18n="importCancel">Annuler l'importation</button></div><div class="libprog-bar"><div id="libProgFill"></div></div></div>
-    <div class="lib-selection"><label><input type="checkbox" id="libSelectAll"><span data-i18n="cloudSelectAll">Tout sélectionner</span></label><span id="libSelectedCount"></span></div>
-    <div id="libList"></div>
-    <div class="libempty" id="libEmpty">
-      <p data-i18n="libraryEmpty">Aucune session pour l'instant. Ouvrez un dossier de fichiers .jsonl pour constituer votre bibliothèque.</p>
-      <button class="btn primary" id="btnImportFolder2" data-i18n="openFolder">Ouvrir un dossier</button>
-    </div>
-  </div>
-</div>
 <div id="cloudPage" class="hide" data-clarity-mask="true">
   <div class="libwrap">
     <div class="libhead">
@@ -634,6 +613,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     </div>
     <div class="libtools">
       <button class="btn" id="cloudPick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/></svg><span data-i18n="cloudPick">Sauvegarder des fichiers…</span></button>
+      <button class="btn primary" id="cloudLocalBtn" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16"/><path d="M8 8v12"/><path d="M12 6v14"/><path d="m16 6 4 14"/></svg><span data-i18n="localUploadBtn">Sauvegarder les sessions locales…</span></button>
       <button class="btn" id="cloudRefresh"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8"/><path d="M21 3v5h-5"/></svg><span data-i18n="refresh">Actualiser</span></button>
       <span class="spacer"></span>
       <span id="cloudStatusPage" role="status" aria-live="polite"></span>
@@ -652,6 +632,18 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <span class="err" id="pasteErr"></span>
       <button class="btn" id="pasteCancel" data-i18n="cancel">Annuler</button>
       <button class="btn primary" id="pasteLoad" data-i18n="loadBtn">Charger</button>
+    </div>
+  </div>
+</dialog>
+<dialog id="localPick" aria-labelledby="localPickTitle">
+  <div class="panel">
+    <h2 id="localPickTitle" data-i18n="localPickTitle">Choisissez les sessions à sauvegarder</h2>
+    <div class="lib-selection"><label><input type="checkbox" id="localPickAll"><span data-i18n="cloudSelectAll">Tout sélectionner</span></label><span id="localPickCount"></span></div>
+    <div id="localPickList"></div>
+    <div class="actions">
+      <span class="err" id="localPickErr"></span>
+      <button class="btn" id="localPickCancel" data-i18n="cancel">Annuler</button>
+      <button class="btn primary" id="localPickStart" data-i18n="cloudStart">Sauvegarder</button>
     </div>
   </div>
 </dialog>
@@ -690,7 +682,7 @@ const safeHref=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript|da
 const safeImg=u=>{u=String(u==null?"":u).trim();if(/^\s*(javascript|vbscript):/i.test(u))return'';return u.replace(/"/g,'%22');};
 
 /* ---------- 国际化 i18n（中文 / English）---------- */
-const I18N={'fr':{"brand": "CCViewer", "thinking": "Raisonnement", "tools": "Outils", "sysInj": "Système et contexte", "expandAll": "Tout déplier", "pasteText": "Coller du texte", "openFile": "Ouvrir un fichier", "noFile": "Aucun fichier chargé", "dropHint1": "Glissez ici un fichier de session <b>.jsonl</b> <b>ou un dossier entier</b>, ou cliquez pour parcourir", "dropHint2": "p. ex. tout le dossier <code>~/.claude/projects/</code> ou un seul <code>&lt;sessionId&gt;.jsonl</code> à l'intérieur", "revealTip": "Vous ne voyez pas le dossier .claude ? Il est masqué : sur macOS, appuyez sur <kbd>⌘⇧.</kbd> ; sur Windows, saisissez <kbd>%USERPROFILE%\\.claude\\projects</kbd> dans le champ du nom", "chooseFile": "Choisir un fichier", "pasteTitle": "Coller du texte JSONL", "pasteHint": "Collez ici tout le contenu du fichier d'historique, un objet JSON par ligne (un tableau / objet JSON unique fonctionne aussi).", "cancel": "Annuler", "loadBtn": "Charger", "thinkLabel": "✻ Raisonnement", "you": "Vous", "reply": "Réponse", "result": "Résultat", "error": "Erreur", "lines": "lignes", "images": "images", "viewResult": "Voir le résultat", "sysMsg": "Message système", "injCtx": "Contexte injecté", "system": "Système", "sessionInfo": "Infos de session", "stats": "Statistiques", "costUsage": "Coût / Usage", "titleRow": "Titre", "projectDir": "Dossier du projet", "gitBranch": "Branche Git", "version": "Version", "sessionId": "ID de session", "time": "Heure", "model": "Modèle", "userMsgs": "Messages utilisateur", "replies": "Réponses", "toolCalls": "Appels d'outils", "thinkingStat": "Raisonnement", "imagesStat": "Images", "parseFailed": "Échec d'analyse", "home": "Accueil", "inTokens": "Tokens d'entrée", "outTokens": "Tokens de sortie", "cacheRead": "Lectures cache", "cacheCreate": "Écritures cache", "totalCost": "Coût total", "linesPM": "Lignes +/-", "apiTime": "Temps API", "toolTime": "Temps outils", "viewerSuffix": "Visionneuse", "pasteEmptyErr": "Aucun enregistrement valide analysé. Vérifiez le contenu collé.", "pastedContent": "Contenu collé", "intro": "Lisez les sessions JSONL de Claude Code localement dans le navigateur. Consultez les messages et outils, importez des dossiers et exportez en Markdown. Gratuit et open source.", "featMd": "Rendu Markdown", "featMdD": "Blocs de code, tableaux, listes et citations", "featThink": "Processus de raisonnement", "featThinkD": "Extended thinking repliable en lecture", "featTool": "Appels d'outils", "featToolD": "Paramètres et résultats dépliables", "featCost": "Usage et coût", "featCostD": "Tokens, durée et dépenses analysés", "featI18n": "Interface multilingue", "featI18nD": "Basculez entre 10 langues en un clic", "featPrivacy": "Confidentialité", "featPrivacyD": "100 % côté client, zéro envoi", "featCloud": "Sauvegarde cloud permanente", "featCloudD": "Connectez-vous avec GitHub pour envoyer vos sessions dans le cloud : conservez-les pour toujours, ouvrez-les ou téléchargez-les depuis tout appareil, visibles uniquement par vous.", "faqTitle": "Questions fréquentes", "tagline": "Rendez vos fichiers .jsonl localement dans le navigateur. Privé, gratuit et open source", "heroTitle": "Lisez l'historique de sessions <em>Claude Code</em>", "pvUserQ": "Corrige la mise en page cassée de la page de connexion sur mobile", "pvThink": "J'inspecte d'abord les styles de la page de connexion…", "pvReply": "Le problème venait d'un <code>wrap</code> manquant dans la disposition <code>flex</code>. Corrigé et vérifié à 375 px.", "footerPrivacy": "Les fichiers de session sont analysés dans votre navigateur et ne sont jamais envoyés automatiquement. Seuls les fichiers que vous sauvegardez vont dans le cloud, et vous seul pouvez y accéder.", "q1": "Comment consulter les sessions précédentes de Claude Code ?", "a1": "Les sessions locales sont enregistrées par défaut sous ~/.claude/projects/. CLAUDE_CONFIG_DIR change le répertoire de base. La persistance peut être désactivée et la rétention peut supprimer des fichiers : tout ne reste pas nécessairement disponible. Vérifiez où les sessions distantes ou cloud ont été exécutées.", "q2": "Mon fichier de session est-il envoyé quelque part ?", "a2": "Les fichiers de session sont analysés et affichés localement dans le navigateur. Le site hébergé charge automatiquement Microsoft Clarity pour enregistrer les interactions. Les copies hors ligne ne chargent pas de mesure. Seuls les fichiers choisis pour la sauvegarde sont envoyés vers un stockage cloud privé. Seul votre compte peut y accéder. La lecture locale ne nécessite pas de connexion. Maximum 20 MiB par fichier JSONL.", "q3": "Que prend en charge la visionneuse ?", "a3": "Le rendu Markdown des messages, les blocs d'extended thinking, les paramètres et résultats d'outils, les images, l'usage de tokens et les statistiques de coût, avec une interface en 10 langues.", "q4": "Qu'est-ce que le format .jsonl ?", "a4": "JSON Lines : un objet JSON indépendant par ligne. Claude Code y consigne chaque message, appel d'outil et métadonnée.", "q5": "CCViewer est-il gratuit ?", "a5": "Oui, gratuit et open source. Aucune inscription requise.", "libraryBtn": "Sessions", "libraryTitle": "Bibliothèque de sessions", "libraryEmpty": "Aucune session pour l'instant. Ouvrez un dossier de fichiers .jsonl pour constituer votre bibliothèque.", "openFolder": "Ouvrir un dossier", "importing": "Importation… {n}/{m}", "importCancel": "Annuler l'importation", "parsingSession": "Analyse de la session…", "handleReadErr": "Impossible de lire ce fichier. Accordez à nouveau l'accès ou réimportez le dossier.", "notSessionFile": "Ce n'est pas un fichier de session Claude Code. Choisissez un fichier .jsonl dans ~/.claude/projects/.", "noJsonlFound": "Aucun fichier de session .jsonl dans ce dossier. Choisissez le dossier ~/.claude/projects.", "deletedOk": "Supprimé", "displayBtn": "Affichage", "openMenuBtn": "Ouvrir", "langBtn": "Langue", "fsTitle": "Taille du texte", "copyBtn": "Copier", "copied": "Copié", "copyFailed": "Échec de la copie", "okBtn": "OK", "importedN": "{n} sessions", "sortRecent": "Plus récentes", "sortOldest": "Plus anciennes", "sortMsgs": "Messages", "sortTokens": "Tokens", "sortCost": "Coût", "deleteBtn": "Supprimer", "clearAll": "Tout effacer", "confirmDelete": "Supprimer cette session ?", "confirmClear": "Supprimer TOUTES les sessions enregistrées ? Action irréversible.", "noTextErr": "Contenu non mis en cache (stockage plein). Réimportez le dossier pour l'ouvrir.", "storageWarn": "Le stockage du navigateur est plein ; certaines sessions n'ont été sauvegardées que sous forme de résumé.", "closeBtn": "Fermer", "dirTip": "Vous ne trouvez pas le dossier ? Sur macOS, appuyez sur <kbd>⌘⇧.</kbd> dans la fenêtre de sélection pour afficher les dossiers masqués, ou sur <kbd>⌘⇧G</kbd> dans Finder et saisissez <code>~/.claude/projects</code>. Sur Windows, saisissez <code>%USERPROFILE%\\.claude\\projects</code> dans le champ du nom.", "navProjects": "Projets", "noProject": "(sans répertoire de projet)", "toggleNav": "Afficher/masquer le panneau des projets", "dragResize": "Glisser pour redimensionner", "exportMd": "Exporter MD", "exportEmptyErr": "Chargez d'abord une session.", "guideH": "Guides", "tutorialCap": "Ouvrir un fichier → appuyer sur ⌘⇧. pour afficher les dossiers cachés → ouvrir ~/.claude/projects/ → sélectionner un .jsonl de session → statistiques, blocs de réflexion et d'outils, filtres et export Markdown.", "tutReplay": "Rejouer", "tutS1": "Appuyez sur ⌘ ⇧ . dans la boîte Ouvrir pour afficher les dossiers cachés", "tutS2": "Les dossiers cachés apparaissent — ouvrez ~/.claude", "tutS3": "Ouvrez ~/.claude/projects/", "tutS4": "Sélectionnez le fichier de session, puis cliquez sur Ouvrir", "tutS5": "Statistiques de session — tours, jetons, coût et métadonnées en un coup d'œil", "tutS6": "Blocs de réflexion, appels d'outils et résultats affichés en ligne", "tutS7": "Basculez réflexion, outils et métadonnées en un clic", "tutS8": "Exportez toute la conversation en Markdown", "g1": "Comment voir l’historique complet d’une session Claude Code", "g2": "Comment trouver le fichier JSONL d’une session", "g3": "Où sont stockés les historiques de sessions Claude Code ?", "g4": "Quel est le meilleur visualiseur de sessions Claude Code en 2026 ?", "helpCenter": "Centre d'aide", "resourcesTitle": "Ressources officielles", "resourcesDocs": "Documentation", "resourcesIssues": "Signaler un problème", "refresh": "Actualiser", "refreshReady": "Fichier local connecté · toujours à jour", "refreshReconnect": "Cliquez sur Actualiser pour reconnecter le fichier et activer la mise à jour automatique.", "refreshing": "Actualisation…", "refreshChecked": "Synchronisé · {time}", "refreshFailed": "Impossible de lire le fichier. Cliquez sur Actualiser pour vous reconnecter.", "refreshWrongFile": "Choisissez le fichier .jsonl de cette session.", "imagePreview": "Aperçu de l’image", "cloudTitle": "Sauvegardes cloud", "cloudLoginRequired": "Connectez-vous pour accéder à vos sauvegardes privées.", "cloudLogin": "Connexion avec GitHub", "cloudLogout": "Déconnexion", "cloudPrivacy": "Vous seul pouvez accéder aux sauvegardes. 20 MiB par fichier maximum.", "cloudPick": "Sauvegarder des fichiers…", "cloudUploadCurrent": "Sauvegarder", "cloudWorking": "Traitement…", "cloudEmpty": "Aucune sauvegarde cloud.", "loginBtn": "Se connecter", "cloudPageTitle": "Sessions cloud", "cloudRecords": "{n} enregistrements", "cloudMore": "Charger plus", "cloudRestore": "Ouvrir la session", "cloudDownload": "Télécharger", "cloudUnavailable": "Les sauvegardes cloud ne sont pas configurées. La lecture locale reste disponible.", "cloudTooLarge": "Le fichier dépasse la limite de 20 MiB.", "cloudInvalidJsonl": "Ce fichier ne semble pas être une session valide.", "cloudInvalidName": "Le nom du fichier est trop long ou contient des caractères non pris en charge. Renommez-le puis réessayez.", "cloudInvalidDescription": "La description est trop longue (500 caractères maximum).", "cloudNotFound": "Cette sauvegarde n’est plus disponible.", "cloudOriginError": "Utilisez l’adresse configurée du site pour les sauvegardes cloud.", "cloudNetworkError": "Connexion impossible. Vérifiez votre réseau et réessayez.", "cloudRequestFailed": "La requête a échoué. Réessayez.", "cloudOnlineOnly": "Les sauvegardes cloud nécessitent le site hébergé. La copie hors ligne permet la lecture locale.", "cloudUploaded": "Sauvegarde envoyée.", "cloudLoggedOut": "Déconnexion effectuée.", "cloudConfirmDelete": "Supprimer la sauvegarde cloud « {name} » ? La copie locale sera conservée.", "cloudDeleted": "Sauvegarde cloud supprimée.", "cloudLoginFailed": "La connexion GitHub a échoué ou expiré. Réessayez.", "cloudLoginBackup": "Se connecter et sauvegarder", "cloudLoginContinue": "La session et la position de lecture seront conservées. La sauvegarde reprendra après connexion.", "cloudPreserveFailed": "Impossible de conserver la session. Libérez du stockage dans le navigateur et réessayez.", "cloudBatchTitle": "Sauvegarder {n} sessions", "cloudWaiting": "En attente", "cloudUploading": "Sauvegarde…", "cloudDone": "Sauvegardée", "cloudFailed": "Échec", "cloudRetry": "Réessayer les éléments restants", "cloudStart": "Sauvegarder", "cloudNameLabel": "Nom de la session", "cloudDescriptionLabel": "Description (facultative)", "cloudProgress": "Sauvegarde {n}/{m}…", "cloudPartial": "{n} sauvegardées. Il en reste {m} à réessayer.", "cloudComplete": "{n} sessions sauvegardées.", "cloudBackupSelected": "Sauvegarder la sélection", "cloudSelectAll": "Tout sélectionner", "cloudSelectSession": "Sélectionner la session : {name}", "cloudSelectedCount": "{n} sélectionnées", "cloudView": "Voir les sauvegardes cloud", "cloudSaved": "Sauvegardes enregistrées"}};
+const I18N={'fr':{"brand": "CCViewer", "thinking": "Raisonnement", "tools": "Outils", "sysInj": "Système et contexte", "expandAll": "Tout déplier", "pasteText": "Coller du texte", "openFile": "Ouvrir un fichier", "noFile": "Aucun fichier chargé", "dropHint1": "Glissez ici un fichier de session <b>.jsonl</b> <b>ou un dossier entier</b>, ou cliquez pour parcourir", "dropHint2": "p. ex. tout le dossier <code>~/.claude/projects/</code> ou un seul <code>&lt;sessionId&gt;.jsonl</code> à l'intérieur", "revealTip": "Vous ne voyez pas le dossier .claude ? Il est masqué : sur macOS, appuyez sur <kbd>⌘⇧.</kbd> ; sur Windows, saisissez <kbd>%USERPROFILE%\\.claude\\projects</kbd> dans le champ du nom", "chooseFile": "Choisir un fichier", "pasteTitle": "Coller du texte JSONL", "pasteHint": "Collez ici tout le contenu du fichier d'historique, un objet JSON par ligne (un tableau / objet JSON unique fonctionne aussi).", "cancel": "Annuler", "loadBtn": "Charger", "thinkLabel": "✻ Raisonnement", "you": "Vous", "reply": "Réponse", "result": "Résultat", "error": "Erreur", "lines": "lignes", "images": "images", "viewResult": "Voir le résultat", "sysMsg": "Message système", "injCtx": "Contexte injecté", "system": "Système", "sessionInfo": "Infos de session", "stats": "Statistiques", "costUsage": "Coût / Usage", "titleRow": "Titre", "projectDir": "Dossier du projet", "gitBranch": "Branche Git", "version": "Version", "sessionId": "ID de session", "time": "Heure", "model": "Modèle", "userMsgs": "Messages utilisateur", "replies": "Réponses", "toolCalls": "Appels d'outils", "thinkingStat": "Raisonnement", "imagesStat": "Images", "parseFailed": "Échec d'analyse", "home": "Accueil", "inTokens": "Tokens d'entrée", "outTokens": "Tokens de sortie", "cacheRead": "Lectures cache", "cacheCreate": "Écritures cache", "totalCost": "Coût total", "linesPM": "Lignes +/-", "apiTime": "Temps API", "toolTime": "Temps outils", "viewerSuffix": "Visionneuse", "pasteEmptyErr": "Aucun enregistrement valide analysé. Vérifiez le contenu collé.", "pastedContent": "Contenu collé", "intro": "Lisez les sessions JSONL de Claude Code localement dans le navigateur. Consultez les messages et outils, importez des dossiers et exportez en Markdown. Gratuit et open source.", "featMd": "Rendu Markdown", "featMdD": "Blocs de code, tableaux, listes et citations", "featThink": "Processus de raisonnement", "featThinkD": "Extended thinking repliable en lecture", "featTool": "Appels d'outils", "featToolD": "Paramètres et résultats dépliables", "featCost": "Usage et coût", "featCostD": "Tokens, durée et dépenses analysés", "featI18n": "Interface multilingue", "featI18nD": "Basculez entre 10 langues en un clic", "featPrivacy": "Confidentialité", "featPrivacyD": "100 % côté client, zéro envoi", "featCloud": "Sauvegarde cloud permanente", "featCloudD": "Connectez-vous avec GitHub pour envoyer vos sessions dans le cloud : conservez-les pour toujours, ouvrez-les ou téléchargez-les depuis tout appareil, visibles uniquement par vous.", "faqTitle": "Questions fréquentes", "tagline": "Rendez vos fichiers .jsonl localement dans le navigateur. Privé, gratuit et open source", "heroTitle": "Lisez l'historique de sessions <em>Claude Code</em>", "pvUserQ": "Corrige la mise en page cassée de la page de connexion sur mobile", "pvThink": "J'inspecte d'abord les styles de la page de connexion…", "pvReply": "Le problème venait d'un <code>wrap</code> manquant dans la disposition <code>flex</code>. Corrigé et vérifié à 375 px.", "footerPrivacy": "Les fichiers de session sont analysés dans votre navigateur et ne sont jamais envoyés automatiquement. Seuls les fichiers que vous sauvegardez vont dans le cloud, et vous seul pouvez y accéder.", "q1": "Comment consulter les sessions précédentes de Claude Code ?", "a1": "Les sessions locales sont enregistrées par défaut sous ~/.claude/projects/. CLAUDE_CONFIG_DIR change le répertoire de base. La persistance peut être désactivée et la rétention peut supprimer des fichiers : tout ne reste pas nécessairement disponible. Vérifiez où les sessions distantes ou cloud ont été exécutées.", "q2": "Mon fichier de session est-il envoyé quelque part ?", "a2": "Les fichiers de session sont analysés et affichés localement dans le navigateur. Le site hébergé charge automatiquement Microsoft Clarity pour enregistrer les interactions. Les copies hors ligne ne chargent pas de mesure. Seuls les fichiers choisis pour la sauvegarde sont envoyés vers un stockage cloud privé. Seul votre compte peut y accéder. La lecture locale ne nécessite pas de connexion. Maximum 20 MiB par fichier JSONL.", "q3": "Que prend en charge la visionneuse ?", "a3": "Le rendu Markdown des messages, les blocs d'extended thinking, les paramètres et résultats d'outils, les images, l'usage de tokens et les statistiques de coût, avec une interface en 10 langues.", "q4": "Qu'est-ce que le format .jsonl ?", "a4": "JSON Lines : un objet JSON indépendant par ligne. Claude Code y consigne chaque message, appel d'outil et métadonnée.", "q5": "CCViewer est-il gratuit ?", "a5": "Oui, gratuit et open source. Aucune inscription requise.", "libraryEmpty": "Aucune session locale pour le moment — ouvrez un fichier .jsonl ou un dossier de projet.", "recentBtn": "Reprendre la dernière session", "localUploadBtn": "Sauvegarder les sessions locales…", "localPickTitle": "Choisissez les sessions à sauvegarder", "localPickSkipped": "{n} session(s) ignorée(s) : fichier illisible", "openFolder": "Ouvrir un dossier", "importing": "Importation… {n}/{m}", "importCancel": "Annuler l'importation", "parsingSession": "Analyse de la session…", "handleReadErr": "Impossible de lire ce fichier. Accordez à nouveau l'accès ou réimportez le dossier.", "notSessionFile": "Ce n'est pas un fichier de session Claude Code. Choisissez un fichier .jsonl dans ~/.claude/projects/.", "noJsonlFound": "Aucun fichier de session .jsonl dans ce dossier. Choisissez le dossier ~/.claude/projects.", "deletedOk": "Supprimé", "displayBtn": "Affichage", "openMenuBtn": "Ouvrir", "langBtn": "Langue", "fsTitle": "Taille du texte", "copyBtn": "Copier", "copied": "Copié", "copyFailed": "Échec de la copie", "okBtn": "OK", "sortRecent": "Plus récentes", "sortOldest": "Plus anciennes", "sortMsgs": "Messages", "sortTokens": "Tokens", "sortCost": "Coût", "deleteBtn": "Supprimer", "noTextErr": "Contenu non mis en cache (stockage plein). Réimportez le dossier pour l'ouvrir.", "storageWarn": "Le stockage du navigateur est plein ; certaines sessions n'ont été sauvegardées que sous forme de résumé.", "closeBtn": "Fermer", "navProjects": "Projets", "noProject": "(sans répertoire de projet)", "toggleNav": "Afficher/masquer le panneau des projets", "dragResize": "Glisser pour redimensionner", "exportMd": "Exporter MD", "exportEmptyErr": "Chargez d'abord une session.", "guideH": "Guides", "tutorialCap": "Ouvrir un fichier → appuyer sur ⌘⇧. pour afficher les dossiers cachés → ouvrir ~/.claude/projects/ → sélectionner un .jsonl de session → statistiques, blocs de réflexion et d'outils, filtres et export Markdown.", "tutReplay": "Rejouer", "tutS1": "Appuyez sur ⌘ ⇧ . dans la boîte Ouvrir pour afficher les dossiers cachés", "tutS2": "Les dossiers cachés apparaissent — ouvrez ~/.claude", "tutS3": "Ouvrez ~/.claude/projects/", "tutS4": "Sélectionnez le fichier de session, puis cliquez sur Ouvrir", "tutS5": "Statistiques de session — tours, jetons, coût et métadonnées en un coup d'œil", "tutS6": "Blocs de réflexion, appels d'outils et résultats affichés en ligne", "tutS7": "Basculez réflexion, outils et métadonnées en un clic", "tutS8": "Exportez toute la conversation en Markdown", "g1": "Comment voir l’historique complet d’une session Claude Code", "g2": "Comment trouver le fichier JSONL d’une session", "g3": "Où sont stockés les historiques de sessions Claude Code ?", "g4": "Quel est le meilleur visualiseur de sessions Claude Code en 2026 ?", "helpCenter": "Centre d'aide", "resourcesTitle": "Ressources officielles", "resourcesDocs": "Documentation", "resourcesIssues": "Signaler un problème", "refresh": "Actualiser", "refreshReady": "Fichier local connecté · toujours à jour", "refreshReconnect": "Cliquez sur Actualiser pour reconnecter le fichier et activer la mise à jour automatique.", "refreshing": "Actualisation…", "refreshChecked": "Synchronisé · {time}", "refreshFailed": "Impossible de lire le fichier. Cliquez sur Actualiser pour vous reconnecter.", "refreshWrongFile": "Choisissez le fichier .jsonl de cette session.", "imagePreview": "Aperçu de l’image", "cloudTitle": "Sauvegardes cloud", "cloudLoginRequired": "Connectez-vous pour accéder à vos sauvegardes privées.", "cloudLogin": "Connexion avec GitHub", "cloudLogout": "Déconnexion", "cloudPrivacy": "Vous seul pouvez accéder aux sauvegardes. 20 MiB par fichier maximum.", "cloudPick": "Sauvegarder des fichiers…", "cloudUploadCurrent": "Sauvegarder", "cloudWorking": "Traitement…", "cloudEmpty": "Aucune sauvegarde cloud.", "loginBtn": "Se connecter", "cloudPageTitle": "Sessions cloud", "cloudRecords": "{n} enregistrements", "cloudMore": "Charger plus", "cloudRestore": "Ouvrir la session", "cloudDownload": "Télécharger", "cloudUnavailable": "Les sauvegardes cloud ne sont pas configurées. La lecture locale reste disponible.", "cloudTooLarge": "Le fichier dépasse la limite de 20 MiB.", "cloudInvalidJsonl": "Ce fichier ne semble pas être une session valide.", "cloudInvalidName": "Le nom du fichier est trop long ou contient des caractères non pris en charge. Renommez-le puis réessayez.", "cloudInvalidDescription": "La description est trop longue (500 caractères maximum).", "cloudNotFound": "Cette sauvegarde n’est plus disponible.", "cloudOriginError": "Utilisez l’adresse configurée du site pour les sauvegardes cloud.", "cloudNetworkError": "Connexion impossible. Vérifiez votre réseau et réessayez.", "cloudRequestFailed": "La requête a échoué. Réessayez.", "cloudOnlineOnly": "Les sauvegardes cloud nécessitent le site hébergé. La copie hors ligne permet la lecture locale.", "cloudUploaded": "Sauvegarde envoyée.", "cloudLoggedOut": "Déconnexion effectuée.", "cloudConfirmDelete": "Supprimer la sauvegarde cloud « {name} » ? La copie locale sera conservée.", "cloudDeleted": "Sauvegarde cloud supprimée.", "cloudLoginFailed": "La connexion GitHub a échoué ou expiré. Réessayez.", "cloudLoginBackup": "Se connecter et sauvegarder", "cloudLoginContinue": "La session et la position de lecture seront conservées. La sauvegarde reprendra après connexion.", "cloudPreserveFailed": "Impossible de conserver la session. Libérez du stockage dans le navigateur et réessayez.", "cloudBatchTitle": "Sauvegarder {n} sessions", "cloudWaiting": "En attente", "cloudUploading": "Sauvegarde…", "cloudDone": "Sauvegardée", "cloudFailed": "Échec", "cloudRetry": "Réessayer les éléments restants", "cloudStart": "Sauvegarder", "cloudNameLabel": "Nom de la session", "cloudDescriptionLabel": "Description (facultative)", "cloudProgress": "Sauvegarde {n}/{m}…", "cloudPartial": "{n} sauvegardées. Il en reste {m} à réessayer.", "cloudComplete": "{n} sessions sauvegardées.", "cloudSelectAll": "Tout sélectionner", "cloudSelectSession": "Sélectionner la session : {name}", "cloudSelectedCount": "{n} sélectionnées", "cloudView": "Voir les sauvegardes cloud", "cloudSaved": "Sauvegardes enregistrées"}};
 const LANG='fr';
 const BASE_PATH='/claude-code-session-viewer';
 const t=k=>{const d=I18N[LANG];return (d&&d[k]!==undefined)?d[k]:k;};
@@ -1277,8 +1269,6 @@ function dbTx(mode,fn,store){
   });
 }
 const dbPut=rec=>dbTx('readwrite',st=>st.put(rec));
-const dbDelete=id=>dbTx('readwrite',st=>st.delete(id)).catch(()=>{});
-const dbClear=()=>dbTx('readwrite',st=>st.clear()).catch(()=>{});
 const dbGetAll=()=>dbTx('readonly',st=>st.getAll()).catch(()=>[]);
 function hashStr(s){let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=(h*0x01000193)>>>0;}return h.toString(36);}
 const UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -1292,7 +1282,6 @@ function makeId(sum,name,size){
 // summarize() 返回的 models 是 Set，入库前转为可结构化克隆的数组
 function sumToJSON(sum){const c=Object.assign({},sum);c.models=Array.from(sum.models||[]);return c;}
 let LIB=[],LIB_FULL=new Map(),LIB_SORT='recent',LIB_WARNED=false;
-const LIB_SELECTED=new Set();
 let IMPORTING=false,IMPORT_CANCEL=false;
 function libMeta(rec){return {id:rec.id,name:rec.name,source:rec.source,addedAt:rec.addedAt,bad:rec.bad,noText:rec.noText,lazy:!!rec.lazy,size:rec.size,sum:rec.sum};}
 // 存原始文本 + 摘要；配额不足时降级为仅摘要（noText）
@@ -1303,7 +1292,7 @@ async function putRec(rec){
       const light=Object.assign({},rec);delete light.text;light.noText=true;
       await dbPut(light);
       LIB_FULL.set(rec.id,light);upsertLib(light);
-      if(!LIB_WARNED){LIB_WARNED=true;$('#libWarn').style.display='block';}
+      if(!LIB_WARNED){LIB_WARNED=true;toast(t('storageWarn'),'err');}
       return;
     }catch(e2){/* IDB 不可用：仅保存在内存 */}
   }
@@ -1330,7 +1319,6 @@ function upsertLib(rec){
   const i=LIB.findIndex(x=>x.id===rec.id);
   if(i>=0)LIB[i]=meta;else LIB.push(meta);
   updateLibBtn();
-  if(!IMPORTING&&!$('#library').classList.contains('hide'))renderLibrary();
 }
 async function loadLibrary(){
   const all=await dbGetAll();
@@ -1338,10 +1326,8 @@ async function loadLibrary(){
   for(const rec of (all||[])){LIB.push(libMeta(rec));LIB_FULL.set(rec.id,rec);}
   updateLibBtn();
 }
-function setBtnLabel(id,label){const b=$(id);if(b){const s=b.querySelector('span');(s||b).textContent=label;}}
 function updateLibBtn(){
-  const bd=$('#libBadge');if(bd){bd.textContent=LIB.length;bd.hidden=!LIB.length;} // 顶栏图标徽章
-  const bl=$('#btnLibLanding');if(bl){bl.textContent=t('libraryBtn')+(LIB.length?' ('+LIB.length+')':'');bl.style.display=LIB.length?'':'none';}
+  const bl=$('#btnLibLanding');if(bl){bl.textContent=t('recentBtn');bl.style.display=LIB.length?'':'none';}
   updateNav();
 }
 /* ---------- 左侧导览：按项目目录聚类 ---------- */
@@ -1351,7 +1337,7 @@ const SESSION_SOURCES=new Map(),FILE_SOURCES=new WeakMap();
 const AUTO_REFRESH_SECONDS=5; // 后台自动轮询间隔，无需用户设置
 let REFRESH_TIMER=null;
 function stopRefreshTimer(){clearTimeout(REFRESH_TIMER);REFRESH_TIMER=null;}
-function viewerVisible(){return CUR&&$('#drop').classList.contains('hide')&&$('#library').classList.contains('hide');}
+function viewerVisible(){return CUR&&$('#drop').classList.contains('hide');}
 function refreshStatus(key,error){
   const status=$('#refreshStatus');
   status.textContent=t(key);
@@ -1497,16 +1483,14 @@ function renderNav(){
 }
 function updateNav(){
   const n=$('#nav');
-  if(n)n.classList.toggle('show',LIB.length>0);
+  if(n)n.classList.toggle('show',LIB.length>0||IMPORTING); // 导入进行中也显示左侧栏，让进度可见
   renderNav();
 }
-// 视图切换：landing（落地页）/ library（会话库）/ viewer（两者都隐藏）
+// 视图切换：landing（落地页）/ viewer（阅读视图）
 function showView(v){
   $('#drop').classList.toggle('hide',v!=='landing');
-  $('#library').classList.toggle('hide',v!=='library');
   scheduleRefresh();
 }
-function showLibrary(){showView('library');renderLibrary();}
 const LIB_SORTERS={
   recent:(a,b)=>(b.sum.lastTs?Date.parse(b.sum.lastTs):b.addedAt||0)-(a.sum.lastTs?Date.parse(a.sum.lastTs):a.addedAt||0),
   oldest:(a,b)=>(a.sum.lastTs?Date.parse(a.sum.lastTs):a.addedAt||0)-(b.sum.lastTs?Date.parse(b.sum.lastTs):b.addedAt||0),
@@ -1514,43 +1498,58 @@ const LIB_SORTERS={
   tokens:(a,b)=>((b.sum.tokens.in||0)+(b.sum.tokens.out||0))-((a.sum.tokens.in||0)+(a.sum.tokens.out||0)),
   cost:(a,b)=>(((b.sum.cost||{}).totalCostUSD)||0)-(((a.sum.cost||{}).totalCostUSD)||0)
 };
-function renderLibrary(){
-  const list=$('#libList');
+/* ---------- 本地会话批量备份到云端（#localPick 对话框）---------- */
+const LOCAL_PICKED=new Set();
+function localPickMeta(m){
+  const meta=[];
+  if(m.sum&&m.sum.cwd)meta.push(m.sum.cwd);
+  if(m.sum&&m.sum.firstTs&&m.sum.lastTs)meta.push(fmtTime(m.sum.firstTs)+' → '+fmtTime(m.sum.lastTs));
+  else if(m.sum&&m.sum.lastTs)meta.push(fmtTime(m.sum.lastTs));
+  if(m.sum&&m.sum.counts)meta.push(((m.sum.counts.user||0)+(m.sum.counts.assistant||0))+' msgs');
+  if(m.sum&&m.sum.tokens&&(m.sum.tokens.in||m.sum.tokens.out))meta.push('↑'+num(m.sum.tokens.in)+' ↓'+num(m.sum.tokens.out));
+  return meta.join(' · ');
+}
+function renderLocalPick(){
+  const list=$('#localPickList');
   LIB.sort(LIB_SORTERS[LIB_SORT]||LIB_SORTERS.recent);
-  $('#libCount').textContent=LIB.length?t('importedN').replace('{n}',LIB.length):'';
-  $('#libEmpty').style.display=LIB.length?'none':'block';
-  list.style.display=LIB.length?'flex':'none';
-  list.innerHTML='';
+  list.innerHTML=LIB.length?'':'<p class="libempty">'+esc(t('libraryEmpty'))+'</p>';
   for(const m of LIB){
-    const row=el('div','librow'+(LIB_SELECTED.has(m.id)?' selected':''));
+    const row=el('div','librow'+(LOCAL_PICKED.has(m.id)?' selected':''));
     row.dataset.id=m.id;
-    const title=m.lazy?String(sessionDisplayName(m)).replace(/\.jsonl$/i,''):sessionDisplayName(m);
-    const meta=[];
-    if(m.sum&&m.sum.cwd)meta.push(m.sum.cwd);
-    if(m.sum&&m.sum.firstTs&&m.sum.lastTs)meta.push(fmtTime(m.sum.firstTs)+' → '+fmtTime(m.sum.lastTs));
-    else if(m.sum&&m.sum.lastTs)meta.push(fmtTime(m.sum.lastTs));
-    if(m.lazy){if(m.size)meta.push((m.size/1024).toLocaleString('en-US',{maximumFractionDigits:0})+' KB');}
-    else{
-      if(m.sum&&m.sum.counts)meta.push(((m.sum.counts.user||0)+(m.sum.counts.assistant||0))+' msgs');
-      if(m.sum&&m.sum.tokens&&(m.sum.tokens.in||m.sum.tokens.out))meta.push('↑'+num(m.sum.tokens.in)+' ↓'+num(m.sum.tokens.out));
-      if(m.sum&&m.sum.cost&&m.sum.cost.totalCostUSD!=null)meta.push('$'+m.sum.cost.totalCostUSD.toFixed(4));
-    }
-    row.innerHTML='<div class="l1"><span class="lt">'+esc(title)+'</span><button class="libdel" title="'+esc(t('deleteBtn'))+'" aria-label="'+esc(t('deleteBtn'))+'">×</button></div><div class="l2">'+esc(meta.join(' · '))+'</div>';
-    const pick=el('input','libpick');pick.type='checkbox';pick.checked=LIB_SELECTED.has(m.id);pick.disabled=!LIB_FULL.get(m.id)?.text;
+    const title=sessionDisplayName(m);
+    row.innerHTML='<div class="l1"><span class="lt">'+esc(title)+'</span></div><div class="l2">'+esc(localPickMeta(m))+'</div>';
+    const pick=el('input','libpick');pick.type='checkbox';pick.checked=LOCAL_PICKED.has(m.id);
     pick.setAttribute('aria-label',t('cloudSelectSession').replace('{name}',title));row.prepend(pick);
     list.appendChild(row);
   }
-  updateLibrarySelection();
+  updateLocalPickSel();
 }
-function updateLibrarySelection(){
-  const available=LIB.filter(m=>LIB_FULL.get(m.id)?.text);
-  const availableIds=new Set(available.map(m=>m.id));
-  for(const id of LIB_SELECTED)if(!availableIds.has(id))LIB_SELECTED.delete(id);
-  const count=LIB_SELECTED.size,all=$('#libSelectAll');
-  all.checked=!!available.length&&count===available.length;all.indeterminate=count>0&&count<available.length;all.disabled=!available.length;
-  $('#libSelectedCount').textContent=count?t('cloudSelectedCount').replace('{n}',count):'';
-  const button=$('#btnCloudLibrary');button.disabled=!count;
-  setBtnLabel('#btnCloudLibrary',t('cloudBackupSelected')+(count?' ('+count+')':''));
+function updateLocalPickSel(){
+  const ids=new Set(LIB.map(m=>m.id));
+  for(const id of [...LOCAL_PICKED])if(!ids.has(id))LOCAL_PICKED.delete(id);
+  const count=LOCAL_PICKED.size,all=$('#localPickAll');
+  all.checked=!!LIB.length&&count===LIB.length;all.indeterminate=count>0&&count<LIB.length;
+  $('#localPickCount').textContent=count?t('cloudSelectedCount').replace('{n}',count):'';
+  $('#localPickStart').disabled=!count;
+}
+// 懒加载记录先补全文（点击视为用户手势，可重新申请句柄权限）；读取失败的单条跳过
+async function localPickStart(){
+  const ids=[...LOCAL_PICKED];
+  if(!ids.length)return;
+  const files=[];let skipped=0;
+  for(const id of ids){
+    const ok=await ensureSessionText(id);
+    const rec=ok?LIB_FULL.get(id):null;
+    if(rec&&rec.text&&typeof cloudSessionFile==='function'){
+      try{files.push(cloudSessionFile(rec));continue;}catch(e){}
+    }
+    LOCAL_PICKED.delete(id);skipped++;
+  }
+  renderLocalPick();
+  if(!files.length){$('#localPickErr').textContent=t('noTextErr');return;}
+  $('#localPick').close();
+  openCloud(files);
+  if(skipped)toast(t('localPickSkipped').replace('{n}',skipped),'err');
 }
 async function openSession(id){
   const rec=LIB_FULL.get(id);
@@ -1605,8 +1604,8 @@ function afterImport(){
 async function importFiles(files){
   const list=[...files].filter(f=>/\.jsonl$/i.test(f.name));
   if(!list.length){toast(t('noJsonlFound'),'err');return;}
-  const prog=$('#libProgress'),ptext=$('#libProgText'),pfill=$('#libProgFill');
-  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;
+  const prog=$('#navProg'),ptext=$('#navProgText'),pfill=$('#navProgFill');
+  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;updateNav();
   let ok=0;
   for(let i=0;i<list.length;i++){
     if(IMPORT_CANCEL)break;
@@ -1625,7 +1624,6 @@ async function importFiles(files){
   }
   IMPORTING=false;prog.hidden=true;
   if(!ok){toast(t('notSessionFile'),'err');} // 文件都在但没有可识别的会话记录
-  renderLibrary();
   updateNav();
   afterImport();
 }
@@ -1649,8 +1647,8 @@ async function lazyScan(file){
 }
 async function registerLazyFiles(items){
   if(!items.length)return;
-  const prog=$('#libProgress'),ptext=$('#libProgText'),pfill=$('#libProgFill');
-  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;
+  const prog=$('#navProg'),ptext=$('#navProgText'),pfill=$('#navProgFill');
+  IMPORTING=true;IMPORT_CANCEL=false;prog.hidden=false;updateNav();
   let ok=0;
   for(let i=0;i<items.length;i++){
     if(IMPORT_CANCEL)break;
@@ -1675,7 +1673,6 @@ async function registerLazyFiles(items){
   }
   IMPORTING=false;prog.hidden=true;
   if(!ok){toast(t('notSessionFile'),'err');} // 有 .jsonl 但没有可识别的会话记录
-  renderLibrary();
   updateNav();
   afterImport();
 }
@@ -1691,8 +1688,7 @@ async function importDirHandle(dir){
     }
   }
   await walk(dir,0);
-  if(!items.length){toast(t('noJsonlFound'),'err');return;} // 选错文件夹：直接提示，不打开空会话库
-  showLibrary();
+  if(!items.length){toast(t('noJsonlFound'),'err');return;} // 选错文件夹：直接提示，不进入导入
   await registerLazyFiles(items);
 }
 const pickDir=async()=>{
@@ -1836,7 +1832,6 @@ document.addEventListener('drop',e=>{
     return;
   }
   const p=filesFromDataTransfer(dt); // 同步启动，先取 entries
-  showLibrary();
   p.then(fls=>importFiles(fls));
 });
 const HOME_TITLE=document.title;
@@ -1850,14 +1845,13 @@ $('#btnHome').onclick=()=>{
   $('#btnExportMd').style.display='none';
   showView('landing');
 };
-/* 会话库交互 */
-$('#btnLibrary').onclick=showLibrary;
-$('#btnLibLanding').onclick=showLibrary;
-$('#btnLibClose').onclick=()=>showView(CUR?'viewer':'landing');
+/* 交互 */
+$('#btnLibLanding').onclick=()=>{ // 落地页「继续上次会话」：直达最近一条
+  const first=[...LIB].sort(LIB_SORTERS.recent)[0];
+  if(first)openSession(first.id);
+};
 $('#btnPickDir').onclick=pickDir;
 $('#btnOpenFolder').onclick=pickDir;
-$('#btnImportFolder').onclick=pickDir;
-$('#btnImportFolder2').onclick=pickDir;
 $('#dirpicker').onchange=async e=>{
   // 与原 showDirectoryPicker 扫描保持一致：跳过 node_modules，目录深度上限 4
   const fs=[...e.target.files].filter(f=>{
@@ -1867,44 +1861,30 @@ $('#dirpicker').onchange=async e=>{
   });
   e.target.value=''; // 允许重复选择同一目录
   if(!fs.length){toast(t('noJsonlFound'),'err');return;}
-  showLibrary();await importFiles(fs);
+  await importFiles(fs);
 };
-$('#libSort').onchange=e=>{LIB_SORT=e.target.value;renderLibrary();};
-$('#btnClearAll').onclick=async()=>{
-  if(!await uiConfirm(t('confirmClear')))return;
-  await dbClear();
-  LIB=[];LIB_FULL=new Map();CUR_ID=null;
-  SESSION_SOURCES.clear();
-  updateLibBtn();renderLibrary();
-  toast(t('deletedOk'),'ok');
+$('#navSort').value=LIB_SORT;
+$('#navSort').onchange=e=>{LIB_SORT=e.target.value;renderNav();};
+$('#navCancel').onclick=()=>{IMPORT_CANCEL=true;};
+$('#cloudLocalBtn').onclick=()=>{
+  LOCAL_PICKED.clear();
+  $('#localPickErr').textContent='';
+  renderLocalPick();
+  $('#localPick').showModal();
 };
-$('#libSelectAll').onchange=e=>{
-  LIB_SELECTED.clear();if(e.target.checked)for(const m of LIB)if(LIB_FULL.get(m.id)?.text)LIB_SELECTED.add(m.id);
-  renderLibrary();
+$('#localPickAll').onchange=e=>{
+  LOCAL_PICKED.clear();
+  if(e.target.checked)for(const m of LIB)LOCAL_PICKED.add(m.id);
+  renderLocalPick();
 };
-$('#libList').onchange=e=>{
+$('#localPickList').onchange=e=>{
   if(!e.target.matches('.libpick'))return;
   const row=e.target.closest('.librow'),id=row.dataset.id;
-  if(e.target.checked)LIB_SELECTED.add(id);else LIB_SELECTED.delete(id);
-  row.classList.toggle('selected',e.target.checked);updateLibrarySelection();
+  if(e.target.checked)LOCAL_PICKED.add(id);else LOCAL_PICKED.delete(id);
+  row.classList.toggle('selected',e.target.checked);updateLocalPickSel();
 };
-$('#libCancel').onclick=()=>{IMPORT_CANCEL=true;};
-$('#libList').onclick=async e=>{
-  if(e.target.closest('.libpick'))return;
-  const row=e.target.closest('.librow');
-  if(!row)return;
-  const id=row.dataset.id;
-  if(e.target.closest('.libdel')){
-    if(!await uiConfirm(t('confirmDelete')))return;
-    LIB_FULL.delete(id);
-    SESSION_SOURCES.delete(id);
-    LIB=LIB.filter(x=>x.id!==id);
-    if(CUR_ID===id)CUR_ID=null;
-    dbDelete(id);
-    updateLibBtn();renderLibrary();
-    toast(t('deletedOk'),'ok');
-  }else openSession(id);
-};
+$('#localPickCancel').onclick=()=>{$('#localPick').close();};
+$('#localPickStart').onclick=localPickStart;
 /* 导览栏：分组折叠 + 切换会话 */
 $('#navList').onclick=e=>{
   const gh=e.target.closest('.navghead');
@@ -2160,8 +2140,8 @@ async function cloudLogin(intent){
   await cloudTask(async()=>{
     let id;try{id=sessionStorage.getItem(CLOUD_PENDING_KEY);}catch(e){}
     id=id||crypto.randomUUID();
-    const snapshot={id,createdAt:Date.now(),intent:intent||'',reading:cloudReadingSnapshot(),library:!$('#library').classList.contains('hide'),
-      selected:[...LIB_SELECTED],files:CLOUD.queue.filter(item=>item.state!=='done').map(item=>item.file),
+    const snapshot={id,createdAt:Date.now(),intent:intent||'',reading:cloudReadingSnapshot(),
+      files:CLOUD.queue.filter(item=>item.state!=='done').map(item=>item.file),
       draft:{name:CLOUD.queue.length===1?cloudName.value:undefined,description:cloudDescription.value}};
     try{
       await cloudPendingStore('readwrite',store=>store.put(snapshot));
@@ -2188,8 +2168,6 @@ async function cloudResume(result){
     const restored=await saveToLibrary(reading.text,reading.name,reading.pasted?'paste':'file',reading.id);
     load(reading.text,reading.name,reading.pasted,null);CUR_ID=restored;showView('viewer');renderNav();$('#content').scrollTop=reading.scroll||0;
   }
-  LIB_SELECTED.clear();for(const selected of snapshot.selected||[])if(LIB_FULL.has(selected))LIB_SELECTED.add(selected);
-  if(snapshot.library)showLibrary();
   // Consume the intent before uploading; reloading the callback must not duplicate backups.
   try{await cloudPendingStore('readwrite',store=>store.delete(id));sessionStorage.removeItem(CLOUD_PENDING_KEY);}
   catch(e){await openCloud(snapshot.files,snapshot.draft);CLOUD.message=t('cloudPreserveFailed');CLOUD.error=true;cloudRender();return;}
@@ -2318,10 +2296,9 @@ async function cloudLogoutAction(){
 }
 $('#btnCloudLanding').onclick=openCloudPage;
 $('#btnCloud').onclick=()=>openCloud(CUR?[cloudSessionFile(CUR)]:[]);
-$('#btnCloudManageLibrary').onclick=openCloudPage;
+$('#btnNavCloud').onclick=openCloudPage;
 $('#cloudViewSaved').onclick=()=>{cloudDialog.close();openCloudPage();};
 $('#btnCloudClose').onclick=hideCloudPage;
-$('#btnCloudLibrary').onclick=()=>openCloud([...LIB_SELECTED].map(id=>LIB_FULL.get(id)).filter(rec=>rec?.text).map(cloudSessionFile));
 $('#cloudClose').onclick=()=>cloudDialog.close();
 cloudDialog.addEventListener('click',e=>{
   if(e.target!==cloudDialog)return;

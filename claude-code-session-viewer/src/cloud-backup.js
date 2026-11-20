@@ -194,8 +194,8 @@ async function cloudLogin(intent){
   await cloudTask(async()=>{
     let id;try{id=sessionStorage.getItem(CLOUD_PENDING_KEY);}catch(e){}
     id=id||crypto.randomUUID();
-    const snapshot={id,createdAt:Date.now(),intent:intent||'',reading:cloudReadingSnapshot(),library:!$('#library').classList.contains('hide'),
-      selected:[...LIB_SELECTED],files:CLOUD.queue.filter(item=>item.state!=='done').map(item=>item.file),
+    const snapshot={id,createdAt:Date.now(),intent:intent||'',reading:cloudReadingSnapshot(),
+      files:CLOUD.queue.filter(item=>item.state!=='done').map(item=>item.file),
       draft:{name:CLOUD.queue.length===1?cloudName.value:undefined,description:cloudDescription.value}};
     try{
       await cloudPendingStore('readwrite',store=>store.put(snapshot));
@@ -222,8 +222,6 @@ async function cloudResume(result){
     const restored=await saveToLibrary(reading.text,reading.name,reading.pasted?'paste':'file',reading.id);
     load(reading.text,reading.name,reading.pasted,null);CUR_ID=restored;showView('viewer');renderNav();$('#content').scrollTop=reading.scroll||0;
   }
-  LIB_SELECTED.clear();for(const selected of snapshot.selected||[])if(LIB_FULL.has(selected))LIB_SELECTED.add(selected);
-  if(snapshot.library)showLibrary();
   // Consume the intent before uploading; reloading the callback must not duplicate backups.
   try{await cloudPendingStore('readwrite',store=>store.delete(id));sessionStorage.removeItem(CLOUD_PENDING_KEY);}
   catch(e){await openCloud(snapshot.files,snapshot.draft);CLOUD.message=t('cloudPreserveFailed');CLOUD.error=true;cloudRender();return;}
@@ -352,10 +350,9 @@ async function cloudLogoutAction(){
 }
 $('#btnCloudLanding').onclick=openCloudPage;
 $('#btnCloud').onclick=()=>openCloud(CUR?[cloudSessionFile(CUR)]:[]);
-$('#btnCloudManageLibrary').onclick=openCloudPage;
+$('#btnNavCloud').onclick=openCloudPage;
 $('#cloudViewSaved').onclick=()=>{cloudDialog.close();openCloudPage();};
 $('#btnCloudClose').onclick=hideCloudPage;
-$('#btnCloudLibrary').onclick=()=>openCloud([...LIB_SELECTED].map(id=>LIB_FULL.get(id)).filter(rec=>rec?.text).map(cloudSessionFile));
 $('#cloudClose').onclick=()=>cloudDialog.close();
 cloudDialog.addEventListener('click',e=>{
   if(e.target!==cloudDialog)return;
