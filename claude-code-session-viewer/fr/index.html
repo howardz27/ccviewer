@@ -95,10 +95,9 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .toast{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text);box-shadow:0 10px 30px rgba(0,0,0,.4);animation:fadeUp .25s ease;transition:opacity .3s}
 .toast.err{border-left-color:var(--red)}
 .toast.ok{border-left-color:var(--green)}
-#refreshbar{display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:8px 16px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0}
-#refreshbar.hidden{display:none}
-#refreshStatus{font-size:12px;color:var(--dim);overflow-wrap:anywhere}
+#refreshStatus{font-size:12px;color:var(--dim);margin:-4px 0 10px;overflow-wrap:anywhere}
 #refreshStatus.error{color:var(--red)}
+#refreshStatus:empty{display:none}
 .btn:disabled{opacity:.5;cursor:default}
 #imagePreview{position:fixed;inset:0;z-index:1000;margin:auto;width:100vw;height:100vh;max-width:none;max-height:none;border:0;padding:56px 20px 20px;background:rgba(0,0,0,.92);color:var(--text)}
 #imagePreview::backdrop{background:rgba(0,0,0,.7)}
@@ -134,6 +133,10 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .navitem.active{background:rgba(217,119,87,.16);color:var(--accent)}
 @media (max-width:860px){#nav{display:none}}
 #sidebar h3{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--faint)}
+.sidhead{display:flex;align-items:center;gap:6px;margin:0 0 8px}
+.sidhead h3{margin:0;flex:1}
+#sidebar .btn.icon{padding:3px 5px;min-width:26px;color:var(--dim)}
+#sidebar .btn.icon:hover{color:var(--text)}
 #sidebar .kv{margin-bottom:10px}
 #sidebar .kv .k{color:var(--dim);font-size:11px}
 #sidebar .kv .v{word-break:break-all;font-size:12px}
@@ -144,9 +147,6 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 /* content */
 #content{flex:1;overflow-y:auto;padding:28px 36px;max-width:100%}
 #stream{max-width:880px;margin:0 auto;font-size:var(--read-fs,15.5px);line-height:1.68}
-/* compact stats line shown on small screens where the sidebar is hidden */
-#mstats{display:none;flex-basis:100%;font-size:12px;color:var(--dim)}
-@media (max-width:600px){#mstats{display:block}}
 /* message blocks — sizes in em so the reading width/font scale control works */
 .turn{margin-bottom:24px}
 .row{display:flex;gap:12px;align-items:flex-start}
@@ -349,7 +349,7 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 .btn.primary:hover{opacity:.9;color:#1a1109}
 .site-resources,.site-languages{max-width:1100px;margin:18px auto;padding:0 24px;color:var(--dim)}
 .site-resources h2{font-size:16px}.site-resources ul{display:flex;flex-wrap:wrap;gap:10px 28px;padding-left:18px}.site-resources a,.site-languages a{color:var(--user)}
-@media(max-width:900px){#topbar{flex-wrap:wrap;gap:8px}#topbar .brand{max-width:100%;min-width:0}#fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#sidebar{width:220px}#content{padding:18px}}
+@media(max-width:900px){#topbar{flex-wrap:wrap;gap:8px}#topbar .brand{max-width:100%;min-width:0}#sidebar{width:220px}#content{padding:18px}}
 @media(max-width:600px){#sidebar,#nav.show,#btnNavToggle{display:none}}
 /* Backup actions follow the current reading or library selection. */
 #cloudBackup{width:min(680px,calc(100vw - 32px));max-height:85vh;box-sizing:border-box;padding:24px;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:12px;overflow:auto}
@@ -435,8 +435,8 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
 <body>
 <div id="app">
   <div id="topbar">
-    <span class="brand"><span class="logo"></span> <span data-i18n="brand">CCViewer</span><small id="fname"></small></span>
-    <button class="btn icon" id="btnNavToggle" title=""></button>
+    <span class="brand"><span class="logo"></span> <span data-i18n="brand">CCViewer</span></span>
+    <button class="btn icon" id="btnNavToggle" title="" hidden></button>
     <span class="spacer"></span>
     <button class="btn iconbtn" id="btnHome" data-tip="home" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg></button>
     <button class="btn iconbtn" id="btnCloud" data-tip="cloudUploadCurrent" title=""><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.46 8.24"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg></button>
@@ -467,11 +467,6 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
     </div>
     <div class="avatar-wrap" id="avatarTop" hidden></div>
   </div>
-  <div id="refreshbar" class="hidden">
-    <button class="btn" id="btnRefresh" data-i18n="refresh">Actualiser</button>
-    <span id="refreshStatus" role="status"></span>
-    <span id="mstats"></span>
-  </div>
   <div id="main">
     <div id="nav">
       <div class="navhead">
@@ -489,7 +484,14 @@ select.btn{appearance:none;-webkit-appearance:none;padding-right:26px;background
       <div id="navResizer" title=""></div>
       <div id="navProg" hidden><div class="navprog-row"><span id="navProgText"></span><button class="btn" id="navCancel" type="button" data-i18n="importCancel">Annuler l'importation</button></div><div class="navprog-bar"><div id="navProgFill"></div></div></div>
     </div>
-    <div id="sidebar"><div class="phd" style="color:var(--faint);font-size:12px" data-i18n="noFile">Aucun fichier chargé</div></div>
+    <div id="sidebar">
+      <div class="sidhead">
+        <h3 data-i18n="sessionInfo">Infos de session</h3>
+        <button class="btn icon" id="btnRefresh" data-tip="refresh" title="" type="button" hidden><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
+      </div>
+      <div id="refreshStatus" role="status"></div>
+      <div id="sidbody"><div class="phd" style="color:var(--faint);font-size:12px" data-i18n="noFile">Aucun fichier chargé</div></div>
+    </div>
     <div id="content"><div id="stream"></div></div>
   </div>
 </div>
@@ -1079,8 +1081,9 @@ const PLACEHOLDER_MAIN=1;
 /* ---------- 全局状态 & 主流程 ---------- */
 let SHOW_THINK=true,SHOW_TOOL=true,SHOW_META=false,CUR=null;
 function renderSidebar(sum,bad){
-  const sb=$('#sidebar');sb.innerHTML='';
-  sb.appendChild(el('h3',null,t('sessionInfo')));
+  const sb=$('#sidbody');
+  if(!sb)return;
+  sb.innerHTML='';
   if(sum.title){const k=el('div','kv');k.innerHTML='<div class="k">'+esc(t('titleRow'))+'</div><div class="v">'+esc(sum.title)+'</div>';sb.appendChild(k);}
   const span=(sum.firstTs&&sum.lastTs)?fmtTime(sum.firstTs)+' → '+fmtTime(sum.lastTs):'';
   const rows=[[t('projectDir'),sum.cwd],[t('gitBranch'),sum.gitBranch],[t('version'),sum.version],[t('sessionId'),sum.sessionId],[t('time'),span],[t('model'),[...sum.models].join(', ')]];
@@ -1104,15 +1107,6 @@ function renderSidebar(sum,bad){
     const crows=[[t('linesPM'),(c.totalLinesAdded||0)+' / -'+(c.totalLinesRemoved||0)],[t('apiTime'),fmtDur(c.totalAPIDuration)],[t('toolTime'),fmtDur(c.totalToolDuration)]];
     for(const [k,v] of crows){if(!v)continue;const d=el('div','kv');d.innerHTML='<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>';sb.appendChild(d);}
     if(c.modelUsage)for(const [m,u] of Object.entries(c.modelUsage)){const d=el('div','kv');d.innerHTML='<div class="k">'+esc(m)+'</div><div class="v">in '+num(u.inputTokens)+' · out '+num(u.outputTokens)+'</div>';sb.appendChild(d);}
-  }
-  // 小屏（侧栏隐藏）时在刷新栏显示一行摘要统计
-  const ms=$('#mstats');
-  if(ms){
-    const bits=[],c=sum.counts||{},tk=sum.tokens||{};
-    if(c.user||c.assistant)bits.push((c.user||0)+' '+t('userMsgs')+' · '+(c.assistant||0)+' '+t('replies'));
-    if(tk.in||tk.out)bits.push('↑'+num(tk.in)+' ↓'+num(tk.out));
-    if(sum.cost&&sum.cost.totalCostUSD!=null)bits.push('$'+sum.cost.totalCostUSD.toFixed(4));
-    ms.textContent=bits.join(' · ');
   }
 }
 function renderAll(){
@@ -1231,9 +1225,7 @@ $('#btnExportMd').onclick=exportMd;
 // 当前内容的显示名（粘贴内容随语言切换）
 function curName(){if(!CUR)return'';return CUR.pasted?t('pastedContent'):CUR.name;}
 function applyFname(){
-  const fn=$('#fname');const n=curName();
-  if(fn)fn.textContent=n?('  ·  '+n):'';
-  document.title=CUR?((CUR.sum.title||n||'Claude Code')+' · '+t('viewerSuffix')):HOME_TITLE;
+  document.title=CUR?((CUR.sum.title||curName()||'Claude Code')+' · '+t('viewerSuffix')):HOME_TITLE;
 }
 // 切换语言 / 重新渲染已加载内容
 function rerender(){
@@ -1345,8 +1337,9 @@ function refreshStatus(key,error){
   status.classList.toggle('error',!!error);
 }
 function updateRefreshControls(){
-  $('#refreshbar').classList.toggle('hidden',!CUR||CUR.pasted); // 粘贴内容没有本地文件，不显示刷新条
-  $('#btnRefresh').disabled=!!(CUR&&CUR.refreshing);
+  const b=$('#btnRefresh');
+  if(b){b.hidden=!CUR||CUR.pasted; // 粘贴内容没有本地文件，不显示刷新按钮
+        b.disabled=!!(CUR&&CUR.refreshing);}
   if(CUR)refreshStatus(CUR.source?'refreshReady':'refreshReconnect');
 }
 function scheduleRefresh(){
@@ -1484,8 +1477,11 @@ function renderNav(){
   }
 }
 function updateNav(){
+  const show=NAV_SHOWN||IMPORTING; // 导入进行中也显示左侧栏，让进度可见
   const n=$('#nav');
-  if(n)n.classList.toggle('show',NAV_SHOWN||IMPORTING); // 导入进行中也显示左侧栏，让进度可见
+  if(n)n.classList.toggle('show',show);
+  const bn=$('#btnNavToggle'); // 折叠按钮只在文件夹模式下出现
+  if(bn)bn.hidden=!show;
   renderNav();
 }
 // 视图切换：landing（落地页）/ viewer（阅读视图）
@@ -1842,8 +1838,8 @@ $('#btnHome').onclick=()=>{
   CUR=null;
   CUR_ID=null;stopRefreshTimer();updateRefreshControls();
   $('#stream').innerHTML='';
-  $('#sidebar').innerHTML='';
-  const fn=$('#fname');if(fn)fn.textContent='';
+  const body=$('#sidbody');if(body)body.innerHTML='';
+  const rs=$('#refreshStatus');if(rs){rs.textContent='';rs.classList.remove('error');}
   document.title=HOME_TITLE;
   $('#btnExportMd').style.display='none';
   showView('landing');
